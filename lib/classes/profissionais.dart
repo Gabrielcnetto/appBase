@@ -16,19 +16,13 @@ final List<Profissionais> profList = [
   Profissionais(
     assetImage: "imagesOfApp/barbeiros/fotobarbeiro1.jpeg",
     id: Random().nextDouble().toString(),
-    nomeProf: "Marcelo D.",
+    nomeProf: "Anderson",
    
   ),
     Profissionais(
     assetImage: "imagesOfApp/barbeiros/foto02.jpg",
     id: Random().nextDouble().toString(),
-    nomeProf: "Gabriel N.",
+    nomeProf: "Nicolas",
   
-  ),
-      Profissionais(
-    assetImage: "imagesOfApp/barbeiros/foto3.webp",
-    id: Random().nextDouble().toString(),
-    nomeProf: "Lucas E.",
-   
   ),
 ];
