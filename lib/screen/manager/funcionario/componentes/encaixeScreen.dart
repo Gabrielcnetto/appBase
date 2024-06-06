@@ -321,7 +321,7 @@ class _EncaixeScreenState extends State<EncaixeScreenFuncionario> {
         builder: (ctx) {
           return ConstrainedBox(
             constraints: BoxConstraints(
-                maxHeight: MediaQuery.of(context).size.height * 0.7),
+       maxHeight: MediaQuery.of(context).size.height * 0.85,),
             child: Container(
               width: double.infinity,
               height: MediaQuery.of(context).size.height / 1,

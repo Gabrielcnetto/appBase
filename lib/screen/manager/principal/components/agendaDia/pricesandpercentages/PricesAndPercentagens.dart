@@ -196,14 +196,14 @@ class _PricesAndPercentagesState extends State<PricesAndPercentages> {
     });
   }
 
-  int? barbaPriceFinal;
+  int barbaPriceFinal = 0;
 
   Future<void> LoadPriceAdicionalBarba() async {
     int? priceDB = await ManagerScreenFunctions().getAdicionalBarbaCorte();
     print("pegamos a data do databse");
 
     setState(() {
-      barbaPriceFinal = priceDB!;
+      barbaPriceFinal = priceDB ?? 00;
     });
   }
 
@@ -346,22 +346,26 @@ class _PricesAndPercentagesState extends State<PricesAndPercentages> {
                               alignment: Alignment.topCenter,
                               width: MediaQuery.of(context).size.width * 0.15,
                               height: 50,
-                              child: Flexible(
-                                child: TextFormField(
-                                  controller: newpriceControler,
-                                  textAlignVertical: TextAlignVertical.top,
-                                  style: const TextStyle(
-                                      color: Colors.white, fontSize: 20),
-                                  decoration: const InputDecoration(
-                                    constraints: BoxConstraints(
-                                      maxHeight: 30,
-                                      minHeight: 30,
+                              child: Row(
+                                children: [
+                                  Flexible(
+                                    child: TextFormField(
+                                      controller: newpriceControler,
+                                      textAlignVertical: TextAlignVertical.top,
+                                      style: const TextStyle(
+                                          color: Colors.white, fontSize: 20),
+                                      decoration: const InputDecoration(
+                                        constraints: BoxConstraints(
+                                          maxHeight: 30,
+                                          minHeight: 30,
+                                        ),
+                                        border: InputBorder.none,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                      keyboardType: TextInputType.number,
                                     ),
-                                    border: InputBorder.none,
                                   ),
-                                  textAlign: TextAlign.center,
-                                  keyboardType: TextInputType.number,
-                                ),
+                                ],
                               ),
                             ),
                           ],
@@ -492,22 +496,26 @@ class _PricesAndPercentagesState extends State<PricesAndPercentages> {
                               alignment: Alignment.topCenter,
                               width: MediaQuery.of(context).size.width * 0.15,
                               height: 50,
-                              child: Flexible(
-                                child: TextFormField(
-                                  controller: newBarbaPriceControler,
-                                  textAlignVertical: TextAlignVertical.top,
-                                  style: const TextStyle(
-                                      color: Colors.white, fontSize: 20),
-                                  decoration: const InputDecoration(
-                                    constraints: BoxConstraints(
-                                      maxHeight: 30,
-                                      minHeight: 30,
+                              child: Row(
+                                children: [
+                                  Flexible(
+                                    child: TextFormField(
+                                      controller: newBarbaPriceControler,
+                                      textAlignVertical: TextAlignVertical.top,
+                                      style: const TextStyle(
+                                          color: Colors.white, fontSize: 20),
+                                      decoration: const InputDecoration(
+                                        constraints: BoxConstraints(
+                                          maxHeight: 30,
+                                          minHeight: 30,
+                                        ),
+                                        border: InputBorder.none,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                      keyboardType: TextInputType.number,
                                     ),
-                                    border: InputBorder.none,
                                   ),
-                                  textAlign: TextAlign.center,
-                                  keyboardType: TextInputType.number,
-                                ),
+                                ],
                               ),
                             ),
                           ],
@@ -644,22 +652,26 @@ class _PricesAndPercentagesState extends State<PricesAndPercentages> {
                               alignment: Alignment.topCenter,
                               width: MediaQuery.of(context).size.width * 0.15,
                               height: 50,
-                              child: Flexible(
-                                child: TextFormField(
-                                  controller: PorcentagemFuncionarioControler,
-                                  textAlignVertical: TextAlignVertical.top,
-                                  style: const TextStyle(
-                                      color: Colors.white, fontSize: 20),
-                                  decoration: const InputDecoration(
-                                    constraints: BoxConstraints(
-                                      maxHeight: 30,
-                                      minHeight: 30,
+                              child: Row(
+                                children: [
+                                  Flexible(
+                                    child: TextFormField(
+                                      controller: PorcentagemFuncionarioControler,
+                                      textAlignVertical: TextAlignVertical.top,
+                                      style: const TextStyle(
+                                          color: Colors.white, fontSize: 20),
+                                      decoration: const InputDecoration(
+                                        constraints: BoxConstraints(
+                                          maxHeight: 30,
+                                          minHeight: 30,
+                                        ),
+                                        border: InputBorder.none,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                      keyboardType: TextInputType.number,
                                     ),
-                                    border: InputBorder.none,
                                   ),
-                                  textAlign: TextAlign.center,
-                                  keyboardType: TextInputType.number,
-                                ),
+                                ],
                               ),
                             ),
                           ],

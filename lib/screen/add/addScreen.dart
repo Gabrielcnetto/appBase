@@ -369,7 +369,8 @@ class _AddScreenState extends State<AddScreen> {
         builder: (ctx) {
           return ConstrainedBox(
             constraints: BoxConstraints(
-                maxHeight: MediaQuery.of(context).size.height * 0.7),
+              maxHeight: MediaQuery.of(context).size.height * 0.85,
+            ),
             child: Container(
               width: double.infinity,
               height: MediaQuery.of(context).size.height / 1,
@@ -928,7 +929,7 @@ class _AddScreenState extends State<AddScreen> {
                                     InkWell(
                                       onTap: setBarber1,
                                       child: Container(
-                                   width: widhScren * 0.38,
+                                        width: widhScren * 0.38,
                                         height: heighScreen * 0.35,
                                         child: Stack(
                                           children: [
