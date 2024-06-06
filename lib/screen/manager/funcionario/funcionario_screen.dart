@@ -28,6 +28,7 @@ class _FuncionarioScreenState extends State<FuncionarioScreen> {
     urlImagePhoto;
     urlImageFuncion();
     loadUserIsFuncionario();
+    fotoPadraoUserError;
   }
 
   bool? isFuncionario;
@@ -76,7 +77,7 @@ class _FuncionarioScreenState extends State<FuncionarioScreen> {
   }
 
   final String fotoPadraoUserError =
-      "https://firebasestorage.googleapis.com/v0/b/easecortebaseversion-7100f.appspot.com/o/systemFotos%2FdefaultImages%2Fdefaultuser.jpeg?alt=media&token=d74b47d1-e4e8-40fb-a683-e65dbeedddc2";
+      "https://firebasestorage.googleapis.com/v0/b/lionsbarber-easecorte.appspot.com/o/profileDefaultImage%2FdefaultUserImage.png?alt=media&token=5d61e887-4f54-4bca-be86-a34e43b1cb92";
   @override
   Widget build(BuildContext context) {
     return isFuncionario == true

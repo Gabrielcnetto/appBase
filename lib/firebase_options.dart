@@ -17,10 +17,7 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
-      );
+      return web;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -50,20 +47,33 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyAACKzetml2CZKLCfELpkaqy_0GHHW1lvc',
-    appId: '1:619249321420:android:12e6ca015d8d98fca64969',
-    messagingSenderId: '619249321420',
-    projectId: 'easecortebaseversion-7100f',
-    storageBucket: 'easecortebaseversion-7100f.appspot.com',
+    apiKey: 'AIzaSyDffSXDyBCfYjrKb_RYJqWNw1o3-Zxj5Kg',
+    appId: '1:1075600342317:android:1cdcb7f95927e2f6ada7a4',
+    messagingSenderId: '1075600342317',
+    projectId: 'lionsbarber-easecorte',
+    databaseURL: 'https://lionsbarber-easecorte-default-rtdb.firebaseio.com',
+    storageBucket: 'lionsbarber-easecorte.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCGZBNS7ttuNM45ETuuRFvuCottZdYOZLA',
-    appId: '1:619249321420:ios:93da71a9fa04dd93a64969',
-    messagingSenderId: '619249321420',
-    projectId: 'easecortebaseversion-7100f',
-    storageBucket: 'easecortebaseversion-7100f.appspot.com',
+    apiKey: 'AIzaSyBqPHSive34BfIsW7yDzCUtgLjOsM-kszU',
+    appId: '1:1075600342317:ios:55f6818d144a49beada7a4',
+    messagingSenderId: '1075600342317',
+    projectId: 'lionsbarber-easecorte',
+    databaseURL: 'https://lionsbarber-easecorte-default-rtdb.firebaseio.com',
+    storageBucket: 'lionsbarber-easecorte.appspot.com',
     iosBundleId: 'com.easecorte.lionsbarberv1',
+  );
+
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyBSkH7fXkklP4WMd1aULjxCgoN-k9f8Ok0',
+    appId: '1:1075600342317:web:bbb02055ae5f9f0cada7a4',
+    messagingSenderId: '1075600342317',
+    projectId: 'lionsbarber-easecorte',
+    authDomain: 'lionsbarber-easecorte.firebaseapp.com',
+    databaseURL: 'https://lionsbarber-easecorte-default-rtdb.firebaseio.com',
+    storageBucket: 'lionsbarber-easecorte.appspot.com',
+    measurementId: 'G-MH9DBCSBRG',
   );
 
 }

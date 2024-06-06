@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'dart:ffi';
+
 
 import 'package:lionsbarberv1/classes/GeralUser.dart';
 import 'package:lionsbarberv1/classes/cortecClass.dart';

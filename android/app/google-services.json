@@ -1,13 +1,14 @@
 {
   "project_info": {
-    "project_number": "619249321420",
-    "project_id": "easecortebaseversion-7100f",
-    "storage_bucket": "easecortebaseversion-7100f.appspot.com"
+    "project_number": "1075600342317",
+    "firebase_url": "https://lionsbarber-easecorte-default-rtdb.firebaseio.com",
+    "project_id": "lionsbarber-easecorte",
+    "storage_bucket": "lionsbarber-easecorte.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:619249321420:android:12e6ca015d8d98fca64969",
+        "mobilesdk_app_id": "1:1075600342317:android:1cdcb7f95927e2f6ada7a4",
         "android_client_info": {
           "package_name": "com.easecorte.lionsbarberv1"
         }
@@ -15,7 +16,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAACKzetml2CZKLCfELpkaqy_0GHHW1lvc"
+          "current_key": "AIzaSyDffSXDyBCfYjrKb_RYJqWNw1o3-Zxj5Kg"
         }
       ],
       "services": {
@@ -26,34 +27,15 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:619249321420:android:e2af107cd7164320a64969",
+        "mobilesdk_app_id": "1:1075600342317:android:e4844d7e3fb28f8eada7a4",
         "android_client_info": {
-          "package_name": "com.example.lionsbarberv1"
+          "package_name": "com.lionsbarbeariaeasecorte.barbearia"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAACKzetml2CZKLCfELpkaqy_0GHHW1lvc"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": []
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:619249321420:android:e5c4866e29d78671a64969",
-        "android_client_info": {
-          "package_name": "easecorte.baseversion1"
-        }
-      },
-      "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": "AIzaSyAACKzetml2CZKLCfELpkaqy_0GHHW1lvc"
+          "current_key": "AIzaSyDffSXDyBCfYjrKb_RYJqWNw1o3-Zxj5Kg"
         }
       ],
       "services": {

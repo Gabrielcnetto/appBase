@@ -48,7 +48,6 @@ dependencies:
   cloud_firestore: ^4.17.3
   flutter_localization: ^0.2.0
   firebase_analytics: ^10.10.7
-  firebase_messaging: ^14.9.4
   flutter_local_notifications: ^17.1.2
   timezone: ^0.9.3
   flutter_timezone: ^1.0.8
@@ -92,7 +91,7 @@ flutter:
     - imagesOfApp/whatsaaplogo.png
     - imagesOfApp/shine.png
     - imagesOfApp/semCortesmanagerscreen.jpeg
-    
+    - imagesOfApp/defaultUserImage.jpg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 

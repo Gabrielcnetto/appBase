@@ -8,7 +8,6 @@ import 'package:lionsbarberv1/functions/providerFilterStrings.dart';
 import 'package:lionsbarberv1/functions/rankingProviderHome.dart';
 import 'package:lionsbarberv1/functions/twilio_messagesFunctions.dart';
 import 'package:lionsbarberv1/functions/userLogin.dart';
-import 'package:lionsbarberv1/notifications/firebase_notifications.dart';
 import 'package:lionsbarberv1/rotas/Approutes.dart';
 import 'package:lionsbarberv1/screen/add/confirmscreen/ConfirmScreenCorte.dart';
 import 'package:lionsbarberv1/screen/home/homeScreen01.dart';
@@ -25,7 +24,6 @@ import 'package:lionsbarberv1/screen/manager/principal/components/agendaDia/pric
 import 'package:lionsbarberv1/screen/manager/principal/encaixe/encaixeScreen.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -34,8 +32,6 @@ import 'screen/login/registerAccount.dart';
 import 'rotas/verificationLogin.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
-final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
-
 Future<void> main() async {
   WidgetsFlutterBinding
       .ensureInitialized(); // Chame primeiro aqui ele inicia os widgets
@@ -43,21 +39,7 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  try {
-    await FirebaseNotifications().initNotifications();
-  } catch (e) {
-    print("erro ao iniciar as mensagens");
-  }
-  try {
-    analytics.setAnalyticsCollectionEnabled(true);
-    print("Inicializamos o ga4 no app");
-  } catch (e) {
-    print("run app ativando GA4 deu este erro: ${e}");
-  }
-  //Crashlist para enviar erros que acontecem no cll do usuario
-  FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
-
-  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+  
   runApp(const MyApp());
 }
 

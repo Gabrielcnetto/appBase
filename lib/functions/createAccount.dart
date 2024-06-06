@@ -26,7 +26,7 @@ class CreateAccount with ChangeNotifier {
       'userName': userName,
       'userEmail': email,
       'PhoneNumber': "",
-      "urlImagem": "https://static.vecteezy.com/ti/vetor-gratis/p1/9292244-default-avatar-icon-vector-of-social-media-user-vetor.jpg",
+      "urlImagem": "https://firebasestorage.googleapis.com/v0/b/lionsbarber-easecorte.appspot.com/o/profileDefaultImage%2FdefaultUserImage.png?alt=media&token=5d61e887-4f54-4bca-be86-a34e43b1cb92",
       "totalCortes": 0,
       "isManager": false,
       "isfuncionario": false,

@@ -35,6 +35,7 @@ class _CircularProgressWithImageState extends State<CircularProgressWithImage> {
     loadUserIsManager();
     isFuncionarioSet;
     loadUserIsFuncionario();
+    print("caminho da imagem: ${widget.imageUrl}");
   }
 
   bool? isManager;
@@ -80,7 +81,7 @@ class _CircularProgressWithImageState extends State<CircularProgressWithImage> {
               fullscreenDialog: true,
             ),
           );
-        } else if(isManager == false && isFuncionarioSet == true){
+        } else if (isManager == false && isFuncionarioSet == true) {
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(
               builder: (BuildContext context) => const FuncionarioScreen(),
@@ -117,6 +118,12 @@ class _CircularProgressWithImageState extends State<CircularProgressWithImage> {
                 child: Image.network(
                   widget.imageUrl,
                   fit: BoxFit.cover,
+                  errorBuilder: (ctx, error, stackTrace) {
+                    return Image.network(
+                      "https://firebasestorage.googleapis.com/v0/b/lionsbarber-easecorte.appspot.com/o/profileDefaultImage%2FdefaultImage.jpeg?alt=media&token=f5133389-9d0d-486a-9dca-7dc71bcea694",
+                      fit: BoxFit.cover,
+                    );
+                  },
                 ),
               ),
             ),

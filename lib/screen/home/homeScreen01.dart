@@ -8,7 +8,6 @@ import 'package:lionsbarberv1/screen/home/homeOnlyWidgets.dart';
 import 'package:lionsbarberv1/screen/profile/profileScreen.dart';
 import 'package:lionsbarberv1/screen/History/History.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -34,7 +33,7 @@ class _HomeScreen01State extends State<HomeScreen01> {
     // TODO: implement initState
     super.initState();
 
-    FirebaseMessaging.instance.subscribeToTopic("clientes");
+
     Provider.of<CorteProvider>(context, listen: false).loadHistoryCortes();
     Provider.of<ManagerScreenFunctions>(context, listen: false).loadClientes();
     Provider.of<ManagerScreenFunctions>(context, listen: false)
