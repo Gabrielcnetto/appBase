@@ -1,0 +1,67 @@
+{
+  "project_info": {
+    "project_number": "619249321420",
+    "project_id": "easecortebaseversion-7100f",
+    "storage_bucket": "easecortebaseversion-7100f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:619249321420:android:12e6ca015d8d98fca64969",
+        "android_client_info": {
+          "package_name": "com.example.barbearia"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAACKzetml2CZKLCfELpkaqy_0GHHW1lvc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:619249321420:android:e2af107cd7164320a64969",
+        "android_client_info": {
+          "package_name": "com.example.barbershop2"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAACKzetml2CZKLCfELpkaqy_0GHHW1lvc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:619249321420:android:e5c4866e29d78671a64969",
+        "android_client_info": {
+          "package_name": "easecorte.baseversion1"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAACKzetml2CZKLCfELpkaqy_0GHHW1lvc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
