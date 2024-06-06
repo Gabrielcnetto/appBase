@@ -261,8 +261,8 @@ class _Corte7DiasItemState extends State<Corte7DiasItem> {
                                           context: context,
                                           builder: (ctx) {
                                             return AlertDialog(
-                                              title: Text("Notificar cliente?"),
-                                              content: Text(
+                                              title: const Text("Notificar cliente?"),
+                                              content: const Text(
                                                   "O Cliente receberá uma mensagem para lembrar do horário, com opção para desmarcar"),
                                               actions: [
                                                 TextButton(
@@ -295,7 +295,7 @@ class _Corte7DiasItemState extends State<Corte7DiasItem> {
                                                   child: Text(
                                                     "Notificar Agora",
                                                     style: GoogleFonts.poppins(
-                                                      textStyle: TextStyle(
+                                                      textStyle: const TextStyle(
                                                         fontWeight:
                                                             FontWeight.w700,
                                                         color: Colors.black,

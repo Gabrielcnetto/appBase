@@ -1,1 +1,45 @@
-{"flutter":{"platforms":{"android":{"default":{"projectId":"lionsbarber-easecorte","appId":"1:1075600342317:android:1cdcb7f95927e2f6ada7a4","fileOutput":"android/app/google-services.json"}},"ios":{"default":{"projectId":"lionsbarber-easecorte","appId":"1:1075600342317:ios:55f6818d144a49beada7a4","uploadDebugSymbols":true,"fileOutput":"ios/Runner/GoogleService-Info.plist"}},"dart":{"lib/firebase_options.dart":{"projectId":"lionsbarber-easecorte","configurations":{"android":"1:1075600342317:android:1cdcb7f95927e2f6ada7a4","ios":"1:1075600342317:ios:55f6818d144a49beada7a4","web":"1:1075600342317:web:bbb02055ae5f9f0cada7a4"}}}}}}
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "lionsbarber-easecorte",
+          "appId": "1:1075600342317:android:1cdcb7f95927e2f6ada7a4",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "ios": {
+        "default": {
+          "projectId": "lionsbarber-easecorte",
+          "appId": "1:1075600342317:ios:55f6818d144a49beada7a4",
+          "uploadDebugSymbols": true,
+          "fileOutput": "ios/Runner/GoogleService-Info.plist"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "lionsbarber-easecorte",
+          "configurations": {
+            "android": "1:1075600342317:android:1cdcb7f95927e2f6ada7a4",
+            "ios": "1:1075600342317:ios:55f6818d144a49beada7a4",
+            "web": "1:1075600342317:web:bbb02055ae5f9f0cada7a4"
+          }
+        }
+      }
+    }
+  },
+  "hosting": {
+    "public": "public",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}

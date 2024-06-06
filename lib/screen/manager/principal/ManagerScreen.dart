@@ -77,12 +77,11 @@ class _ManagerScreenViewState extends State<ManagerScreenView> {
       "https://firebasestorage.googleapis.com/v0/b/lionsbarber-easecorte.appspot.com/o/profileDefaultImage%2FdefaultUserImage.png?alt=media&token=5d61e887-4f54-4bca-be86-a34e43b1cb92";
   @override
   Widget build(BuildContext context) {
-    return isManager == true
-        ? Scaffold(
+    return  Scaffold(
             backgroundColor: Colors.white,
             body: SafeArea(
               child: Padding(
-                padding: const EdgeInsets.only(top: 15, left: 15, right: 15),
+                padding:  EdgeInsets.only(top: 15, left: 15, right: 15),
                 child: SingleChildScrollView(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -186,13 +185,6 @@ class _ManagerScreenViewState extends State<ManagerScreenView> {
                     ],
                   ),
                 ),
-              ),
-            ),
-          )
-        : Scaffold(
-            body: Center(
-              child: Text(
-                "Dados Restritos",
               ),
             ),
           );

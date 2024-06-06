@@ -31,10 +31,9 @@ class _CortesHojeListaState extends State<CortesHojeLista> {
 
   final String profissional1 = profList[0].nomeProf;
   final String profissional2 = profList[1].nomeProf;
-  final String profissional3 = profList[2].nomeProf;
+
   bool filterProfissional1 = false;
   bool filterProfissional2 = false;
-  bool filterProfissional3 = false;
 
   returnCorretct() {
     try {
@@ -48,11 +47,6 @@ class _CortesHojeListaState extends State<CortesHojeLista> {
           Provider.of<ProviderFilterManager>(context, listen: false)
               .filtroParaUsar = profissional2;
         });
-      } else if (filterProfissional3 == true) {
-        setState(() {
-          Provider.of<ProviderFilterManager>(context, listen: false)
-              .filtroParaUsar = profissional3;
-        });
       }
     } catch (e) {
       print(e);
@@ -63,7 +57,6 @@ class _CortesHojeListaState extends State<CortesHojeLista> {
     setState(() {
       filterProfissional1 = true;
 
-      filterProfissional3 = false;
       filterProfissional2 = false;
       returnCorretct();
     });
@@ -78,7 +71,7 @@ class _CortesHojeListaState extends State<CortesHojeLista> {
       setState(() {
         filterProfissional2 = true;
         filterProfissional1 = false;
-        filterProfissional3 = false;
+
         returnCorretct();
       });
       Navigator.of(context).pushReplacementNamed(
@@ -86,22 +79,6 @@ class _CortesHojeListaState extends State<CortesHojeLista> {
       );
     } catch (e) {
       print("sem barbeiro 2");
-    }
-  }
-
-  void setFilterProfissional3() {
-    try {
-      setState(() {
-        filterProfissional2 = false;
-        filterProfissional1 = false;
-        filterProfissional3 = true;
-        returnCorretct();
-      });
-      Navigator.of(context).pushReplacementNamed(
-        AppRoutesApp.ManagerScreenView,
-      );
-    } catch (e) {
-      print("sem barbeiro 3");
     }
   }
 
@@ -237,50 +214,6 @@ class _CortesHojeListaState extends State<CortesHojeLista> {
                       const SizedBox(
                         height: 20,
                       ),
-                      if (profissional3 != null)
-                        Container(
-                          decoration: BoxDecoration(
-                            border: Border(
-                              bottom: BorderSide(
-                                width: 1,
-                                color: Colors.grey.shade300,
-                              ),
-                            ),
-                          ),
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 10, horizontal: 5),
-                          child: Padding(
-                            padding: const EdgeInsets.only(top: 20),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  profissional3,
-                                  style: GoogleFonts.openSans(
-                                    textStyle: const TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 16,
-                                    ),
-                                  ),
-                                ),
-                                InkWell(
-                                  onTap: setFilterProfissional3,
-                                  child: filterProfissional3 == true
-                                      ? const Padding(
-                                          padding: EdgeInsets.all(10),
-                                          child: Icon(Icons.check_box),
-                                        )
-                                      : const Padding(
-                                          padding: EdgeInsets.all(10),
-                                          child: Icon(
-                                            Icons.check_box_outline_blank,
-                                          ),
-                                        ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
                     ],
                   ),
                 ),
@@ -322,9 +255,10 @@ class _CortesHojeListaState extends State<CortesHojeLista> {
         });
   }
 
-  void screenEncaixe(){
+  void screenEncaixe() {
     Navigator.of(context).pushNamed(AppRoutesApp.EncaixeScreen);
   }
+
   @override
   Widget build(BuildContext context) {
     int diaAtual = DateTime.now().day;
@@ -376,11 +310,10 @@ class _CortesHojeListaState extends State<CortesHojeLista> {
                     onTap: screenEncaixe,
                     child: Container(
                       padding: const EdgeInsets.symmetric(
-                            horizontal: 7, vertical: 1),
+                          horizontal: 7, vertical: 1),
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: Colors.greenAccent.shade700
-                      ),
+                          borderRadius: BorderRadius.circular(20),
+                          color: Colors.greenAccent.shade700),
                       child: const Icon(
                         Icons.add_box,
                         size: 25,

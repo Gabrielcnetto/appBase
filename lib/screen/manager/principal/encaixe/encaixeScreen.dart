@@ -44,7 +44,7 @@ class _EncaixeScreenState extends State<EncaixeScreen> {
   final List<Profissionais> _profList = profList;
   bool isBarbeiro1 = false;
   bool isBarbeiro2 = false;
-  bool isBarbeiro3 = false;
+  
 
   void setBarber1() {
     if (isBarbeiro1 == true) {
@@ -53,7 +53,7 @@ class _EncaixeScreenState extends State<EncaixeScreen> {
       setState(() {
         isBarbeiro1 = true;
         isBarbeiro2 = false;
-        isBarbeiro3 = false;
+        
         dataSelectedInModal = null;
       });
     }
@@ -67,20 +67,7 @@ class _EncaixeScreenState extends State<EncaixeScreen> {
         isBarbeiro2 = true;
         isBarbeiro1 = false;
         dataSelectedInModal = null;
-        isBarbeiro3 = false;
-      });
-    }
-  }
-
-  void setBarber3() {
-    if (isBarbeiro3 == true) {
-      null;
-    } else {
-      setState(() {
-        isBarbeiro3 = true;
-        isBarbeiro2 = false;
-        isBarbeiro1 = false;
-        dataSelectedInModal = null;
+  
       });
     }
   }
@@ -231,8 +218,7 @@ class _EncaixeScreenState extends State<EncaixeScreen> {
           ? "${profList[0].nomeProf}"
           : isBarbeiro2
               ? "${profList[1].nomeProf}"
-              : isBarbeiro3
-                  ? "${profList[2].nomeProf}"
+             
                   : "Não Definido",
       corte: CorteClass(
         totalValue: atualPrice ?? 0,
@@ -251,8 +237,7 @@ class _EncaixeScreenState extends State<EncaixeScreen> {
             ? "${profList[0].nomeProf}"
             : isBarbeiro2
                 ? "${profList[1].nomeProf}"
-                : isBarbeiro3
-                    ? "${profList[2].nomeProf}"
+                
                     : "Não Definido",
       ),
       selectDateForUser: dataSelectedInModal!,
@@ -307,8 +292,7 @@ class _EncaixeScreenState extends State<EncaixeScreen> {
                     ? "${profList[0].nomeProf}"
                     : isBarbeiro2
                         ? "${profList[1].nomeProf}"
-                        : isBarbeiro3
-                            ? "${profList[2].nomeProf}"
+                   
                             : "Não Definido");
         List<Horarios> listaCort =
             await Provider.of<CorteProvider>(context, listen: false)
@@ -517,8 +501,7 @@ class _EncaixeScreenState extends State<EncaixeScreen> {
                                 ? "${profList[0].nomeProf}"
                                 : isBarbeiro2 == true
                                     ? "${profList[1].nomeProf}"
-                                    : isBarbeiro3 == true
-                                        ? "${profList[2].nomeProf}"
+                                
                                         : "Não Definido",
                             style: GoogleFonts.openSans(
                               textStyle: const TextStyle(
@@ -792,8 +775,8 @@ class _EncaixeScreenState extends State<EncaixeScreen> {
                             InkWell(
                               onTap: setBarber1,
                               child: Container(
-                                width: widhScren * 0.25,
-                                height: 130,
+                                        width: widhScren * 0.38,
+                                        height: heighScreen * 0.35,
                                 child: Stack(
                                   children: [
                                     Positioned(
@@ -854,8 +837,8 @@ class _EncaixeScreenState extends State<EncaixeScreen> {
                             InkWell(
                               onTap: setBarber2,
                               child: Container(
-                                width: widhScren * 0.25,
-                                height: 130,
+                                          width: widhScren * 0.38,
+                                        height: heighScreen * 0.35,
                                 child: Stack(
                                   children: [
                                     Positioned(
@@ -911,68 +894,7 @@ class _EncaixeScreenState extends State<EncaixeScreen> {
                             )
                           ],
                         ),
-                        Column(
-                          children: [
-                            InkWell(
-                              onTap: setBarber3,
-                              child: Container(
-                                width: widhScren * 0.25,
-                                height: 130,
-                                child: Stack(
-                                  children: [
-                                    Positioned(
-                                      top: 0,
-                                      bottom: 0,
-                                      left: 0,
-                                      right: 0,
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(10),
-                                        child: Image.asset(
-                                          _profList[2].assetImage,
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                    ),
-                                    if (isBarbeiro3)
-                                      Positioned(
-                                        top: 0,
-                                        bottom: 0,
-                                        left: 0,
-                                        right: 0,
-                                        child: Container(
-                                          child: const Icon(
-                                            Icons.check_circle,
-                                            color: Colors.white,
-                                            size: 35,
-                                          ),
-                                          width: widhScren * 0.25,
-                                          height: 130,
-                                          decoration: BoxDecoration(
-                                            color:
-                                                Colors.black.withOpacity(0.7),
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                          ),
-                                        ),
-                                      ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 4,
-                            ),
-                            Text(
-                              _profList[2].nomeProf,
-                              style: GoogleFonts.openSans(
-                                textStyle: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 14,
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
+                        
                       ],
                     ),
                     //CONTAINER DO PROFISSIONAL - FIM
@@ -981,7 +903,7 @@ class _EncaixeScreenState extends State<EncaixeScreen> {
                       height: 25,
                     ),
                     //CONTAINER DO PROFISSIONAL - INICIO
-                    if (isBarbeiro1 || isBarbeiro2 || isBarbeiro3 != false)
+                    if (isBarbeiro1 || isBarbeiro2  != false)
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
@@ -1012,7 +934,7 @@ class _EncaixeScreenState extends State<EncaixeScreen> {
                     const SizedBox(
                       height: 5,
                     ),
-                    if (isBarbeiro1 || isBarbeiro2 || isBarbeiro3 != false)
+                    if (isBarbeiro1 || isBarbeiro2 != false)
                       InkWell(
                         onTap: () {
                           ShowModalData();
@@ -1059,7 +981,7 @@ class _EncaixeScreenState extends State<EncaixeScreen> {
                     ),
                     //CONTAINER DA DATA - FIM
                     //CONTAINER DA HORA - INICIO
-                    if (isBarbeiro1 || isBarbeiro2 || isBarbeiro3 != false && dataSelectedInModal !=null)
+                    if (isBarbeiro1 || isBarbeiro2 != false && dataSelectedInModal !=null)
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
@@ -1087,7 +1009,7 @@ class _EncaixeScreenState extends State<EncaixeScreen> {
                           ),
                         ],
                       ),
-                    if (isBarbeiro1 || isBarbeiro2 || isBarbeiro3 != false && dataSelectedInModal !=null)
+                    if (isBarbeiro1 || isBarbeiro2 != false && dataSelectedInModal !=null)
                       Padding(
                         padding:
                             const EdgeInsets.only(top: 5, left: 2, bottom: 5),

@@ -64,7 +64,6 @@ class _AddScreenState extends State<AddScreen> {
   final List<Profissionais> _profList = profList;
   bool isBarbeiro1 = false;
   bool isBarbeiro2 = false;
-  bool isBarbeiro3 = false;
 
   void setBarber1() {
     if (isBarbeiro1 == true) {
@@ -73,7 +72,7 @@ class _AddScreenState extends State<AddScreen> {
       setState(() {
         isBarbeiro1 = true;
         isBarbeiro2 = false;
-        isBarbeiro3 = false;
+
         dataSelectedInModal = null;
       });
     }
@@ -85,20 +84,6 @@ class _AddScreenState extends State<AddScreen> {
     } else {
       setState(() {
         isBarbeiro2 = true;
-        isBarbeiro1 = false;
-        dataSelectedInModal = null;
-        isBarbeiro3 = false;
-      });
-    }
-  }
-
-  void setBarber3() {
-    if (isBarbeiro3 == true) {
-      null;
-    } else {
-      setState(() {
-        isBarbeiro3 = true;
-        isBarbeiro2 = false;
         isBarbeiro1 = false;
         dataSelectedInModal = null;
       });
@@ -225,7 +210,7 @@ class _AddScreenState extends State<AddScreen> {
     });
   }
 
-  int? atualPrice;
+  int atualPrice = 0;
 
   Future<void> LoadPrice() async {
     int? priceDB = await ManagerScreenFunctions().getPriceCorte();
@@ -266,9 +251,7 @@ class _AddScreenState extends State<AddScreen> {
           ? "${profList[0].nomeProf}"
           : isBarbeiro2
               ? "${profList[1].nomeProf}"
-              : isBarbeiro3
-                  ? "${profList[2].nomeProf}"
-                  : "Não Definido",
+              : "Não Definido",
       corte: CorteClass(
         totalValue: barba == true ? barbaMaisCabelo : atualPrice ?? 0,
         isActive: true,
@@ -286,9 +269,7 @@ class _AddScreenState extends State<AddScreen> {
             ? "${profList[0].nomeProf}"
             : isBarbeiro2
                 ? "${profList[1].nomeProf}"
-                : isBarbeiro3
-                    ? "${profList[2].nomeProf}"
-                    : "Não Definido",
+                : "Não Definido",
       ),
       selectDateForUser: dataSelectedInModal!,
     );
@@ -355,9 +336,7 @@ class _AddScreenState extends State<AddScreen> {
                     ? "${profList[0].nomeProf}"
                     : isBarbeiro2
                         ? "${profList[1].nomeProf}"
-                        : isBarbeiro3
-                            ? "${profList[2].nomeProf}"
-                            : "Não Definido");
+                        : "Não Definido");
         List<Horarios> listaCort =
             await Provider.of<CorteProvider>(context, listen: false)
                 .horariosListLoad;
@@ -562,9 +541,7 @@ class _AddScreenState extends State<AddScreen> {
                                 ? "${profList[0].nomeProf}"
                                 : isBarbeiro2 == true
                                     ? "${profList[1].nomeProf}"
-                                    : isBarbeiro3 == true
-                                        ? "${profList[2].nomeProf}"
-                                        : "Não Definido",
+                                    : "Não Definido",
                             style: GoogleFonts.openSans(
                               textStyle: const TextStyle(
                                 fontWeight: FontWeight.w600,
@@ -951,8 +928,8 @@ class _AddScreenState extends State<AddScreen> {
                                     InkWell(
                                       onTap: setBarber1,
                                       child: Container(
-                                        width: widhScren * 0.25,
-                                        height: 130,
+                                   width: widhScren * 0.38,
+                                        height: heighScreen * 0.35,
                                         child: Stack(
                                           children: [
                                             Positioned(
@@ -1015,8 +992,8 @@ class _AddScreenState extends State<AddScreen> {
                                     InkWell(
                                       onTap: setBarber2,
                                       child: Container(
-                                        width: widhScren * 0.25,
-                                        height: 130,
+                                        width: widhScren * 0.38,
+                                        height: heighScreen * 0.35,
                                         child: Stack(
                                           children: [
                                             Positioned(
@@ -1074,70 +1051,6 @@ class _AddScreenState extends State<AddScreen> {
                                     )
                                   ],
                                 ),
-                                Column(
-                                  children: [
-                                    InkWell(
-                                      onTap: setBarber3,
-                                      child: Container(
-                                        width: widhScren * 0.25,
-                                        height: 130,
-                                        child: Stack(
-                                          children: [
-                                            Positioned(
-                                              top: 0,
-                                              bottom: 0,
-                                              left: 0,
-                                              right: 0,
-                                              child: ClipRRect(
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                                child: Image.asset(
-                                                  _profList[2].assetImage,
-                                                  fit: BoxFit.cover,
-                                                ),
-                                              ),
-                                            ),
-                                            if (isBarbeiro3)
-                                              Positioned(
-                                                top: 0,
-                                                bottom: 0,
-                                                left: 0,
-                                                right: 0,
-                                                child: Container(
-                                                  child: const Icon(
-                                                    Icons.check_circle,
-                                                    color: Colors.white,
-                                                    size: 35,
-                                                  ),
-                                                  width: widhScren * 0.25,
-                                                  height: 130,
-                                                  decoration: BoxDecoration(
-                                                    color: Colors.black
-                                                        .withOpacity(0.7),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10),
-                                                  ),
-                                                ),
-                                              ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      height: 4,
-                                    ),
-                                    Text(
-                                      _profList[2].nomeProf,
-                                      style: GoogleFonts.openSans(
-                                        textStyle: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 14,
-                                        ),
-                                      ),
-                                    )
-                                  ],
-                                ),
                               ],
                             ),
                             //CONTAINER DO PROFISSIONAL - FIM
@@ -1146,9 +1059,7 @@ class _AddScreenState extends State<AddScreen> {
                               height: 25,
                             ),
                             //CONTAINER DO PROFISSIONAL - INICIO
-                            if (isBarbeiro1 ||
-                                isBarbeiro2 ||
-                                isBarbeiro3 != false)
+                            if (isBarbeiro1 || isBarbeiro2 != false)
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
@@ -1179,9 +1090,7 @@ class _AddScreenState extends State<AddScreen> {
                             const SizedBox(
                               height: 5,
                             ),
-                            if (isBarbeiro1 ||
-                                isBarbeiro2 ||
-                                isBarbeiro3 != false)
+                            if (isBarbeiro1 || isBarbeiro2 != false)
                               InkWell(
                                 onTap: () {
                                   ShowModalData();

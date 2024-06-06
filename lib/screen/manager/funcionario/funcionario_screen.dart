@@ -192,7 +192,7 @@ class _FuncionarioScreenState extends State<FuncionarioScreen> {
               ),
             ),
           )
-        : Scaffold(
+        : const Scaffold(
             body: Center(
               child: Text(
                 "Dados Restritos",

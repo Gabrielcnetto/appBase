@@ -32,10 +32,9 @@ class _CortesHojeListaState extends State<CortesHojeListaFuncionario> {
 
   final String profissional1 = profList[0].nomeProf;
   final String profissional2 = profList[1].nomeProf;
-  final String profissional3 = profList[2].nomeProf;
+
   bool filterProfissional1 = false;
   bool filterProfissional2 = false;
-  bool filterProfissional3 = false;
 
   returnCorretct() {
     try {
@@ -49,11 +48,6 @@ class _CortesHojeListaState extends State<CortesHojeListaFuncionario> {
           Provider.of<ProviderFilterManager>(context, listen: false)
               .filtroParaUsar = profissional2;
         });
-      } else if (filterProfissional3 == true) {
-        setState(() {
-          Provider.of<ProviderFilterManager>(context, listen: false)
-              .filtroParaUsar = profissional3;
-        });
       }
     } catch (e) {
       print(e);
@@ -64,7 +58,6 @@ class _CortesHojeListaState extends State<CortesHojeListaFuncionario> {
     setState(() {
       filterProfissional1 = true;
 
-      filterProfissional3 = false;
       filterProfissional2 = false;
       returnCorretct();
     });
@@ -79,7 +72,7 @@ class _CortesHojeListaState extends State<CortesHojeListaFuncionario> {
       setState(() {
         filterProfissional2 = true;
         filterProfissional1 = false;
-        filterProfissional3 = false;
+
         returnCorretct();
       });
       Navigator.of(context).pushReplacementNamed(
@@ -87,22 +80,6 @@ class _CortesHojeListaState extends State<CortesHojeListaFuncionario> {
       );
     } catch (e) {
       print("sem barbeiro 2");
-    }
-  }
-
-  void setFilterProfissional3() {
-    try {
-      setState(() {
-        filterProfissional2 = false;
-        filterProfissional1 = false;
-        filterProfissional3 = true;
-        returnCorretct();
-      });
-      Navigator.of(context).pushReplacementNamed(
-        AppRoutesApp.ManagerScreenView,
-      );
-    } catch (e) {
-      print("sem barbeiro 3");
     }
   }
 

@@ -1,5 +1,6 @@
 import 'package:lionsbarberv1/classes/Estabelecimento.dart';
 import 'package:lionsbarberv1/classes/cortecClass.dart';
+import 'package:lionsbarberv1/classes/profissionais.dart';
 import 'package:lionsbarberv1/functions/CorteProvider.dart';
 import 'package:lionsbarberv1/functions/managerScreenFunctions.dart';
 import 'package:lionsbarberv1/rotas/Approutes.dart';
@@ -425,15 +426,12 @@ class _ProfissionalCodeState extends State<ProfissionalCode> {
                       height: 90,
                       child: widget.corte.profissionalSelect != "Não Definido"
                           ? Image.asset(
-                              widget.corte.profissionalSelect == "Marcelo D."
+                              widget.corte.profissionalSelect == "${profList[0].nomeProf}"
                                   ? "imagesOfApp/barbeiros/fotobarbeiro1.jpeg"
                                   : widget.corte.profissionalSelect ==
-                                          "Gabriel N."
+                                          "${profList[1].nomeProf}"
                                       ? "imagesOfApp/barbeiros/foto02.jpg"
-                                      : widget.corte.profissionalSelect ==
-                                              "Lucas E."
-                                          ? "imagesOfApp/barbeiros/foto3.webp"
-                                          : "",
+                                      : "",
                               fit: BoxFit.cover,
                             )
                           : Image.asset(

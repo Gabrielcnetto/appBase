@@ -211,8 +211,8 @@ class _ItemComponentHourState extends State<ItemComponentHourFuncionario> {
         context: context,
         builder: (ctx) {
           return AlertDialog(
-            title: Text("Notificar cliente?"),
-            content: Text(
+            title: const Text("Notificar cliente?"),
+            content: const Text(
                 "O Cliente receberá uma mensagem para lembrar do horário, com opção para desmarcar"),
             actions: [
               TextButton(
@@ -240,7 +240,7 @@ class _ItemComponentHourState extends State<ItemComponentHourFuncionario> {
                 child: Text(
                   "Notificar Agora",
                   style: GoogleFonts.poppins(
-                    textStyle: TextStyle(
+                    textStyle: const TextStyle(
                       fontWeight: FontWeight.w700,
                       color: Colors.black,
                     ),
@@ -400,7 +400,7 @@ class _ItemComponentHourState extends State<ItemComponentHourFuncionario> {
                                   fontSize: 15),
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 15,
                           ),
                           InkWell(
@@ -415,7 +415,7 @@ class _ItemComponentHourState extends State<ItemComponentHourFuncionario> {
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(20)),
                               alignment: Alignment.center,
-                              child: Icon(
+                              child: const Icon(
                                 Icons.check_circle,
                                 color: Colors.black,
                               ),

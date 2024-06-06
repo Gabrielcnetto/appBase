@@ -32,7 +32,7 @@ class Twilio_messagesFunction with ChangeNotifier {
     required String numberPhone,
     required DateTime dataFinal,
   }) async {
-    DateTime horaAtrasada = dataFinal.subtract(Duration(hours: 1));
+    DateTime horaAtrasada = dataFinal.subtract(const Duration(hours: 1));
     String dataFormatFinal =
         await horaAtrasada.toIso8601String().split('.')[0] + 'Z';
               String cleanedNumber = numberPhone.replaceAll(RegExp(r'^\+?55|\-'), '');

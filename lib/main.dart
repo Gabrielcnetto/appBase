@@ -129,9 +129,9 @@ class _MyAppState extends State<MyApp> {
           AppRoutesApp.EncaixeScreen: (ctx) => const EncaixeScreen(),
           AppRoutesApp.FuncionarioScreen: (ctx) => const FuncionarioScreen(),
           AppRoutesApp.PricesAndPercentages: (ctx)=> const PricesAndPercentages(),
-          AppRoutesApp.ConfirmScreenCorteEncaixeFuncionario: (ctx)=>ConfirmScreenCorteEncaixeFuncionario(),
-          AppRoutesApp.EncaixeScreenFuncionario: (ctx)=>EncaixeScreenFuncionario(),
-          AppRoutesApp.ConfirmScreenCorteManager: (ctx)=>ConfirmScreenCorteManager(),
+          AppRoutesApp.ConfirmScreenCorteEncaixeFuncionario: (ctx)=>const ConfirmScreenCorteEncaixeFuncionario(),
+          AppRoutesApp.EncaixeScreenFuncionario: (ctx)=>const EncaixeScreenFuncionario(),
+          AppRoutesApp.ConfirmScreenCorteManager: (ctx)=>const ConfirmScreenCorteManager(),
         },
       ),
     );
