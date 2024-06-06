@@ -1,11 +1,11 @@
 import 'dart:math';
 
-import 'package:barbershop2/classes/Estabelecimento.dart';
-import 'package:barbershop2/classes/cortecClass.dart';
-import 'package:barbershop2/classes/horarios.dart';
-import 'package:barbershop2/functions/providerFilterStrings.dart';
-import 'package:barbershop2/functions/twilio_messagesFunctions.dart';
-import 'package:barbershop2/screen/manager/principal/ManagerScreen.dart';
+import 'package:lionsbarberv1/classes/Estabelecimento.dart';
+import 'package:lionsbarberv1/classes/cortecClass.dart';
+import 'package:lionsbarberv1/classes/horarios.dart';
+import 'package:lionsbarberv1/functions/providerFilterStrings.dart';
+import 'package:lionsbarberv1/functions/twilio_messagesFunctions.dart';
+import 'package:lionsbarberv1/screen/manager/principal/ManagerScreen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';

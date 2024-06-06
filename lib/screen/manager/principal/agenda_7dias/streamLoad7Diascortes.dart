@@ -1,7 +1,7 @@
-import 'package:barbershop2/classes/cortecClass.dart';
-import 'package:barbershop2/functions/managerScreenFunctions.dart';
-import 'package:barbershop2/screen/manager/principal/agenda_7dias/corte7diasItem.dart';
-import 'package:barbershop2/screen/manager/principal/agenda_7dias/semItems.dart';
+import 'package:lionsbarberv1/classes/cortecClass.dart';
+import 'package:lionsbarberv1/functions/managerScreenFunctions.dart';
+import 'package:lionsbarberv1/screen/manager/principal/agenda_7dias/corte7diasItem.dart';
+import 'package:lionsbarberv1/screen/manager/principal/agenda_7dias/semItems.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

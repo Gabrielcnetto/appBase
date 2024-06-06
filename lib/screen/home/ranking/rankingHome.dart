@@ -1,6 +1,6 @@
-import 'package:barbershop2/classes/Estabelecimento.dart';
-import 'package:barbershop2/classes/GeralUser.dart';
-import 'package:barbershop2/functions/rankingProviderHome.dart';
+import 'package:lionsbarberv1/classes/Estabelecimento.dart';
+import 'package:lionsbarberv1/classes/GeralUser.dart';
+import 'package:lionsbarberv1/functions/rankingProviderHome.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';

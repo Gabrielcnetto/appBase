@@ -1,8 +1,8 @@
-import 'package:barbershop2/classes/Estabelecimento.dart';
-import 'package:barbershop2/functions/profileScreenFunctions.dart';
-import 'package:barbershop2/rotas/Approutes.dart';
-import 'package:barbershop2/screen/manager/principal/ManagerScreen.dart';
-import 'package:barbershop2/screen/manager/funcionario/funcionario_screen.dart';
+import 'package:lionsbarberv1/classes/Estabelecimento.dart';
+import 'package:lionsbarberv1/functions/profileScreenFunctions.dart';
+import 'package:lionsbarberv1/rotas/Approutes.dart';
+import 'package:lionsbarberv1/screen/manager/principal/ManagerScreen.dart';
+import 'package:lionsbarberv1/screen/manager/funcionario/funcionario_screen.dart';
 import 'package:flutter/material.dart';
 
 class CircularProgressWithImage extends StatefulWidget {

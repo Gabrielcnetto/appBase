@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:619249321420:android:12e6ca015d8d98fca64969",
         "android_client_info": {
-          "package_name": "com.example.barbearia"
+          "package_name": "com.easecorte.lionsbarberv1"
         }
       },
       "oauth_client": [],
@@ -28,7 +28,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:619249321420:android:e2af107cd7164320a64969",
         "android_client_info": {
-          "package_name": "com.example.barbershop2"
+          "package_name": "com.example.lionsbarberv1"
         }
       },
       "oauth_client": [],

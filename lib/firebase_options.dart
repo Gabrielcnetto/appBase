@@ -63,7 +63,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '619249321420',
     projectId: 'easecortebaseversion-7100f',
     storageBucket: 'easecortebaseversion-7100f.appspot.com',
-    iosBundleId: 'com.example.barbearia',
+    iosBundleId: 'com.easecorte.lionsbarberv1',
   );
 
 }

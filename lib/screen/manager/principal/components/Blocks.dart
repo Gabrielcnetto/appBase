@@ -1,6 +1,6 @@
-import 'package:barbershop2/classes/cortecClass.dart';
-import 'package:barbershop2/functions/managerScreenFunctions.dart';
-import 'package:barbershop2/functions/profileScreenFunctions.dart';
+import 'package:lionsbarberv1/classes/cortecClass.dart';
+import 'package:lionsbarberv1/functions/managerScreenFunctions.dart';
+import 'package:lionsbarberv1/functions/profileScreenFunctions.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';

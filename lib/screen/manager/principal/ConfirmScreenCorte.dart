@@ -1,5 +1,5 @@
-import 'package:barbershop2/classes/Estabelecimento.dart';
-import 'package:barbershop2/rotas/Approutes.dart';
+import 'package:lionsbarberv1/classes/Estabelecimento.dart';
+import 'package:lionsbarberv1/rotas/Approutes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';

@@ -1,13 +1,13 @@
-import 'package:barbershop2/classes/cortecClass.dart';
-import 'package:barbershop2/functions/CorteProvider.dart';
-import 'package:barbershop2/functions/rankingProviderHome.dart';
-import 'package:barbershop2/screen/home/home_components/StreamHaveItems.dart';
-import 'package:barbershop2/screen/home/home_components/header/homeHeaderSemItens.dart';
-import 'package:barbershop2/screen/home/home_components/header/home_noItenswithLoading.dart';
-import 'package:barbershop2/screen/home/home_components/profissionaisList.dart';
-import 'package:barbershop2/screen/home/home_components/promotionBanner.dart';
-import 'package:barbershop2/screen/home/ranking/rankingHome.dart';
-import 'package:barbershop2/screen/home/ranking/semUsuarios.dart';
+import 'package:lionsbarberv1/classes/cortecClass.dart';
+import 'package:lionsbarberv1/functions/CorteProvider.dart';
+import 'package:lionsbarberv1/functions/rankingProviderHome.dart';
+import 'package:lionsbarberv1/screen/home/home_components/StreamHaveItems.dart';
+import 'package:lionsbarberv1/screen/home/home_components/header/homeHeaderSemItens.dart';
+import 'package:lionsbarberv1/screen/home/home_components/header/home_noItenswithLoading.dart';
+import 'package:lionsbarberv1/screen/home/home_components/profissionaisList.dart';
+import 'package:lionsbarberv1/screen/home/home_components/promotionBanner.dart';
+import 'package:lionsbarberv1/screen/home/ranking/rankingHome.dart';
+import 'package:lionsbarberv1/screen/home/ranking/semUsuarios.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

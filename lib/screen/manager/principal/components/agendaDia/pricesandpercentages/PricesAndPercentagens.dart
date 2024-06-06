@@ -1,4 +1,4 @@
-import 'package:barbershop2/rotas/Approutes.dart';
+import 'package:lionsbarberv1/rotas/Approutes.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';

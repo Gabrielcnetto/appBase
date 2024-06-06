@@ -1,9 +1,9 @@
-import 'package:barbershop2/classes/Estabelecimento.dart';
-import 'package:barbershop2/rotas/Approutes.dart';
-import 'package:barbershop2/screen/home/homeScreen01.dart';
-import 'package:barbershop2/screen/manager/principal/components/Blocks.dart';
-import 'package:barbershop2/screen/manager/principal/components/agendaDia/CortesHojeLista.dart';
-import 'package:barbershop2/screen/manager/principal/components/verticalOptions.dart';
+import 'package:lionsbarberv1/classes/Estabelecimento.dart';
+import 'package:lionsbarberv1/rotas/Approutes.dart';
+import 'package:lionsbarberv1/screen/home/homeScreen01.dart';
+import 'package:lionsbarberv1/screen/manager/principal/components/Blocks.dart';
+import 'package:lionsbarberv1/screen/manager/principal/components/agendaDia/CortesHojeLista.dart';
+import 'package:lionsbarberv1/screen/manager/principal/components/verticalOptions.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 

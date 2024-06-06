@@ -1,6 +1,6 @@
-import 'package:barbershop2/classes/cortecClass.dart';
-import 'package:barbershop2/functions/CorteProvider.dart';
-import 'package:barbershop2/screen/History/providerLoading.dart';
+import 'package:lionsbarberv1/classes/cortecClass.dart';
+import 'package:lionsbarberv1/functions/CorteProvider.dart';
+import 'package:lionsbarberv1/screen/History/providerLoading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';

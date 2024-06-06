@@ -1,6 +1,6 @@
 
-import 'package:barbershop2/classes/Estabelecimento.dart';
-import 'package:barbershop2/functions/createAccount.dart';
+import 'package:lionsbarberv1/classes/Estabelecimento.dart';
+import 'package:lionsbarberv1/functions/createAccount.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';

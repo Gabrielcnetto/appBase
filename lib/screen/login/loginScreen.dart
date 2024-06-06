@@ -1,8 +1,8 @@
 import 'dart:ui';
 
-import 'package:barbershop2/classes/Estabelecimento.dart';
-import 'package:barbershop2/functions/userLogin.dart';
-import 'package:barbershop2/rotas/Approutes.dart';
+import 'package:lionsbarberv1/classes/Estabelecimento.dart';
+import 'package:lionsbarberv1/functions/userLogin.dart';
+import 'package:lionsbarberv1/rotas/Approutes.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

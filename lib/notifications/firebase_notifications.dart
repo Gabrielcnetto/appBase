@@ -1,7 +1,7 @@
 import 'dart:typed_data';
 
-import 'package:barbershop2/classes/Estabelecimento.dart';
-import 'package:barbershop2/rotas/Approutes.dart';
+import 'package:lionsbarberv1/classes/Estabelecimento.dart';
+import 'package:lionsbarberv1/rotas/Approutes.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -44,7 +44,7 @@ class FirebaseNotifications {
     // Process the FCM message
     final notificationData = message.data; // Extract data from the message
     String title =
-        notificationData['title'] ?? "BarberShop2"; // Set default title
+        notificationData['title'] ?? "lionsbarberv1"; // Set default title
     String body = notificationData['body'] ?? "";
 
     // Show notification using the notification plugin
@@ -56,7 +56,7 @@ class FirebaseNotifications {
         android: AndroidNotificationDetails(
           playSound: true,
           'your_channel_id', // Add channel ID here
-          'BarberShop2 Notifications', // Add channel description here
+          'lionsbarberv1 Notifications', // Add channel description here
           importance: Importance.high,
           icon: '@mipmap/ic_launcher.png',
           priority: Priority.high,

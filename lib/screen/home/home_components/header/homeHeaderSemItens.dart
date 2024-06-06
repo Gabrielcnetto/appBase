@@ -1,7 +1,7 @@
-import 'package:barbershop2/classes/Estabelecimento.dart';
-import 'package:barbershop2/functions/CorteProvider.dart';
-import 'package:barbershop2/functions/profileScreenFunctions.dart';
-import 'package:barbershop2/screen/home/home_components/circularProgressIndicLevel.dart';
+import 'package:lionsbarberv1/classes/Estabelecimento.dart';
+import 'package:lionsbarberv1/functions/CorteProvider.dart';
+import 'package:lionsbarberv1/functions/profileScreenFunctions.dart';
+import 'package:lionsbarberv1/screen/home/home_components/circularProgressIndicLevel.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';

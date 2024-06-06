@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.barbearia">
+    package="com.easecorte.lionsbarberv1">
 
     <application
         android:label="barbearia"

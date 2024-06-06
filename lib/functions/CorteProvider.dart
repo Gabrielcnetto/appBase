@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:barbershop2/classes/cortecClass.dart';
-import 'package:barbershop2/classes/horarios.dart';
+import 'package:lionsbarberv1/classes/cortecClass.dart';
+import 'package:lionsbarberv1/classes/horarios.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';

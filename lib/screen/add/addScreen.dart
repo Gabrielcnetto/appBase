@@ -1,14 +1,14 @@
 import 'dart:math';
 
-import 'package:barbershop2/classes/Estabelecimento.dart';
-import 'package:barbershop2/classes/cortecClass.dart';
-import 'package:barbershop2/classes/horarios.dart';
-import 'package:barbershop2/classes/profissionais.dart';
-import 'package:barbershop2/functions/CorteProvider.dart';
-import 'package:barbershop2/functions/managerScreenFunctions.dart';
-import 'package:barbershop2/functions/profileScreenFunctions.dart';
-import 'package:barbershop2/functions/twilio_messagesFunctions.dart';
-import 'package:barbershop2/rotas/Approutes.dart';
+import 'package:lionsbarberv1/classes/Estabelecimento.dart';
+import 'package:lionsbarberv1/classes/cortecClass.dart';
+import 'package:lionsbarberv1/classes/horarios.dart';
+import 'package:lionsbarberv1/classes/profissionais.dart';
+import 'package:lionsbarberv1/functions/CorteProvider.dart';
+import 'package:lionsbarberv1/functions/managerScreenFunctions.dart';
+import 'package:lionsbarberv1/functions/profileScreenFunctions.dart';
+import 'package:lionsbarberv1/functions/twilio_messagesFunctions.dart';
+import 'package:lionsbarberv1/rotas/Approutes.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

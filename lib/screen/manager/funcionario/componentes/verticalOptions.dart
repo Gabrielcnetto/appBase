@@ -1,10 +1,10 @@
-import 'package:barbershop2/classes/Estabelecimento.dart';
-import 'package:barbershop2/functions/CorteProvider.dart';
-import 'package:barbershop2/functions/managerScreenFunctions.dart';
-import 'package:barbershop2/rotas/Approutes.dart';
-import 'package:barbershop2/screen/manager/funcionario/funcionario_screen.dart';
-import 'package:barbershop2/screen/manager/principal/ManagerScreen.dart';
-import 'package:barbershop2/screen/manager/principal/components/setMinutesBarba.dart';
+import 'package:lionsbarberv1/classes/Estabelecimento.dart';
+import 'package:lionsbarberv1/functions/CorteProvider.dart';
+import 'package:lionsbarberv1/functions/managerScreenFunctions.dart';
+import 'package:lionsbarberv1/rotas/Approutes.dart';
+import 'package:lionsbarberv1/screen/manager/funcionario/funcionario_screen.dart';
+import 'package:lionsbarberv1/screen/manager/principal/ManagerScreen.dart';
+import 'package:lionsbarberv1/screen/manager/principal/components/setMinutesBarba.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
