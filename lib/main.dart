@@ -19,7 +19,6 @@ import 'package:barbershop2/screen/manager/funcionario/componentes/encaixeScreen
 import 'package:barbershop2/screen/manager/principal/ConfirmScreenCorte.dart';
 import 'package:barbershop2/screen/manager/principal/ManagerScreen.dart';
 import 'package:barbershop2/screen/manager/funcionario/funcionario_screen.dart';
-
 import 'package:barbershop2/screen/manager/principal/agenda_7dias/agenda7diasscreen.dart';
 import 'package:barbershop2/screen/manager/principal/agenda_7dias/confirmCancelCorte.dart';
 import 'package:barbershop2/screen/manager/principal/components/agendaDia/pricesandpercentages/PricesAndPercentagens.dart';
