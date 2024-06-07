@@ -2,7 +2,7 @@
     package="com.easecorte.lionsbarberv1">
 
     <application
-        android:label="barbearia"
+        android:label="Lions Barber Club"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
