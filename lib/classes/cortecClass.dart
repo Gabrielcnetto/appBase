@@ -1,3 +1,4 @@
+import 'package:lionsbarberv1/classes/horarios.dart';
 
 class CorteClass {
   final String id;
@@ -13,6 +14,7 @@ class CorteClass {
   final String profissionalSelect;
   final DateTime dateCreateAgendamento;
   final int totalValue;
+  final List<String> horariosExtra;
   CorteClass({
     required this.isActive,
     required this.DiaDoCorte,
@@ -27,5 +29,6 @@ class CorteClass {
     required this.barba,
     required this.ramdomCode,
     required this.dateCreateAgendamento,
+    required this.horariosExtra,
   });
 }

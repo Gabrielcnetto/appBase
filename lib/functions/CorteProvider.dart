@@ -14,12 +14,12 @@ class CorteProvider with ChangeNotifier {
   final authSettings = FirebaseAuth.instance;
 
   //ENVIANDO O CORTE PARA AS LISTAS NO BANCO DE DADOS - INICIO
-  Future<void> AgendamentoCortePrincipalFunctions({
-    required CorteClass corte,
-    required DateTime selectDateForUser,
-    required String nomeBarbeiro,
-    required int pricevalue,
-  }) async {
+  Future<void> AgendamentoCortePrincipalFunctions(
+      {required CorteClass corte,
+      required DateTime selectDateForUser,
+      required String nomeBarbeiro,
+      required int pricevalue,
+      required bool barbaHoraExtra}) async {
     print("entrei na funcao");
 
     await initializeDateFormatting('pt_BR');
@@ -40,6 +40,7 @@ class CorteProvider with ChangeNotifier {
           .collection("all")
           .doc(corte.horarioCorte)
           .set({
+        "horariosExtras": corte.horariosExtra,
         "totalValue": corte.totalValue,
         'isActive': corte.isActive,
         "diaDoCorte": corte.DiaDoCorte,
@@ -54,7 +55,67 @@ class CorteProvider with ChangeNotifier {
         "ramdomNumber": corte.ramdomCode,
         "monthName": monthName,
       });
+      //ADICIONANDO 2 HORARIOS EXTRAS PARA SEREM PREENCHIDOS PELO HORARIO QUE É A BARBA INICIO :
+      // ADICIONANDO 2 HORARIOS EXTRAS PARA SEREM PREENCHIDOS PELO HORARIO QUE É A BARBA INICIO:
+      if (barbaHoraExtra == true) {
+        // Verificar se o primeiro horário extra não existe antes de adicioná-lo
+        final docRefHorario2 = database
+            .collection("agenda")
+            .doc(monthName)
+            .collection("${diaCorteSelect}")
+            .doc(nomeBarber)
+            .collection("all")
+            .doc(corte.horariosExtra[0]);
+        final docSnapshotHorario2 = await docRefHorario2.get();
+        if (!docSnapshotHorario2.exists) {
+          await docRefHorario2.set({
+     "horariosExtras": [],
+            "totalValue": 0,
+            'isActive': false,
+            "diaDoCorte": corte.DiaDoCorte,
+            "id": "extra",
+            "dataCreateAgendamento": corte.dateCreateAgendamento,
+            "clientName": "extra",
+            "numeroContato": "extra",
+            "barba": false,
+            "diaCorte": corte.diaCorte,
+            "horarioCorte": corte.horarioCorte,
+            "profissionalSelect": "extra",
+            "ramdomNumber": 00000,
+            "monthName": "extra",
+          });
+        }
 
+        // Verificar se o segundo horário extra não existe antes de adicioná-lo
+        final docRefHorario3 = database
+            .collection("agenda")
+            .doc(monthName)
+            .collection("${diaCorteSelect}")
+            .doc(nomeBarber)
+            .collection("all")
+            .doc(corte.horariosExtra[1]);
+        final docSnapshotHorario3 = await docRefHorario3.get();
+        if (!docSnapshotHorario3.exists) {
+          await docRefHorario3.set({
+           "horariosExtras": [],
+            "totalValue": 0,
+            'isActive': false,
+            "diaDoCorte": corte.DiaDoCorte,
+            "id": "extra",
+            "dataCreateAgendamento": corte.dateCreateAgendamento,
+            "clientName": "extra",
+            "numeroContato": "extra",
+            "barba": false,
+            "diaCorte": corte.diaCorte,
+            "horarioCorte": corte.horarioCorte,
+            "profissionalSelect": "extra",
+            "ramdomNumber": 00000,
+            "monthName": "extra",
+          });
+        }
+      }
+
+      //ADICIONANDO 2 HORARIOS EXTRAS PARA SEREM PREENCHIDOS PELO HORARIO QUE É A BARBA FIM :
       //adicionado allcuts
       final addAllcuts = await database
           .collection("allCuts")
@@ -62,6 +123,7 @@ class CorteProvider with ChangeNotifier {
           .collection("${diaCorteSelect}")
           .doc(corte.id)
           .set({
+        "horariosExtras": corte.horariosExtra,
         "totalValue": corte.totalValue,
         "id": corte.id,
         'isActive': corte.isActive,
@@ -101,8 +163,9 @@ class CorteProvider with ChangeNotifier {
           .doc(monthName)
           .collection("all")
           .add({
+        "horariosExtras": corte.horariosExtra,
         "id": corte.id,
-         "totalValue": corte.totalValue,
+        "totalValue": corte.totalValue,
         'isActive': corte.isActive,
         "diaDoCorte": corte.DiaDoCorte,
         "dataCreateAgendamento": corte.dateCreateAgendamento,
@@ -123,8 +186,9 @@ class CorteProvider with ChangeNotifier {
           .collection("lista")
           .doc(corte.id)
           .set({
+        "horariosExtras": corte.horariosExtra,
         "id": corte.id,
-         "totalValue": corte.totalValue,
+        "totalValue": corte.totalValue,
         'isActive': corte.isActive,
         "diaDoCorte": corte.DiaDoCorte,
         "clientName": corte.clientName,
@@ -225,7 +289,11 @@ class CorteProvider with ChangeNotifier {
         DateTime diaCorteFinal = diafinalCorte?.toDate() ?? DateTime.now();
         // Acessando os atributos diretamente usando []
         return CorteClass(
-          totalValue:  data?["totalValue"], 
+          horariosExtra: data?["horariosExtras"] != null
+              ? List<String>.from(data?["horariosExtras"])
+              : [],
+
+          totalValue: data?["totalValue"],
           isActive: data?["isActive"],
           DiaDoCorte: data?["diaDoCorte"],
           NomeMes: data?["monthName"],
@@ -290,7 +358,11 @@ class CorteProvider with ChangeNotifier {
         DateTime diaCorteFinal = diafinalCorte?.toDate() ?? DateTime.now();
         // Acessando os atributos diretamente usando []
         return CorteClass(
-          totalValue: data?["totalValue"], 
+          horariosExtra: data?["horariosExtras"] != null
+              ? List<String>.from(data?["horariosExtras"])
+              : [],
+
+          totalValue: data?["totalValue"],
           isActive: data?["isActive"],
           DiaDoCorte: data?["diaDoCorte"],
           NomeMes: data?["monthName"],
@@ -336,6 +408,25 @@ class CorteProvider with ChangeNotifier {
           .doc(nomeBarber)
           .collection("all")
           .doc(corte.horarioCorte);
+      if (corte.barba == true) {
+        final referencia2 = await database
+            .collection("agenda")
+            .doc(corte.NomeMes)
+            .collection("${corte.DiaDoCorte}")
+            .doc(nomeBarber)
+            .collection("all")
+            .doc(corte.horariosExtra[0]);
+        final referencia3 = await database
+            .collection("agenda")
+            .doc(corte.NomeMes)
+            .collection("${corte.DiaDoCorte}")
+            .doc(nomeBarber)
+            .collection("all")
+            .doc(corte.horariosExtra[1]);
+
+        await referencia2.delete();
+        await referencia3.delete();
+      }
 
       print("Esta é a referência: ${referencia.path}");
 

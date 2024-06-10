@@ -94,7 +94,7 @@ class _ManagerScreenViewState extends State<ManagerScreenView> {
                               Navigator.of(context).pushReplacement(
                                 MaterialPageRoute(
                                   builder: (BuildContext context) =>
-                                      const HomeScreen01(),
+                                      const HomeScreen01(selectedIndex: 0,),
                                   fullscreenDialog: true,
                                 ),
                               );

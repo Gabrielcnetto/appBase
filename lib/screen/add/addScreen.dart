@@ -237,6 +237,9 @@ class _AddScreenState extends State<AddScreen> {
   String? hourSetForUser;
 
   Future<void> CreateAgendamento() async {
+    //Horarios da semana comum
+    List<Horarios> _horariosSemana = listaHorariosEncaixe;
+    List<Horarios> _horariosSabados = sabadoHorariosEncaixe;
     await initializeDateFormatting('pt_BR');
 
     String monthName =
@@ -244,8 +247,27 @@ class _AddScreenState extends State<AddScreen> {
     var rng = new Random();
     int number = rng.nextInt(90000) + 10000;
     int diaDoCorte = dataSelectedInModal!.day;
+
+    // Encontrar o índice do horário selecionado na lista _horariosSemana
+    int selectedIndex = _horariosSemana
+        .indexWhere((horario) => horario.horario == hourSetForUser);
+
+    // Extrair os próximos dois horários da lista
+    bool tembarba = await barba;
+    List<String> horariosExtras = [];
+    if (tembarba == true) {
+      if (selectedIndex != -1 && selectedIndex + 2 < _horariosSemana.length) {
+        for (int i = 1; i <= 2; i++) {
+          horariosExtras.add(_horariosSemana[selectedIndex + i].horario);
+        }
+      }
+    } else{
+      horariosExtras = [];
+    }
+
     Provider.of<CorteProvider>(context, listen: false)
         .AgendamentoCortePrincipalFunctions(
+          barbaHoraExtra: barba,
       pricevalue: barba == true ? barbaMaisCabelo : atualPrice ?? 0,
       nomeBarbeiro: isBarbeiro1
           ? "${profList[0].nomeProf}"
@@ -253,6 +275,7 @@ class _AddScreenState extends State<AddScreen> {
               ? "${profList[1].nomeProf}"
               : "Não Definido",
       corte: CorteClass(
+        horariosExtra: horariosExtras,
         totalValue: barba == true ? barbaMaisCabelo : atualPrice ?? 0,
         isActive: true,
         DiaDoCorte: diaDoCorte,

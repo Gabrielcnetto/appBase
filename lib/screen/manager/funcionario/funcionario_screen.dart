@@ -98,7 +98,7 @@ class _FuncionarioScreenState extends State<FuncionarioScreen> {
                               Navigator.of(context).pushReplacement(
                                 MaterialPageRoute(
                                   builder: (BuildContext context) =>
-                                      const HomeScreen01(),
+                                      const HomeScreen01(selectedIndex: 0,),
                                   fullscreenDialog: true,
                                 ),
                               );

@@ -61,6 +61,7 @@ class ManagerScreenFunctions with ChangeNotifier {
           String documentName = doc.id;
           _listaCortes.add(
             CorteClass(
+              horariosExtra: [],
               totalValue: 0,
               isActive: false,
               DiaDoCorte: 0,
@@ -118,11 +119,15 @@ class ManagerScreenFunctions with ChangeNotifier {
         Timestamp? diafinalCorte;
         if (data != null) {
           timestamp = data['diaCorte'] as Timestamp?;
+
         }
 
         DateTime diaCorteFinal = diafinalCorte?.toDate() ?? DateTime.now();
         // Acessando os atributos diretamente usando []
+        print("tipos de dados:");
+        print(data?["totalValue"].toString());
         return CorteClass(
+          horariosExtra: [],
           totalValue: data?["totalValue"],
           isActive: data?["isActive"],
           DiaDoCorte: data?["diaDoCorte"],

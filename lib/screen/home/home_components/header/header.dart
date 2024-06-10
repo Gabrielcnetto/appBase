@@ -243,6 +243,7 @@ class _HomePageHeaderState extends State<HomePageHeader> {
               left: 20,
               child: ProfissionalCode(
                 corte: CorteClass(
+                  horariosExtra: _listaCortesUsuario.horariosExtra,
                   totalValue: _listaCortesUsuario.totalValue,
                   isActive: _listaCortesUsuario.isActive,
                   DiaDoCorte: _listaCortesUsuario.DiaDoCorte,

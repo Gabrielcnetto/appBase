@@ -31,8 +31,10 @@ class _StreamLoad7diasState extends State<StreamLoad7dias> {
           );
         } else if (snapshot.hasData) {
           final List<CorteClass>? cortes = snapshot.data;
+          final List<CorteClass> cortesFiltrados = cortes!.where((corte) => corte.clientName != "extra").toList();
+
           return Corte7DiasItem(
-            corte: cortes!,
+            corte: cortesFiltrados,
           );
         }
         return Container();

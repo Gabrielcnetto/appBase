@@ -39,7 +39,7 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  
+
   runApp(const MyApp());
 }
 
@@ -77,7 +77,7 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(
           create: (_) => ProviderFilterManager(),
         ),
-                ChangeNotifierProvider(
+        ChangeNotifierProvider(
           create: (_) => Twilio_messagesFunction(),
         ),
       ],
@@ -118,7 +118,9 @@ class _MyAppState extends State<MyApp> {
               const VerificationLoginScreen01(),
           AppRoutesApp.InitialScreenApp: (ctx) => const InitialScreenApp(),
           AppRoutesApp.LoginScreen01: (ctx) => const LoginScreen01(),
-          AppRoutesApp.HomeScreen01: (ctx) => const HomeScreen01(),
+          AppRoutesApp.HomeScreen01: (ctx) => HomeScreen01(
+                selectedIndex: 0,
+              ),
           AppRoutesApp.RegisterAccountScreen: (ctx) =>
               const RegisterAccountScreen(),
           AppRoutesApp.ConfirmScreenCorte: (ctx) => const ConfirmScreenCorte(),
@@ -128,10 +130,14 @@ class _MyAppState extends State<MyApp> {
           AppRoutesApp.ConfirmCancelCorte: (ctx) => const ConfirmCancelCorte(),
           AppRoutesApp.EncaixeScreen: (ctx) => const EncaixeScreen(),
           AppRoutesApp.FuncionarioScreen: (ctx) => const FuncionarioScreen(),
-          AppRoutesApp.PricesAndPercentages: (ctx)=> const PricesAndPercentages(),
-          AppRoutesApp.ConfirmScreenCorteEncaixeFuncionario: (ctx)=>const ConfirmScreenCorteEncaixeFuncionario(),
-          AppRoutesApp.EncaixeScreenFuncionario: (ctx)=>const EncaixeScreenFuncionario(),
-          AppRoutesApp.ConfirmScreenCorteManager: (ctx)=>const ConfirmScreenCorteManager(),
+          AppRoutesApp.PricesAndPercentages: (ctx) =>
+              const PricesAndPercentages(),
+          AppRoutesApp.ConfirmScreenCorteEncaixeFuncionario: (ctx) =>
+              const ConfirmScreenCorteEncaixeFuncionario(),
+          AppRoutesApp.EncaixeScreenFuncionario: (ctx) =>
+              const EncaixeScreenFuncionario(),
+          AppRoutesApp.ConfirmScreenCorteManager: (ctx) =>
+              const ConfirmScreenCorteManager(),
         },
       ),
     );

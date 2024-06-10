@@ -208,6 +208,7 @@ class _EncaixeScreenState extends State<EncaixeScreenFuncionario> {
     int diaDoCorte = dataSelectedInModal!.day;
     Provider.of<CorteProvider>(context, listen: false)
         .AgendamentoCortePrincipalFunctions(
+          barbaHoraExtra: false,
       pricevalue: atualPrice ?? 00,
       nomeBarbeiro: isBarbeiro1
           ? "${profList[0].nomeProf}"
@@ -215,6 +216,7 @@ class _EncaixeScreenState extends State<EncaixeScreenFuncionario> {
               ? "${profList[1].nomeProf}"
               : "Não Definido",
       corte: CorteClass(
+        horariosExtra: [],
         totalValue: atualPrice ?? 0,
         isActive: true,
         DiaDoCorte: diaDoCorte,

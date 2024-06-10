@@ -15,7 +15,8 @@ import 'package:provider/provider.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 
 class HomeScreen01 extends StatefulWidget {
-  const HomeScreen01({super.key});
+  final int selectedIndex;
+  const HomeScreen01({super.key, required this.selectedIndex});
 
   @override
   State<HomeScreen01> createState() => _HomeScreen01State();
@@ -23,7 +24,7 @@ class HomeScreen01 extends StatefulWidget {
 
 class _HomeScreen01State extends State<HomeScreen01> {
   //configuracoes do messagin cloud - inicio
-  
+
   //configuracoes do messagin cloud - fim
   int screen = 0;
   List<Map<String, Object>>? _screensSelect;
@@ -32,8 +33,7 @@ class _HomeScreen01State extends State<HomeScreen01> {
   void initState() {
     // TODO: implement initState
     super.initState();
-
-
+    screen = widget.selectedIndex;
     Provider.of<CorteProvider>(context, listen: false).loadHistoryCortes();
     Provider.of<ManagerScreenFunctions>(context, listen: false).loadClientes();
     Provider.of<ManagerScreenFunctions>(context, listen: false)
@@ -72,6 +72,7 @@ class _HomeScreen01State extends State<HomeScreen01> {
           height: 50,
           animationDuration: const Duration(milliseconds: 100),
           onTap: attScren,
+          index: screen,
           backgroundColor: Estabelecimento.primaryColor,
           items: const [
             Icon(
