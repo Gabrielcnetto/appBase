@@ -235,11 +235,13 @@ class _AddScreenState extends State<AddScreen> {
   }
 
   String? hourSetForUser;
-
+  List<Horarios> _horariosPreenchidosParaEvitarDupNoCreate =
+      []; // a lista que tem todos os horariso preenchidos
   Future<void> CreateAgendamento() async {
     //Horarios da semana comum
-    List<Horarios> _horariosSemana = listaHorariosEncaixe;
-    List<Horarios> _horariosSabados = sabadoHorariosEncaixe;
+    List<Horarios> _horariosSemana =
+        listaHorariosEncaixe; // essa aqui usamos para enviar 2 horarios a mais com barba true
+
     await initializeDateFormatting('pt_BR');
 
     String monthName =
@@ -252,22 +254,81 @@ class _AddScreenState extends State<AddScreen> {
     int selectedIndex = _horariosSemana
         .indexWhere((horario) => horario.horario == hourSetForUser);
 
-    // Extrair os próximos dois horários da lista
+    // Verificar se a variável barba é verdadeira
     bool tembarba = await barba;
     List<String> horariosExtras = [];
     if (tembarba == true) {
       if (selectedIndex != -1 && selectedIndex + 2 < _horariosSemana.length) {
         for (int i = 1; i <= 2; i++) {
-          horariosExtras.add(_horariosSemana[selectedIndex + i].horario);
+          String horarioExtra = _horariosSemana[selectedIndex + i].horario;
+          // Verificar se o horário extra está presente na lista de horários preenchidos
+          bool horarioJaPreenchido = _horariosPreenchidosParaEvitarDupNoCreate
+              .any((horario) => horario.horario == horarioExtra);
+
+          if (horarioJaPreenchido) {
+            // Mostrar um dialog para o usuário selecionar outro horário
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: Text(
+                    'Horário Indisponível',
+                    style: GoogleFonts.openSans(
+                      textStyle: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        color: Estabelecimento.primaryColor,
+                      ),
+                    ),
+                  ),
+                  content: Text(
+                    'Este horário está reservado para corte e barba por outro cliente, então só podemos agendar para corte de cabelo. Por favor, escolha outro horário.',
+                    style: GoogleFonts.openSans(
+                      textStyle: TextStyle(
+                        fontWeight: FontWeight.w400,
+                        color: Estabelecimento.primaryColor,
+                      ),
+                    ),
+                  ),
+                  actions: <Widget>[
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                        Navigator.of(context).pop(); // Fechar o dialog
+                      },
+                      child: Container(
+                        padding: EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: Estabelecimento.primaryColor,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Text(
+                          'Escolher outro',
+                          style: GoogleFonts.openSans(
+                            textStyle: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              color: Estabelecimento.contraPrimaryColor,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                );
+              },
+            );
+
+            // Abortar a adição ao provider
+            return;
+          }
+
+          horariosExtras.add(horarioExtra);
         }
       }
-    } else{
-      horariosExtras = [];
     }
-
+    Navigator.of(context).pushReplacementNamed(AppRoutesApp.ConfirmScreenCorte);
     Provider.of<CorteProvider>(context, listen: false)
         .AgendamentoCortePrincipalFunctions(
-          barbaHoraExtra: barba,
+      barbaHoraExtra: barba,
       pricevalue: barba == true ? barbaMaisCabelo : atualPrice ?? 0,
       nomeBarbeiro: isBarbeiro1
           ? "${profList[0].nomeProf}"
@@ -304,7 +365,7 @@ class _AddScreenState extends State<AddScreen> {
       DateFormat horaFormat = DateFormat('HH:mm');
       DateTime hora = horaFormat.parse(hourSetForUser!);
 
-// Incluir minuto da hora extraída
+      // Incluir minuto da hora extraída
       DateTime finalDatetime =
           DateTime(year, month, day, hora.hour, hora.minute);
       await Provider.of<Twilio_messagesFunction>(context, listen: false)
@@ -335,6 +396,9 @@ class _AddScreenState extends State<AddScreen> {
   //Aqui pegamos o dia selecionado, e usamos para buscar os dados no banco de dados
   //a funcao abaixo é responsavel por pegar o dia, entrar no provider e pesquisar os horarios daquele dia selecionado
   Future<void> loadListCortes() async {
+    setState(() {
+      _horariosPreenchidosParaEvitarDupNoCreate = Provider.of<CorteProvider>(context,listen:false).horariosListLoad;
+    });
     horarioFinal.clear();
     List<Horarios> listaTemporaria = [];
     int? diaSemanaSelecionado = dataSelectedInModal?.weekday;
@@ -583,8 +647,6 @@ class _AddScreenState extends State<AddScreen> {
                   InkWell(
                     onTap: () {
                       CreateAgendamento();
-                      Navigator.of(context).pushReplacementNamed(
-                          AppRoutesApp.ConfirmScreenCorte);
                     },
                     child: Padding(
                       padding: const EdgeInsets.only(top: 15),

@@ -41,42 +41,73 @@ class _RankingHomeState extends State<RankingHome> {
 
     //CRIANDO OS USUARIOS
     setState(() {
-      top1User = GeralUser(
-        isfuncionario: userList[0].isfuncionario,
-        isManager: userList[0].isManager,
-        listacortes: userList[0].listacortes,
-        name: userList[0].name,
-        urlImage: userList[0].urlImage,
-      );
-      top2User = GeralUser(
-        isfuncionario: userList[1].isfuncionario,
-        isManager: userList[1].isManager,
-        listacortes: userList[1].listacortes,
-        name: userList[1].name,
-        urlImage: userList[1].urlImage,
-      );
-      top3User = GeralUser(
-        isfuncionario: userList[2].isfuncionario,
-        isManager: userList[2].isManager,
-        listacortes: userList[2].listacortes,
-        name: userList[2].name,
-        urlImage: userList[2].urlImage,
-      );
-      top4User = GeralUser(
-        isfuncionario: userList[3].isfuncionario,
-        isManager: userList[3].isManager,
-        listacortes: userList[3].listacortes,
-        name: userList[3].name,
-        urlImage: userList[3].urlImage,
-      );
-      top5User = GeralUser(
-        isfuncionario: userList[4].isfuncionario,
-        isManager: userList[4].isManager,
-        listacortes: userList[4].listacortes,
-        name: userList[4].name,
-        urlImage: userList[4].urlImage,
-      );
-    });
+    int userIndex = 0; // índice para percorrer a lista de usuários
+
+    // Loop para adicionar os cinco melhores usuários elegíveis
+    for (int i = 0; i < 5; i++) {
+      // Verifica se o usuário atual é funcionário ou gerente
+      while (userIndex < userList.length &&
+             (userList[userIndex].isfuncionario || userList[userIndex].isManager)) {
+        userIndex++; // Se for, passa para o próximo usuário
+      }
+
+      // Se o índice for maior ou igual ao tamanho da lista, sai do loop
+      if (userIndex >= userList.length) {
+        break;
+      }
+
+      // Adiciona o usuário atual na posição correspondente
+      switch (i) {
+        case 0:
+          top1User = GeralUser(
+            isfuncionario: userList[userIndex].isfuncionario,
+            isManager: userList[userIndex].isManager,
+            listacortes: userList[userIndex].listacortes,
+            name: userList[userIndex].name,
+            urlImage: userList[userIndex].urlImage,
+          );
+          break;
+        case 1:
+          top2User = GeralUser(
+            isfuncionario: userList[userIndex].isfuncionario,
+            isManager: userList[userIndex].isManager,
+            listacortes: userList[userIndex].listacortes,
+            name: userList[userIndex].name,
+            urlImage: userList[userIndex].urlImage,
+          );
+          break;
+        case 2:
+          top3User = GeralUser(
+            isfuncionario: userList[userIndex].isfuncionario,
+            isManager: userList[userIndex].isManager,
+            listacortes: userList[userIndex].listacortes,
+            name: userList[userIndex].name,
+            urlImage: userList[userIndex].urlImage,
+          );
+          break;
+        case 3:
+          top4User = GeralUser(
+            isfuncionario: userList[userIndex].isfuncionario,
+            isManager: userList[userIndex].isManager,
+            listacortes: userList[userIndex].listacortes,
+            name: userList[userIndex].name,
+            urlImage: userList[userIndex].urlImage,
+          );
+          break;
+        case 4:
+          top5User = GeralUser(
+            isfuncionario: userList[userIndex].isfuncionario,
+            isManager: userList[userIndex].isManager,
+            listacortes: userList[userIndex].listacortes,
+            name: userList[userIndex].name,
+            urlImage: userList[userIndex].urlImage,
+          );
+          break;
+      }
+
+      userIndex++; // Passa para o próximo usuário
+    }
+  });
   }
 
   @override
