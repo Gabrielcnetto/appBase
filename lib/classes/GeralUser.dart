@@ -3,6 +3,7 @@ class GeralUser {
 
   final String name;
   final String urlImage;
+  final String PhoneNumber;
   final int listacortes;
   final bool isfuncionario;
   final bool isManager;
@@ -10,6 +11,7 @@ class GeralUser {
   GeralUser({
  
     required this.isManager,
+    required this.PhoneNumber,
     required this.listacortes,
     required this.isfuncionario,
     required this.name,

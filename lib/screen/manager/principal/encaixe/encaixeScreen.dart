@@ -1,6 +1,8 @@
 import 'dart:math';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:lionsbarberv1/classes/Estabelecimento.dart';
+import 'package:lionsbarberv1/classes/GeralUser.dart';
 import 'package:lionsbarberv1/classes/cortecClass.dart';
 import 'package:lionsbarberv1/classes/profissionais.dart';
 import 'package:lionsbarberv1/functions/CorteProvider.dart';
@@ -31,20 +33,24 @@ class _EncaixeScreenState extends State<EncaixeScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    userName;
-    loadUserName();
-    phoneNumber;
-    loadUserPhone();
     Provider.of<ManagerScreenFunctions>(context, listen: false).getFolga;
     DataFolgaDatabase;
     LoadFolgaDatetime;
     LoadPrice();
+    loadGeralUsers();
+    nomeControler.addListener(() {
+      final text = nomeControler.text;
+      if (_isSearching || text.isEmpty) {
+        // Se ainda estiver pesquisando ou o texto estiver vazio, não faz nada
+        return;
+      }
+      _onSearchTextChanged(text: text.trim());
+    });
   }
 
   final List<Profissionais> _profList = profList;
   bool isBarbeiro1 = false;
   bool isBarbeiro2 = false;
-  
 
   void setBarber1() {
     if (isBarbeiro1 == true) {
@@ -53,7 +59,7 @@ class _EncaixeScreenState extends State<EncaixeScreen> {
       setState(() {
         isBarbeiro1 = true;
         isBarbeiro2 = false;
-        
+
         dataSelectedInModal = null;
       });
     }
@@ -67,7 +73,6 @@ class _EncaixeScreenState extends State<EncaixeScreen> {
         isBarbeiro2 = true;
         isBarbeiro1 = false;
         dataSelectedInModal = null;
-  
       });
     }
   }
@@ -150,47 +155,7 @@ class _EncaixeScreenState extends State<EncaixeScreen> {
   final nomeControler = TextEditingController();
   final numberControler = TextEditingController();
 
-  String? userName;
-  Future<void> loadUserName() async {
-    String? usuario = await MyProfileScreenFunctions().getUserName();
-
-    if (userName != null) {
-    } else {
-      const Text('N/A');
-    }
-
-    setState(() {
-      userName = usuario;
-      setDataControlers();
-      LoadFolgaDatetime();
-    });
-  }
-
-  //
-  String? phoneNumber;
-  Future<void> loadUserPhone() async {
-    String? number = await MyProfileScreenFunctions().getPhone();
-
-    if (phoneNumber != null) {
-    } else {
-      const Text('N/A');
-    }
-
-    setState(() {
-      phoneNumber = number;
-      
-    });
-  }
-
-  
-
-  void setDataControlers() {
-    setState(() {
-      nomeControler.text = userName!;
-    });
-  }
-
-   int? atualPrice;
+  int? atualPrice;
 
   Future<void> LoadPrice() async {
     int? priceDB = await ManagerScreenFunctions().getPriceCorte();
@@ -198,12 +163,31 @@ class _EncaixeScreenState extends State<EncaixeScreen> {
 
     setState(() {
       atualPrice = priceDB!;
+      LoadPriceAdicionalBarba();
+      LoadFolgaDatetime();
     });
   }
-  String? hourSetForUser;
 
-  
+  String? hourSetForUser;
+  int? barbaPriceFinal;
+  int barbaMaisCabelo = 0;
+  Future<void> LoadPriceAdicionalBarba() async {
+    int? priceDB = await ManagerScreenFunctions().getAdicionalBarbaCorte();
+    print("pegamos a data do databse");
+
+    setState(() {
+      barbaPriceFinal = priceDB!;
+      barbaMaisCabelo = (atualPrice! + barbaPriceFinal!);
+    });
+  }
+
+  bool barba = false;
+  List<Horarios> _horariosPreenchidosParaEvitarDupNoCreate = [];
   Future<void> CreateAgendamento() async {
+    //Horarios da semana comum
+    List<Horarios> _horariosSemana =
+        listaHorariosEncaixe; // essa aqui usamos para enviar 2 horarios a mais com barba true
+
     await initializeDateFormatting('pt_BR');
 
     String monthName =
@@ -211,19 +195,95 @@ class _EncaixeScreenState extends State<EncaixeScreen> {
     var rng = new Random();
     int number = rng.nextInt(90000) + 10000;
     int diaDoCorte = dataSelectedInModal!.day;
+
+    // Encontrar o índice do horário selecionado na lista _horariosSemana
+    int selectedIndex = _horariosSemana
+        .indexWhere((horario) => horario.horario == hourSetForUser);
+
+    // Verificar se a variável barba é verdadeira
+    bool tembarba = await barba;
+    List<String> horariosExtras = [];
+    if (tembarba == true) {
+      if (selectedIndex != -1 && selectedIndex + 2 < _horariosSemana.length) {
+        for (int i = 1; i <= 2; i++) {
+          String horarioExtra = _horariosSemana[selectedIndex + i].horario;
+          // Verificar se o horário extra está presente na lista de horários preenchidos
+          bool horarioJaPreenchido = _horariosPreenchidosParaEvitarDupNoCreate
+              .any((horario) => horario.horario == horarioExtra);
+
+          if (horarioJaPreenchido) {
+            // Mostrar um dialog para o usuário selecionar outro horário
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: Text(
+                    'Horário Indisponível',
+                    style: GoogleFonts.openSans(
+                      textStyle: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        color: Estabelecimento.primaryColor,
+                      ),
+                    ),
+                  ),
+                  content: Text(
+                    'Este horário está reservado para corte e barba por outro cliente, então só podemos agendar para corte de cabelo. Por favor, escolha outro horário.',
+                    style: GoogleFonts.openSans(
+                      textStyle: TextStyle(
+                        fontWeight: FontWeight.w400,
+                        color: Estabelecimento.primaryColor,
+                      ),
+                    ),
+                  ),
+                  actions: <Widget>[
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                        Navigator.of(context).pop(); // Fechar o dialog
+                      },
+                      child: Container(
+                        padding: EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: Estabelecimento.primaryColor,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Text(
+                          'Escolher outro',
+                          style: GoogleFonts.openSans(
+                            textStyle: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              color: Estabelecimento.contraPrimaryColor,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                );
+              },
+            );
+
+            // Abortar a adição ao provider
+            return;
+          }
+
+          horariosExtras.add(horarioExtra);
+        }
+      }
+    }
+    Navigator.of(context).pushReplacementNamed(AppRoutesApp.FuncionarioScreen);
     Provider.of<CorteProvider>(context, listen: false)
         .AgendamentoCortePrincipalFunctions(
-          barbaHoraExtra: false,
-          pricevalue: atualPrice ?? 00,
+      barbaHoraExtra: barba,
+      pricevalue: barba == true ? barbaMaisCabelo : atualPrice ?? 0,
       nomeBarbeiro: isBarbeiro1
           ? "${profList[0].nomeProf}"
           : isBarbeiro2
               ? "${profList[1].nomeProf}"
-             
-                  : "Não Definido",
+              : "Não Definido",
       corte: CorteClass(
-        horariosExtra: [],
-        totalValue: atualPrice ?? 0,
+        horariosExtra: horariosExtras,
+        totalValue: barba == true ? barbaMaisCabelo : atualPrice ?? 0,
         isActive: true,
         DiaDoCorte: diaDoCorte,
         NomeMes: monthName,
@@ -232,20 +292,34 @@ class _EncaixeScreenState extends State<EncaixeScreen> {
         clientName: nomeControler.text,
         id: Random().nextDouble().toString(),
         numeroContato: numberControler.text,
-        barba: false,
+        barba: barba,
         diaCorte: dataSelectedInModal!,
         horarioCorte: hourSetForUser!,
         profissionalSelect: isBarbeiro1
             ? "${profList[0].nomeProf}"
             : isBarbeiro2
                 ? "${profList[1].nomeProf}"
-                
-                    : "Não Definido",
+                : "Não Definido",
       ),
       selectDateForUser: dataSelectedInModal!,
     );
-       await Provider.of<Twilio_messagesFunction>(context, listen: false)
-          .sendWhatsMessage(numberPhone: "55${numberControler.text}");
+    if (numberControler.text != null) {
+      int year = dataSelectedInModal!.year;
+      int month = dataSelectedInModal!.month;
+      int day = dataSelectedInModal!.day;
+
+      DateFormat horaFormat = DateFormat('HH:mm');
+      DateTime hora = horaFormat.parse(hourSetForUser!);
+
+      // Incluir minuto da hora extraída
+      DateTime finalDatetime =
+          DateTime(year, month, day, hora.hour, hora.minute);
+      await Provider.of<Twilio_messagesFunction>(context, listen: false)
+          .sendWhatsMessage(numberPhone: numberControler.text);
+      await Provider.of<Twilio_messagesFunction>(context, listen: false)
+          .agendarMensagemWhatsApp(
+              numberPhone: numberControler.text, dataFinal: finalDatetime);
+    }
     try {
       await analytics.logEvent(
         name: "scheduled_appointmen",
@@ -294,8 +368,7 @@ class _EncaixeScreenState extends State<EncaixeScreen> {
                     ? "${profList[0].nomeProf}"
                     : isBarbeiro2
                         ? "${profList[1].nomeProf}"
-                   
-                            : "Não Definido");
+                        : "Não Definido");
         List<Horarios> listaCort =
             await Provider.of<CorteProvider>(context, listen: false)
                 .horariosListLoad;
@@ -331,7 +404,8 @@ class _EncaixeScreenState extends State<EncaixeScreen> {
         builder: (ctx) {
           return ConstrainedBox(
             constraints: BoxConstraints(
-               maxHeight: MediaQuery.of(context).size.height * 0.85,),
+              maxHeight: MediaQuery.of(context).size.height * 0.85,
+            ),
             child: Container(
               width: double.infinity,
               height: MediaQuery.of(context).size.height / 1,
@@ -503,8 +577,7 @@ class _EncaixeScreenState extends State<EncaixeScreen> {
                                 ? "${profList[0].nomeProf}"
                                 : isBarbeiro2 == true
                                     ? "${profList[1].nomeProf}"
-                                
-                                        : "Não Definido",
+                                    : "Não Definido",
                             style: GoogleFonts.openSans(
                               textStyle: const TextStyle(
                                 fontWeight: FontWeight.w600,
@@ -567,6 +640,93 @@ class _EncaixeScreenState extends State<EncaixeScreen> {
         });
   }
 
+  List<GeralUser> GeralUsersTotal = [];
+  List<GeralUser> _suggestions = [];
+  bool usuarioNovo = false;
+  //
+  Future<void> loadGeralUsers() async {
+    List<GeralUser>? geralUsers =
+        await ManagerScreenFunctions().loadAllClientes();
+    setState(() {
+      GeralUsersTotal = geralUsers!;
+      _suggestions = List.from(GeralUsersTotal);
+    });
+    print("o tamanho final da lista geral é de ${GeralUsersTotal.length}");
+  }
+
+  void _onSearchTextChanged({required String text}) {
+    print("texto escrito");
+    setState(() {
+      _suggestions = GeralUsersTotal.where((user) {
+        return user.name != null &&
+            user.name.isNotEmpty &&
+            user.name.toLowerCase().contains(text.toLowerCase());
+      }).toList();
+    });
+
+    // Verifica se o texto não está presente na lista
+    bool userExists = GeralUsersTotal.any(
+        (user) => user.name.trim().toLowerCase() == text.trim().toLowerCase());
+
+    if (userExists == false) {
+      setState(() {
+        usuarioNovo = true;
+      });
+    } else {
+      setState(() {
+        usuarioNovo = false;
+      });
+    }
+  }
+
+  Future<void> enviarNovoUsuarioFirestore(
+      {required String nomeCompleto, required String phoneNumber}) async {
+    // Aqui você pode criar uma instância de GeralUser com base no nome completo e outros detalhes necessários
+    GeralUser novoUsuario = GeralUser(
+      name: nomeCompleto,
+      PhoneNumber: phoneNumber,
+      isManager: false,
+      isfuncionario: false,
+      listacortes: 0,
+      urlImage: "",
+      // Adicione outros atributos conforme necessário
+    );
+
+    try {
+      // Envie o novo usuário para o Firestore
+      await FirebaseFirestore.instance.collection("usuarios").add({
+        'userName': novoUsuario.name,
+        'userEmail': "",
+        'PhoneNumber': novoUsuario.PhoneNumber,
+        "urlImagem":
+            "https://firebasestorage.googleapis.com/v0/b/lionsbarber-easecorte.appspot.com/o/profileDefaultImage%2FdefaultUserImage.png?alt=media&token=5d61e887-4f54-4bca-be86-a34e43b1cb92",
+        "totalCortes": 0,
+        "isManager": false,
+        "isfuncionario": false,
+        "nameFuncionario": "",
+      });
+    } catch (e) {
+      print("Erro ao enviar novo usuário para o Firestore: $e");
+    }
+  }
+
+  void barbaTrue() {
+    if (barba == false) {
+      setState(() {
+        barba = true;
+      });
+    }
+  }
+
+  void barbaFalse() {
+    if (barba == true) {
+      setState(() {
+        barba = false;
+      });
+    }
+  }
+
+  bool _isSearching = false;
   @override
   Widget build(BuildContext context) {
     final widhScren = MediaQuery.of(context).size.width;
@@ -593,7 +753,7 @@ class _EncaixeScreenState extends State<EncaixeScreen> {
                       width: 2,
                     ),
                     Text(
-                      "Encaixe um cliente na agenda",
+                      "Agende um Horário",
                       style: GoogleFonts.openSans(
                         textStyle: const TextStyle(
                           fontWeight: FontWeight.w700,
@@ -607,7 +767,7 @@ class _EncaixeScreenState extends State<EncaixeScreen> {
                   height: 10,
                 ),
                 Text(
-                  "Liberou horário? Faça um encaixe na agenda de Hoje",
+                  "Aqui você pode agendar os horários para os seus clientes",
                   style: GoogleFonts.openSans(
                     textStyle: const TextStyle(
                       fontWeight: FontWeight.w600,
@@ -663,17 +823,68 @@ class _EncaixeScreenState extends State<EncaixeScreen> {
                       ),
                       padding: const EdgeInsets.symmetric(
                           vertical: 0, horizontal: 15),
-                      child: TextFormField(
-                        controller: nomeControler,
-                        decoration:
-                            const InputDecoration(border: InputBorder.none),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          TextFormField(
+                            controller: nomeControler,
+                            onTap: () {
+                              setState(() {
+                                _isSearching = true;
+                              });
+                            },
+                            onChanged: (userDigitName) {
+                              _onSearchTextChanged(text: userDigitName);
+                            },
+                            decoration: InputDecoration(
+                              hintText: 'Digite para buscar Clientes',
+                              border: InputBorder.none,
+                            ),
+                          ),
+                          if (_isSearching && _suggestions.isNotEmpty)
+                            Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.vertical(
+                                    bottom: Radius.circular(20)),
+                                color: Colors.white,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.5),
+                                    spreadRadius: 1,
+                                    blurRadius: 3,
+                                    offset: Offset(
+                                        0, 2), // changes position of shadow
+                                  ),
+                                ],
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: _suggestions.map((user) {
+                                  return ListTile(
+                                    title: Text(user.name),
+                                    onTap: () {
+                                      setState(() {
+                                        nomeControler.text = user.name;
+                                        numberControler.text = user.PhoneNumber;
+                                        _suggestions.clear();
+                                        _isSearching = false;
+                                      });
+                                    },
+                                  );
+                                }).toList(),
+                              ),
+                            ),
+                        ],
                       ),
                     ),
+
                     const SizedBox(
                       height: 25,
                     ),
                     //CONTAINER DO NOME fim
                     //CONTAINER DO NUMERO
+
+                    //
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
@@ -734,7 +945,117 @@ class _EncaixeScreenState extends State<EncaixeScreen> {
                       ),
                     ),
                     //CONTAINER DO NUMERO
+                    // CONTAINER DA BARBA - INICIO
 
+                    //container da barba true or false - inicio
+                    SizedBox(
+                      height: 25,
+                    ),
+                    //CONTAINER BOOL DA barba - INICIO
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 5, horizontal: 10),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: Estabelecimento.secondaryColor
+                                  .withOpacity(0.4)),
+                          child: const Text("3"),
+                        ),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        Text(
+                          "Deseja incluir barba?",
+                          style: GoogleFonts.openSans(
+                            textStyle: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Container(
+                      width: widhScren,
+                      height: heighScreen * 0.07,
+                      child: Stack(
+                        children: [
+                          Positioned(
+                            right: 0,
+                            child: InkWell(
+                              onTap: barbaFalse,
+                              child: Container(
+                                padding: const EdgeInsets.only(right: 30),
+                                alignment: Alignment.centerRight,
+                                height: heighScreen * 0.07,
+                                width: barba ? widhScren / 1.8 : widhScren / 2,
+                                decoration: BoxDecoration(
+                                  color: Estabelecimento.secondaryColor,
+                                  borderRadius: const BorderRadius.only(
+                                    topRight: Radius.circular(5),
+                                    bottomRight: Radius.circular(5),
+                                  ),
+                                ),
+                                child: Text(
+                                  "Não",
+                                  style: GoogleFonts.openSans(
+                                    textStyle: TextStyle(
+                                        fontSize: !barba ? 18 : 13,
+                                        fontWeight: !barba
+                                            ? FontWeight.w800
+                                            : FontWeight.w400,
+                                        color:
+                                            Estabelecimento.contraPrimaryColor),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            left: 0,
+                            child: InkWell(
+                              onTap: barbaTrue,
+                              child: Container(
+                                padding: const EdgeInsets.only(left: 30),
+                                alignment: Alignment.centerLeft,
+                                height: heighScreen * 0.07,
+                                width: barba ? widhScren / 1.8 : widhScren / 2,
+                                decoration: BoxDecoration(
+                                    borderRadius: const BorderRadius.only(
+                                      bottomLeft: Radius.circular(5),
+                                      topLeft: Radius.circular(5),
+                                      topRight: Radius.elliptical(20, 20),
+                                      bottomRight: Radius.elliptical(20, 20),
+                                    ),
+                                    color: Estabelecimento.primaryColor),
+                                child: Text(
+                                  "Sim",
+                                  style: GoogleFonts.openSans(
+                                    textStyle: TextStyle(
+                                        fontSize: barba ? 18 : 13,
+                                        fontWeight: barba
+                                            ? FontWeight.w800
+                                            : FontWeight.w400,
+                                        color:
+                                            Estabelecimento.contraPrimaryColor),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    //CONTAINER BOOL DA barba - FIM
+
+                    //CONTAINER DA BARBA -FIM
                     const SizedBox(
                       height: 25,
                     ),
@@ -749,7 +1070,7 @@ class _EncaixeScreenState extends State<EncaixeScreen> {
                               borderRadius: BorderRadius.circular(10),
                               color: Estabelecimento.secondaryColor
                                   .withOpacity(0.4)),
-                          child: const Text("3"),
+                          child: const Text("4"),
                         ),
                         const SizedBox(
                           width: 5,
@@ -777,8 +1098,8 @@ class _EncaixeScreenState extends State<EncaixeScreen> {
                             InkWell(
                               onTap: setBarber1,
                               child: Container(
-                                        width: widhScren * 0.38,
-                                        height: heighScreen * 0.35,
+                                width: widhScren * 0.38,
+                                height: heighScreen * 0.35,
                                 child: Stack(
                                   children: [
                                     Positioned(
@@ -839,8 +1160,8 @@ class _EncaixeScreenState extends State<EncaixeScreen> {
                             InkWell(
                               onTap: setBarber2,
                               child: Container(
-                                          width: widhScren * 0.38,
-                                        height: heighScreen * 0.35,
+                                width: widhScren * 0.38,
+                                height: heighScreen * 0.35,
                                 child: Stack(
                                   children: [
                                     Positioned(
@@ -896,7 +1217,6 @@ class _EncaixeScreenState extends State<EncaixeScreen> {
                             )
                           ],
                         ),
-                        
                       ],
                     ),
                     //CONTAINER DO PROFISSIONAL - FIM
@@ -905,7 +1225,7 @@ class _EncaixeScreenState extends State<EncaixeScreen> {
                       height: 25,
                     ),
                     //CONTAINER DO PROFISSIONAL - INICIO
-                    if (isBarbeiro1 || isBarbeiro2  != false)
+                    if (isBarbeiro1 || isBarbeiro2 != false && nomeControler.text.isNotEmpty)
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
@@ -936,7 +1256,7 @@ class _EncaixeScreenState extends State<EncaixeScreen> {
                     const SizedBox(
                       height: 5,
                     ),
-                    if (isBarbeiro1 || isBarbeiro2 != false)
+                     if (isBarbeiro1 || isBarbeiro2 != false && nomeControler.text.isNotEmpty)
                       InkWell(
                         onTap: () {
                           ShowModalData();
@@ -983,7 +1303,8 @@ class _EncaixeScreenState extends State<EncaixeScreen> {
                     ),
                     //CONTAINER DA DATA - FIM
                     //CONTAINER DA HORA - INICIO
-                    if (isBarbeiro1 || isBarbeiro2 != false && dataSelectedInModal !=null)
+                    if (isBarbeiro1 ||
+                        isBarbeiro2 != false && dataSelectedInModal != null)
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
@@ -1011,7 +1332,8 @@ class _EncaixeScreenState extends State<EncaixeScreen> {
                           ),
                         ],
                       ),
-                    if (isBarbeiro1 || isBarbeiro2 != false && dataSelectedInModal !=null)
+                    if (isBarbeiro1 ||
+                        isBarbeiro2 != false && dataSelectedInModal != null)
                       Padding(
                         padding:
                             const EdgeInsets.only(top: 5, left: 2, bottom: 5),

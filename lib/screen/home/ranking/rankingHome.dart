@@ -41,73 +41,79 @@ class _RankingHomeState extends State<RankingHome> {
 
     //CRIANDO OS USUARIOS
     setState(() {
-    int userIndex = 0; // índice para percorrer a lista de usuários
+      int userIndex = 0; // índice para percorrer a lista de usuários
 
-    // Loop para adicionar os cinco melhores usuários elegíveis
-    for (int i = 0; i < 5; i++) {
-      // Verifica se o usuário atual é funcionário ou gerente
-      while (userIndex < userList.length &&
-             (userList[userIndex].isfuncionario || userList[userIndex].isManager)) {
-        userIndex++; // Se for, passa para o próximo usuário
+      // Loop para adicionar os cinco melhores usuários elegíveis
+      for (int i = 0; i < 5; i++) {
+        // Verifica se o usuário atual é funcionário ou gerente
+        while (userIndex < userList.length &&
+            (userList[userIndex].isfuncionario ||
+                userList[userIndex].isManager)) {
+          userIndex++; // Se for, passa para o próximo usuário
+        }
+
+        // Se o índice for maior ou igual ao tamanho da lista, sai do loop
+        if (userIndex >= userList.length) {
+          break;
+        }
+
+        // Adiciona o usuário atual na posição correspondente
+        switch (i) {
+          case 0:
+            top1User = GeralUser(
+              PhoneNumber: userList[userIndex].PhoneNumber ?? "",
+              isfuncionario: userList[userIndex].isfuncionario,
+              isManager: userList[userIndex].isManager,
+              listacortes: userList[userIndex].listacortes,
+              name: userList[userIndex].name,
+              urlImage: userList[userIndex].urlImage,
+            );
+            break;
+          case 1:
+            top2User = GeralUser(
+              PhoneNumber: userList[userIndex].PhoneNumber ?? "",
+              isfuncionario: userList[userIndex].isfuncionario,
+              isManager: userList[userIndex].isManager,
+              listacortes: userList[userIndex].listacortes,
+              name: userList[userIndex].name,
+              urlImage: userList[userIndex].urlImage,
+            );
+            break;
+          case 2:
+            top3User = GeralUser(
+              PhoneNumber: userList[userIndex].PhoneNumber ?? "",
+              isfuncionario: userList[userIndex].isfuncionario,
+              isManager: userList[userIndex].isManager,
+              listacortes: userList[userIndex].listacortes,
+              name: userList[userIndex].name,
+              urlImage: userList[userIndex].urlImage,
+            );
+            break;
+          case 3:
+            top4User = GeralUser(
+              PhoneNumber: userList[userIndex].PhoneNumber ?? "",
+              isfuncionario: userList[userIndex].isfuncionario,
+              isManager: userList[userIndex].isManager,
+              listacortes: userList[userIndex].listacortes,
+              name: userList[userIndex].name,
+              urlImage: userList[userIndex].urlImage,
+            );
+            break;
+          case 4:
+            top5User = GeralUser(
+              PhoneNumber: userList[userIndex].PhoneNumber ?? "",
+              isfuncionario: userList[userIndex].isfuncionario,
+              isManager: userList[userIndex].isManager,
+              listacortes: userList[userIndex].listacortes,
+              name: userList[userIndex].name,
+              urlImage: userList[userIndex].urlImage,
+            );
+            break;
+        }
+
+        userIndex++; // Passa para o próximo usuário
       }
-
-      // Se o índice for maior ou igual ao tamanho da lista, sai do loop
-      if (userIndex >= userList.length) {
-        break;
-      }
-
-      // Adiciona o usuário atual na posição correspondente
-      switch (i) {
-        case 0:
-          top1User = GeralUser(
-            isfuncionario: userList[userIndex].isfuncionario,
-            isManager: userList[userIndex].isManager,
-            listacortes: userList[userIndex].listacortes,
-            name: userList[userIndex].name,
-            urlImage: userList[userIndex].urlImage,
-          );
-          break;
-        case 1:
-          top2User = GeralUser(
-            isfuncionario: userList[userIndex].isfuncionario,
-            isManager: userList[userIndex].isManager,
-            listacortes: userList[userIndex].listacortes,
-            name: userList[userIndex].name,
-            urlImage: userList[userIndex].urlImage,
-          );
-          break;
-        case 2:
-          top3User = GeralUser(
-            isfuncionario: userList[userIndex].isfuncionario,
-            isManager: userList[userIndex].isManager,
-            listacortes: userList[userIndex].listacortes,
-            name: userList[userIndex].name,
-            urlImage: userList[userIndex].urlImage,
-          );
-          break;
-        case 3:
-          top4User = GeralUser(
-            isfuncionario: userList[userIndex].isfuncionario,
-            isManager: userList[userIndex].isManager,
-            listacortes: userList[userIndex].listacortes,
-            name: userList[userIndex].name,
-            urlImage: userList[userIndex].urlImage,
-          );
-          break;
-        case 4:
-          top5User = GeralUser(
-            isfuncionario: userList[userIndex].isfuncionario,
-            isManager: userList[userIndex].isManager,
-            listacortes: userList[userIndex].listacortes,
-            name: userList[userIndex].name,
-            urlImage: userList[userIndex].urlImage,
-          );
-          break;
-      }
-
-      userIndex++; // Passa para o próximo usuário
-    }
-  });
+    });
   }
 
   @override

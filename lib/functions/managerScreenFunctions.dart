@@ -1,6 +1,5 @@
 import 'dart:async';
 
-
 import 'package:lionsbarberv1/classes/GeralUser.dart';
 import 'package:lionsbarberv1/classes/cortecClass.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -22,6 +21,7 @@ class ManagerScreenFunctions with ChangeNotifier {
       _CLIENTESLISTA = querySnapshot.docs.map((doc) {
         Map<String, dynamic>? data = doc.data() as Map<String, dynamic>?;
         return GeralUser(
+          PhoneNumber: data?["PhoneNumber"] ?? "",
           isfuncionario: data?["isfuncionario"],
           isManager: data?["isManager"],
           listacortes: data?["totalCortes"],
@@ -119,7 +119,6 @@ class ManagerScreenFunctions with ChangeNotifier {
         Timestamp? diafinalCorte;
         if (data != null) {
           timestamp = data['diaCorte'] as Timestamp?;
-
         }
 
         DateTime diaCorteFinal = diafinalCorte?.toDate() ?? DateTime.now();
@@ -425,5 +424,32 @@ class ManagerScreenFunctions with ChangeNotifier {
       return porcentagemFuncionario;
     });
     return porcentagemFuncionario;
+  }
+
+  // puxando todos os clientes
+  Future<List<GeralUser>?> loadAllClientes() async {
+    try {
+      QuerySnapshot querySnapshot =
+          await FirebaseFirestore.instance.collection("usuarios").get();
+
+      List<GeralUser> allUsers = querySnapshot.docs.map((doc) {
+        Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+        return GeralUser(
+          PhoneNumber: data[
+              "PhoneNumber"], // Valor padrão para PhoneNumber é uma string vazia
+          isManager: false, // Valor padrão para isManager é false
+          listacortes: 0,
+          isfuncionario: false, // Valor padrão para isfuncionario é false
+          name: data['userName'] ??
+              "", // Valor padrão para name é uma string vazia
+          urlImage: "", // Valor padrão para urlImage é uma string vazia
+        );
+      }).toList();
+      print("o valor da lista(tamanho é de${allUsers.length})");
+      return allUsers;
+    } catch (e) {
+      print("Erro ao carregar os usuários do banco de dados: $e");
+      return null;
+    }
   }
 }
