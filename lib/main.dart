@@ -1,6 +1,7 @@
 import 'package:lionsbarberv1/classes/Estabelecimento.dart';
 import 'package:lionsbarberv1/firebase_options.dart';
 import 'package:lionsbarberv1/functions/CorteProvider.dart';
+import 'package:lionsbarberv1/functions/ManyChatConfirmation.dart';
 import 'package:lionsbarberv1/functions/createAccount.dart';
 import 'package:lionsbarberv1/functions/managerScreenFunctions.dart';
 import 'package:lionsbarberv1/functions/profileScreenFunctions.dart';
@@ -79,6 +80,9 @@ class _MyAppState extends State<MyApp> {
         ),
         ChangeNotifierProvider(
           create: (_) => Twilio_messagesFunction(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => ManyChatConfirmation(),
         ),
       ],
 

@@ -210,10 +210,10 @@ class _EncaixeScreenState extends State<EncaixeScreen> {
           // Verificar se o horário extra está presente na lista de horários preenchidos
           bool horarioJaPreenchido = _horariosPreenchidosParaEvitarDupNoCreate
               .any((horario) => horario.horario == horarioExtra);
-
-          if (horarioJaPreenchido) {
+          print("o tamanho da lista é # ${_horariosPreenchidosParaEvitarDupNoCreate.length}");
+          if (horarioJaPreenchido == true) {
             // Mostrar um dialog para o usuário selecionar outro horário
-            showDialog(
+            await showDialog(
               context: context,
               builder: (BuildContext context) {
                 return AlertDialog(
@@ -227,7 +227,7 @@ class _EncaixeScreenState extends State<EncaixeScreen> {
                     ),
                   ),
                   content: Text(
-                    'Este horário está reservado para corte e barba por outro cliente, então só podemos agendar para corte de cabelo. Por favor, escolha outro horário.',
+                    'Este Horário já esta reservado para corte e barba de outro cliente e pode bagunçar os seus horários, recomendamos escolher outro horário',
                     style: GoogleFonts.openSans(
                       textStyle: TextStyle(
                         fontWeight: FontWeight.w400,
@@ -271,7 +271,7 @@ class _EncaixeScreenState extends State<EncaixeScreen> {
         }
       }
     }
-    Navigator.of(context).pushReplacementNamed(AppRoutesApp.FuncionarioScreen);
+   
     Provider.of<CorteProvider>(context, listen: false)
         .AgendamentoCortePrincipalFunctions(
       barbaHoraExtra: barba,
@@ -333,6 +333,7 @@ class _EncaixeScreenState extends State<EncaixeScreen> {
     } catch (e) {
       print("erro ao enviar evento: $e");
     }
+     Navigator.of(context).pushReplacementNamed(AppRoutesApp.ManagerScreenView);
   }
 
   //Fazendo o filtro para exibir quais horarios estao disponíveis
@@ -380,6 +381,7 @@ class _EncaixeScreenState extends State<EncaixeScreen> {
               id: horario.id,
             ),
           );
+          _horariosPreenchidosParaEvitarDupNoCreate.add(Horarios(horario: horario.horario, id: horario.id));
         }
         print(
             "o tamanho da lista de preenchidos é ${Horariopreenchidos.length}");

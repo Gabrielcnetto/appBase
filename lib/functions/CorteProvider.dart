@@ -69,7 +69,7 @@ class CorteProvider with ChangeNotifier {
         final docSnapshotHorario2 = await docRefHorario2.get();
         if (!docSnapshotHorario2.exists) {
           await docRefHorario2.set({
-     "horariosExtras": [],
+            "horariosExtras": [],
             "totalValue": 0,
             'isActive': false,
             "diaDoCorte": corte.DiaDoCorte,
@@ -97,7 +97,7 @@ class CorteProvider with ChangeNotifier {
         final docSnapshotHorario3 = await docRefHorario3.get();
         if (!docSnapshotHorario3.exists) {
           await docRefHorario3.set({
-           "horariosExtras": [],
+            "horariosExtras": [],
             "totalValue": 0,
             'isActive': false,
             "diaDoCorte": corte.DiaDoCorte,
@@ -143,7 +143,8 @@ class CorteProvider with ChangeNotifier {
           .collection("mensalCuts")
           .doc(monthName)
           .collection(corte.profissionalSelect)
-          .add({
+          .doc(corte.id)
+          .set({
         "price": pricevalue,
       });
       //adicionando na lista de cada funcionario - fim
@@ -153,7 +154,8 @@ class CorteProvider with ChangeNotifier {
           .collection("estabelecimento")
           .doc("faturamento")
           .collection(monthName)
-          .add({
+          .doc(corte.id)
+          .set({
         "price": pricevalue,
       });
       //adicionando o valor no faturamento total da barbearia - fim
@@ -441,10 +443,25 @@ class CorteProvider with ChangeNotifier {
       print("referenciaMeus: ${referenciaMeusCortes.path}");
       await referenciaMeusCortes.delete();
       //DELETANDO DA MINHA LISTA FIM
+      //Desmarcando da lista do profissional
+      final faturamentoGeral = await database
+          .collection("estabelecimento")
+          .doc("faturamento")
+          .collection(corte.NomeMes)
+          .doc(corte.id);
+      final mensalProfissional = await database
+          .collection("mensalCuts")
+          .doc(corte.NomeMes)
+          .collection(nomeBarber)
+          .doc(corte.id);
+
+      await faturamentoGeral.delete();
+      await mensalProfissional.delete();
       print("Deletamos com sucesso");
     } catch (e) {
       print("Não conseguimos excluir, houve um erro: ${e}");
     }
+
     notifyListeners();
   }
 

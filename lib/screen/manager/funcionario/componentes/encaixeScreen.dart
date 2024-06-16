@@ -213,7 +213,7 @@ class _EncaixeScreenState extends State<EncaixeScreenFuncionario> {
           bool horarioJaPreenchido = _horariosPreenchidosParaEvitarDupNoCreate
               .any((horario) => horario.horario == horarioExtra);
 
-          if (horarioJaPreenchido) {
+          if (horarioJaPreenchido == true) {
             // Mostrar um dialog para o usuário selecionar outro horário
             showDialog(
               context: context,
@@ -381,7 +381,9 @@ class _EncaixeScreenState extends State<EncaixeScreenFuncionario> {
               horario: horario.horario,
               id: horario.id,
             ),
+            
           );
+          _horariosPreenchidosParaEvitarDupNoCreate.add(Horarios(horario: horario.horario, id: horario.id));
         }
         print(
             "o tamanho da lista de preenchidos é ${Horariopreenchidos.length}");

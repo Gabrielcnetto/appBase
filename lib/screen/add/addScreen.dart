@@ -5,6 +5,7 @@ import 'package:lionsbarberv1/classes/cortecClass.dart';
 import 'package:lionsbarberv1/classes/horarios.dart';
 import 'package:lionsbarberv1/classes/profissionais.dart';
 import 'package:lionsbarberv1/functions/CorteProvider.dart';
+import 'package:lionsbarberv1/functions/ManyChatConfirmation.dart';
 import 'package:lionsbarberv1/functions/managerScreenFunctions.dart';
 import 'package:lionsbarberv1/functions/profileScreenFunctions.dart';
 import 'package:lionsbarberv1/functions/twilio_messagesFunctions.dart';
@@ -258,16 +259,19 @@ class _AddScreenState extends State<AddScreen> {
     bool tembarba = await barba;
     List<String> horariosExtras = [];
     if (tembarba == true) {
+      print("tem a barba estou aqui");
       if (selectedIndex != -1 && selectedIndex + 2 < _horariosSemana.length) {
+        print("pós barba true");
         for (int i = 1; i <= 2; i++) {
+          print("dentro do for");
           String horarioExtra = _horariosSemana[selectedIndex + i].horario;
           // Verificar se o horário extra está presente na lista de horários preenchidos
           bool horarioJaPreenchido = _horariosPreenchidosParaEvitarDupNoCreate
               .any((horario) => horario.horario == horarioExtra);
-
-          if (horarioJaPreenchido) {
+          print("podemos marcar? ${horarioJaPreenchido}");
+          if (horarioJaPreenchido == true) {
             // Mostrar um dialog para o usuário selecionar outro horário
-            showDialog(
+            await showDialog(
               context: context,
               builder: (BuildContext context) {
                 return AlertDialog(
@@ -364,7 +368,12 @@ class _AddScreenState extends State<AddScreen> {
 
       DateFormat horaFormat = DateFormat('HH:mm');
       DateTime hora = horaFormat.parse(hourSetForUser!);
-
+      Provider.of<ManyChatConfirmation>(context, listen: false)
+          .setClientsManyChat(
+        userPhoneNumber: numberControler.text,
+        username: nomeControler.text,
+        externalId: Random().nextDouble().toInt(),
+      );
       // Incluir minuto da hora extraída
       DateTime finalDatetime =
           DateTime(year, month, day, hora.hour, hora.minute);
@@ -396,9 +405,6 @@ class _AddScreenState extends State<AddScreen> {
   //Aqui pegamos o dia selecionado, e usamos para buscar os dados no banco de dados
   //a funcao abaixo é responsavel por pegar o dia, entrar no provider e pesquisar os horarios daquele dia selecionado
   Future<void> loadListCortes() async {
-    setState(() {
-      _horariosPreenchidosParaEvitarDupNoCreate = Provider.of<CorteProvider>(context,listen:false).horariosListLoad;
-    });
     horarioFinal.clear();
     List<Horarios> listaTemporaria = [];
     int? diaSemanaSelecionado = dataSelectedInModal?.weekday;
@@ -434,6 +440,8 @@ class _AddScreenState extends State<AddScreen> {
           listaTemporaria.removeWhere((atributosFixo) {
             return atributosFixo.horario == horario.horario;
           });
+          _horariosPreenchidosParaEvitarDupNoCreate
+              .add(Horarios(horario: horario.horario, id: horario.id));
         }
         setState(() {
           horarioFinal = List.from(listaTemporaria);

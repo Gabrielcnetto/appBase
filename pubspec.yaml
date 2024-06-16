@@ -52,6 +52,7 @@ dependencies:
   timezone: ^0.9.3
   flutter_timezone: ^1.0.8
   twilio_flutter: ^0.3.0
+  http: ^1.2.1
 dev_dependencies:
   flutter_test:
     sdk: flutter
