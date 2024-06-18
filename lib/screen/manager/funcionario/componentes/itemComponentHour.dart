@@ -3,9 +3,9 @@ import 'dart:math';
 import 'package:lionsbarberv1/classes/Estabelecimento.dart';
 import 'package:lionsbarberv1/classes/cortecClass.dart';
 import 'package:lionsbarberv1/classes/horarios.dart';
+import 'package:lionsbarberv1/functions/ManyChatConfirmation.dart';
 import 'package:lionsbarberv1/functions/managerScreenFunctions.dart';
 import 'package:lionsbarberv1/functions/providerFilterStrings.dart';
-import 'package:lionsbarberv1/functions/twilio_messagesFunctions.dart';
 import 'package:lionsbarberv1/screen/manager/funcionario/funcionario_screen.dart';
 import 'package:lionsbarberv1/screen/manager/principal/ManagerScreen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -206,6 +206,7 @@ class _ItemComponentHourState extends State<ItemComponentHourFuncionario> {
       },
     );
   }
+
   void showPreLembrete() async {
     showDialog(
         context: context,
@@ -231,10 +232,11 @@ class _ItemComponentHourState extends State<ItemComponentHourFuncionario> {
               ),
               TextButton(
                 onPressed: () async {
-                  await Provider.of<Twilio_messagesFunction>(context,
+                  await Provider.of<ManyChatConfirmation>(context,
                           listen: false)
-                      .sendWhatsMessageLembrete(
-                          numberPhone: widget.Corte.numeroContato);
+                      .sendLembreteParaAtrasados(
+                          phoneNumber: widget.Corte.numeroContato);
+                  Navigator.of(context).pop();
                   Navigator.of(context).pop();
                 },
                 child: Text(
@@ -251,6 +253,7 @@ class _ItemComponentHourState extends State<ItemComponentHourFuncionario> {
           );
         });
   }
+
   @override
   Widget build(BuildContext context) {
     Color _randomColor = _generateRandomLightColor();
@@ -424,43 +427,43 @@ class _ItemComponentHourState extends State<ItemComponentHourFuncionario> {
                         ],
                       ),
                       widget.Corte.numeroContato.isEmpty
-                      ? Container()
-                      : InkWell(
-                          onTap: showPreLembrete,
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 5, vertical: 1),
-                            decoration: BoxDecoration(
-                                color: Colors.green.shade600,
-                                borderRadius: BorderRadius.circular(15)),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Text(
-                                  "Enviar Lembrete",
-                                  style: GoogleFonts.openSans(
-                                    textStyle: const TextStyle(
-                                      fontWeight: FontWeight.w400,
-                                      color: Colors.white,
-                                      fontSize: 12,
+                          ? Container()
+                          : InkWell(
+                              onTap: showPreLembrete,
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 5, vertical: 1),
+                                decoration: BoxDecoration(
+                                    color: Colors.green.shade600,
+                                    borderRadius: BorderRadius.circular(15)),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    Text(
+                                      "Enviar Lembrete",
+                                      style: GoogleFonts.openSans(
+                                        textStyle: const TextStyle(
+                                          fontWeight: FontWeight.w400,
+                                          color: Colors.white,
+                                          fontSize: 12,
+                                        ),
+                                      ),
                                     ),
-                                  ),
+                                    Container(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.08,
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.08,
+                                      child: Image.asset(
+                                          "imagesOfApp/whatsaaplogo.png"),
+                                    ),
+                                  ],
                                 ),
-                                Container(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.08,
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.08,
-                                  child: Image.asset(
-                                      "imagesOfApp/whatsaaplogo.png"),
-                                ),
-                              ],
-                            ),
-                          ),
-                        )
+                              ),
+                            )
                     ],
                   ),
-                  
                 ],
               ),
             ),

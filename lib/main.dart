@@ -7,7 +7,7 @@ import 'package:lionsbarberv1/functions/managerScreenFunctions.dart';
 import 'package:lionsbarberv1/functions/profileScreenFunctions.dart';
 import 'package:lionsbarberv1/functions/providerFilterStrings.dart';
 import 'package:lionsbarberv1/functions/rankingProviderHome.dart';
-import 'package:lionsbarberv1/functions/twilio_messagesFunctions.dart';
+
 import 'package:lionsbarberv1/functions/userLogin.dart';
 import 'package:lionsbarberv1/rotas/Approutes.dart';
 import 'package:lionsbarberv1/screen/add/confirmscreen/ConfirmScreenCorte.dart';
@@ -78,9 +78,7 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(
           create: (_) => ProviderFilterManager(),
         ),
-        ChangeNotifierProvider(
-          create: (_) => Twilio_messagesFunction(),
-        ),
+
         ChangeNotifierProvider(
           create: (_) => ManyChatConfirmation(),
         ),

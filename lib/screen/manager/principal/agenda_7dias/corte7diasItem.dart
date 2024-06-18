@@ -1,7 +1,7 @@
 import 'package:lionsbarberv1/classes/Estabelecimento.dart';
 import 'package:lionsbarberv1/classes/cortecClass.dart';
 import 'package:lionsbarberv1/functions/CorteProvider.dart';
-import 'package:lionsbarberv1/functions/twilio_messagesFunctions.dart';
+import 'package:lionsbarberv1/functions/ManyChatConfirmation.dart';
 import 'package:lionsbarberv1/rotas/Approutes.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -75,8 +75,6 @@ class _Corte7DiasItemState extends State<Corte7DiasItem> {
           );
         });
   }
-
- 
 
   @override
   Widget build(BuildContext context) {
@@ -261,7 +259,8 @@ class _Corte7DiasItemState extends State<Corte7DiasItem> {
                                           context: context,
                                           builder: (ctx) {
                                             return AlertDialog(
-                                              title: const Text("Notificar cliente?"),
+                                              title: const Text(
+                                                  "Notificar cliente?"),
                                               content: const Text(
                                                   "O Cliente receberá uma mensagem para lembrar do horário, com opção para desmarcar"),
                                               actions: [
@@ -284,18 +283,19 @@ class _Corte7DiasItemState extends State<Corte7DiasItem> {
                                                 TextButton(
                                                   onPressed: () async {
                                                     await Provider.of<
-                                                                Twilio_messagesFunction>(
+                                                                ManyChatConfirmation>(
                                                             context,
                                                             listen: false)
-                                                        .sendWhatsMessageLembrete(
-                                                            numberPhone: Corte
+                                                        .sendLembreteParaAtrasados(
+                                                            phoneNumber: Corte
                                                                 .numeroContato);
                                                     Navigator.of(context).pop();
                                                   },
                                                   child: Text(
                                                     "Notificar Agora",
                                                     style: GoogleFonts.poppins(
-                                                      textStyle: const TextStyle(
+                                                      textStyle:
+                                                          const TextStyle(
                                                         fontWeight:
                                                             FontWeight.w700,
                                                         color: Colors.black,

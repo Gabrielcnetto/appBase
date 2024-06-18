@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 
 class ManyChatConfirmation with ChangeNotifier {
   //ADICIONANDO O CONTATO
@@ -35,6 +36,7 @@ class ManyChatConfirmation with ChangeNotifier {
       var createResponse = await http.post(
         createSubscriberUrl,
         headers: {
+          
           "Authorization": "Bearer $myManyToken",
           "Content-Type": "application/json",
         },
@@ -243,6 +245,7 @@ class ManyChatConfirmation with ChangeNotifier {
       var createResponse = await http.post(
         Uri.parse(url),
         headers: {
+          
           "Authorization": "Bearer $accessToken",
           "Content-Type": "application/json",
         },
@@ -264,4 +267,96 @@ class ManyChatConfirmation with ChangeNotifier {
     });
   }
 
+  Future<void> sendLembreteParaAtrasados({
+    required String phoneNumber,
+  }) async {
+    String url = "https://api.manychat.com/fb/subscriber/setCustomFields";
+    String accessToken = '1438889:178a28fe8cd1db32c7fbd2e27a0c4415';
+    String cleanedNumber = phoneNumber.replaceAll(RegExp(r'^\+?55|\-'), '');
+
+    //
+    final getSubscriberId =
+        await database.collection("ManyChatids").doc(cleanedNumber).get();
+    var subId = await getSubscriberId.data()?["subscriber_id"];
+    print("o aid do user é ${subId}");
+    try {
+      var subscriberData = {
+        "subscriber_id": subId,
+        "fields": [
+          {
+            "field_id": 11268302,
+            "field_name": "ramdomText_lembrete",
+            "field_value": "${Random().nextDouble().toString()}"
+          }
+        ]
+      };
+      var jsonBody = await jsonEncode(subscriberData);
+      var createResponse = await http.post(
+        Uri.parse(url),
+        body: jsonBody,
+        headers: {
+          
+          "Authorization": "Bearer $accessToken",
+          "Content-Type": "application/json",
+        },
+      );
+
+      print("o bool foi enviado");
+    } catch (e) {
+      print("ao enviar o lembrete pelo bool, deu este erro: $e");
+    }
+  }
+
+  Future<void> ScheduleMessage({
+    required String phoneNumber,
+    required DateTime finalDate,
+  }) async {
+    String url = "https://api.manychat.com/fb/subscriber/setCustomFields";
+    String accessToken = '1438889:178a28fe8cd1db32c7fbd2e27a0c4415';
+    String cleanedNumber = phoneNumber.replaceAll(RegExp(r'^\+?55|\-'), '');
+
+    try {
+      // Obter o subscriber_id do banco de dados
+      final getSubscriberId =
+          await database.collection("ManyChatids").doc(cleanedNumber).get();
+      var subId = await getSubscriberId.data()?["subscriber_id"];
+      print("Schd: o subs id é ${subId}");
+
+      // Formatando a data para o formato desejado (YYYY-MM-DDTHH:MM:SSZ)
+      DateFormat dateFormat = DateFormat("yyyy-MM-dd'T'HH:mm:ss+00:00");
+      DateTime horaAtrasada = finalDate.subtract(const Duration(hours: 1));
+      String formattedDate = dateFormat.format(horaAtrasada.toUtc());
+      print("a hora ficou: ${formattedDate}");
+      var subscriberData = {
+        "subscriber_id": subId,
+        "fields": [
+          {
+            "field_id": 11266886,
+            "field_name": "ReminderTime",
+            "field_value": formattedDate, // Usar a data formatada
+          }
+        ]
+      };
+
+      var jsonBody = jsonEncode(subscriberData);
+      var createResponse = await http.post(
+        Uri.parse(url),
+        body: jsonBody,
+        headers: {
+          
+          "Authorization": "Bearer $accessToken",
+          "Content-Type": "application/json",
+        },
+      );
+
+      if (createResponse.statusCode == 200) {
+        print("Schd: a data foi enviada com sucesso.");
+      } else {
+        print(
+            "Schd: não foi possível enviar a data. Status code: ${createResponse.statusCode}");
+      }
+    } catch (e) {
+      print("Schd: houve um erro ao enviar a data: $e");
+    }
+  }
 }

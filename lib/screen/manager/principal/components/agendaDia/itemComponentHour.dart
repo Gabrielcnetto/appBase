@@ -3,8 +3,8 @@ import 'dart:math';
 import 'package:lionsbarberv1/classes/Estabelecimento.dart';
 import 'package:lionsbarberv1/classes/cortecClass.dart';
 import 'package:lionsbarberv1/classes/horarios.dart';
+import 'package:lionsbarberv1/functions/ManyChatConfirmation.dart';
 import 'package:lionsbarberv1/functions/providerFilterStrings.dart';
-import 'package:lionsbarberv1/functions/twilio_messagesFunctions.dart';
 import 'package:lionsbarberv1/screen/manager/principal/ManagerScreen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -213,10 +213,10 @@ class _ItemComponentHourState extends State<ItemComponentHour> {
               ),
               TextButton(
                 onPressed: () async {
-                  await Provider.of<Twilio_messagesFunction>(context,
+                   await Provider.of<ManyChatConfirmation>(context,
                           listen: false)
-                      .sendWhatsMessageLembrete(
-                          numberPhone: widget.Corte.numeroContato);
+                      .sendLembreteParaAtrasados(
+                          phoneNumber: widget.Corte.numeroContato);
                   Navigator.of(context).pop();
                 },
                 child: Text(

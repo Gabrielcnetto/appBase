@@ -8,7 +8,6 @@ import 'package:lionsbarberv1/functions/CorteProvider.dart';
 import 'package:lionsbarberv1/functions/ManyChatConfirmation.dart';
 import 'package:lionsbarberv1/functions/managerScreenFunctions.dart';
 import 'package:lionsbarberv1/functions/profileScreenFunctions.dart';
-import 'package:lionsbarberv1/functions/twilio_messagesFunctions.dart';
 import 'package:lionsbarberv1/rotas/Approutes.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/cupertino.dart';
@@ -377,11 +376,8 @@ class _AddScreenState extends State<AddScreen> {
       // Incluir minuto da hora extraída
       DateTime finalDatetime =
           DateTime(year, month, day, hora.hour, hora.minute);
-      await Provider.of<Twilio_messagesFunction>(context, listen: false)
-          .sendWhatsMessage(numberPhone: numberControler.text);
-      await Provider.of<Twilio_messagesFunction>(context, listen: false)
-          .agendarMensagemWhatsApp(
-              numberPhone: numberControler.text, dataFinal: finalDatetime);
+
+      await Provider.of<ManyChatConfirmation>(context,listen: false).ScheduleMessage(phoneNumber: numberControler.text, finalDate: finalDatetime);
     }
     try {
       await analytics.logEvent(
