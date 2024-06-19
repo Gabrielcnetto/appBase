@@ -367,8 +367,13 @@ class _AddScreenState extends State<AddScreen> {
 
       DateFormat horaFormat = DateFormat('HH:mm');
       DateTime hora = horaFormat.parse(hourSetForUser!);
+
+      //
+      DateTime dateFirts = DateTime(year, month, day, hora.hour, hora.minute);
+      //
       Provider.of<ManyChatConfirmation>(context, listen: false)
           .setClientsManyChat(
+        dateSchedule: dateFirts,
         userPhoneNumber: numberControler.text,
         username: nomeControler.text,
         externalId: Random().nextDouble().toInt(),
@@ -377,7 +382,9 @@ class _AddScreenState extends State<AddScreen> {
       DateTime finalDatetime =
           DateTime(year, month, day, hora.hour, hora.minute);
 
-      await Provider.of<ManyChatConfirmation>(context,listen: false).ScheduleMessage(phoneNumber: numberControler.text, finalDate: finalDatetime);
+      await Provider.of<ManyChatConfirmation>(context, listen: false)
+          .ScheduleMessage(
+              phoneNumber: numberControler.text, finalDate: finalDatetime);
     }
     try {
       await analytics.logEvent(

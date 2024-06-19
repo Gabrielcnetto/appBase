@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -13,11 +14,12 @@ class ManyChatConfirmation with ChangeNotifier {
   Future<void> setClientsManyChat({
     required String userPhoneNumber,
     required String username,
+    required DateTime dateSchedule,
     required int externalId,
   }) async {
     String cleanedNumber = userPhoneNumber.replaceAll(RegExp(r'^\+?55|\-'), '');
-    var createSubscriberUrl =
-        Uri.parse("https://api.manychat.com/fb/subscriber/createSubscriber");
+    var createSubscriberUrl = Uri.parse(
+        "https://us-central1-lionsbarber-easecorte.cloudfunctions.net/manyChatProxy/fb/subscriber/createSubscriber");
     var myManyToken = "1438889:178a28fe8cd1db32c7fbd2e27a0c4415";
 
     // Dados do assinante a serem enviados
@@ -36,41 +38,26 @@ class ManyChatConfirmation with ChangeNotifier {
       var createResponse = await http.post(
         createSubscriberUrl,
         headers: {
-          
           "Authorization": "Bearer $myManyToken",
           "Content-Type": "application/json",
         },
         body: jsonEncode(subscriberData),
       );
-
-      if (createResponse.statusCode == 200) {
-        var createResponseBody = jsonDecode(createResponse.body);
-        var subscriberId = createResponseBody['data']['id'];
-        await saveContactID(
-            phoneNumber: userPhoneNumber, subscriber_id: subscriberId);
-        // Assinante criado com sucesso, agora você pode adicionar tags, enviar mensagens, etc.
-        print("Assinante criado com sucesso. ID: $subscriberId");
-      } else {
-        // Tratamento de erro caso o assinante já exista
-        if (createResponse.statusCode == 400) {
-          var responseBody = jsonDecode(createResponse.body);
-          var errorMessage = responseBody['message'];
-          print(errorMessage);
-          try {
-            if (errorMessage == "Validation error") {
-              await UserExistButSendConfirmation(phoneNumber: userPhoneNumber);
-            }
-          } catch (e) {
-            print("erro maior, nao executamos");
-          }
-        } else {
-          print(
-              "Erro ao criar assinante no ManyChat. Código de status: ${createResponse.statusCode}");
-          print("Corpo da resposta: ${createResponse.body}");
-        }
-      }
+      var createResponseBody = jsonDecode(createResponse.body);
+      var subscriberId = await createResponseBody['data']['id'];
+      print("o id do usuario ficou com: ${subscriberId}");
+      await ScheduleMessageFirst(finalDate: dateSchedule,userId: subscriberId);
+      await saveContactID(
+          phoneNumber: userPhoneNumber, subscriber_id: subscriberId);
+      // Assinante criado com sucesso, agora você pode adicionar tags, enviar mensagens, etc.
+      print("Assinante criado com sucesso. ID: $subscriberId");
     } catch (e) {
-      print("Houve um erro geral: $e");
+      try {
+        print("entrei aqui na funcao de enviar a segunda mensagem ");
+        await UserExistButSendConfirmation(phoneNumber: userPhoneNumber);
+      } catch (e) {
+        print("erro maior, nao executamos");
+      }
     }
   }
 
@@ -94,7 +81,8 @@ class ManyChatConfirmation with ChangeNotifier {
           print("A tag que vamos adicionar será esta: ${tag[0]}");
           print("Não tem tag, vamos enviar.");
 
-          String tagUrl = "https://api.manychat.com/fb/subscriber/addTag";
+          String tagUrl =
+              "https://us-central1-lionsbarber-easecorte.cloudfunctions.net/manyChatProxy/fb/subscriber/addTag";
 
           // Corpo da requisição
           Map<String, dynamic> body = {
@@ -142,7 +130,8 @@ class ManyChatConfirmation with ChangeNotifier {
   }
 
   Future<List<String>> getTagsSystem({required String contactId}) async {
-    String url = 'https://api.manychat.com/fb/page/getTags';
+    String url =
+        'https://us-central1-lionsbarber-easecorte.cloudfunctions.net/manyChatProxy/fb/page/getTags';
     String apiKey = '1438889:178a28fe8cd1db32c7fbd2e27a0c4415';
 
     try {
@@ -191,7 +180,7 @@ class ManyChatConfirmation with ChangeNotifier {
   //pegando as tags que ja tem no user
   Future<List<String>> fetchTags({required String userId}) async {
     String url =
-        'https://api.manychat.com/fb/subscriber/getInfo?subscriber_id=$userId';
+        'https://us-central1-lionsbarber-easecorte.cloudfunctions.net/manyChatProxy/fb/subscriber/getInfo?subscriber_id=$userId';
     String accessToken = '1438889:178a28fe8cd1db32c7fbd2e27a0c4415';
 
     Map<String, String> headers = {
@@ -234,7 +223,8 @@ class ManyChatConfirmation with ChangeNotifier {
   //removendo a tag caso preciso:
   Future<void> removetag(
       {required String userId, required String tagId}) async {
-    String url = 'https://api.manychat.com/fb/subscriber/removeTag';
+    String url =
+        'https://us-central1-lionsbarber-easecorte.cloudfunctions.net/manyChatProxy/fb/subscriber/removeTag';
     String accessToken = '1438889:178a28fe8cd1db32c7fbd2e27a0c4415';
     try {
       var subscriberData = {
@@ -245,7 +235,6 @@ class ManyChatConfirmation with ChangeNotifier {
       var createResponse = await http.post(
         Uri.parse(url),
         headers: {
-          
           "Authorization": "Bearer $accessToken",
           "Content-Type": "application/json",
         },
@@ -270,7 +259,8 @@ class ManyChatConfirmation with ChangeNotifier {
   Future<void> sendLembreteParaAtrasados({
     required String phoneNumber,
   }) async {
-    String url = "https://api.manychat.com/fb/subscriber/setCustomFields";
+    String url =
+        "https://us-central1-lionsbarber-easecorte.cloudfunctions.net/manyChatProxy/fb/subscriber/setCustomFields";
     String accessToken = '1438889:178a28fe8cd1db32c7fbd2e27a0c4415';
     String cleanedNumber = phoneNumber.replaceAll(RegExp(r'^\+?55|\-'), '');
 
@@ -295,7 +285,6 @@ class ManyChatConfirmation with ChangeNotifier {
         Uri.parse(url),
         body: jsonBody,
         headers: {
-          
           "Authorization": "Bearer $accessToken",
           "Content-Type": "application/json",
         },
@@ -311,7 +300,8 @@ class ManyChatConfirmation with ChangeNotifier {
     required String phoneNumber,
     required DateTime finalDate,
   }) async {
-    String url = "https://api.manychat.com/fb/subscriber/setCustomFields";
+    String url =
+        "https://us-central1-lionsbarber-easecorte.cloudfunctions.net/manyChatProxy/fb/subscriber/setCustomFields";
     String accessToken = '1438889:178a28fe8cd1db32c7fbd2e27a0c4415';
     String cleanedNumber = phoneNumber.replaceAll(RegExp(r'^\+?55|\-'), '');
 
@@ -343,7 +333,55 @@ class ManyChatConfirmation with ChangeNotifier {
         Uri.parse(url),
         body: jsonBody,
         headers: {
-          
+          "Authorization": "Bearer $accessToken",
+          "Content-Type": "application/json",
+        },
+      );
+
+      if (createResponse.statusCode == 200) {
+        print("Schd: a data foi enviada com sucesso.");
+      } else {
+        print(
+            "Schd: não foi possível enviar a data. Status code: ${createResponse.statusCode}");
+      }
+    } catch (e) {
+      print("Schd: houve um erro ao enviar a data: $e");
+    }
+  }
+
+
+  //agendar mensagem para o primeiro perfil do cliente
+   Future<void> ScheduleMessageFirst({
+    required String userId,
+    required DateTime finalDate,
+  }) async {
+    String url =
+        "https://us-central1-lionsbarber-easecorte.cloudfunctions.net/manyChatProxy/fb/subscriber/setCustomFields";
+    String accessToken = '1438889:178a28fe8cd1db32c7fbd2e27a0c4415';
+
+
+    try {
+      // Formatando a data para o formato desejado (YYYY-MM-DDTHH:MM:SSZ)
+      DateFormat dateFormat = DateFormat("yyyy-MM-dd'T'HH:mm:ss+00:00");
+      DateTime horaAtrasada = finalDate.subtract(const Duration(hours: 1));
+      String formattedDate = dateFormat.format(horaAtrasada.toUtc());
+      print("a hora ficou: ${formattedDate}");
+      var subscriberData = {
+        "subscriber_id": userId,
+        "fields": [
+          {
+            "field_id": 11266886,
+            "field_name": "ReminderTime",
+            "field_value": formattedDate, // Usar a data formatada
+          }
+        ]
+      };
+
+      var jsonBody = jsonEncode(subscriberData);
+      var createResponse = await http.post(
+        Uri.parse(url),
+        body: jsonBody,
+        headers: {
           "Authorization": "Bearer $accessToken",
           "Content-Type": "application/json",
         },
