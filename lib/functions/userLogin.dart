@@ -13,5 +13,6 @@ class UserLoginApp with ChangeNotifier {
       email: email,
       password: password,
     );
+    notifyListeners();
   }
 }

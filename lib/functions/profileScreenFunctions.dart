@@ -72,25 +72,26 @@ class MyProfileScreenFunctions with ChangeNotifier {
   }
 
   //get da imagem do perfil
-    Future<bool?> getUserIsManager() async {
-    if (authSettings.currentUser != null) {
-      final String uidUser = await authSettings.currentUser!.uid;
-      bool? ismManager;
-
-      await db.collection("usuarios").doc(uidUser).get().then((event) {
-        if (event.exists) {
-          Map<String, dynamic> data = event.data() as Map<String, dynamic>;
-
-          ismManager = data['isManager'];
-          
-        } else {}
-        return ismManager;
-      });
-      return ismManager;
-    }
-
-    return null;
+Future<bool?> getUserIsManager() async {
+  if (authSettings.currentUser == null) {
+    return null; // Retorna imediatamente se o usuário não estiver autenticado
   }
+
+  final String uidUser = authSettings.currentUser!.uid;
+  bool? isManager;
+
+  await db.collection("usuarios").doc(uidUser).get().then((event) {
+    if (event.exists) {
+      Map<String, dynamic>? data = event.data(); // Use Map<String, dynamic>?
+
+      if (data != null && data.containsKey('isManager')) {
+        isManager = data['isManager'];
+      }
+    }
+  });
+
+  return isManager; // Retorna o valor de isManager, que pode ser null
+}
   //GET SE É FUNCIONARIO - INICIO
       Future<bool?> getUserIsFuncionario() async {
     if (authSettings.currentUser != null) {

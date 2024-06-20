@@ -9,27 +9,21 @@ import 'package:lionsbarberv1/functions/providerFilterStrings.dart';
 import 'package:lionsbarberv1/functions/rankingProviderHome.dart';
 
 import 'package:lionsbarberv1/functions/userLogin.dart';
+import 'package:lionsbarberv1/managerHome/screen/home/homeScreen01.dart';
+import 'package:lionsbarberv1/managerHome/screen/profile/profileScreen.dart';
+import 'package:lionsbarberv1/normalUsersHome/screen/profile/profileScreen.dart';
 import 'package:lionsbarberv1/rotas/Approutes.dart';
-import 'package:lionsbarberv1/screen/add/confirmscreen/ConfirmScreenCorte.dart';
-import 'package:lionsbarberv1/screen/home/homeScreen01.dart';
-import 'package:lionsbarberv1/screen/inicio/initialScreen.dart';
-import 'package:lionsbarberv1/screen/login/loginScreen.dart';
-import 'package:lionsbarberv1/screen/manager/funcionario/componentes/ConfirmScreenCorte.dart';
-import 'package:lionsbarberv1/screen/manager/funcionario/componentes/encaixeScreen.dart';
-import 'package:lionsbarberv1/screen/manager/principal/ConfirmScreenCorte.dart';
-import 'package:lionsbarberv1/screen/manager/principal/ManagerScreen.dart';
-import 'package:lionsbarberv1/screen/manager/funcionario/funcionario_screen.dart';
-import 'package:lionsbarberv1/screen/manager/principal/agenda_7dias/agenda7diasscreen.dart';
-import 'package:lionsbarberv1/screen/manager/principal/agenda_7dias/confirmCancelCorte.dart';
-import 'package:lionsbarberv1/screen/manager/principal/components/agendaDia/pricesandpercentages/PricesAndPercentagens.dart';
-import 'package:lionsbarberv1/screen/manager/principal/encaixe/encaixeScreen.dart';
+import 'package:lionsbarberv1/normalUsersHome/screen/add/confirmscreen/ConfirmScreenCorte.dart';
+import 'package:lionsbarberv1/normalUsersHome/screen/home/homeScreen01.dart';
+import 'package:lionsbarberv1/normalUsersHome/screen/inicio/initialScreen.dart';
+import 'package:lionsbarberv1/normalUsersHome/screen/login/loginScreen.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-import 'screen/login/registerAccount.dart';
+import 'normalUsersHome/screen/login/registerAccount.dart';
 import 'rotas/verificationLogin.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
@@ -78,7 +72,6 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(
           create: (_) => ProviderFilterManager(),
         ),
-
         ChangeNotifierProvider(
           create: (_) => ManyChatConfirmation(),
         ),
@@ -126,20 +119,11 @@ class _MyAppState extends State<MyApp> {
           AppRoutesApp.RegisterAccountScreen: (ctx) =>
               const RegisterAccountScreen(),
           AppRoutesApp.ConfirmScreenCorte: (ctx) => const ConfirmScreenCorte(),
-          AppRoutesApp.ManagerScreenView: (ctx) => const ManagerScreenView(),
-          AppRoutesApp.Agenda7DiasScreenManager: (ctx) =>
-              const Agenda7DiasScreenManager(),
-          AppRoutesApp.ConfirmCancelCorte: (ctx) => const ConfirmCancelCorte(),
-          AppRoutesApp.EncaixeScreen: (ctx) => const EncaixeScreen(),
-          AppRoutesApp.FuncionarioScreen: (ctx) => const FuncionarioScreen(),
-          AppRoutesApp.PricesAndPercentages: (ctx) =>
-              const PricesAndPercentages(),
-          AppRoutesApp.ConfirmScreenCorteEncaixeFuncionario: (ctx) =>
-              const ConfirmScreenCorteEncaixeFuncionario(),
-          AppRoutesApp.EncaixeScreenFuncionario: (ctx) =>
-              const EncaixeScreenFuncionario(),
-          AppRoutesApp.ConfirmScreenCorteManager: (ctx) =>
-              const ConfirmScreenCorteManager(),
+          AppRoutesApp.HomeScreen01WithBoolManager: (ctx) =>
+              const HomeScreen01WithBoolManager(
+                selectedIndex: 0,
+              ),
+          AppRoutesApp.ProfileScreen: (ctx)=>const ProfileScreenManagerWithScafol(),
         },
       ),
     );

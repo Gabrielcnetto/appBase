@@ -15,4 +15,6 @@ class AppRoutesApp {
   static const ConfirmScreenCorteEncaixeFuncionario = "/ConfirmScreenCorteEncaixeFuncionario";
   static const EncaixeScreenFuncionario = "/EncaixeScreenFuncionario";
   static const ConfirmScreenCorteManager = "/ConfirmScreenCorteManager";
+  static const ProfileScreen = "/ProfileScreen";
+  static const HomeScreen01WithBoolManager = "/HomeScreen01WithBoolManager";
 }
