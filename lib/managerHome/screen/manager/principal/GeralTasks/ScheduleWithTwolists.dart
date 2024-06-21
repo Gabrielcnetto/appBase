@@ -55,8 +55,11 @@ class _ScheduleWithTwoListsState extends State<ScheduleWithTwoLists> {
   void initState() {
     // TODO: implement initState
     super.initState();
+
     Provider.of<AgendaData>(context, listen: false).atualizarLinhaPosicao(
-        linhaAltura: 60, listaHorarios: listaHorariosEncaixe);
+      context: context,
+      listaHorarios: listaHorariosEncaixe,
+    );
     setDaysAndMonths();
     attViewSchedule(
         dia: lastSevenDays[0],
@@ -198,7 +201,9 @@ class _ScheduleWithTwoListsState extends State<ScheduleWithTwoLists> {
                     ),
                   ),
                 ),
-                SizedBox(height: 10,),
+                SizedBox(
+                  height: 10,
+                ),
                 Text("AQUI OS PROFISSIONAIS"),
                 SizedBox(
                   height: 10,
@@ -210,34 +215,34 @@ class _ScheduleWithTwoListsState extends State<ScheduleWithTwoLists> {
                       Expanded(
                         child: Stack(
                           children: [
+                            // Lista de horários à esquerda
                             Container(
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                  color: Colors.grey.shade100,
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                                width: MediaQuery.of(context).size.width * 0.12,
-                                //height: MediaQuery.of(context).size.height  ,
-                                child: Column(
-                                  children: _listaHorarios.map((hr) {
-                                    return Container(
-                                      alignment: Alignment.center,
-                                      height: 60,
-                                      child: Text(
-                                        hr.horario,
-                                        style: GoogleFonts.openSans(
-                                          textStyle: TextStyle(
-                                            fontWeight: FontWeight.w500,
-                                            color: Colors.black,
-                                          ),
-                                        ),
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                color: Colors.grey.shade100,
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              width: MediaQuery.of(context).size.width * 0.12,
+                              child: Column(
+                                children: _listaHorarios.map((hr) {
+                                  return Container(
+                                    alignment: Alignment.center,
+                                    height: 60,
+                                    child: Text(
+                                      hr.horario,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.black,
                                       ),
-                                    );
-                                  }).toList(),
-                                )),
+                                    ),
+                                  );
+                                }).toList(),
+                              ),
+                            ),
+                            // Linha animada
                             Positioned(
                               top:
-                                  Provider.of<AgendaData>(context).linhaPosicao,
+                                  Provider.of<AgendaData>(context).linhaPosicao ,
                               left: MediaQuery.of(context).size.width *
                                   0.12, // Ajuste conforme necessário para alinhar com a lista de horários
                               child: AnimatedContainer(

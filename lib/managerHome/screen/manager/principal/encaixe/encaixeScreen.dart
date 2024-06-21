@@ -742,15 +742,7 @@ class _EncaixeScreenProfissionalOptionHomeProfState extends State<EncaixeScreenP
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    InkWell(
-                      onTap: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: const Icon(Icons.arrow_back_ios),
-                    ),
-                    const SizedBox(
-                      width: 2,
-                    ),
+
                     Text(
                       "Agende um Horário",
                       style: GoogleFonts.openSans(
