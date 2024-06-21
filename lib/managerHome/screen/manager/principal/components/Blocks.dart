@@ -8,9 +8,9 @@ import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
+import 'package:lionsbarberv1/managerHome/screen/profile/profileScreen.dart';
+import 'package:lionsbarberv1/rotas/Approutes.dart';
 import 'package:provider/provider.dart';
-
-
 
 class BlocksManagerComponent extends StatefulWidget {
   const BlocksManagerComponent({super.key});
@@ -24,7 +24,7 @@ class _BlocksManagerComponentState extends State<BlocksManagerComponent> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    Provider.of<ManagerScreenFunctions>(context, listen: false);
+    Provider.of<ManagerScreenFunctions>(context, listen: false).loadClientes();
     loadTotalClientes();
     totalCortesNomES;
     loadTotalcortesmes();
@@ -44,6 +44,7 @@ class _BlocksManagerComponentState extends State<BlocksManagerComponent> {
     setState(() {
       totalClientes = listClientes.length;
     });
+    print("o tamanho é ${totalClientes}");
   }
   //
 
@@ -284,7 +285,71 @@ class _BlocksManagerComponentState extends State<BlocksManagerComponent> {
                   ),
                 )
               ],
-            )
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 13),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      InkWell(
+                        onTap: (){
+                          Navigator.of(context).pushNamed(AppRoutesApp.GraphicsManagerScreen);
+                        },
+                        child: Container(
+                          padding: EdgeInsets.all(5),
+                          decoration: BoxDecoration(
+                            color: Color.fromARGB(255, 26, 82, 118),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Text(
+                            "Veja o resumo do estabelecimento",
+                            style: GoogleFonts.openSans(
+                              textStyle: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.white,
+                                  fontSize: 12),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                //view screen graphic - DIVISAO
+                Padding(
+                  padding: const EdgeInsets.only(top: 13),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      InkWell(
+                        onTap: (){
+                          Navigator.of(context).pushNamed(AppRoutesApp.ProfileScreenManagerWithScafol);
+                        },
+                        child: Container(
+                          padding: EdgeInsets.all(5),
+                          decoration: BoxDecoration(
+                            color: Colors.grey.shade200,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Text(
+                            "Editar Perfil",
+                            style: GoogleFonts.openSans(
+                              textStyle: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black,
+                                  fontSize: 12),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ],
         ),
       ),

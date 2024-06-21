@@ -70,7 +70,7 @@ class ConfirmScreenCorteEncaixeFuncionario extends StatelessWidget {
                   ),
                   InkWell(
                     onTap: (){
-                      Navigator.of(context).pushReplacementNamed(AppRoutesApp.FuncionarioScreen);
+                      Navigator.of(context).pushReplacementNamed(AppRoutesApp.HomeScreen01);
                     },
                     child: Container(
                       alignment: Alignment.center,

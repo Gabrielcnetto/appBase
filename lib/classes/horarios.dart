@@ -106,10 +106,7 @@ List<Horarios> hourLists = [
     horario: "19:30",
     id: Random().nextDouble().toString(),
   ),
-  Horarios(
-    horario: "20:00",
-    id: Random().nextDouble().toString(),
-  ),
+
 ];
 //Horarios apenas de sabado:
 List<Horarios> sabadoHorarios = [
@@ -185,10 +182,7 @@ List<Horarios> sabadoHorarios = [
     horario: "16:30",
     id: Random().nextDouble().toString(),
   ),
-  Horarios(
-    horario: "17:00",
-    id: Random().nextDouble().toString(),
-  ),
+
 ];
 
 //HORARIOS QUEBRADOS PARA ENCAIXE
@@ -385,10 +379,7 @@ List<Horarios> listaHorariosEncaixe = [
     horario: "19:50",
     id: Random().nextDouble().toString(),
   ),
-  Horarios(
-    horario: "20:00",
-    id: Random().nextDouble().toString(),
-  ),
+
 ];
 
 //encaixes para sabado
@@ -537,8 +528,5 @@ List<Horarios> sabadoHorariosEncaixe = [
     horario: "16:50",
     id: Random().nextDouble().toString(),
   ),
-    Horarios(
-    horario: "17:00",
-    id: Random().nextDouble().toString(),
-  ),
+
 ];

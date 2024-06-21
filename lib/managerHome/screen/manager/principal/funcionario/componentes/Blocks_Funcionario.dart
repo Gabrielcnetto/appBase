@@ -8,8 +8,8 @@ import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
+import 'package:lionsbarberv1/rotas/Approutes.dart';
 import 'package:provider/provider.dart';
-
 
 class BlocksFuncionarioComponent extends StatefulWidget {
   const BlocksFuncionarioComponent({super.key});
@@ -108,9 +108,9 @@ class _BlocksManagerComponentState extends State<BlocksFuncionarioComponent> {
   double faturamentoFinal = 0;
   void SetPorcentagem() {
     print("o faturamento total é de: ${totalFaturamento}");
-     print("o percentual total é de: ${loadPercentual}");
+    print("o percentual total é de: ${loadPercentual}");
     setState(() {
-       faturamentoFinal = totalFaturamento! * (loadPercentual! / 100.0);
+      faturamentoFinal = totalFaturamento! * (loadPercentual! / 100.0);
     });
   }
 
@@ -318,7 +318,36 @@ class _BlocksManagerComponentState extends State<BlocksFuncionarioComponent> {
                   ),
                 )
               ],
-            )
+            ),
+                     Padding(
+              padding: const EdgeInsets.only(top: 13),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  InkWell(
+                    onTap: (){
+                      Navigator.of(context).pushNamed(AppRoutesApp.ProfileScreenManagerWithScafol);
+                    },
+                    child: Container(
+                      padding: EdgeInsets.all(5),
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade200,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Text(
+                        "Editar Perfil",
+                        style: GoogleFonts.openSans(
+                          textStyle: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black,
+                              fontSize: 12),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),

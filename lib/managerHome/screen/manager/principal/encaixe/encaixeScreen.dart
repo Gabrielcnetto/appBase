@@ -330,7 +330,7 @@ class _EncaixeScreenProfissionalOptionHomeProfState extends State<EncaixeScreenP
     } catch (e) {
       print("erro ao enviar evento: $e");
     }
-     Navigator.of(context).pushReplacementNamed(AppRoutesApp.ManagerScreenView);
+     Navigator.of(context).pushReplacementNamed(AppRoutesApp.HomeScreen01);
   }
 
   //Fazendo o filtro para exibir quais horarios estao disponíveis

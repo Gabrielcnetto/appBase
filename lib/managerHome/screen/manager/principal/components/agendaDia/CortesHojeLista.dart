@@ -265,87 +265,74 @@ class _CortesHojeListaState extends State<CortesHojeLista> {
     int mesAtual = DateTime.now().month;
     final List<Horarios> _horariosLOad =
         Provider.of<CorteProvider>(context, listen: false).horariosListLoad;
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "Agenda do dia",
-                style: GoogleFonts.openSans(
-                  textStyle: const TextStyle(
-                    fontWeight: FontWeight.w700,
-                    color: Colors.black,
-                    fontSize: 22,
+    return Padding(
+      padding: const EdgeInsets.only(top:10),
+      child: Container(
+        width: MediaQuery.of(context).size.width,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Agenda do dia",
+                  style: GoogleFonts.openSans(
+                    textStyle: const TextStyle(
+                      fontWeight: FontWeight.w700,
+                      color: Colors.black,
+                      fontSize: 22,
+                    ),
                   ),
                 ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                        color: Estabelecimento.primaryColor,
-                        borderRadius: BorderRadius.circular(30)),
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 7, vertical: 1),
-                    child: Text(
-                      "Dia ${diaAtual ?? "Carregando..."}/0${mesAtual ?? "Carregando..."}",
-                      style: GoogleFonts.openSans(
-                        textStyle: const TextStyle(
-                          fontWeight: FontWeight.w700,
-                          color: Colors.white,
-                          fontSize: 13,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                          color: Estabelecimento.primaryColor,
+                          borderRadius: BorderRadius.circular(30)),
+                      padding:
+                          const EdgeInsets.symmetric(horizontal: 7, vertical: 1),
+                      child: Text(
+                        "Dia ${diaAtual ?? "Carregando..."}/0${mesAtual ?? "Carregando..."}",
+                        style: GoogleFonts.openSans(
+                          textStyle: const TextStyle(
+                            fontWeight: FontWeight.w700,
+                            color: Colors.white,
+                            fontSize: 13,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  InkWell(
-                    onTap: screenEncaixe,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 7, vertical: 1),
-                      decoration: BoxDecoration(
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    
+                  
+                    InkWell(
+                      onTap: showFilterModal,
+                      child: Container(
+                        decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20),
-                          color: Colors.greenAccent.shade700),
-                      child: const Icon(
-                        Icons.add_box,
-                        size: 25,
-                        color: Colors.white,
+                          color: Estabelecimento.primaryColor,
+                        ),
+                        child: Icon(
+                          Icons.tune,
+                          size: 20,
+                          color: Estabelecimento.contraPrimaryColor,
+                        ),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 7, vertical: 1),
                       ),
                     ),
-                  ),
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  InkWell(
-                    onTap: showFilterModal,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: Estabelecimento.primaryColor,
-                      ),
-                      child: Icon(
-                        Icons.tune,
-                        size: 20,
-                        color: Estabelecimento.contraPrimaryColor,
-                      ),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 7, vertical: 1),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-          const DiaListaComponent()
-        ],
+                  ],
+                ),
+              ],
+            ),
+            const DiaListaComponent()
+          ],
+        ),
       ),
     );
   }

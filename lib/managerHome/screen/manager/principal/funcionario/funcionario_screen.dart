@@ -13,10 +13,12 @@ class FuncionarioScreenHomeScreenNew extends StatefulWidget {
   const FuncionarioScreenHomeScreenNew({super.key});
 
   @override
-  State<FuncionarioScreenHomeScreenNew> createState() => _FuncionarioScreenHomeScreenNewState();
+  State<FuncionarioScreenHomeScreenNew> createState() =>
+      _FuncionarioScreenHomeScreenNewState();
 }
 
-class _FuncionarioScreenHomeScreenNewState extends State<FuncionarioScreenHomeScreenNew> {
+class _FuncionarioScreenHomeScreenNewState
+    extends State<FuncionarioScreenHomeScreenNew> {
   @override
   void initState() {
     // TODO: implement initState
@@ -89,36 +91,35 @@ class _FuncionarioScreenHomeScreenNewState extends State<FuncionarioScreenHomeSc
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          InkWell(
-                            onTap: () {
-                              Navigator.of(context).pushReplacement(
-                                MaterialPageRoute(
-                                  builder: (BuildContext context) =>
-                                      const HomeScreen01(selectedIndex: 0,),
-                                  fullscreenDialog: true,
-                                ),
-                              );
-                            },
-                            child: Container(
-                              alignment: Alignment.center,
-                              padding: const EdgeInsets.all(15),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                color: Colors.grey.shade200,
-                              ),
-                              child: const Icon(
-                                Icons.arrow_back_ios,
-                                size: 15,
-                              ),
-                            ),
-                          ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
+                              Container(
+                                width: 75,
+                                height: 75,
+                                child: urlImagePhoto == null
+                                    ? ClipRRect(
+                                        borderRadius: BorderRadius.circular(45),
+                                        child: Image.network(
+                                          "${fotoPadraoUserError}",
+                                          fit: BoxFit.cover,
+                                        ),
+                                      )
+                                    : ClipRRect(
+                                        borderRadius: BorderRadius.circular(45),
+                                        child: Image.network(
+                                          urlImagePhoto!,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
                               Column(
-                                crossAxisAlignment: CrossAxisAlignment.end,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
@@ -142,28 +143,6 @@ class _FuncionarioScreenHomeScreenNewState extends State<FuncionarioScreenHomeSc
                                   ),
                                 ],
                               ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Container(
-                                width: 75,
-                                height: 75,
-                                child: urlImagePhoto == null
-                                    ? ClipRRect(
-                                        borderRadius: BorderRadius.circular(45),
-                                        child: Image.network(
-                                          "${fotoPadraoUserError}",
-                                          fit: BoxFit.cover,
-                                        ),
-                                      )
-                                    : ClipRRect(
-                                        borderRadius: BorderRadius.circular(45),
-                                        child: Image.network(
-                                          urlImagePhoto!,
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
-                              ),
                             ],
                           ),
                         ],
@@ -182,7 +161,7 @@ class _FuncionarioScreenHomeScreenNewState extends State<FuncionarioScreenHomeSc
                         ),
                       ),
                       const BlocksFuncionarioComponent(),
-                      const FuncionarioVerticalOptions(),
+                      //  const FuncionarioVerticalOptions(),
                       const CortesHojeListaFuncionario(),
                     ],
                   ),

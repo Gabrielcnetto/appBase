@@ -103,6 +103,7 @@ class _SetMinutesBarbaState extends State<SetMinutesBarba> {
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
+                  Navigator.of(context).pop();
                 },
                 child: Text(
                   "Cancelar",
@@ -121,8 +122,8 @@ class _SetMinutesBarbaState extends State<SetMinutesBarba> {
                     MinutoSelecionado: minutesView,
                     segundoSelecionado: secondsView,
                   );
-                  Navigator.of(context)
-                      .pushReplacementNamed(AppRoutesApp.ManagerScreenView);
+             Navigator.of(context).pop();
+                  Navigator.of(context).pop();
                 },
                 child: Text(
                   "Salvar",

@@ -70,7 +70,7 @@ class ConfirmScreenCorteManager extends StatelessWidget {
                   ),
                   InkWell(
                     onTap: (){
-                      Navigator.of(context).pushReplacementNamed(AppRoutesApp.ManagerScreenView);
+                      Navigator.of(context).pushReplacementNamed(AppRoutesApp.HomeScreen01);
                     },
                     child: Container(
                       alignment: Alignment.center,

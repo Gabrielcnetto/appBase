@@ -17,4 +17,6 @@ class AppRoutesApp {
   static const ConfirmScreenCorteManager = "/ConfirmScreenCorteManager";
   static const ProfileScreen = "/ProfileScreen";
   static const HomeScreen01WithBoolManager = "/HomeScreen01WithBoolManager";
+  static const ProfileScreenManagerWithScafol = "/ProfileScreenManagerWithScafol";
+  static const GraphicsManagerScreen = "/GraphicsManagerScreen";
 }

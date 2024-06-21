@@ -17,7 +17,7 @@ class ManagerScreenFunctions with ChangeNotifier {
     try {
       print("acessamos o database");
       QuerySnapshot querySnapshot = await database.collection("usuarios").get();
-
+      print("acessamos aqui alista de clientes");
       _CLIENTESLISTA = querySnapshot.docs.map((doc) {
         Map<String, dynamic>? data = doc.data() as Map<String, dynamic>?;
         return GeralUser(

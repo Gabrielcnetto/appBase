@@ -2,6 +2,7 @@ import 'package:lionsbarberv1/classes/Estabelecimento.dart';
 import 'package:lionsbarberv1/firebase_options.dart';
 import 'package:lionsbarberv1/functions/CorteProvider.dart';
 import 'package:lionsbarberv1/functions/ManyChatConfirmation.dart';
+import 'package:lionsbarberv1/functions/agendaDataHorarios.dart';
 import 'package:lionsbarberv1/functions/createAccount.dart';
 import 'package:lionsbarberv1/functions/managerScreenFunctions.dart';
 import 'package:lionsbarberv1/functions/profileScreenFunctions.dart';
@@ -10,6 +11,9 @@ import 'package:lionsbarberv1/functions/rankingProviderHome.dart';
 
 import 'package:lionsbarberv1/functions/userLogin.dart';
 import 'package:lionsbarberv1/managerHome/screen/home/homeScreen01.dart';
+import 'package:lionsbarberv1/managerHome/screen/manager/GraphicsAndSales/GraphicsScreenManager.dart';
+import 'package:lionsbarberv1/managerHome/screen/manager/principal/agenda_7dias/agenda7diasscreen.dart';
+import 'package:lionsbarberv1/managerHome/screen/manager/principal/components/agendaDia/pricesandpercentages/PricesAndPercentagens.dart';
 import 'package:lionsbarberv1/managerHome/screen/profile/profileScreen.dart';
 import 'package:lionsbarberv1/normalUsersHome/screen/profile/profileScreen.dart';
 import 'package:lionsbarberv1/rotas/Approutes.dart';
@@ -75,6 +79,9 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(
           create: (_) => ManyChatConfirmation(),
         ),
+        ChangeNotifierProvider(
+          create: (_) => AgendaData(),
+        ),
       ],
 
       //TESTE DO REPOSITORIO
@@ -123,7 +130,15 @@ class _MyAppState extends State<MyApp> {
               const HomeScreen01WithBoolManager(
                 selectedIndex: 0,
               ),
-          AppRoutesApp.ProfileScreen: (ctx)=>const ProfileScreenManagerWithScafol(),
+          AppRoutesApp.Agenda7DiasScreenManager: (ctx) =>
+              const Agenda7DiasScreenManager(),
+          AppRoutesApp.ProfileScreen: (ctx) => const ProfileScreen(),
+          AppRoutesApp.ProfileScreenManagerWithScafol: (ctx) =>
+              ProfileScreenManagerWithScafol(),
+          AppRoutesApp.PricesAndPercentages: (ctx) =>
+              const PricesAndPercentages(),
+          AppRoutesApp.GraphicsManagerScreen: (ctx) =>
+              const GraphicsManagerScreen(),
         },
       ),
     );
