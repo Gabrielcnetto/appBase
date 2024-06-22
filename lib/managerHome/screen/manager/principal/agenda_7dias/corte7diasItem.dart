@@ -78,9 +78,10 @@ class _Corte7DiasItemState extends State<Corte7DiasItem> {
 
   @override
   Widget build(BuildContext context) {
+
     return SingleChildScrollView(
       child: Padding(
-        padding: const EdgeInsets.only(bottom: 60),
+        padding: const EdgeInsets.only(bottom: 60,),
         child: Column(
           children: widget.corte.map((Corte) {
             return Padding(

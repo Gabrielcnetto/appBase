@@ -33,7 +33,7 @@ class AgendaData with ChangeNotifier {
   }
 
   // Calcular a posição vertical da linha com base no índice encontrado
-  double linhaPosicao = indiceHorarioAtual * 60.0 + 30.0; // Ajuste conforme necessário
+  double linhaPosicao = indiceHorarioAtual * 80.0 + 40.0; // Ajuste conforme necessário
 
   // Atualizar a posição da linha na classe AgendaData usando Provider
   _linhaPosicao = linhaPosicao;

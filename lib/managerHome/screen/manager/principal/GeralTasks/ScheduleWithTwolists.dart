@@ -1,17 +1,20 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:lionsbarberv1/classes/Estabelecimento.dart';
+import 'package:lionsbarberv1/classes/cortecClass.dart';
 import 'package:lionsbarberv1/classes/horarios.dart';
 import 'package:lionsbarberv1/classes/profissionais.dart';
 import 'package:lionsbarberv1/functions/agendaDataHorarios.dart';
 import 'package:lionsbarberv1/functions/managerScreenFunctions.dart';
+import 'package:lionsbarberv1/managerHome/screen/manager/principal/agenda_7dias/semItems.dart';
 import 'package:provider/provider.dart';
 
+import '../agenda_7dias/corte7diasItem.dart';
+
 class ScheduleWithTwoLists extends StatefulWidget {
-  const ScheduleWithTwoLists({super.key});
+  const ScheduleWithTwoLists({Key? key}) : super(key: key);
 
   @override
   State<ScheduleWithTwoLists> createState() => _ScheduleWithTwoListsState();
@@ -21,6 +24,7 @@ class _ScheduleWithTwoListsState extends State<ScheduleWithTwoLists> {
   List<int> lastSevenDays = [];
   List<String> lastSevenMonths = [];
   List<String> lastSevenWeekdays = [];
+
   void setDaysAndMonths() {
     initializeDateFormatting('pt_BR');
     DateTime now = DateTime.now();
@@ -33,27 +37,27 @@ class _ScheduleWithTwoListsState extends State<ScheduleWithTwoLists> {
       lastSevenMonths.add(monthName);
       lastSevenWeekdays.add(weekdayName);
     }
-    lastSevenDays = lastSevenDays.toList();
-    lastSevenMonths = lastSevenMonths.toList();
-    lastSevenWeekdays = lastSevenWeekdays.toList();
   }
 
   int? diaSelecionadoSegundo;
   String? mesSelecionadoSegundo;
   String profSelecionado = "${profList[0].nomeProf}";
+
   Future<void> attViewSchedule({
     required int dia,
     required String mes,
     required String proffName,
   }) async {
-    print("dia selecionado:${dia} e o mês é o: ${mes}");
+    print("dia selecionado: $dia e o mês é: $mes");
     Provider.of<ManagerScreenFunctions>(context, listen: false).loadAfterSetDay(
-        selectDay: dia, selectMonth: mes, proffName: profSelecionado);
+      selectDay: dia,
+      selectMonth: mes,
+      proffName: profSelecionado,
+    );
   }
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     Provider.of<AgendaData>(context, listen: false).atualizarLinhaPosicao(
@@ -62,20 +66,25 @@ class _ScheduleWithTwoListsState extends State<ScheduleWithTwoLists> {
     );
     setDaysAndMonths();
     attViewSchedule(
-        dia: lastSevenDays[0],
-        mes: lastSevenMonths[0],
-        proffName: profSelecionado);
+      dia: lastSevenDays[0],
+      mes: lastSevenMonths[0],
+      proffName: profSelecionado,
+    );
   }
 
-  int selectedIndex = 0;
   List<Horarios> _listaHorarios = listaHorariosEncaixe;
+  List<Profissionais> _profList = profList;
+
+  int selectedIndex = 0;
+  int profissionalSelecionadoIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.only(left: 15, right: 15),
+          padding: const EdgeInsets.only(left: 15, right: 15, top: 15),
           child: SingleChildScrollView(
             child: Column(
               children: [
@@ -111,9 +120,7 @@ class _ScheduleWithTwoListsState extends State<ScheduleWithTwoLists> {
                     ),
                   ],
                 ),
-                SizedBox(
-                  height: 25,
-                ),
+                SizedBox(height: 25),
                 Container(
                   width: MediaQuery.of(context).size.width,
                   child: Row(
@@ -135,12 +142,10 @@ class _ScheduleWithTwoListsState extends State<ScheduleWithTwoLists> {
                               style: TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.grey, // Cor da letra do mês
+                                color: Colors.grey,
                               ),
                             ),
-                            SizedBox(
-                                height:
-                                    5), // Espaço entre a letra e o número do dia
+                            SizedBox(height: 5),
                             InkWell(
                               splashColor: Colors.transparent,
                               onTap: () {
@@ -150,9 +155,10 @@ class _ScheduleWithTwoListsState extends State<ScheduleWithTwoLists> {
                                   mesSelecionadoSegundo = month;
                                 });
                                 attViewSchedule(
-                                    dia: day,
-                                    mes: month,
-                                    proffName: profSelecionado);
+                                  dia: day,
+                                  mes: month,
+                                  proffName: profSelecionado,
+                                );
                               },
                               child: Container(
                                 height:
@@ -172,9 +178,8 @@ class _ScheduleWithTwoListsState extends State<ScheduleWithTwoLists> {
                                     topRight: Radius.elliptical(90, 90),
                                   ),
                                   color: selectedIndex == index
-                                      ? Colors.blue // Cor quando selecionado
-                                      : Estabelecimento
-                                          .primaryColor, // Cor padrão
+                                      ? Colors.blue
+                                      : Estabelecimento.primaryColor,
                                 ),
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -185,10 +190,9 @@ class _ScheduleWithTwoListsState extends State<ScheduleWithTwoLists> {
                                         fontSize: 16,
                                         fontWeight: FontWeight.w700,
                                         color: selectedIndex == index
-                                            ? Colors
-                                                .white // Cor do texto quando selecionado
+                                            ? Colors.white
                                             : Estabelecimento
-                                                .contraPrimaryColor, // Cor padrão do texto
+                                                .contraPrimaryColor,
                                       ),
                                     ),
                                   ],
@@ -201,12 +205,91 @@ class _ScheduleWithTwoListsState extends State<ScheduleWithTwoLists> {
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: 10,
-                ),
-                Text("AQUI OS PROFISSIONAIS"),
-                SizedBox(
-                  height: 10,
+                SizedBox(height: 10),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 5),
+                  child: Container(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: _profList.map((profissional) {
+                        int profIndex = _profList.indexOf(profissional);
+
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          child: InkWell(
+                            onTap: () async {
+                              setState(() {
+                                profSelecionado = profissional.nomeProf;
+                                profissionalSelecionadoIndex = profIndex;
+
+                                if (mesSelecionadoSegundo != null) {
+                                  attViewSchedule(
+                                    dia: diaSelecionadoSegundo!,
+                                    mes: mesSelecionadoSegundo!,
+                                    proffName: profSelecionado,
+                                  );
+                                } else {
+                                  attViewSchedule(
+                                    dia: lastSevenDays[0],
+                                    mes: lastSevenMonths[0],
+                                    proffName: profSelecionado,
+                                  );
+                                }
+                              });
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 5,
+                                horizontal: 10,
+                              ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    width: 45,
+                                    height: 45,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(15),
+                                      child: Image.asset(
+                                        profissional.assetImage,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 5),
+                                  Container(
+                                    padding: EdgeInsets.symmetric(
+                                      vertical: 2,
+                                      horizontal: 10,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: profissionalSelecionadoIndex ==
+                                              profIndex
+                                          ? Colors.blue
+                                          : Colors.transparent,
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    child: Text(
+                                      "${profissional.nomeProf}",
+                                      style: GoogleFonts.openSans(
+                                        textStyle: TextStyle(
+                                          fontSize: 14,
+                                          color: profissionalSelecionadoIndex ==
+                                                  profIndex
+                                              ? Colors.white
+                                              : Colors.black,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                  ),
                 ),
                 Container(
                   width: MediaQuery.of(context).size.width,
@@ -215,7 +298,6 @@ class _ScheduleWithTwoListsState extends State<ScheduleWithTwoLists> {
                       Expanded(
                         child: Stack(
                           children: [
-                            // Lista de horários à esquerda
                             Container(
                               alignment: Alignment.center,
                               decoration: BoxDecoration(
@@ -227,7 +309,7 @@ class _ScheduleWithTwoListsState extends State<ScheduleWithTwoLists> {
                                 children: _listaHorarios.map((hr) {
                                   return Container(
                                     alignment: Alignment.center,
-                                    height: 60,
+                                    height: 100,
                                     child: Text(
                                       hr.horario,
                                       style: TextStyle(
@@ -239,17 +321,289 @@ class _ScheduleWithTwoListsState extends State<ScheduleWithTwoLists> {
                                 }).toList(),
                               ),
                             ),
-                            // Linha animada
+                            Positioned(
+                              right: 0,
+                              child: Container(
+                                width: MediaQuery.of(context).size.width * 0.78,
+                                child: StreamBuilder(
+                                  stream: Provider.of<ManagerScreenFunctions>(
+                                    context,
+                                    listen: true,
+                                  ).CorteslistaManager,
+                                  builder: (ctx, snapshot) {
+                                    if (snapshot.connectionState ==
+                                        ConnectionState.waiting) {
+                                      return Container(
+                                        alignment: Alignment.center,
+                                        child:
+                                            const CircularProgressIndicator(),
+                                      );
+                                    } else if (!snapshot.hasData ||
+                                        snapshot.data!.isEmpty) {
+                                      return Container(
+                                        child: const SemItens(),
+                                      );
+                                    } else {
+                                      final List<CorteClass>? cortes =
+                                          snapshot.data;
+                                      final List<CorteClass> cortesFiltrados =
+                                          cortes!
+                                              .where((corte) =>
+                                                  corte.clientName != "extra")
+                                              .toList();
+
+                                      return ListView.builder(
+                                        shrinkWrap: true,
+                                        physics: NeverScrollableScrollPhysics(),
+                                        itemCount: _listaHorarios.length,
+                                        itemBuilder: (context, index) {
+                                          Horarios horario =
+                                              _listaHorarios[index];
+
+                                          // Encontra o corte correspondente ao horário atual
+                                          CorteClass? corteEncontrado =
+                                              cortesFiltrados.firstWhere(
+                                            (corte) =>
+                                                corte.horarioCorte ==
+                                                horario.horario,
+                                            orElse: () => CorteClass(
+                                              DiaDoCorte: 1,
+                                              NomeMes: "",
+                                              barba: false,
+                                              clientName: "",
+                                              dateCreateAgendamento:
+                                                  DateTime.now(),
+                                              diaCorte: DateTime.now(),
+                                              horarioCorte: "",
+                                              horariosExtra: [],
+                                              id: "",
+                                              isActive: false,
+                                              numeroContato: "",
+                                              profissionalSelect: "",
+                                              ramdomCode: 0,
+                                              totalValue: 0,
+                                            ),
+                                          );
+
+                                          // Calcula a altura base do container
+                                          double containerHeight = 100.0;
+
+                                          // Se o campo 'barba' for verdadeiro, adiciona espaço equivalente a 5 itens
+                                          if (corteEncontrado.barba) {
+                                            containerHeight += 4 *
+                                                100.0; // Considerando que cada item tem 100 de altura
+                                          }
+
+                                          return Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Expanded(
+                                                child:
+                                                    corteEncontrado
+                                                            .clientName.isEmpty
+                                                        ? Container(
+                                                            height: 90,
+                                                            alignment: Alignment
+                                                                .center,
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              border: Border(
+                                                                bottom: BorderSide(
+                                                                    color: Colors
+                                                                        .grey
+                                                                        .shade300),
+                                                              ),
+                                                            ),
+                                                            child: Container(
+                                                              alignment:
+                                                                  Alignment
+                                                                      .center,
+                                                              child: Column(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .end,
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .center,
+                                                                children: [
+                                                                  Text(
+                                                                    "Horário livre",
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontSize:
+                                                                          13,
+                                                                      color: Colors
+                                                                          .grey,
+                                                                    ),
+                                                                  ),
+                                                                  SizedBox(
+                                                                      height:
+                                                                          5),
+                                                                  Text(
+                                                                    corteEncontrado
+                                                                        .clientName,
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold,
+                                                                      color: Colors
+                                                                          .black,
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          )
+                                                        : Container(
+                                                            height:
+                                                                containerHeight,
+                                                            alignment: Alignment
+                                                                .center,
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              border: Border(
+                                                                bottom: BorderSide(
+                                                                    color: Colors
+                                                                        .grey
+                                                                        .shade300),
+                                                              ),
+                                                            ),
+                                                            child: Container(
+                                                              alignment:
+                                                                  Alignment
+                                                                      .center,
+                                                              padding: EdgeInsets
+                                                                  .symmetric(
+                                                                      vertical:
+                                                                          10,
+                                                                      horizontal:
+                                                                          15),
+                                                              child: Column(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .spaceBetween,
+                                                                children: [
+                                                                  Row(
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .start,
+                                                                    children: [
+                                                                      Text(
+                                                                        "${corteEncontrado.horarioCorte}",
+                                                                        style:
+                                                                            TextStyle(
+                                                                          fontSize:
+                                                                              12,
+                                                                          fontWeight:
+                                                                              FontWeight.w600,
+                                                                          color:
+                                                                              Colors.white60,
+                                                                        ),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                  Column(
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .center,
+                                                                    crossAxisAlignment:
+                                                                        CrossAxisAlignment
+                                                                            .start,
+                                                                    children: [
+                                                                      Text(
+                                                                        corteEncontrado.barba
+                                                                            ? "Corte de Cabelo + Barba Inclusa"
+                                                                            : "Corte normal",
+                                                                        style:
+                                                                            TextStyle(
+                                                                          color:
+                                                                              Colors.white,
+                                                                          fontWeight:
+                                                                              FontWeight.w600,
+                                                                          fontSize:
+                                                                              16,
+                                                                        ),
+                                                                      ),
+                                                                      SizedBox(
+                                                                          height:
+                                                                              5),
+                                                                      Text(
+                                                                        "Cliente: ${corteEncontrado.clientName}",
+                                                                        style:
+                                                                            TextStyle(
+                                                                          color:
+                                                                              Colors.white,
+                                                                          fontWeight:
+                                                                              FontWeight.w600,
+                                                                          fontSize:
+                                                                              16,
+                                                                        ),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                  Row(
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .end,
+                                                                    children: [
+                                                                      Container(
+                                                                        decoration:
+                                                                            BoxDecoration(
+                                                                          color:
+                                                                              Estabelecimento.primaryColor,
+                                                                          borderRadius:
+                                                                              BorderRadius.circular(30),
+                                                                        ),
+                                                                        padding:
+                                                                            EdgeInsets.all(10),
+                                                                        child:
+                                                                            Icon(
+                                                                          Icons
+                                                                              .open_in_new,
+                                                                          color:
+                                                                              Estabelecimento.contraPrimaryColor,
+                                                                        ),
+                                                                      ),
+                                                                    ],
+                                                                  )
+                                                                ],
+                                                              ),
+                                                              width: double
+                                                                  .infinity,
+                                                              height: containerHeight -
+                                                                  5, // Altura do container principal
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            30),
+                                                                color:
+                                                                    Colors.blue,
+                                                              ),
+                                                            ),
+                                                          ),
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      );
+                                    }
+                                  },
+                                ),
+                              ),
+                            ),
                             Positioned(
                               top:
-                                  Provider.of<AgendaData>(context).linhaPosicao ,
-                              left: MediaQuery.of(context).size.width *
-                                  0.12, // Ajuste conforme necessário para alinhar com a lista de horários
+                                  Provider.of<AgendaData>(context).linhaPosicao,
+                              left: MediaQuery.of(context).size.width * 0.12,
                               child: AnimatedContainer(
-                                height: 1,
+                                height: 3,
                                 width: MediaQuery.of(context).size.width -
                                     MediaQuery.of(context).size.width * 0.12,
-                                color: Colors.blue,
+                                color: Colors.redAccent,
                                 duration: Duration(seconds: 1),
                                 curve: Curves.easeInOut,
                                 onEnd: () {

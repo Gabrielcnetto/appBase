@@ -195,7 +195,6 @@ class _Agenda7DiasScreenManagerState extends State<Agenda7DiasScreenManager> {
                             height: MediaQuery.of(context).size.height * 0.06,
                             child: Row(
                               children: _profList.map((profissional) {
-                                
                                 int profIndex = _profList.indexOf(
                                     profissional); // Índice do profissional atual
 

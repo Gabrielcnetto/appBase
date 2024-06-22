@@ -11,11 +11,12 @@ class SemItens extends StatelessWidget {
       child: Container(
         alignment: Alignment.center,
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              width: MediaQuery.of(context).size.width * 0.5,
-              height: MediaQuery.of(context).size.height * 0.3,
+              width: MediaQuery.of(context).size.width * 0.4,
+              height: MediaQuery.of(context).size.height * 0.2,
               child: Image.asset(
                 "imagesOfApp/semhistoricodecortes.jpeg",
                 fit: BoxFit.cover,
@@ -25,27 +26,27 @@ class SemItens extends StatelessWidget {
               height: 15,
             ),
             Text(
-              "Sem Horários agendados.",
+              "Este Dia ainda não tem horários preenchidos.",
               style: GoogleFonts.openSans(
                 textStyle: TextStyle(
-                  fontWeight: FontWeight.w400,
-                  color: Colors.grey.shade500,
-                  fontSize: 13
-                ),
+                    fontWeight: FontWeight.w400,
+                    color: Colors.grey.shade500,
+                    fontSize: 13),
               ),
+              textAlign: TextAlign.center,
             ),
-                       const SizedBox(
+            const SizedBox(
               height: 5,
             ),
             Text(
-              "Verifique o dia e o Profissional escolhido.",
+              "Assim que o primeiro for agendado, a lista aparecerá aqui.",
               style: GoogleFonts.openSans(
                 textStyle: const TextStyle(
-                  fontWeight: FontWeight.w700,
-                  color: Colors.black,
-                  fontSize: 13
-                ),
+                    fontWeight: FontWeight.w700,
+                    color: Colors.black,
+                    fontSize: 13),
               ),
+              textAlign: TextAlign.center,
             ),
           ],
         ),
