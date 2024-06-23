@@ -60,7 +60,7 @@ class _ScheduleWithTwoListsState extends State<ScheduleWithTwoLists> {
   @override
   void initState() {
     super.initState();
-
+    _removedHours = List.from(listaHorariosEncaixe);
     Provider.of<AgendaData>(context, listen: false).atualizarLinhaPosicao(
       context: context,
       listaHorarios: listaHorariosEncaixe,
@@ -74,7 +74,7 @@ class _ScheduleWithTwoListsState extends State<ScheduleWithTwoLists> {
   }
 
   List<Horarios> _listaHorarios = listaHorariosEncaixe;
-    List<Horarios> _removedHours = listaHorariosEncaixe;
+  List<Horarios> _removedHours = listaHorariosEncaixe;
   List<Profissionais> _profList = profList;
 
   int selectedIndex = 0;
@@ -317,7 +317,7 @@ class _ScheduleWithTwoListsState extends State<ScheduleWithTwoLists> {
                               ),
                               width: MediaQuery.of(context).size.width * 0.12,
                               child: Column(
-                                children: _listaHorarios.map((hr) {
+                                children: listaHorariosdaLateral.map((hr) {
                                   return Container(
                                     decoration: BoxDecoration(
                                         border: Border.all(
@@ -389,11 +389,9 @@ class _ScheduleWithTwoListsState extends State<ScheduleWithTwoLists> {
                                             if (corte.barba == true) {
                                               // Remove os próximos 4 itens de listaHorariosEncaixe a partir do índice atual
                                               int removeCount = (index + 4 <
-                                                      _removedHours
-                                                          .length)
+                                                      _removedHours.length)
                                                   ? 4
-                                                  : _removedHours
-                                                          .length -
+                                                  : _removedHours.length -
                                                       index -
                                                       1;
                                               _removedHours.removeRange(
