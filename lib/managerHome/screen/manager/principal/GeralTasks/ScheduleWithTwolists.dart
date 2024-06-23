@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -73,10 +74,20 @@ class _ScheduleWithTwoListsState extends State<ScheduleWithTwoLists> {
   }
 
   List<Horarios> _listaHorarios = listaHorariosEncaixe;
+    List<Horarios> _removedHours = listaHorariosEncaixe;
   List<Profissionais> _profList = profList;
 
   int selectedIndex = 0;
   int profissionalSelecionadoIndex = 0;
+  int encontrarIndiceHorario(String horarioCorte) {
+    // Encontra o índice do horário na lista listaHorariosEncaixe
+    for (int i = 0; i < listaHorariosEncaixe.length; i++) {
+      if (listaHorariosEncaixe[i].horario == horarioCorte) {
+        return i; // Retorna o índice encontrado
+      }
+    }
+    return -1; // Retorna -1 se não encontrar
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -308,6 +319,9 @@ class _ScheduleWithTwoListsState extends State<ScheduleWithTwoLists> {
                               child: Column(
                                 children: _listaHorarios.map((hr) {
                                   return Container(
+                                    decoration: BoxDecoration(
+                                        border: Border.all(
+                                            width: 1, color: Colors.black)),
                                     alignment: Alignment.center,
                                     height: 100,
                                     child: Text(
@@ -355,239 +369,89 @@ class _ScheduleWithTwoListsState extends State<ScheduleWithTwoLists> {
                                       return ListView.builder(
                                         shrinkWrap: true,
                                         physics: NeverScrollableScrollPhysics(),
-                                        itemCount: _listaHorarios.length,
-                                        itemBuilder: (context, index) {
-                                          Horarios horario =
-                                              _listaHorarios[index];
+                                        itemCount: _removedHours.length,
+                                        itemBuilder: (ctx, index) {
+                                          // Verifica se o horário do índice atual está em cortesFiltrados
+                                          bool isInCortesFiltrados =
+                                              cortesFiltrados.any((corte) =>
+                                                  listaHorariosEncaixe[index]
+                                                      .horario ==
+                                                  corte.horarioCorte);
 
-                                          // Encontra o corte correspondente ao horário atual
-                                          CorteClass? corteEncontrado =
-                                              cortesFiltrados.firstWhere(
-                                            (corte) =>
-                                                corte.horarioCorte ==
-                                                horario.horario,
-                                            orElse: () => CorteClass(
-                                              DiaDoCorte: 1,
-                                              NomeMes: "",
-                                              barba: false,
-                                              clientName: "",
-                                              dateCreateAgendamento:
-                                                  DateTime.now(),
-                                              diaCorte: DateTime.now(),
-                                              horarioCorte: "",
-                                              horariosExtra: [],
-                                              id: "",
-                                              isActive: false,
-                                              numeroContato: "",
-                                              profissionalSelect: "",
-                                              ramdomCode: 0,
-                                              totalValue: 0,
-                                            ),
-                                          );
+                                          if (isInCortesFiltrados) {
+                                            // Obtém o item correspondente de cortesFiltrados
+                                            CorteClass corte = cortesFiltrados
+                                                .firstWhere((corte) =>
+                                                    listaHorariosEncaixe[index]
+                                                        .horario ==
+                                                    corte.horarioCorte);
 
-                                          // Calcula a altura base do container
-                                          double containerHeight = 100.0;
+                                            if (corte.barba == true) {
+                                              // Remove os próximos 4 itens de listaHorariosEncaixe a partir do índice atual
+                                              int removeCount = (index + 4 <
+                                                      _removedHours
+                                                          .length)
+                                                  ? 4
+                                                  : _removedHours
+                                                          .length -
+                                                      index -
+                                                      1;
+                                              _removedHours.removeRange(
+                                                  index + 1,
+                                                  index + 1 + removeCount);
+                                            }
 
-                                          // Se o campo 'barba' for verdadeiro, adiciona espaço equivalente a 5 itens
-                                          if (corteEncontrado.barba) {
-                                            containerHeight += 4 *
-                                                100.0; // Considerando que cada item tem 100 de altura
-                                          }
-
-                                          return Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Expanded(
-                                                child:
-                                                    corteEncontrado
-                                                            .clientName.isEmpty
-                                                        ? Container(
-                                                            height: 90,
-                                                            alignment: Alignment
-                                                                .center,
-                                                            decoration:
-                                                                BoxDecoration(
-                                                              border: Border(
-                                                                bottom: BorderSide(
-                                                                    color: Colors
-                                                                        .grey
-                                                                        .shade300),
-                                                              ),
-                                                            ),
-                                                            child: Container(
-                                                              alignment:
-                                                                  Alignment
-                                                                      .center,
-                                                              child: Column(
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .end,
-                                                                crossAxisAlignment:
-                                                                    CrossAxisAlignment
-                                                                        .center,
-                                                                children: [
-                                                                  Text(
-                                                                    "Horário livre",
-                                                                    style:
-                                                                        TextStyle(
-                                                                      fontSize:
-                                                                          13,
-                                                                      color: Colors
-                                                                          .grey,
-                                                                    ),
-                                                                  ),
-                                                                  SizedBox(
-                                                                      height:
-                                                                          5),
-                                                                  Text(
-                                                                    corteEncontrado
-                                                                        .clientName,
-                                                                    style:
-                                                                        TextStyle(
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .bold,
-                                                                      color: Colors
-                                                                          .black,
-                                                                    ),
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                            ),
-                                                          )
-                                                        : Container(
-                                                            height:
-                                                                containerHeight,
-                                                            alignment: Alignment
-                                                                .center,
-                                                            decoration:
-                                                                BoxDecoration(
-                                                              border: Border(
-                                                                bottom: BorderSide(
-                                                                    color: Colors
-                                                                        .grey
-                                                                        .shade300),
-                                                              ),
-                                                            ),
-                                                            child: Container(
-                                                              alignment:
-                                                                  Alignment
-                                                                      .center,
-                                                              padding: EdgeInsets
-                                                                  .symmetric(
-                                                                      vertical:
-                                                                          10,
-                                                                      horizontal:
-                                                                          15),
-                                                              child: Column(
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .spaceBetween,
-                                                                children: [
-                                                                  Row(
-                                                                    mainAxisAlignment:
-                                                                        MainAxisAlignment
-                                                                            .start,
-                                                                    children: [
-                                                                      Text(
-                                                                        "${corteEncontrado.horarioCorte}",
-                                                                        style:
-                                                                            TextStyle(
-                                                                          fontSize:
-                                                                              12,
-                                                                          fontWeight:
-                                                                              FontWeight.w600,
-                                                                          color:
-                                                                              Colors.white60,
-                                                                        ),
-                                                                      ),
-                                                                    ],
-                                                                  ),
-                                                                  Column(
-                                                                    mainAxisAlignment:
-                                                                        MainAxisAlignment
-                                                                            .center,
-                                                                    crossAxisAlignment:
-                                                                        CrossAxisAlignment
-                                                                            .start,
-                                                                    children: [
-                                                                      Text(
-                                                                        corteEncontrado.barba
-                                                                            ? "Corte de Cabelo + Barba Inclusa"
-                                                                            : "Corte normal",
-                                                                        style:
-                                                                            TextStyle(
-                                                                          color:
-                                                                              Colors.white,
-                                                                          fontWeight:
-                                                                              FontWeight.w600,
-                                                                          fontSize:
-                                                                              16,
-                                                                        ),
-                                                                      ),
-                                                                      SizedBox(
-                                                                          height:
-                                                                              5),
-                                                                      Text(
-                                                                        "Cliente: ${corteEncontrado.clientName}",
-                                                                        style:
-                                                                            TextStyle(
-                                                                          color:
-                                                                              Colors.white,
-                                                                          fontWeight:
-                                                                              FontWeight.w600,
-                                                                          fontSize:
-                                                                              16,
-                                                                        ),
-                                                                      ),
-                                                                    ],
-                                                                  ),
-                                                                  Row(
-                                                                    mainAxisAlignment:
-                                                                        MainAxisAlignment
-                                                                            .end,
-                                                                    children: [
-                                                                      Container(
-                                                                        decoration:
-                                                                            BoxDecoration(
-                                                                          color:
-                                                                              Estabelecimento.primaryColor,
-                                                                          borderRadius:
-                                                                              BorderRadius.circular(30),
-                                                                        ),
-                                                                        padding:
-                                                                            EdgeInsets.all(10),
-                                                                        child:
-                                                                            Icon(
-                                                                          Icons
-                                                                              .open_in_new,
-                                                                          color:
-                                                                              Estabelecimento.contraPrimaryColor,
-                                                                        ),
-                                                                      ),
-                                                                    ],
-                                                                  )
-                                                                ],
-                                                              ),
-                                                              width: double
-                                                                  .infinity,
-                                                              height: containerHeight -
-                                                                  5, // Altura do container principal
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            30),
-                                                                color:
-                                                                    Colors.blue,
-                                                              ),
-                                                            ),
-                                                          ),
+                                            return Container(
+                                              alignment: Alignment.center,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(15),
+                                                border: Border.all(
+                                                    width: 1,
+                                                    color:
+                                                        Colors.grey.shade300),
                                               ),
-                                            ],
-                                          );
+                                              width: double.infinity,
+                                              height: corte.barba == true
+                                                  ? 500
+                                                  : 100,
+                                              child: Text(
+                                                corte.horarioCorte,
+                                                style: GoogleFonts.openSans(
+                                                  textStyle: TextStyle(
+                                                    fontWeight: FontWeight.w400,
+                                                    color: Colors.black,
+                                                    fontSize: 12,
+                                                  ),
+                                                ),
+                                              ),
+                                            );
+                                          } else {
+                                            // Se o índice não está em cortesFiltrados, mostra um Container padrão
+                                            return Container(
+                                              alignment: Alignment.center,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(15),
+                                                border: Border.all(
+                                                    width: 1,
+                                                    color:
+                                                        Colors.grey.shade300),
+                                              ),
+                                              width: double.infinity,
+                                              height: 100,
+                                              child: Text(
+                                                "Horário disponível",
+                                                style: GoogleFonts.openSans(
+                                                  textStyle: TextStyle(
+                                                    fontWeight: FontWeight.w400,
+                                                    color: Colors.black,
+                                                    fontSize: 12,
+                                                  ),
+                                                ),
+                                              ),
+                                            );
+                                          }
                                         },
                                       );
                                     }
