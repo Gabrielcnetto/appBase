@@ -7,9 +7,10 @@ import 'package:lionsbarberv1/classes/Estabelecimento.dart';
 import 'package:lionsbarberv1/classes/cortecClass.dart';
 import 'package:lionsbarberv1/classes/horarios.dart';
 import 'package:lionsbarberv1/classes/profissionais.dart';
-import 'package:lionsbarberv1/functions/agendaDataHorarios.dart';
 import 'package:lionsbarberv1/functions/managerScreenFunctions.dart';
+import 'package:lionsbarberv1/managerHome/screen/manager/principal/GeralTasks/modalDeEdicao.dart';
 import 'package:lionsbarberv1/managerHome/screen/manager/principal/agenda_7dias/semItems.dart';
+import 'package:lionsbarberv1/rotas/Approutes.dart';
 import 'package:provider/provider.dart';
 
 import '../agenda_7dias/corte7diasItem.dart';
@@ -60,17 +61,17 @@ class _ScheduleWithTwoListsState extends State<ScheduleWithTwoLists> {
   @override
   void initState() {
     super.initState();
-    _removedHours = List.from(listaHorariosEncaixe);
-    Provider.of<AgendaData>(context, listen: false).atualizarLinhaPosicao(
-      context: context,
-      listaHorarios: listaHorariosEncaixe,
-    );
+    resetListas();
     setDaysAndMonths();
     attViewSchedule(
       dia: lastSevenDays[0],
       mes: lastSevenMonths[0],
       proffName: profSelecionado,
     );
+  }
+
+  void resetListas() {
+    _removedHours = List.from(listaHorariosEncaixe);
   }
 
   List<Horarios> _listaHorarios = listaHorariosEncaixe;
@@ -160,6 +161,7 @@ class _ScheduleWithTwoListsState extends State<ScheduleWithTwoLists> {
                             InkWell(
                               splashColor: Colors.transparent,
                               onTap: () {
+                                resetListas();
                                 setState(() {
                                   selectedIndex = index;
                                   diaSelecionadoSegundo = day;
@@ -229,6 +231,7 @@ class _ScheduleWithTwoListsState extends State<ScheduleWithTwoLists> {
                           padding: const EdgeInsets.symmetric(horizontal: 10),
                           child: InkWell(
                             onTap: () async {
+                              resetListas();
                               setState(() {
                                 profSelecionado = profissional.nomeProf;
                                 profissionalSelecionadoIndex = profIndex;
@@ -319,9 +322,7 @@ class _ScheduleWithTwoListsState extends State<ScheduleWithTwoLists> {
                               child: Column(
                                 children: listaHorariosdaLateral.map((hr) {
                                   return Container(
-                                    decoration: BoxDecoration(
-                                        border: Border.all(
-                                            width: 1, color: Colors.black)),
+                                    decoration: BoxDecoration(),
                                     alignment: Alignment.center,
                                     height: 100,
                                     child: Text(
@@ -400,28 +401,103 @@ class _ScheduleWithTwoListsState extends State<ScheduleWithTwoLists> {
                                             }
 
                                             return Container(
+                                              padding: EdgeInsets.symmetric(
+                                                  vertical: 5,
+                                                  horizontal: 20),
                                               alignment: Alignment.center,
                                               decoration: BoxDecoration(
+                                                color: Colors.blue,
                                                 borderRadius:
                                                     BorderRadius.circular(15),
                                                 border: Border.all(
                                                     width: 1,
                                                     color:
-                                                        Colors.grey.shade300),
+                                                        Colors.blue.shade100),
                                               ),
                                               width: double.infinity,
                                               height: corte.barba == true
                                                   ? 500
                                                   : 100,
-                                              child: Text(
-                                                corte.horarioCorte,
-                                                style: GoogleFonts.openSans(
-                                                  textStyle: TextStyle(
-                                                    fontWeight: FontWeight.w400,
-                                                    color: Colors.black,
-                                                    fontSize: 12,
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Row(
+                                                    children: [
+                                                      Text(
+                                                        "Início:",
+                                                        style: GoogleFonts
+                                                            .openSans(
+                                                          textStyle:
+                                                              TextStyle(
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w400,
+                                                            color: Colors
+                                                                .white54,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      SizedBox(
+                                                        width: 5,
+                                                      ),
+                                                      Text(
+                                                        "${corte.horarioCorte}",
+                                                        style: GoogleFonts
+                                                            .openSans(
+                                                          textStyle:
+                                                              TextStyle(
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w600,
+                                                            color:
+                                                                Colors.white,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
                                                   ),
-                                                ),
+                                                  Container(
+                                                    alignment:
+                                                        Alignment.centerLeft,
+                                                    width: double.infinity,
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        Text(
+                                                          "${corte.barba == true ? "Corte + Barba Inclusa" : "Corte Normal, sem barba"}",
+                                                          style: GoogleFonts
+                                                              .openSans(
+                                                                  textStyle:
+                                                                      TextStyle(
+                                                            fontSize: 18,
+                                                            color:
+                                                                Colors.white,
+                                                          )),
+                                                        ),
+                                                         
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  Row(
+                                                    children: [
+                                                      Text("Cliente: ", style: GoogleFonts.openSans(textStyle: TextStyle(fontSize: 13, color: Colors.white54)),),
+                                                      Text("${corte.clientName}",style: GoogleFonts
+                                                            .openSans(
+                                                          textStyle:
+                                                              TextStyle(
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w600,
+                                                            color:
+                                                                Colors.white,
+                                                          ),
+                                                        ),)
+                                                    ],
+                                                  )
+                                                ],
                                               ),
                                             );
                                           } else {
@@ -434,16 +510,16 @@ class _ScheduleWithTwoListsState extends State<ScheduleWithTwoLists> {
                                                 border: Border.all(
                                                     width: 1,
                                                     color:
-                                                        Colors.grey.shade300),
+                                                        Colors.grey.shade100),
                                               ),
                                               width: double.infinity,
                                               height: 100,
                                               child: Text(
                                                 "Horário disponível",
-                                                style: GoogleFonts.openSans(
+                                                style: GoogleFonts.poppins(
                                                   textStyle: TextStyle(
                                                     fontWeight: FontWeight.w400,
-                                                    color: Colors.black,
+                                                    color: Colors.black54,
                                                     fontSize: 12,
                                                   ),
                                                 ),
@@ -455,24 +531,6 @@ class _ScheduleWithTwoListsState extends State<ScheduleWithTwoLists> {
                                     }
                                   },
                                 ),
-                              ),
-                            ),
-                            Positioned(
-                              top:
-                                  Provider.of<AgendaData>(context).linhaPosicao,
-                              left: MediaQuery.of(context).size.width * 0.12,
-                              child: AnimatedContainer(
-                                height: 3,
-                                width: MediaQuery.of(context).size.width -
-                                    MediaQuery.of(context).size.width * 0.12,
-                                color: Colors.redAccent,
-                                duration: Duration(seconds: 1),
-                                curve: Curves.easeInOut,
-                                onEnd: () {
-                                  Provider.of<AgendaData>(context,
-                                          listen: false)
-                                      .resetLinhaPosicao();
-                                },
                               ),
                             ),
                           ],

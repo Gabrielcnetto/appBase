@@ -19,4 +19,5 @@ class AppRoutesApp {
   static const HomeScreen01WithBoolManager = "/HomeScreen01WithBoolManager";
   static const ProfileScreenManagerWithScafol = "/ProfileScreenManagerWithScafol";
   static const GraphicsManagerScreen = "/GraphicsManagerScreen";
+  static const ModalDeEdicao = "/ModalDeEdicao";
 }

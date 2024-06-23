@@ -12,6 +12,7 @@ import 'package:lionsbarberv1/functions/rankingProviderHome.dart';
 import 'package:lionsbarberv1/functions/userLogin.dart';
 import 'package:lionsbarberv1/managerHome/screen/home/homeScreen01.dart';
 import 'package:lionsbarberv1/managerHome/screen/manager/GraphicsAndSales/GraphicsScreenManager.dart';
+import 'package:lionsbarberv1/managerHome/screen/manager/principal/GeralTasks/modalDeEdicao.dart';
 import 'package:lionsbarberv1/managerHome/screen/manager/principal/agenda_7dias/agenda7diasscreen.dart';
 import 'package:lionsbarberv1/managerHome/screen/manager/principal/components/agendaDia/pricesandpercentages/PricesAndPercentagens.dart';
 import 'package:lionsbarberv1/managerHome/screen/profile/profileScreen.dart';
@@ -79,9 +80,9 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(
           create: (_) => ManyChatConfirmation(),
         ),
-        ChangeNotifierProvider(
-          create: (_) => AgendaData(),
-        ),
+        //ChangeNotifierProvider(
+        //  create: (_) => AgendaData(),
+        //),
       ],
 
       //TESTE DO REPOSITORIO
@@ -139,6 +140,7 @@ class _MyAppState extends State<MyApp> {
               const PricesAndPercentages(),
           AppRoutesApp.GraphicsManagerScreen: (ctx) =>
               const GraphicsManagerScreen(),
+              AppRoutesApp.ModalDeEdicao: (ctx)=>const ModalDeEdicao(),
         },
       ),
     );

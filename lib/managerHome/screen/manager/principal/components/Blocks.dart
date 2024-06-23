@@ -296,7 +296,24 @@ class _BlocksManagerComponentState extends State<BlocksManagerComponent> {
                     children: [
                       InkWell(
                         onTap: (){
-                          Navigator.of(context).pushNamed(AppRoutesApp.GraphicsManagerScreen);
+                        //  Navigator.of(context).pushNamed(AppRoutesApp.GraphicsManagerScreen);
+                        showDialog(
+                            context: context,
+                            builder: (ctx) {
+                              return AlertDialog(
+                                title: Text("Opa! Perai..."),
+                                content: Text(
+                                    "Ainda estamos trabalhando nesta funcionalidade, informaremos assim que estiver pronta!"),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: Text("Voltar"),
+                                  ),
+                                ],
+                              );
+                            });
                         },
                         child: Container(
                           padding: EdgeInsets.all(5),
