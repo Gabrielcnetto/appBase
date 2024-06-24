@@ -63,6 +63,8 @@ class _ScheduleWithTwoListsState extends State<ScheduleWithTwoLists> {
     super.initState();
     resetListas();
     setDaysAndMonths();
+    valorParaAdicionar;
+    print("o valor da conta deu: $valorParaAdicionar");
     attViewSchedule(
       dia: lastSevenDays[0],
       mes: lastSevenMonths[0],
@@ -70,13 +72,62 @@ class _ScheduleWithTwoListsState extends State<ScheduleWithTwoLists> {
     );
   }
 
+  int? valorParaAdicionar;
   void resetListas() {
-    _removedHours = List.from(listaHorariosEncaixe);
+    int valorFinalDaListaAposRemocao = _removedHours.length;
+    int valorInteiroDaLista = _listaHorarios.length;
+    setState(() {
+      valorParaAdicionar = (valorInteiroDaLista - valorFinalDaListaAposRemocao);
+    });
+    //_removedHours = List.from(listaHorariosEncaixe);
   }
 
+  List<CorteClass> _cortesFiltrados = [];
   List<Horarios> _listaHorarios = listaHorariosEncaixe;
   List<Horarios> _removedHours = listaHorariosEncaixe;
   List<Profissionais> _profList = profList;
+  void _fetchAndFilterData() async {
+    final cortesStream = Provider.of<ManagerScreenFunctions>(
+      context,
+      listen: false,
+    ).CorteslistaManager;
+
+    cortesStream.listen((cortes) {
+      if (cortes != null && cortes.isNotEmpty) {
+        setState(() {
+          _cortesFiltrados =
+              cortes.where((corte) => corte.clientName != "extra").toList();
+          _removeItemsOnce();
+        });
+      }
+    });
+  }
+
+  void _removeItemsOnce() {
+    for (int index = 0; index < listaHorariosEncaixe.length; index++) {
+      bool isInCortesFiltrados = _cortesFiltrados.any(
+          (corte) => listaHorariosEncaixe[index].horario == corte.horarioCorte);
+
+      if (isInCortesFiltrados) {
+        CorteClass corte = _cortesFiltrados.firstWhere((corte) =>
+            listaHorariosEncaixe[index].horario == corte.horarioCorte);
+
+        if (corte.barba == true) {
+          List<Horarios> removedItems = [];
+          int removeCount = 4;
+          int endIndex = index + removeCount;
+
+          if (endIndex >= _removedHours.length) {
+            endIndex = _removedHours.length - 1;
+          }
+
+          removedItems = _removedHours.sublist(index + 1, endIndex + 1);
+          _removedHours.removeRange(index + 1, endIndex + 1);
+          _removedHours.addAll(removedItems);
+        }
+      }
+    }
+  }
 
   int selectedIndex = 0;
   int profissionalSelecionadoIndex = 0;
@@ -340,197 +391,150 @@ class _ScheduleWithTwoListsState extends State<ScheduleWithTwoLists> {
                               right: 0,
                               child: Container(
                                 width: MediaQuery.of(context).size.width * 0.78,
-                                child: StreamBuilder(
-                                  stream: Provider.of<ManagerScreenFunctions>(
-                                    context,
-                                    listen: true,
-                                  ).CorteslistaManager,
-                                  builder: (ctx, snapshot) {
-                                    if (snapshot.connectionState ==
-                                        ConnectionState.waiting) {
-                                      return Container(
-                                        alignment: Alignment.center,
-                                        child:
-                                            const CircularProgressIndicator(),
-                                      );
-                                    } else if (!snapshot.hasData ||
-                                        snapshot.data!.isEmpty) {
-                                      return Container(
-                                        child: const SemItens(),
-                                      );
-                                    } else {
-                                      final List<CorteClass>? cortes =
-                                          snapshot.data;
-                                      final List<CorteClass> cortesFiltrados =
-                                          cortes!
-                                              .where((corte) =>
-                                                  corte.clientName != "extra")
-                                              .toList();
+                                child: StreamBuilder<List<CorteClass>>(
+      stream: Provider.of<ManagerScreenFunctions>(
+        context,
+        listen: true,
+      ).CorteslistaManager,
+      builder: (ctx, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Container(
+            alignment: Alignment.center,
+            child: const CircularProgressIndicator(),
+          );
+        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+          return Container(
+            child: const SemItens(),
+          );
+        } else {
+          // Garanta que _cortesFiltrados está atualizado
+          if (_cortesFiltrados.isEmpty) {
+            _cortesFiltrados = snapshot.data!
+                .where((corte) => corte.clientName != "extra")
+                .toList();
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              setState(() {
+                _removeItemsOnce();
+              });
+            });
+          }
 
-                                      return ListView.builder(
-                                        shrinkWrap: true,
-                                        physics: NeverScrollableScrollPhysics(),
-                                        itemCount: _removedHours.length,
-                                        itemBuilder: (ctx, index) {
-                                          // Verifica se o horário do índice atual está em cortesFiltrados
-                                          bool isInCortesFiltrados =
-                                              cortesFiltrados.any((corte) =>
-                                                  listaHorariosEncaixe[index]
-                                                      .horario ==
-                                                  corte.horarioCorte);
+          return ListView.builder(
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            itemCount: listaHorariosEncaixe.length,
+            itemBuilder: (ctx, index) {
+              bool isInCortesFiltrados = _cortesFiltrados.any((corte) =>
+                  listaHorariosEncaixe[index].horario == corte.horarioCorte);
 
-                                          if (isInCortesFiltrados) {
-                                            // Obtém o item correspondente de cortesFiltrados
-                                            CorteClass corte = cortesFiltrados
-                                                .firstWhere((corte) =>
-                                                    listaHorariosEncaixe[index]
-                                                        .horario ==
-                                                    corte.horarioCorte);
+              if (isInCortesFiltrados) {
+                CorteClass corte = _cortesFiltrados.firstWhere((corte) =>
+                    listaHorariosEncaixe[index].horario == corte.horarioCorte);
 
-                                            if (corte.barba == true) {
-                                              // Remove os próximos 4 itens de listaHorariosEncaixe a partir do índice atual
-                                              int removeCount = (index + 4 <
-                                                      _removedHours.length)
-                                                  ? 4
-                                                  : _removedHours.length -
-                                                      index -
-                                                      1;
-                                              _removedHours.removeRange(
-                                                  index + 1,
-                                                  index + 1 + removeCount);
-                                            }
-
-                                            return Container(
-                                              padding: EdgeInsets.symmetric(
-                                                  vertical: 5,
-                                                  horizontal: 20),
-                                              alignment: Alignment.center,
-                                              decoration: BoxDecoration(
-                                                color: Colors.blue,
-                                                borderRadius:
-                                                    BorderRadius.circular(15),
-                                                border: Border.all(
-                                                    width: 1,
-                                                    color:
-                                                        Colors.blue.shade100),
-                                              ),
-                                              width: double.infinity,
-                                              height: corte.barba == true
-                                                  ? 500
-                                                  : 100,
-                                              child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  Row(
-                                                    children: [
-                                                      Text(
-                                                        "Início:",
-                                                        style: GoogleFonts
-                                                            .openSans(
-                                                          textStyle:
-                                                              TextStyle(
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w400,
-                                                            color: Colors
-                                                                .white54,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      SizedBox(
-                                                        width: 5,
-                                                      ),
-                                                      Text(
-                                                        "${corte.horarioCorte}",
-                                                        style: GoogleFonts
-                                                            .openSans(
-                                                          textStyle:
-                                                              TextStyle(
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w600,
-                                                            color:
-                                                                Colors.white,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  Container(
-                                                    alignment:
-                                                        Alignment.centerLeft,
-                                                    width: double.infinity,
-                                                    child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceBetween,
-                                                      children: [
-                                                        Text(
-                                                          "${corte.barba == true ? "Corte + Barba Inclusa" : "Corte Normal, sem barba"}",
-                                                          style: GoogleFonts
-                                                              .openSans(
-                                                                  textStyle:
-                                                                      TextStyle(
-                                                            fontSize: 18,
-                                                            color:
-                                                                Colors.white,
-                                                          )),
-                                                        ),
-                                                         
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  Row(
-                                                    children: [
-                                                      Text("Cliente: ", style: GoogleFonts.openSans(textStyle: TextStyle(fontSize: 13, color: Colors.white54)),),
-                                                      Text("${corte.clientName}",style: GoogleFonts
-                                                            .openSans(
-                                                          textStyle:
-                                                              TextStyle(
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w600,
-                                                            color:
-                                                                Colors.white,
-                                                          ),
-                                                        ),)
-                                                    ],
-                                                  )
-                                                ],
-                                              ),
-                                            );
-                                          } else {
-                                            // Se o índice não está em cortesFiltrados, mostra um Container padrão
-                                            return Container(
-                                              alignment: Alignment.center,
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(15),
-                                                border: Border.all(
-                                                    width: 1,
-                                                    color:
-                                                        Colors.grey.shade100),
-                                              ),
-                                              width: double.infinity,
-                                              height: 100,
-                                              child: Text(
-                                                "Horário disponível",
-                                                style: GoogleFonts.poppins(
-                                                  textStyle: TextStyle(
-                                                    fontWeight: FontWeight.w400,
-                                                    color: Colors.black54,
-                                                    fontSize: 12,
-                                                  ),
-                                                ),
-                                              ),
-                                            );
-                                          }
-                                        },
-                                      );
-                                    }
-                                  },
+                return Container(
+                  padding: EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: Colors.blue,
+                    borderRadius: BorderRadius.circular(15),
+                    border: Border.all(width: 1, color: Colors.blue.shade100),
+                  ),
+                  width: double.infinity,
+                  height: corte.barba == true ? 500 : 100,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Row(
+                        children: [
+                          Text(
+                            "Início:",
+                            style: GoogleFonts.openSans(
+                              textStyle: TextStyle(
+                                fontWeight: FontWeight.w400,
+                                color: Colors.white54,
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 5),
+                          Text(
+                            "${corte.horarioCorte}",
+                            style: GoogleFonts.openSans(
+                              textStyle: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Container(
+                        alignment: Alignment.centerLeft,
+                        width: double.infinity,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "${corte.barba == true ? "Corte + Barba Inclusa" : "Corte Normal, sem barba"}",
+                              style: GoogleFonts.openSans(
+                                textStyle: TextStyle(
+                                  fontSize: 18,
+                                  color: Colors.white,
                                 ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            "Cliente: ",
+                            style: GoogleFonts.openSans(
+                              textStyle: TextStyle(
+                                  fontSize: 13,
+                                  color: Colors.white54),
+                            ),
+                          ),
+                          Text(
+                            "${corte.clientName}",
+                            style: GoogleFonts.openSans(
+                              textStyle: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white,
+                              ),
+                            ),
+                          )
+                        ],
+                      )
+                    ],
+                  ),
+                );
+              } else {
+                return Container(
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15),
+                    border: Border.all(width: 1, color: Colors.grey.shade100),
+                  ),
+                  width: double.infinity,
+                  height: 100,
+                  child: Text(
+                    "Horário disponível",
+                    style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                        fontWeight: FontWeight.w400,
+                        color: Colors.black54,
+                        fontSize: 12,
+                      ),
+                    ),
+                  ),
+                );
+              }
+            },
+          );
+        }
+      },
+    ),
                               ),
                             ),
                           ],

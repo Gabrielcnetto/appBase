@@ -628,7 +628,7 @@ class _HomeScreen01State extends State<HomeScreen01>
       body: _screensSelect != null && _screensSelect![screen]['tela'] != null
           ? _screensSelect![screen]['tela'] as Widget
           : Container(),
-      floatingActionButton: FloatingActionBubble(
+      floatingActionButton: (isFuncionario || isManager) == true?  FloatingActionBubble(
         items: <Bubble>[
           Bubble(
             icon: Icons.qr_code,
@@ -708,7 +708,7 @@ class _HomeScreen01State extends State<HomeScreen01>
         },
         iconData: exibindoItens ? Icons.arrow_drop_down : Icons.arrow_drop_up,
         animation: _animation!,
-      ),
+      ): null,
     );
   }
 }

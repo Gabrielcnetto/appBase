@@ -375,10 +375,6 @@ List<Horarios> listaHorariosEncaixe = [
     horario: "19:30",
     id: Random().nextDouble().toString(),
   ),
-  Horarios(
-    horario: "19:50",
-    id: Random().nextDouble().toString(),
-  ),
 
 ];
 
@@ -524,11 +520,6 @@ List<Horarios> sabadoHorariosEncaixe = [
     horario: "16:30",
     id: Random().nextDouble().toString(),
   ),
-  Horarios(
-    horario: "16:50",
-    id: Random().nextDouble().toString(),
-  ),
-
 ];
 List<Horarios> listaHorariosdaLateral = [
   Horarios(
@@ -723,5 +714,8 @@ List<Horarios> listaHorariosdaLateral = [
     horario: "19:50",
     id: Random().nextDouble().toString(),
   ),
-
+  Horarios(
+    horario: "20:00",
+    id: Random().nextDouble().toString(),
+  ),
 ];

@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
+import 'package:lionsbarberv1/rotas/Approutes.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -399,62 +400,39 @@ class _ItemComponentHourState extends State<ItemComponentHourFuncionario> {
                           const SizedBox(
                             width: 15,
                           ),
-                          InkWell(
-                            onTap: () async {
-                              setAndMyCortesIsActive();
-                              setAndMyCortesIsActiveAllCuts();
-                            },
-                            child: Container(
-                              width: MediaQuery.of(context).size.width * 0.09,
-                              height: MediaQuery.of(context).size.height * 0.05,
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(20)),
-                              alignment: Alignment.center,
-                              child: const Icon(
-                                Icons.check_circle,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ),
+                          
                         ],
                       ),
-                      widget.Corte.numeroContato.isEmpty
-                          ? Container()
-                          : InkWell(
-                              onTap: showPreLembrete,
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 5, vertical: 1),
-                                decoration: BoxDecoration(
-                                    color: Colors.green.shade600,
-                                    borderRadius: BorderRadius.circular(15)),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Text(
-                                      "Enviar Lembrete",
-                                      style: GoogleFonts.openSans(
-                                        textStyle: const TextStyle(
-                                          fontWeight: FontWeight.w400,
-                                          color: Colors.white,
-                                          fontSize: 12,
+                      InkWell(
+                                onTap: () {
+                                  Navigator.of(context).pushNamed(
+                                      AppRoutesApp.ModalDeEdicao,
+                                      arguments: widget.Corte);
+                                },
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10, vertical: 5),
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(15)),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Text(
+                                        "Ver mais",
+                                        style: GoogleFonts.openSans(
+                                          textStyle: const TextStyle(
+                                            fontWeight: FontWeight.w400,
+                                            color: Colors.black,
+                                            fontSize: 12,
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                    Container(
-                                      width: MediaQuery.of(context).size.width *
-                                          0.08,
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              0.08,
-                                      child: Image.asset(
-                                          "imagesOfApp/whatsaaplogo.png"),
-                                    ),
-                                  ],
+                                      Icon(Icons.open_in_new),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            )
+                              )
                     ],
                   ),
                 ],

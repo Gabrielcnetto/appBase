@@ -595,7 +595,7 @@ class _EncaixeScreenProfissionalOptionHomeProfState extends State<EncaixeScreenP
                     onTap: () {
                       CreateAgendamento();
                       Navigator.of(context).pushReplacementNamed(
-                          AppRoutesApp.ConfirmScreenCorteManager);
+                          AppRoutesApp.ConfirmScreenCorte);
                     },
                     child: Padding(
                       padding: const EdgeInsets.only(top: 15),
