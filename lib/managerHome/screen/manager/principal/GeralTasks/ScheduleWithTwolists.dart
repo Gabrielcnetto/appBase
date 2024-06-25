@@ -12,6 +12,7 @@ import 'package:lionsbarberv1/managerHome/screen/manager/principal/GeralTasks/mo
 import 'package:lionsbarberv1/managerHome/screen/manager/principal/agenda_7dias/semItems.dart';
 import 'package:lionsbarberv1/rotas/Approutes.dart';
 import 'package:provider/provider.dart';
+import 'package:timeline_tile/timeline_tile.dart';
 
 import '../agenda_7dias/corte7diasItem.dart';
 
@@ -61,10 +62,8 @@ class _ScheduleWithTwoListsState extends State<ScheduleWithTwoLists> {
   @override
   void initState() {
     super.initState();
-    resetListas();
+
     setDaysAndMonths();
-    valorParaAdicionar;
-    print("o valor da conta deu: $valorParaAdicionar");
     attViewSchedule(
       dia: lastSevenDays[0],
       mes: lastSevenMonths[0],
@@ -72,19 +71,9 @@ class _ScheduleWithTwoListsState extends State<ScheduleWithTwoLists> {
     );
   }
 
-  int? valorParaAdicionar;
-  void resetListas() {
-    int valorFinalDaListaAposRemocao = _removedHours.length;
-    int valorInteiroDaLista = _listaHorarios.length;
-    setState(() {
-      valorParaAdicionar = (valorInteiroDaLista - valorFinalDaListaAposRemocao);
-    });
-    //_removedHours = List.from(listaHorariosEncaixe);
-  }
-
   List<CorteClass> _cortesFiltrados = [];
-  List<Horarios> _listaHorarios = listaHorariosEncaixe;
-  List<Horarios> _removedHours = listaHorariosEncaixe;
+  List<Horarios> _listaHorarios = listaHorariosEncaixev2;
+  List<Horarios> _removedHours = listaHorariosEncaixev2;
   List<Profissionais> _profList = profList;
   void _fetchAndFilterData() async {
     final cortesStream = Provider.of<ManagerScreenFunctions>(
@@ -95,8 +84,6 @@ class _ScheduleWithTwoListsState extends State<ScheduleWithTwoLists> {
     cortesStream.listen((cortes) {
       if (cortes != null && cortes.isNotEmpty) {
         setState(() {
-          _cortesFiltrados =
-              cortes.where((corte) => corte.clientName != "extra").toList();
           _removeItemsOnce();
         });
       }
@@ -104,13 +91,13 @@ class _ScheduleWithTwoListsState extends State<ScheduleWithTwoLists> {
   }
 
   void _removeItemsOnce() {
-    for (int index = 0; index < listaHorariosEncaixe.length; index++) {
-      bool isInCortesFiltrados = _cortesFiltrados.any(
-          (corte) => listaHorariosEncaixe[index].horario == corte.horarioCorte);
+    for (int index = 0; index < listaHorariosEncaixev2.length; index++) {
+      bool isInCortesFiltrados = _cortesFiltrados.any((corte) =>
+          listaHorariosEncaixev2[index].horario == corte.horarioCorte);
 
       if (isInCortesFiltrados) {
         CorteClass corte = _cortesFiltrados.firstWhere((corte) =>
-            listaHorariosEncaixe[index].horario == corte.horarioCorte);
+            listaHorariosEncaixev2[index].horario == corte.horarioCorte);
 
         if (corte.barba == true) {
           List<Horarios> removedItems = [];
@@ -132,9 +119,9 @@ class _ScheduleWithTwoListsState extends State<ScheduleWithTwoLists> {
   int selectedIndex = 0;
   int profissionalSelecionadoIndex = 0;
   int encontrarIndiceHorario(String horarioCorte) {
-    // Encontra o índice do horário na lista listaHorariosEncaixe
-    for (int i = 0; i < listaHorariosEncaixe.length; i++) {
-      if (listaHorariosEncaixe[i].horario == horarioCorte) {
+    // Encontra o índice do horário na lista listaHorariosEncaixev2
+    for (int i = 0; i < listaHorariosEncaixev2.length; i++) {
+      if (listaHorariosEncaixev2[i].horario == horarioCorte) {
         return i; // Retorna o índice encontrado
       }
     }
@@ -212,7 +199,6 @@ class _ScheduleWithTwoListsState extends State<ScheduleWithTwoLists> {
                             InkWell(
                               splashColor: Colors.transparent,
                               onTap: () {
-                                resetListas();
                                 setState(() {
                                   selectedIndex = index;
                                   diaSelecionadoSegundo = day;
@@ -282,7 +268,6 @@ class _ScheduleWithTwoListsState extends State<ScheduleWithTwoLists> {
                           padding: const EdgeInsets.symmetric(horizontal: 10),
                           child: InkWell(
                             onTap: () async {
-                              resetListas();
                               setState(() {
                                 profSelecionado = profissional.nomeProf;
                                 profissionalSelecionadoIndex = profIndex;
@@ -357,190 +342,131 @@ class _ScheduleWithTwoListsState extends State<ScheduleWithTwoLists> {
                   ),
                 ),
                 Container(
-                  width: MediaQuery.of(context).size.width,
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Stack(
-                          children: [
-                            Container(
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                color: Colors.grey.shade100,
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              width: MediaQuery.of(context).size.width * 0.12,
-                              child: Column(
-                                children: listaHorariosdaLateral.map((hr) {
-                                  return Container(
-                                    decoration: BoxDecoration(),
-                                    alignment: Alignment.center,
-                                    height: 100,
-                                    child: Text(
-                                      hr.horario,
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                  );
-                                }).toList(),
-                              ),
-                            ),
-                            Positioned(
-                              right: 0,
-                              child: Container(
-                                width: MediaQuery.of(context).size.width * 0.78,
-                                child: StreamBuilder<List<CorteClass>>(
-      stream: Provider.of<ManagerScreenFunctions>(
-        context,
-        listen: true,
-      ).CorteslistaManager,
-      builder: (ctx, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Container(
-            alignment: Alignment.center,
-            child: const CircularProgressIndicator(),
-          );
-        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return Container(
-            child: const SemItens(),
-          );
-        } else {
-          // Garanta que _cortesFiltrados está atualizado
-          if (_cortesFiltrados.isEmpty) {
-            _cortesFiltrados = snapshot.data!
-                .where((corte) => corte.clientName != "extra")
-                .toList();
-            WidgetsBinding.instance.addPostFrameCallback((_) {
-              setState(() {
-                _removeItemsOnce();
-              });
-            });
-          }
+                  child: StreamBuilder<List<CorteClass>>(
+                    stream: Provider.of<ManagerScreenFunctions>(
+                      context,
+                      listen: true,
+                    ).CorteslistaManager,
+                    builder: (ctx, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      } else if (snapshot.hasError || snapshot.data!.isEmpty) {
+                        return SemItens();
+                      } else if (snapshot.hasData) {
+                        final List<CorteClass>? cortes = snapshot.data;
+                        final List<CorteClass> cortesFiltrados = cortes!
+                            .where((corte) => corte.clientName != "extra")
+                            .toList();
 
-          return ListView.builder(
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            itemCount: listaHorariosEncaixe.length,
-            itemBuilder: (ctx, index) {
-              bool isInCortesFiltrados = _cortesFiltrados.any((corte) =>
-                  listaHorariosEncaixe[index].horario == corte.horarioCorte);
+                        int totalItems = 0;
+                        for (var hr in listaHorariosdaLateral) {
+                          totalItems += hr.quantidadeHorarios;
+                        }
 
-              if (isInCortesFiltrados) {
-                CorteClass corte = _cortesFiltrados.firstWhere((corte) =>
-                    listaHorariosEncaixe[index].horario == corte.horarioCorte);
+                        return Column(
+  children: _listaHorarios.map((horario) {
+    // Filtra os cortes correspondentes ao horário atual
+    List<CorteClass> cortesParaHorario = cortesFiltrados
+        .where((corte) => corte.horarioCorte == horario.horario)
+        .toList();
 
-                return Container(
-                  padding: EdgeInsets.symmetric(vertical: 5, horizontal: 20),
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    color: Colors.blue,
-                    borderRadius: BorderRadius.circular(15),
-                    border: Border.all(width: 1, color: Colors.blue.shade100),
-                  ),
-                  width: double.infinity,
-                  height: corte.barba == true ? 500 : 100,
-                  child: Column(
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Container(
+          width: MediaQuery.of(context).size.width * 0.9,
+          child: TimelineTile(
+            alignment: TimelineAlign.manual,
+            lineXY: 0,
+            axis: TimelineAxis.vertical,
+            indicatorStyle: IndicatorStyle(
+              color: Colors.grey.shade300,
+              height: 5,
+            ),
+            beforeLineStyle: LineStyle(
+              color: Colors.grey.shade300,
+              thickness: 2,
+            ),
+            endChild: Padding(
+              padding: const EdgeInsets.only(left: 5),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Row(
-                        children: [
-                          Text(
-                            "Início:",
-                            style: GoogleFonts.openSans(
-                              textStyle: TextStyle(
-                                fontWeight: FontWeight.w400,
-                                color: Colors.white54,
-                              ),
-                            ),
-                          ),
-                          SizedBox(width: 5),
-                          Text(
-                            "${corte.horarioCorte}",
-                            style: GoogleFonts.openSans(
-                              textStyle: TextStyle(
-                                fontWeight: FontWeight.w600,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
                       Container(
-                        alignment: Alignment.centerLeft,
-                        width: double.infinity,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "${corte.barba == true ? "Corte + Barba Inclusa" : "Corte Normal, sem barba"}",
-                              style: GoogleFonts.openSans(
-                                textStyle: TextStyle(
-                                  fontSize: 18,
-                                  color: Colors.white,
+                        alignment: Alignment.center,
+                        height: 100,
+                        child: Text(
+                          horario.horario,
+                          style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(width: 10), // Espaçamento entre horário e conteúdo
+
+                  // Verifica se há cortes para o horário atual
+                  cortesParaHorario.isNotEmpty
+                      ? Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: cortesParaHorario.map((corte) {
+                              return Container(
+                                alignment: Alignment.centerLeft,
+                                height: 80,
+                                color: Colors.yellow,
+                                width: MediaQuery.of(context).size.width * 0.7,
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                  child: Text(
+                                    corte.clientName,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ),
+                              );
+                            }).toList(),
+                          ),
+                        )
+                      : Expanded(
+                          // Se não houver cortes, exibe "Horário Disponível"
+                          child: Container(
+                            height: 80,
+                            width: MediaQuery.of(context).size.width * 0.7,
+                            color: Colors.grey.shade200,
+                            child: Center(
+                              child: Text(
+                                "Horário Disponível",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
                                 ),
                               ),
                             ),
-                          ],
-                        ),
-                      ),
-                      Row(
-                        children: [
-                          Text(
-                            "Cliente: ",
-                            style: GoogleFonts.openSans(
-                              textStyle: TextStyle(
-                                  fontSize: 13,
-                                  color: Colors.white54),
-                            ),
                           ),
-                          Text(
-                            "${corte.clientName}",
-                            style: GoogleFonts.openSans(
-                              textStyle: TextStyle(
-                                fontWeight: FontWeight.w600,
-                                color: Colors.white,
-                              ),
-                            ),
-                          )
-                        ],
-                      )
-                    ],
-                  ),
-                );
-              } else {
-                return Container(
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
-                    border: Border.all(width: 1, color: Colors.grey.shade100),
-                  ),
-                  width: double.infinity,
-                  height: 100,
-                  child: Text(
-                    "Horário disponível",
-                    style: GoogleFonts.poppins(
-                      textStyle: TextStyle(
-                        fontWeight: FontWeight.w400,
-                        color: Colors.black54,
-                        fontSize: 12,
-                      ),
-                    ),
-                  ),
-                );
-              }
-            },
-          );
-        }
-      },
-    ),
-                              ),
-                            ),
-                          ],
                         ),
-                      ),
-                    ],
+                ],
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }).toList(),
+);
+
+                      }
+                      return Container(); // Pode retornar um Container vazio ou outro widget de acordo com o seu caso.
+                    },
                   ),
                 ),
               ],

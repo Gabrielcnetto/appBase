@@ -444,7 +444,7 @@ class _AddScreenState extends State<AddScreen> {
             return atributosFixo.horario == horario.horario;
           });
           _horariosPreenchidosParaEvitarDupNoCreate
-              .add(Horarios(horario: horario.horario, id: horario.id));
+              .add(Horarios(horario: horario.horario, id: horario.id,quantidadeHorarios: 1));
         }
         setState(() {
           horarioFinal = List.from(listaTemporaria);

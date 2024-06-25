@@ -32,3 +32,23 @@ class CorteClass {
     required this.horariosExtra,
   });
 }
+
+class CorteClassEmpty extends CorteClass {
+  CorteClassEmpty()
+      : super(
+          DiaDoCorte: 0,
+          NomeMes: "",
+          barba: false,
+          clientName: "",
+          dateCreateAgendamento: DateTime.now(),
+          diaCorte: DateTime.now(),
+          horarioCorte: "",
+          horariosExtra: [],
+          id: "",
+          isActive: false,
+          numeroContato: "",
+          profissionalSelect: "",
+          ramdomCode: 0,
+          totalValue: 0,
+        );
+}

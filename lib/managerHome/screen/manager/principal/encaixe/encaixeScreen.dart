@@ -374,11 +374,12 @@ class _EncaixeScreenProfissionalOptionHomeProfState extends State<EncaixeScreenP
         for (var horario in listaCort) {
           Horariopreenchidos.add(
             Horarios(
+              quantidadeHorarios: 1,
               horario: horario.horario,
               id: horario.id,
             ),
           );
-          _horariosPreenchidosParaEvitarDupNoCreate.add(Horarios(horario: horario.horario, id: horario.id));
+          _horariosPreenchidosParaEvitarDupNoCreate.add(Horarios(horario: horario.horario, id: horario.id,quantidadeHorarios: 1));
         }
         print(
             "o tamanho da lista de preenchidos é ${Horariopreenchidos.length}");

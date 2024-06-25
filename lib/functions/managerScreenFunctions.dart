@@ -101,6 +101,8 @@ class ManagerScreenFunctions with ChangeNotifier {
     print("tela do manager, 7 dias corte funcao executada");
 
     try {
+      print("peguei o profissional:${proffName}");
+    // _CorteslistaManager.sink.add([]); // Isso irá enviar uma lista vazia para o fluxo
       final nomeBarber = Uri.encodeFull(proffName);
       QuerySnapshot querySnapshot = await database
           .collection('agenda/${selectMonth}/${selectDay}/${nomeBarber}/all')

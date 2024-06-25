@@ -54,6 +54,7 @@ dependencies:
   twilio_flutter: ^0.3.0
   http: ^1.2.1
   floating_action_bubble: ^1.1.4
+  timeline_tile: ^2.0.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
