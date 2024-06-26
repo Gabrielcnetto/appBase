@@ -299,7 +299,7 @@ class _AddScreenState extends State<AddScreen> {
                         Navigator.of(context).pop(); // Fechar o dialog
                       },
                       child: Container(
-                        padding: EdgeInsets.all(10),
+                        padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
                           color: Estabelecimento.primaryColor,
                           borderRadius: BorderRadius.circular(10),

@@ -102,7 +102,7 @@ class ManagerScreenFunctions with ChangeNotifier {
 
     try {
       print("peguei o profissional:${proffName}");
-    // _CorteslistaManager.sink.add([]); // Isso irá enviar uma lista vazia para o fluxo
+      // _CorteslistaManager.sink.add([]); // Isso irá enviar uma lista vazia para o fluxo
       final nomeBarber = Uri.encodeFull(proffName);
       QuerySnapshot querySnapshot = await database
           .collection('agenda/${selectMonth}/${selectDay}/${nomeBarber}/all')
@@ -124,11 +124,14 @@ class ManagerScreenFunctions with ChangeNotifier {
         }
 
         DateTime diaCorteFinal = diafinalCorte?.toDate() ?? DateTime.now();
+        List<String>? horariosExtras = data?["horariosExtras"] != null
+            ? List<String>.from(data?["horariosExtras"])
+            : null;
         // Acessando os atributos diretamente usando []
         print("tipos de dados:");
         print(data?["totalValue"].toString());
         return CorteClass(
-          horariosExtra: [],
+          horariosExtra: horariosExtras!,
           totalValue: data?["totalValue"],
           isActive: data?["isActive"],
           DiaDoCorte: data?["diaDoCorte"],

@@ -428,7 +428,7 @@ class _ItemComponentHourState extends State<ItemComponentHourFuncionario> {
                                           ),
                                         ),
                                       ),
-                                      Icon(Icons.open_in_new),
+                                      const Icon(Icons.open_in_new),
                                     ],
                                   ),
                                 ),

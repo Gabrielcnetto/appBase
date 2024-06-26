@@ -49,7 +49,7 @@ class _HomeScreen01State extends State<HomeScreen01>
     // TODO: implement initState
     _animationController = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 260),
+      duration: const Duration(milliseconds: 260),
     );
 
     final curvedAnimation =
@@ -635,7 +635,7 @@ class _HomeScreen01State extends State<HomeScreen01>
             iconColor: Estabelecimento.primaryColor,
             title: "Verificar Código",
             titleStyle: GoogleFonts.openSans(
-              textStyle: TextStyle(
+              textStyle: const TextStyle(
                 fontSize: 12,
                 color: Colors.black,
                 fontWeight: FontWeight.w400,
@@ -650,7 +650,7 @@ class _HomeScreen01State extends State<HomeScreen01>
               iconColor: Estabelecimento.primaryColor,
               title: "Preços e porcentagens",
               titleStyle: GoogleFonts.openSans(
-                textStyle: TextStyle(
+                textStyle: const TextStyle(
                   fontSize: 12,
                   color: Colors.black,
                   fontWeight: FontWeight.w400,
@@ -668,7 +668,7 @@ class _HomeScreen01State extends State<HomeScreen01>
               iconColor: Estabelecimento.primaryColor,
               title: "Adicionar Day Off",
               titleStyle: GoogleFonts.openSans(
-                textStyle: TextStyle(
+                textStyle: const TextStyle(
                   fontSize: 12,
                   color: Colors.black,
                   fontWeight: FontWeight.w400,
@@ -682,7 +682,7 @@ class _HomeScreen01State extends State<HomeScreen01>
             iconColor: Estabelecimento.primaryColor,
             title: "Meus próximos 7 Dias",
             titleStyle: GoogleFonts.openSans(
-              textStyle: TextStyle(
+              textStyle: const TextStyle(
                 fontSize: 12,
                 color: Colors.black,
                 fontWeight: FontWeight.w400,

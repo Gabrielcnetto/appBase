@@ -226,7 +226,7 @@ class _ModalDeEdicaoState extends State<ModalDeEdicao> {
                             title: Text(
                               "Cancelamos este horário",
                               style: GoogleFonts.openSans(
-                                textStyle: TextStyle(
+                                textStyle: const TextStyle(
                                     fontWeight: FontWeight.w800,
                                     color: Colors.black),
                               ),
@@ -234,7 +234,7 @@ class _ModalDeEdicaoState extends State<ModalDeEdicao> {
                             content: Text(
                               "O Horário foi cancelado, e liberado na sua agenda",
                               style: GoogleFonts.openSans(
-                                textStyle: TextStyle(
+                                textStyle: const TextStyle(
                                     fontWeight: FontWeight.w500,
                                     color: Colors.grey),
                               ),
@@ -247,7 +247,7 @@ class _ModalDeEdicaoState extends State<ModalDeEdicao> {
                                 child: Text(
                                   "Fechar",
                                   style: GoogleFonts.openSans(
-                                    textStyle: TextStyle(
+                                    textStyle: const TextStyle(
                                         fontWeight: FontWeight.w500,
                                         color: Colors.black),
                                   ),
@@ -285,14 +285,14 @@ class _ModalDeEdicaoState extends State<ModalDeEdicao> {
               left: 0,
               right: 0,
               child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 15),
+                padding: const EdgeInsets.symmetric(horizontal: 15),
                 width: double.infinity,
                 height: MediaQuery.of(context).size.height * 0.85,
                 child: Column(
                   children: [
                     //nome do cliente - inico
                     Container(
-                      padding: EdgeInsets.symmetric(vertical: 15),
+                      padding: const EdgeInsets.symmetric(vertical: 15),
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
                         border: Border(
@@ -309,7 +309,7 @@ class _ModalDeEdicaoState extends State<ModalDeEdicao> {
                           Text(
                             "Nome do Cliente",
                             style: GoogleFonts.openSans(
-                              textStyle: TextStyle(
+                              textStyle: const TextStyle(
                                 fontWeight: FontWeight.w600,
                                 fontSize: 16,
                                 color: Colors.black,
@@ -319,7 +319,7 @@ class _ModalDeEdicaoState extends State<ModalDeEdicao> {
                           Text(
                             "${infoRoutes.clientName}",
                             style: GoogleFonts.openSans(
-                              textStyle: TextStyle(
+                              textStyle: const TextStyle(
                                 fontWeight: FontWeight.w800,
                                 fontSize: 16,
                                 color: Colors.grey,
@@ -331,7 +331,7 @@ class _ModalDeEdicaoState extends State<ModalDeEdicao> {
                     ),
                     //Nome do cliente - fim
                     Container(
-                      padding: EdgeInsets.symmetric(vertical: 15),
+                      padding: const EdgeInsets.symmetric(vertical: 15),
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
                         border: Border(
@@ -348,7 +348,7 @@ class _ModalDeEdicaoState extends State<ModalDeEdicao> {
                           Text(
                             "Valor",
                             style: GoogleFonts.openSans(
-                              textStyle: TextStyle(
+                              textStyle: const TextStyle(
                                 fontWeight: FontWeight.w600,
                                 fontSize: 16,
                                 color: Colors.black,
@@ -358,7 +358,7 @@ class _ModalDeEdicaoState extends State<ModalDeEdicao> {
                           Text(
                             "R\$${infoRoutes.totalValue},00",
                             style: GoogleFonts.openSans(
-                              textStyle: TextStyle(
+                              textStyle: const TextStyle(
                                 fontWeight: FontWeight.w800,
                                 fontSize: 16,
                                 color: Colors.green,
@@ -371,7 +371,7 @@ class _ModalDeEdicaoState extends State<ModalDeEdicao> {
 
                     //CONTAINER DA DURACAO - INICIO
                     Container(
-                      padding: EdgeInsets.symmetric(vertical: 15),
+                      padding: const EdgeInsets.symmetric(vertical: 15),
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
                         border: Border(
@@ -388,7 +388,7 @@ class _ModalDeEdicaoState extends State<ModalDeEdicao> {
                           Text(
                             "Duração",
                             style: GoogleFonts.openSans(
-                              textStyle: TextStyle(
+                              textStyle: const TextStyle(
                                 fontWeight: FontWeight.w600,
                                 fontSize: 16,
                                 color: Colors.black,
@@ -398,7 +398,7 @@ class _ModalDeEdicaoState extends State<ModalDeEdicao> {
                           Text(
                             "${infoRoutes.barba == true ? "120min" : "30min"}",
                             style: GoogleFonts.openSans(
-                              textStyle: TextStyle(
+                              textStyle: const TextStyle(
                                 fontWeight: FontWeight.w500,
                                 fontSize: 16,
                                 color: Colors.grey,
@@ -411,7 +411,7 @@ class _ModalDeEdicaoState extends State<ModalDeEdicao> {
                     //CONTAINER DA DURACAO - FIM
                     //CONTAINER DO PROFISSIONAL - INCIO
                     Container(
-                      padding: EdgeInsets.symmetric(vertical: 15),
+                      padding: const EdgeInsets.symmetric(vertical: 15),
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
                         border: Border(
@@ -428,7 +428,7 @@ class _ModalDeEdicaoState extends State<ModalDeEdicao> {
                           Text(
                             "Profissional",
                             style: GoogleFonts.openSans(
-                              textStyle: TextStyle(
+                              textStyle: const TextStyle(
                                 fontWeight: FontWeight.w600,
                                 fontSize: 16,
                                 color: Colors.black,
@@ -438,7 +438,7 @@ class _ModalDeEdicaoState extends State<ModalDeEdicao> {
                           Text(
                             "${infoRoutes.profissionalSelect}",
                             style: GoogleFonts.openSans(
-                              textStyle: TextStyle(
+                              textStyle: const TextStyle(
                                 fontWeight: FontWeight.w500,
                                 fontSize: 16,
                                 color: Colors.grey,
@@ -456,22 +456,22 @@ class _ModalDeEdicaoState extends State<ModalDeEdicao> {
                             context: context,
                             builder: (ctx) {
                               return AlertDialog(
-                                title: Text("Opa! Perai..."),
-                                content: Text(
+                                title: const Text("Opa! Perai..."),
+                                content: const Text(
                                     "Ainda estamos trabalhando nesta funcionalidade, informaremos assim que estiver pronta!"),
                                 actions: [
                                   TextButton(
                                     onPressed: () {
                                       Navigator.of(context).pop();
                                     },
-                                    child: Text("Voltar"),
+                                    child: const Text("Voltar"),
                                   ),
                                 ],
                               );
                             });
                       },
                       child: Container(
-                        padding: EdgeInsets.symmetric(vertical: 15),
+                        padding: const EdgeInsets.symmetric(vertical: 15),
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
                           border: Border(
@@ -488,7 +488,7 @@ class _ModalDeEdicaoState extends State<ModalDeEdicao> {
                             Text(
                               "Data/Hora",
                               style: GoogleFonts.openSans(
-                                textStyle: TextStyle(
+                                textStyle: const TextStyle(
                                   fontWeight: FontWeight.w600,
                                   fontSize: 16,
                                   color: Colors.black,
@@ -501,14 +501,14 @@ class _ModalDeEdicaoState extends State<ModalDeEdicao> {
                                 Text(
                                   "${DateFormat('dd/MM/yyyy').format(infoRoutes.diaCorte)} - ${infoRoutes.horarioCorte}",
                                   style: GoogleFonts.openSans(
-                                    textStyle: TextStyle(
+                                    textStyle: const TextStyle(
                                       fontWeight: FontWeight.w500,
                                       fontSize: 16,
                                       color: Colors.grey,
                                     ),
                                   ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 10,
                                 ),
                                 Container(
@@ -516,7 +516,7 @@ class _ModalDeEdicaoState extends State<ModalDeEdicao> {
                                     color: Colors.grey.shade300,
                                     borderRadius: BorderRadius.circular(8),
                                   ),
-                                  padding: EdgeInsets.all(5),
+                                  padding: const EdgeInsets.all(5),
                                   child: Icon(
                                     Icons.edit,
                                     color: Colors.grey.shade800,
@@ -538,7 +538,7 @@ class _ModalDeEdicaoState extends State<ModalDeEdicao> {
               left: 0,
               right: 0,
               child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
                 width: double.infinity,
                 height: MediaQuery.of(context).size.height * 0.15,
                 color: Colors.grey.shade100.withOpacity(0.7),
@@ -553,7 +553,7 @@ class _ModalDeEdicaoState extends State<ModalDeEdicao> {
                       child: Container(
                         child: Column(
                           children: [
-                            Icon(
+                            const Icon(
                               Icons.delete,
                               size: 30,
                               color: Colors.blue,
@@ -561,7 +561,7 @@ class _ModalDeEdicaoState extends State<ModalDeEdicao> {
                             Text(
                               "Cancelar",
                               style: GoogleFonts.openSans(
-                                textStyle: TextStyle(
+                                textStyle: const TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w600,
                                   color: Colors.black,
@@ -591,7 +591,7 @@ class _ModalDeEdicaoState extends State<ModalDeEdicao> {
                                 Text(
                                   "Enviar Lembrete",
                                   style: GoogleFonts.openSans(
-                                    textStyle: TextStyle(
+                                    textStyle: const TextStyle(
                                       fontSize: 14,
                                       fontWeight: FontWeight.w600,
                                       color: Colors.black,
@@ -616,7 +616,7 @@ class _ModalDeEdicaoState extends State<ModalDeEdicao> {
                             Text(
                               "Finalizar",
                               style: GoogleFonts.openSans(
-                                textStyle: TextStyle(
+                                textStyle: const TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w600,
                                   color: Colors.black,
@@ -640,7 +640,7 @@ class _ModalDeEdicaoState extends State<ModalDeEdicao> {
                     bottom: BorderSide(width: 1, color: Colors.grey.shade200),
                   ),
                 ),
-                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
                 width: double.infinity,
                 height: MediaQuery.of(context).size.height * 0.09,
                 child: Row(
@@ -650,7 +650,7 @@ class _ModalDeEdicaoState extends State<ModalDeEdicao> {
                       onTap: () {
                         Navigator.of(context).pop();
                       },
-                      child: Icon(
+                      child: const Icon(
                         Icons.arrow_back_ios,
                         color: Colors.blue,
                       ),
@@ -658,7 +658,7 @@ class _ModalDeEdicaoState extends State<ModalDeEdicao> {
                     Text(
                       "Comanda nº ${infoRoutes.ramdomCode}",
                       style: GoogleFonts.openSans(
-                        textStyle: TextStyle(
+                        textStyle: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w600,
                           color: Colors.black,

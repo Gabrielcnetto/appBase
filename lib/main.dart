@@ -121,7 +121,7 @@ class _MyAppState extends State<MyApp> {
               const VerificationLoginScreen01(),
           AppRoutesApp.InitialScreenApp: (ctx) => const InitialScreenApp(),
           AppRoutesApp.LoginScreen01: (ctx) => const LoginScreen01(),
-          AppRoutesApp.HomeScreen01: (ctx) => HomeScreen01(
+          AppRoutesApp.HomeScreen01: (ctx) => const HomeScreen01(
                 selectedIndex: 0,
               ),
           AppRoutesApp.RegisterAccountScreen: (ctx) =>
@@ -135,7 +135,7 @@ class _MyAppState extends State<MyApp> {
               const Agenda7DiasScreenManager(),
           AppRoutesApp.ProfileScreen: (ctx) => const ProfileScreen(),
           AppRoutesApp.ProfileScreenManagerWithScafol: (ctx) =>
-              ProfileScreenManagerWithScafol(),
+              const ProfileScreenManagerWithScafol(),
           AppRoutesApp.PricesAndPercentages: (ctx) =>
               const PricesAndPercentages(),
           AppRoutesApp.GraphicsManagerScreen: (ctx) =>

@@ -147,7 +147,7 @@ class _ScheduleWithTwoListsState extends State<ScheduleWithTwoLists> {
                         Text(
                           "Calendário",
                           style: GoogleFonts.openSans(
-                            textStyle: TextStyle(
+                            textStyle: const TextStyle(
                               fontSize: 22,
                               fontWeight: FontWeight.w700,
                               color: Colors.black87,
@@ -158,7 +158,7 @@ class _ScheduleWithTwoListsState extends State<ScheduleWithTwoLists> {
                           child: Text(
                             "Agenda completa",
                             style: GoogleFonts.openSans(
-                              textStyle: TextStyle(
+                              textStyle: const TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w400,
                                 color: Colors.black87,
@@ -170,7 +170,7 @@ class _ScheduleWithTwoListsState extends State<ScheduleWithTwoLists> {
                     ),
                   ],
                 ),
-                SizedBox(height: 25),
+                const SizedBox(height: 25),
                 Container(
                   width: MediaQuery.of(context).size.width,
                   child: Row(
@@ -189,13 +189,13 @@ class _ScheduleWithTwoListsState extends State<ScheduleWithTwoLists> {
                           children: [
                             Text(
                               tresPrimeirasLetras,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.grey,
                               ),
                             ),
-                            SizedBox(height: 5),
+                            const SizedBox(height: 5),
                             InkWell(
                               splashColor: Colors.transparent,
                               onTap: () {
@@ -221,7 +221,7 @@ class _ScheduleWithTwoListsState extends State<ScheduleWithTwoLists> {
                                   vertical: 5,
                                 ),
                                 decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.only(
+                                  borderRadius: const BorderRadius.only(
                                     bottomLeft: Radius.elliptical(90, 90),
                                     bottomRight: Radius.elliptical(90, 90),
                                     topLeft: Radius.elliptical(90, 90),
@@ -255,7 +255,7 @@ class _ScheduleWithTwoListsState extends State<ScheduleWithTwoLists> {
                     ),
                   ),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 5),
                   child: Container(
@@ -308,7 +308,7 @@ class _ScheduleWithTwoListsState extends State<ScheduleWithTwoLists> {
                                   ),
                                   const SizedBox(width: 5),
                                   Container(
-                                    padding: EdgeInsets.symmetric(
+                                    padding: const EdgeInsets.symmetric(
                                       vertical: 2,
                                       horizontal: 10,
                                     ),
@@ -349,121 +349,316 @@ class _ScheduleWithTwoListsState extends State<ScheduleWithTwoLists> {
                     ).CorteslistaManager,
                     builder: (ctx, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Center(
+                        return const Center(
                           child: CircularProgressIndicator(),
                         );
                       } else if (snapshot.hasError || snapshot.data!.isEmpty) {
-                        return SemItens();
+                        return const SemItens();
                       } else if (snapshot.hasData) {
                         final List<CorteClass>? cortes = snapshot.data;
                         final List<CorteClass> cortesFiltrados = cortes!
                             .where((corte) => corte.clientName != "extra")
                             .toList();
+                        // Assuming cortesFiltrados is a List<CorteClass>
 
-                        int totalItems = 0;
-                        for (var hr in listaHorariosdaLateral) {
-                          totalItems += hr.quantidadeHorarios;
+                        List<String> allHorariosExtra = [];
+
+                        for (CorteClass corte in cortesFiltrados) {
+                          allHorariosExtra.addAll(corte.horariosExtra);
+                        }
+                        for (String horario in allHorariosExtra) {
+                          CorteClass novaCorte = CorteClass(
+                            horariosExtra: [], // Aqui você pode definir conforme necessário
+                            totalValue: 0, // Defina os valores apropriados
+                            isActive: false,
+                            DiaDoCorte: 0,
+                            NomeMes: "null",
+                            dateCreateAgendamento: DateTime.now(),
+                            clientName: "Barba",
+                            id: "",
+                            numeroContato: "null",
+                            profissionalSelect: "null",
+                            diaCorte: DateTime.now(),
+                            horarioCorte:
+                                horario, // Aqui define o horarioCorte com cada valor de allHorariosExtra
+                            barba: false,
+                            ramdomCode: 0,
+                          );
+
+                          cortesFiltrados.add(novaCorte);
                         }
 
+                        allHorariosExtra = allHorariosExtra.toSet().toList();
+                        print(
+                            "#3 tamanho da lista: ${allHorariosExtra.length}");
                         return Column(
-  children: _listaHorarios.map((horario) {
-    // Filtra os cortes correspondentes ao horário atual
-    List<CorteClass> cortesParaHorario = cortesFiltrados
-        .where((corte) => corte.horarioCorte == horario.horario)
-        .toList();
+                          children: _listaHorarios.map((horario) {
+                            // Filtra os cortes correspondentes ao horário atual
+                            List<CorteClass> cortesParaHorario = cortesFiltrados
+                                .where((corte) =>
+                                    corte.horarioCorte == horario.horario)
+                                .toList();
 
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        Container(
-          width: MediaQuery.of(context).size.width * 0.9,
-          child: TimelineTile(
-            alignment: TimelineAlign.manual,
-            lineXY: 0,
-            axis: TimelineAxis.vertical,
-            indicatorStyle: IndicatorStyle(
-              color: Colors.grey.shade300,
-              height: 5,
-            ),
-            beforeLineStyle: LineStyle(
-              color: Colors.grey.shade300,
-              thickness: 2,
-            ),
-            endChild: Padding(
-              padding: const EdgeInsets.only(left: 5),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        alignment: Alignment.center,
-                        height: 100,
-                        child: Text(
-                          horario.horario,
-                          style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            color: Colors.black,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(width: 10), // Espaçamento entre horário e conteúdo
+                            return Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Container(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.9,
+                                  child: TimelineTile(
+                                    alignment: TimelineAlign.manual,
+                                    lineXY: 0,
+                                    axis: TimelineAxis.vertical,
+                                    indicatorStyle: IndicatorStyle(
+                                      color: Colors.grey.shade300,
+                                      height: 5,
+                                    ),
+                                    beforeLineStyle: LineStyle(
+                                      color: Colors.grey.shade300,
+                                      thickness: 2,
+                                    ),
+                                    endChild: Padding(
+                                      padding: const EdgeInsets.only(left: 5),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceAround,
+                                        children: [
+                                          Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Container(
+                                                alignment: Alignment.center,
+                                                height: 100,
+                                                child: Text(
+                                                  horario.horario,
+                                                  style: const TextStyle(
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Colors.black,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          const SizedBox(
+                                              width:
+                                                  10), // Espaçamento entre horário e conteúdo
 
-                  // Verifica se há cortes para o horário atual
-                  cortesParaHorario.isNotEmpty
-                      ? Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: cortesParaHorario.map((corte) {
-                              return Container(
-                                alignment: Alignment.centerLeft,
-                                height: 80,
-                                color: Colors.yellow,
-                                width: MediaQuery.of(context).size.width * 0.7,
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                                  child: Text(
-                                    corte.clientName,
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.black,
+                                          // Verifica se há cortes para o horário atual
+                                          cortesParaHorario.isNotEmpty
+                                              ? Expanded(
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: cortesParaHorario
+                                                        .map((corte) {
+                                                      return corte.clientName ==
+                                                              "Barba"
+                                                          ? Container(
+                                                              alignment: Alignment
+                                                                  .centerLeft,
+                                                              height: MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .height *
+                                                                  0.2,
+                                                              decoration:
+                                                                  const BoxDecoration(
+                                                                color:
+                                                                    Colors.blue,
+                                                              ),
+                                                              width: MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width *
+                                                                  0.7,
+                                                              child: const Padding(
+                                                                padding: EdgeInsets
+                                                                    .symmetric(
+                                                                    horizontal:
+                                                                        8.0),
+                                                                child: Text(
+                                                                  "",
+                                                                  style:
+                                                                      TextStyle(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                    color: Colors
+                                                                        .black,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            )
+                                                          : Container(
+                                                            padding: EdgeInsets.only(bottom: 20),
+                                                              alignment: Alignment
+                                                                  .centerLeft,
+                                                              height: MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .height *
+                                                                  0.2,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                borderRadius: corte
+                                                                            .barba ==
+                                                                        true
+                                                                    ? const BorderRadius
+                                                                        .only(
+                                                                        topLeft:
+                                                                            Radius.circular(10),
+                                                                        topRight:
+                                                                            Radius.circular(10),
+                                                                      )
+                                                                    : BorderRadius
+                                                                        .circular(
+                                                                        10,
+                                                                      ),
+                                                                color:
+                                                                    Colors.blue,
+                                                              ),
+                                                              width: MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width *
+                                                                  0.7,
+                                                              child: Padding(
+                                                                padding: const EdgeInsets
+                                                                    .symmetric(
+                                                                    horizontal:
+                                                                        10,
+                                                                    vertical:
+                                                                        10),
+                                                                child: Column(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .spaceBetween,
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .start,
+                                                                  children: [
+                                                                    Row(
+                                                                      children: [
+                                                                        Text(
+                                                                          "ínicio: ${corte.horarioCorte}",
+                                                                          style:
+                                                                              GoogleFonts.openSans(
+                                                                            textStyle:
+                                                                                const TextStyle(
+                                                                              fontSize: 13,
+                                                                              color: Colors.white70,
+                                                                            ),
+                                                                          ),
+                                                                        )
+                                                                      ],
+                                                                    ),
+                                                                    Column(
+                                                                      crossAxisAlignment:
+                                                                          CrossAxisAlignment
+                                                                              .start,
+                                                                      children: [
+                                                                        Text(
+                                                                          "${corte.barba == true ? "Corte normal + Barba Incluída" : "Corte normal"}",
+                                                                          style:
+                                                                              GoogleFonts.openSans(
+                                                                            textStyle:
+                                                                                const TextStyle(
+                                                                              fontWeight: FontWeight.w600,
+                                                                              fontSize: 16,
+                                                                              color: Colors.white,
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                        Text(
+                                                                          corte
+                                                                              .clientName,
+                                                                          style:
+                                                                              GoogleFonts.openSans(
+                                                                            textStyle:
+                                                                                TextStyle(
+                                                                              fontWeight: FontWeight.w700,
+                                                                              fontSize: 16,
+                                                                              color: Estabelecimento.primaryColor,
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                    Row(
+                                                                      mainAxisAlignment:
+                                                                          MainAxisAlignment
+                                                                              .end,
+                                                                      children: [
+                                                                        InkWell(
+                                                                          onTap:
+                                                                              () {
+                                                                            Navigator.of(context).pushNamed(AppRoutesApp.ModalDeEdicao,
+                                                                                arguments: corte);
+                                                                          },
+                                                                          child:
+                                                                              Container(
+                                                                            padding:
+                                                                                const EdgeInsets.all(5),
+                                                                            decoration:
+                                                                                BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(15)),
+                                                                            child:
+                                                                                const Icon(
+                                                                              Icons.open_in_new,
+                                                                              size: 18,
+                                                                              color: Colors.black,
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                            );
+                                                    }).toList(),
+                                                  ),
+                                                )
+                                              : Expanded(
+                                                  // Se não houver cortes, exibe "Horário Disponível"
+                                                  child: Container(
+                                                    height: 80,
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            0.7,
+                                                    decoration: BoxDecoration(
+                                                      
+                                                      color:
+                                                          Colors.grey.shade200,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                    ),
+                                                    child: const Center(
+                                                      child: Text(
+                                                        "Horário Disponível",
+                                                        style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          fontSize: 14,
+                                                          color: Colors.black54,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
-                              );
-                            }).toList(),
-                          ),
-                        )
-                      : Expanded(
-                          // Se não houver cortes, exibe "Horário Disponível"
-                          child: Container(
-                            height: 80,
-                            width: MediaQuery.of(context).size.width * 0.7,
-                            color: Colors.grey.shade200,
-                            child: Center(
-                              child: Text(
-                                "Horário Disponível",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
-  }).toList(),
-);
-
+                              ],
+                            );
+                          }).toList(),
+                        );
                       }
                       return Container(); // Pode retornar um Container vazio ou outro widget de acordo com o seu caso.
                     },

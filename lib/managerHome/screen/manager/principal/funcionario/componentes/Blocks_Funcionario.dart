@@ -329,7 +329,7 @@ class _BlocksManagerComponentState extends State<BlocksFuncionarioComponent> {
                       Navigator.of(context).pushNamed(AppRoutesApp.ProfileScreenManagerWithScafol);
                     },
                     child: Container(
-                      padding: EdgeInsets.all(5),
+                      padding: const EdgeInsets.all(5),
                       decoration: BoxDecoration(
                         color: Colors.grey.shade200,
                         borderRadius: BorderRadius.circular(10),
@@ -337,7 +337,7 @@ class _BlocksManagerComponentState extends State<BlocksFuncionarioComponent> {
                       child: Text(
                         "Editar Perfil",
                         style: GoogleFonts.openSans(
-                          textStyle: TextStyle(
+                          textStyle: const TextStyle(
                               fontWeight: FontWeight.w600,
                               color: Colors.black,
                               fontSize: 12),

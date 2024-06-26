@@ -301,30 +301,30 @@ class _BlocksManagerComponentState extends State<BlocksManagerComponent> {
                             context: context,
                             builder: (ctx) {
                               return AlertDialog(
-                                title: Text("Opa! Perai..."),
-                                content: Text(
+                                title: const Text("Opa! Perai..."),
+                                content: const Text(
                                     "Ainda estamos trabalhando nesta funcionalidade, informaremos assim que estiver pronta!"),
                                 actions: [
                                   TextButton(
                                     onPressed: () {
                                       Navigator.of(context).pop();
                                     },
-                                    child: Text("Voltar"),
+                                    child: const Text("Voltar"),
                                   ),
                                 ],
                               );
                             });
                         },
                         child: Container(
-                          padding: EdgeInsets.all(5),
+                          padding: const EdgeInsets.all(5),
                           decoration: BoxDecoration(
-                            color: Color.fromARGB(255, 26, 82, 118),
+                            color: const Color.fromARGB(255, 26, 82, 118),
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: Text(
                             "Veja o resumo do estabelecimento",
                             style: GoogleFonts.openSans(
-                              textStyle: TextStyle(
+                              textStyle: const TextStyle(
                                   fontWeight: FontWeight.w600,
                                   color: Colors.white,
                                   fontSize: 12),
@@ -346,7 +346,7 @@ class _BlocksManagerComponentState extends State<BlocksManagerComponent> {
                           Navigator.of(context).pushNamed(AppRoutesApp.ProfileScreenManagerWithScafol);
                         },
                         child: Container(
-                          padding: EdgeInsets.all(5),
+                          padding: const EdgeInsets.all(5),
                           decoration: BoxDecoration(
                             color: Colors.grey.shade200,
                             borderRadius: BorderRadius.circular(10),
@@ -354,7 +354,7 @@ class _BlocksManagerComponentState extends State<BlocksManagerComponent> {
                           child: Text(
                             "Editar Perfil",
                             style: GoogleFonts.openSans(
-                              textStyle: TextStyle(
+                              textStyle: const TextStyle(
                                   fontWeight: FontWeight.w600,
                                   color: Colors.black,
                                   fontSize: 12),

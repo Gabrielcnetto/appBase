@@ -12,7 +12,7 @@ class AgendaData with ChangeNotifier {
   required List<Horarios> listaHorarios,
 }) {
   DateTime agora = DateTime.now();
-  DateTime horaBrasilia = agora.toUtc().subtract(Duration(hours: 3));
+  DateTime horaBrasilia = agora.toUtc().subtract(const Duration(hours: 3));
 
   int minutosAgora = horaBrasilia.hour * 60 + horaBrasilia.minute;
 

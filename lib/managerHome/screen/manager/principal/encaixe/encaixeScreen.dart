@@ -243,7 +243,7 @@ class _EncaixeScreenProfissionalOptionHomeProfState extends State<EncaixeScreenP
                         Navigator.of(context).pop(); // Fechar o dialog
                       },
                       child: Container(
-                        padding: EdgeInsets.all(10),
+                        padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
                           color: Estabelecimento.primaryColor,
                           borderRadius: BorderRadius.circular(10),
@@ -828,7 +828,7 @@ class _EncaixeScreenProfissionalOptionHomeProfState extends State<EncaixeScreenP
                             onChanged: (userDigitName) {
                               _onSearchTextChanged(text: userDigitName);
                             },
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               hintText: 'Digite para buscar Clientes',
                               border: InputBorder.none,
                             ),
@@ -836,7 +836,7 @@ class _EncaixeScreenProfissionalOptionHomeProfState extends State<EncaixeScreenP
                           if (_isSearching && _suggestions.isNotEmpty)
                             Container(
                               decoration: BoxDecoration(
-                                borderRadius: BorderRadius.vertical(
+                                borderRadius: const BorderRadius.vertical(
                                     bottom: Radius.circular(20)),
                                 color: Colors.white,
                                 boxShadow: [
@@ -844,7 +844,7 @@ class _EncaixeScreenProfissionalOptionHomeProfState extends State<EncaixeScreenP
                                     color: Colors.grey.withOpacity(0.5),
                                     spreadRadius: 1,
                                     blurRadius: 3,
-                                    offset: Offset(
+                                    offset: const Offset(
                                         0, 2), // changes position of shadow
                                   ),
                                 ],
@@ -940,7 +940,7 @@ class _EncaixeScreenProfissionalOptionHomeProfState extends State<EncaixeScreenP
                     // CONTAINER DA BARBA - INICIO
 
                     //container da barba true or false - inicio
-                    SizedBox(
+                    const SizedBox(
                       height: 25,
                     ),
                     //CONTAINER BOOL DA barba - INICIO
