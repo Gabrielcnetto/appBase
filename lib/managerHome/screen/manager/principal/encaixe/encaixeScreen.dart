@@ -19,15 +19,16 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-
 class EncaixeScreenProfissionalOptionHomeProf extends StatefulWidget {
   const EncaixeScreenProfissionalOptionHomeProf({super.key});
 
   @override
-  State<EncaixeScreenProfissionalOptionHomeProf> createState() => _EncaixeScreenProfissionalOptionHomeProfState();
+  State<EncaixeScreenProfissionalOptionHomeProf> createState() =>
+      _EncaixeScreenProfissionalOptionHomeProfState();
 }
 
-class _EncaixeScreenProfissionalOptionHomeProfState extends State<EncaixeScreenProfissionalOptionHomeProf> {
+class _EncaixeScreenProfissionalOptionHomeProfState
+    extends State<EncaixeScreenProfissionalOptionHomeProf> {
   final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 
   @override
@@ -211,7 +212,8 @@ class _EncaixeScreenProfissionalOptionHomeProfState extends State<EncaixeScreenP
           // Verificar se o horário extra está presente na lista de horários preenchidos
           bool horarioJaPreenchido = _horariosPreenchidosParaEvitarDupNoCreate
               .any((horario) => horario.horario == horarioExtra);
-          print("o tamanho da lista é # ${_horariosPreenchidosParaEvitarDupNoCreate.length}");
+          print(
+              "o tamanho da lista é # ${_horariosPreenchidosParaEvitarDupNoCreate.length}");
           if (horarioJaPreenchido == true) {
             // Mostrar um dialog para o usuário selecionar outro horário
             await showDialog(
@@ -272,7 +274,7 @@ class _EncaixeScreenProfissionalOptionHomeProfState extends State<EncaixeScreenP
         }
       }
     }
-   
+
     Provider.of<CorteProvider>(context, listen: false)
         .AgendamentoCortePrincipalFunctions(
       barbaHoraExtra: barba,
@@ -315,7 +317,17 @@ class _EncaixeScreenProfissionalOptionHomeProfState extends State<EncaixeScreenP
       // Incluir minuto da hora extraída
       DateTime finalDatetime =
           DateTime(year, month, day, hora.hour, hora.minute);
-      await Provider.of<ManyChatConfirmation>(context,listen: false).ScheduleMessage(phoneNumber: numberControler.text, finalDate: finalDatetime);
+      await Provider.of<ManyChatConfirmation>(context, listen: false)
+          .setClientsManyChat(
+        dateSchedule: finalDatetime,
+        externalId: 0,
+        userPhoneNumber: numberControler.text,
+        username: nomeControler.text,
+      );
+
+      await Provider.of<ManyChatConfirmation>(context, listen: false)
+          .ScheduleMessage(
+              phoneNumber: numberControler.text, finalDate: finalDatetime);
     }
     try {
       await analytics.logEvent(
@@ -330,7 +342,7 @@ class _EncaixeScreenProfissionalOptionHomeProfState extends State<EncaixeScreenP
     } catch (e) {
       print("erro ao enviar evento: $e");
     }
-     Navigator.of(context).pushReplacementNamed(AppRoutesApp.HomeScreen01);
+    Navigator.of(context).pushReplacementNamed(AppRoutesApp.HomeScreen01);
   }
 
   //Fazendo o filtro para exibir quais horarios estao disponíveis
@@ -379,7 +391,8 @@ class _EncaixeScreenProfissionalOptionHomeProfState extends State<EncaixeScreenP
               id: horario.id,
             ),
           );
-          _horariosPreenchidosParaEvitarDupNoCreate.add(Horarios(horario: horario.horario, id: horario.id,quantidadeHorarios: 1));
+          _horariosPreenchidosParaEvitarDupNoCreate.add(Horarios(
+              horario: horario.horario, id: horario.id, quantidadeHorarios: 1));
         }
         print(
             "o tamanho da lista de preenchidos é ${Horariopreenchidos.length}");
@@ -743,7 +756,6 @@ class _EncaixeScreenProfissionalOptionHomeProfState extends State<EncaixeScreenP
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-
                     Text(
                       "Agende um Horário",
                       style: GoogleFonts.openSans(
@@ -1217,7 +1229,8 @@ class _EncaixeScreenProfissionalOptionHomeProfState extends State<EncaixeScreenP
                       height: 25,
                     ),
                     //CONTAINER DO PROFISSIONAL - INICIO
-                    if (isBarbeiro1 || isBarbeiro2 != false && nomeControler.text.isNotEmpty)
+                    if (isBarbeiro1 ||
+                        isBarbeiro2 != false && nomeControler.text.isNotEmpty)
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
@@ -1248,7 +1261,8 @@ class _EncaixeScreenProfissionalOptionHomeProfState extends State<EncaixeScreenP
                     const SizedBox(
                       height: 5,
                     ),
-                     if (isBarbeiro1 || isBarbeiro2 != false && nomeControler.text.isNotEmpty)
+                    if (isBarbeiro1 ||
+                        isBarbeiro2 != false && nomeControler.text.isNotEmpty)
                       InkWell(
                         onTap: () {
                           ShowModalData();

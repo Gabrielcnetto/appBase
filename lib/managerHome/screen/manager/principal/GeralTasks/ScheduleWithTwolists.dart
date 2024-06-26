@@ -491,132 +491,138 @@ class _ScheduleWithTwoListsState extends State<ScheduleWithTwoLists> {
                                                                 ),
                                                               ),
                                                             )
-                                                          : Container(
-                                                            padding: EdgeInsets.only(bottom: 20),
-                                                              alignment: Alignment
-                                                                  .centerLeft,
-                                                              height: MediaQuery.of(
-                                                                          context)
-                                                                      .size
-                                                                      .height *
-                                                                  0.2,
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                borderRadius: corte
-                                                                            .barba ==
-                                                                        true
-                                                                    ? const BorderRadius
-                                                                        .only(
-                                                                        topLeft:
-                                                                            Radius.circular(10),
-                                                                        topRight:
-                                                                            Radius.circular(10),
-                                                                      )
-                                                                    : BorderRadius
-                                                                        .circular(
-                                                                        10,
-                                                                      ),
-                                                                color:
-                                                                    Colors.blue,
-                                                              ),
-                                                              width: MediaQuery.of(
-                                                                          context)
-                                                                      .size
-                                                                      .width *
-                                                                  0.7,
-                                                              child: Padding(
-                                                                padding: const EdgeInsets
-                                                                    .symmetric(
-                                                                    horizontal:
-                                                                        10,
-                                                                    vertical:
-                                                                        10),
-                                                                child: Column(
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .spaceBetween,
-                                                                  crossAxisAlignment:
-                                                                      CrossAxisAlignment
-                                                                          .start,
-                                                                  children: [
-                                                                    Row(
-                                                                      children: [
-                                                                        Text(
-                                                                          "ínicio: ${corte.horarioCorte}",
-                                                                          style:
-                                                                              GoogleFonts.openSans(
-                                                                            textStyle:
-                                                                                const TextStyle(
-                                                                              fontSize: 13,
-                                                                              color: Colors.white70,
-                                                                            ),
-                                                                          ),
-                                                                        )
-                                                                      ],
-                                                                    ),
-                                                                    Column(
-                                                                      crossAxisAlignment:
-                                                                          CrossAxisAlignment
-                                                                              .start,
-                                                                      children: [
-                                                                        Text(
-                                                                          "${corte.barba == true ? "Corte normal + Barba Incluída" : "Corte normal"}",
-                                                                          style:
-                                                                              GoogleFonts.openSans(
-                                                                            textStyle:
-                                                                                const TextStyle(
-                                                                              fontWeight: FontWeight.w600,
-                                                                              fontSize: 16,
-                                                                              color: Colors.white,
-                                                                            ),
-                                                                          ),
-                                                                        ),
-                                                                        Text(
-                                                                          corte
-                                                                              .clientName,
-                                                                          style:
-                                                                              GoogleFonts.openSans(
-                                                                            textStyle:
-                                                                                TextStyle(
-                                                                              fontWeight: FontWeight.w700,
-                                                                              fontSize: 16,
-                                                                              color: Estabelecimento.primaryColor,
-                                                                            ),
-                                                                          ),
-                                                                        ),
-                                                                      ],
-                                                                    ),
-                                                                    Row(
-                                                                      mainAxisAlignment:
-                                                                          MainAxisAlignment
-                                                                              .end,
-                                                                      children: [
-                                                                        InkWell(
-                                                                          onTap:
-                                                                              () {
-                                                                            Navigator.of(context).pushNamed(AppRoutesApp.ModalDeEdicao,
+                                                          : InkWell(
+                                                            onTap:(){
+                                                              Navigator.of(context).pushNamed(AppRoutesApp.ModalDeEdicao,
                                                                                 arguments: corte);
-                                                                          },
-                                                                          child:
-                                                                              Container(
-                                                                            padding:
-                                                                                const EdgeInsets.all(5),
-                                                                            decoration:
-                                                                                BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(15)),
-                                                                            child:
-                                                                                const Icon(
-                                                                              Icons.open_in_new,
-                                                                              size: 18,
-                                                                              color: Colors.black,
+                                                            },
+                                                            child: Container(
+                                                              padding: EdgeInsets.only(bottom: 20),
+                                                                alignment: Alignment
+                                                                    .centerLeft,
+                                                                height: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .height *
+                                                                    0.2,
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  borderRadius: corte
+                                                                              .barba ==
+                                                                          true
+                                                                      ? const BorderRadius
+                                                                          .only(
+                                                                          topLeft:
+                                                                              Radius.circular(10),
+                                                                          topRight:
+                                                                              Radius.circular(10),
+                                                                        )
+                                                                      : BorderRadius
+                                                                          .circular(
+                                                                          10,
+                                                                        ),
+                                                                  color:
+                                                                      Colors.blue,
+                                                                ),
+                                                                width: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .width *
+                                                                    0.7,
+                                                                child: Padding(
+                                                                  padding: const EdgeInsets
+                                                                      .symmetric(
+                                                                      horizontal:
+                                                                          10,
+                                                                      vertical:
+                                                                          10),
+                                                                  child: Column(
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .spaceBetween,
+                                                                    crossAxisAlignment:
+                                                                        CrossAxisAlignment
+                                                                            .start,
+                                                                    children: [
+                                                                      Row(
+                                                                        children: [
+                                                                          Text(
+                                                                            "ínicio: ${corte.horarioCorte}",
+                                                                            style:
+                                                                                GoogleFonts.openSans(
+                                                                              textStyle:
+                                                                                  const TextStyle(
+                                                                                fontSize: 13,
+                                                                                color: Colors.white70,
+                                                                              ),
+                                                                            ),
+                                                                          )
+                                                                        ],
+                                                                      ),
+                                                                      Column(
+                                                                        crossAxisAlignment:
+                                                                            CrossAxisAlignment
+                                                                                .start,
+                                                                        children: [
+                                                                          Text(
+                                                                            "${corte.barba == true ? "Corte normal + Barba Incluída" : "Corte normal"}",
+                                                                            style:
+                                                                                GoogleFonts.openSans(
+                                                                              textStyle:
+                                                                                  const TextStyle(
+                                                                                fontWeight: FontWeight.w600,
+                                                                                fontSize: 16,
+                                                                                color: Colors.white,
+                                                                              ),
                                                                             ),
                                                                           ),
-                                                                        ),
-                                                                      ],
-                                                                    ),
-                                                                  ],
+                                                                          Text(
+                                                                            corte
+                                                                                .clientName,
+                                                                            style:
+                                                                                GoogleFonts.openSans(
+                                                                              textStyle:
+                                                                                  TextStyle(
+                                                                                fontWeight: FontWeight.w700,
+                                                                                fontSize: 16,
+                                                                                color: Estabelecimento.primaryColor,
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ],
+                                                                      ),
+                                                                      Row(
+                                                                        mainAxisAlignment:
+                                                                            MainAxisAlignment
+                                                                                .end,
+                                                                        children: [
+                                                                          InkWell(
+                                                                            onTap:
+                                                                                () {
+                                                                              Navigator.of(context).pushNamed(AppRoutesApp.ModalDeEdicao,
+                                                                                  arguments: corte);
+                                                                            },
+                                                                            child:
+                                                                                Container(
+                                                                              padding:
+                                                                                  const EdgeInsets.all(5),
+                                                                              decoration:
+                                                                                  BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(15)),
+                                                                              child:
+                                                                                  const Icon(
+                                                                                Icons.open_in_new,
+                                                                                size: 18,
+                                                                                color: Colors.black,
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ],
+                                                                      ),
+                                                                    ],
+                                                                  ),
                                                                 ),
                                                               ),
-                                                            );
+                                                          );
                                                     }).toList(),
                                                   ),
                                                 )
