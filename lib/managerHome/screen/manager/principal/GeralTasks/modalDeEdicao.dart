@@ -1,11 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:lionsbarberv1/classes/Estabelecimento.dart';
 import 'package:lionsbarberv1/classes/cortecClass.dart';
+import 'package:lionsbarberv1/classes/horarios.dart';
+import 'package:lionsbarberv1/classes/profissionais.dart';
 import 'package:lionsbarberv1/functions/CorteProvider.dart';
 import 'package:lionsbarberv1/functions/ManyChatConfirmation.dart';
+import 'package:lionsbarberv1/functions/managerScreenFunctions.dart';
+import 'package:lionsbarberv1/managerHome/screen/manager/principal/GeralTasks/components/changeHourAndData.dart';
 import 'package:lionsbarberv1/rotas/Approutes.dart';
 import 'package:provider/provider.dart';
 
@@ -17,6 +22,13 @@ class ModalDeEdicao extends StatefulWidget {
 }
 
 class _ModalDeEdicaoState extends State<ModalDeEdicao> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Provider.of<ManagerScreenFunctions>(context, listen: false).getFolga;
+  }
+
   @override
   Widget build(BuildContext context) {
     final infoRoutes = ModalRoute.of(context)?.settings.arguments as CorteClass;
@@ -452,23 +464,12 @@ class _ModalDeEdicaoState extends State<ModalDeEdicao> {
                     //CONTAINER DO DATA/HORA - INICIO
                     InkWell(
                       onTap: () {
-                        showDialog(
-                            context: context,
-                            builder: (ctx) {
-                              return AlertDialog(
-                                title: const Text("Opa! Perai..."),
-                                content: const Text(
-                                    "Ainda estamos trabalhando nesta funcionalidade, informaremos assim que estiver pronta!"),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                    child: const Text("Voltar"),
-                                  ),
-                                ],
-                              );
-                            });
+                        Navigator.of(context).push(
+                            MaterialPageRoute(builder: (BuildContext ctx) {
+                          return ChangeHourAndData(
+                            corteWidget: infoRoutes,
+                          );
+                        }));
                       },
                       child: Container(
                         padding: const EdgeInsets.symmetric(vertical: 15),
@@ -538,7 +539,8 @@ class _ModalDeEdicaoState extends State<ModalDeEdicao> {
               left: 0,
               right: 0,
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
                 width: double.infinity,
                 height: MediaQuery.of(context).size.height * 0.15,
                 color: Colors.grey.shade100.withOpacity(0.7),
@@ -640,7 +642,8 @@ class _ModalDeEdicaoState extends State<ModalDeEdicao> {
                     bottom: BorderSide(width: 1, color: Colors.grey.shade200),
                   ),
                 ),
-                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
                 width: double.infinity,
                 height: MediaQuery.of(context).size.height * 0.09,
                 child: Row(

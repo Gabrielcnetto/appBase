@@ -1,4 +1,5 @@
 import 'package:lionsbarberv1/classes/Estabelecimento.dart';
+import 'package:lionsbarberv1/classes/cortecClass.dart';
 import 'package:lionsbarberv1/firebase_options.dart';
 import 'package:lionsbarberv1/functions/CorteProvider.dart';
 import 'package:lionsbarberv1/functions/ManyChatConfirmation.dart';
@@ -12,6 +13,7 @@ import 'package:lionsbarberv1/functions/rankingProviderHome.dart';
 import 'package:lionsbarberv1/functions/userLogin.dart';
 import 'package:lionsbarberv1/managerHome/screen/home/homeScreen01.dart';
 import 'package:lionsbarberv1/managerHome/screen/manager/GraphicsAndSales/GraphicsScreenManager.dart';
+import 'package:lionsbarberv1/managerHome/screen/manager/principal/GeralTasks/components/changeHourAndData.dart';
 import 'package:lionsbarberv1/managerHome/screen/manager/principal/GeralTasks/modalDeEdicao.dart';
 import 'package:lionsbarberv1/managerHome/screen/manager/principal/agenda_7dias/agenda7diasscreen.dart';
 import 'package:lionsbarberv1/managerHome/screen/manager/principal/components/agendaDia/pricesandpercentages/PricesAndPercentagens.dart';
@@ -140,7 +142,25 @@ class _MyAppState extends State<MyApp> {
               const PricesAndPercentages(),
           AppRoutesApp.GraphicsManagerScreen: (ctx) =>
               const GraphicsManagerScreen(),
-              AppRoutesApp.ModalDeEdicao: (ctx)=>const ModalDeEdicao(),
+          AppRoutesApp.ModalDeEdicao: (ctx) => const ModalDeEdicao(),
+          AppRoutesApp.ChangeHourAndData: (ctx) => ChangeHourAndData(
+                corteWidget: CorteClass(
+                  isActive: false,
+                  DiaDoCorte: 0,
+                  clientName: "",
+                  totalValue: 0,
+                  NomeMes: "NomeMes",
+                  id: "id",
+                  numeroContato: "numeroContato",
+                  profissionalSelect: "profissionalSelect",
+                  diaCorte: DateTime.now(),
+                  horarioCorte: "horarioCorte",
+                  barba: false,
+                  ramdomCode: 0,
+                  dateCreateAgendamento: DateTime.now(),
+                  horariosExtra: [],
+                ),
+              ),
         },
       ),
     );
