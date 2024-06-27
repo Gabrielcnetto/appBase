@@ -21,7 +21,17 @@ class ChangeHourAndData extends StatefulWidget {
 }
 
 class _ChangeHourAndDataState extends State<ChangeHourAndData> {
-  DateTime? dataSelectedInModal = DateTime.now();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    ;
+    Provider.of<ManagerScreenFunctions>(context, listen: false).getFolga;
+    DataFolgaDatabase;
+    LoadFolgaDatetime;
+  }
+
+  DateTime? dataSelectedInModal;
   DateTime? DataFolgaDatabase;
   Future<void> LoadFolgaDatetime() async {
     DateTime? dataDoDatabaseVolta = await ManagerScreenFunctions().getFolga();
@@ -34,6 +44,75 @@ class _ChangeHourAndDataState extends State<ChangeHourAndData> {
     setState(() {
       DataFolgaDatabase = dataDoDatabaseVolta;
     });
+  }
+
+  String? profGet;
+  void getProfissional({required String profissional}) {
+    setState(() {
+      profGet = profissional;
+    });
+    print("profissional pego: ${profGet}");
+  }
+
+  bool loading = false;
+  List<Horarios> _horariosPreenchidosParaEvitarDupNoCreate = [];
+  List<Horarios> _horariosLivresSabados = sabadoHorarios;
+  List<Horarios> _horariosLivres = hourLists;
+  List<Horarios> horarioFinal = [];
+  //Aqui pegamos o dia selecionado, e usamos para buscar os dados no banco de dados
+  //a funcao abaixo é responsavel por pegar o dia, entrar no provider e pesquisar os horarios daquele dia selecionado
+  Future<void> loadListCortes() async {
+    setState(() {
+      loading = true;
+    });
+    horarioFinal.clear();
+    List<Horarios> listaTemporaria = [];
+    int? diaSemanaSelecionado = dataSelectedInModal?.weekday;
+
+    if (diaSemanaSelecionado == 6) {
+      // Se for sábado, copia os horários disponíveis para sábado
+      listaTemporaria.addAll(_horariosLivresSabados);
+    } else {
+      // Se não for sábado, copia os horários disponíveis padrão
+      listaTemporaria.addAll(_horariosLivres);
+    }
+
+    DateTime? mesSelecionado = dataSelectedInModal;
+
+    if (mesSelecionado != null) {
+      try {
+        await Provider.of<CorteProvider>(context, listen: false)
+            .loadCortesDataBaseFuncionts(
+          mesSelecionado: mesSelecionado,
+          DiaSelecionado: mesSelecionado.day,
+          Barbeiroselecionado: widget.corteWidget.profissionalSelect,
+        );
+        List<Horarios> listaCort =
+            await Provider.of<CorteProvider>(context, listen: false)
+                .horariosListLoad;
+
+        for (var horario in listaCort) {
+          print("horarios do provider: ${horario.horario}");
+
+          listaTemporaria.removeWhere((atributosFixo) {
+            return atributosFixo.horario == horario.horario;
+          });
+          _horariosPreenchidosParaEvitarDupNoCreate.add(Horarios(
+              horario: horario.horario, id: horario.id, quantidadeHorarios: 1));
+        }
+        setState(() {
+          horarioFinal = List.from(listaTemporaria);
+          loading = false;
+        });
+        setState(() {});
+
+        print("este e o tamanho da lista final: ${horarioFinal.length}");
+      } catch (e) {
+        print("nao consegu realizar, erro: ${e}");
+      }
+    } else {
+      print("problemas na hora ou dia");
+    }
   }
 
   Future<void> ShowModalData() async {
@@ -88,79 +167,131 @@ class _ChangeHourAndDataState extends State<ChangeHourAndData> {
     });
   }
 
-  List<Horarios> _horariosPreenchidosParaEvitarDupNoCreate = [];
-  List<Horarios> _horariosLivresSabados = sabadoHorariosEncaixe;
-  List<Horarios> _horariosLivres = listaHorariosEncaixe;
-  List<Horarios> horarioFinal = [];
-  List<Horarios> Horariopreenchidos = [];
+  Future<void> removeAtualAndSetNew() async {
+    try {
+      if (widget.corteWidget.barba == true) {
+        //se for barba true tira o primeiro horario
+        await Provider.of<CorteProvider>(context, listen: false)
+            .AgendamentoCortePrincipalFunctionsRemarcacao(
+          corte: widget.corteWidget,
+          nomeBarbeiro: widget.corteWidget.profissionalSelect,
+          barbaHoraExtra: true,
+          selectDateForUser: dataSelectedInModal!,
+          pricevalue: widget.corteWidget.totalValue,
+        );
+        await Provider.of<CorteProvider>(context, listen: false)
+            .removeAgendamentoForEditReagendar2(
+          corte: widget.corteWidget,
+          nomeBarbeiro: widget.corteWidget.profissionalSelect,
+          nomeMes: widget.corteWidget.NomeMes,
+          horario: widget.corteWidget.horariosExtra[0],
+        );
+        //se for barba true tira o segundo horario
+        await Provider.of<CorteProvider>(context, listen: false)
+            .removeAgendamentoForEditReagendar3(
+          corte: widget.corteWidget,
+          nomeBarbeiro: widget.corteWidget.profissionalSelect,
+          nomeMes: widget.corteWidget.NomeMes,
+          horario: widget.corteWidget.horariosExtra[1],
+        );
+        //se for barba true tira o terceiro horario
+        await Provider.of<CorteProvider>(context, listen: false)
+            .removeAgendamentoForEditReagendar(
+          corte: widget.corteWidget,
+          nomeBarbeiro: widget.corteWidget.profissionalSelect,
+          nomeMes: widget.corteWidget.NomeMes,
+          horario: widget.corteWidget.horarioCorte,
+        );
+      } else {
+        await Provider.of<CorteProvider>(context, listen: false)
+            .AgendamentoCortePrincipalFunctionsRemarcacao(
+          corte: widget.corteWidget,
+          nomeBarbeiro: widget.corteWidget.profissionalSelect,
+          barbaHoraExtra: false,
+          selectDateForUser: dataSelectedInModal!,
+          pricevalue: widget.corteWidget.totalValue,
+        );
+        await Provider.of<CorteProvider>(context, listen: false)
+            .removeAgendamentoForEditReagendar(
+          corte: widget.corteWidget,
+          nomeBarbeiro: widget.corteWidget.profissionalSelect,
+          nomeMes: widget.corteWidget.NomeMes,
+          horario: widget.corteWidget.horarioCorte,
+        );
+      }
 
-  String? profGet;
-  void getProfissional({required String profissional}) {
-    setState(() {
-      profGet = profissional;
-    });
-    print("profissional pego: ${profGet}");
+      await Provider.of<CorteProvider>(context, listen: false)
+          .desmarcarAgendaManager(widget.corteWidget);
+      await Provider.of<CorteProvider>(context, listen: false)
+          .desmarcarCorteMeus(widget.corteWidget);
+      await Provider.of<CorteProvider>(context, listen: false)
+          .desmarcarCorteMeus(widget.corteWidget);
+      await Provider.of<CorteProvider>(context, listen: false)
+          .RemoveFaturamentosRemarcacao(widget.corteWidget);
+    } catch (e) {
+      print("Houve um erro no screen: ${e}");
+    }
   }
 
-  Future<void> loadListCortes() async {
-    print("iniciei o load com o profissional:${profGet}");
-    horarioFinal.clear();
-    Horariopreenchidos.clear();
-    List<Horarios> listaTemporaria = [];
-    int? diaSemanaSelecionado = dataSelectedInModal?.weekday;
-
-    if (diaSemanaSelecionado == 6) {
-      // Se for sábado, copia os horários disponíveis para sábado
-      listaTemporaria.addAll(_horariosLivresSabados);
-    } else {
-      // Se não for sábado, copia os horários disponíveis padrão
-      listaTemporaria.addAll(_horariosLivres);
-    }
-
-    DateTime? mesSelecionado = dataSelectedInModal;
-
-    if (mesSelecionado != null) {
-      try {
-        await Provider.of<CorteProvider>(context, listen: false)
-            .loadCortesDataBaseFuncionts(
-          mesSelecionado: mesSelecionado,
-          DiaSelecionado: mesSelecionado.day,
-          Barbeiroselecionado: profGet ?? "",
-        );
-        List<Horarios> listaCort =
-            await Provider.of<CorteProvider>(context, listen: false)
-                .horariosListLoad;
-
-        for (var horario in listaCort) {
-          Horariopreenchidos.add(
-            Horarios(
-              quantidadeHorarios: 1,
-              horario: horario.horario,
-              id: horario.id,
+  int selectedIndex = -1;
+  Map<int, Color> itemColors = {};
+  Map<int, Color> _textColor = {};
+  String hourSetForUser = "00:00";
+  void showNotifyPreSave() {
+    showDialog(
+      context: context,
+      builder: (ctx) {
+        return AlertDialog(
+          title: Text(
+            "Alterar Agendamento?",
+            style: GoogleFonts.openSans(
+                textStyle: TextStyle(
+              fontWeight: FontWeight.w400,
+              color: Colors.black,
+            )),
+          ),
+          content: Text(
+              "Você realmente Deseja alterar as informações deste agendamento?"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
+              },
+              child: Text(
+                "Cancelar",
+                style: GoogleFonts.openSans(
+                  textStyle: TextStyle(
+                    fontWeight: FontWeight.w500,
+                    color: Colors.black,
+                  ),
+                ),
+              ),
             ),
-          );
-          _horariosPreenchidosParaEvitarDupNoCreate.add(Horarios(
-              horario: horario.horario, id: horario.id, quantidadeHorarios: 1));
-        }
-        print(
-            "o tamanho da lista de preenchidos é ${Horariopreenchidos.length}");
-        setState(() {
-          horarioFinal = List.from(listaTemporaria);
-        });
-        setState(() {});
-
-        print("este e o tamanho da lista final: ${horarioFinal.length}");
-      } catch (e) {
-        print("nao consegu realizar, erro: ${e}");
-      }
-    } else {
-      print("problemas na hora ou dia");
-    }
+            TextButton(
+              onPressed: () {
+                removeAtualAndSetNew();
+              },
+              child: Text(
+                "Confirmar Alteração",
+                style: GoogleFonts.openSans(
+                  textStyle: TextStyle(
+                    fontWeight: FontWeight.w500,
+                    color: Colors.blue.shade600,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Container(
           padding: EdgeInsets.only(top: 15, left: 15, right: 15),
@@ -170,17 +301,28 @@ class _ChangeHourAndDataState extends State<ChangeHourAndData> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
+                  InkWell(
+                    onTap: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Icon(
+                      Icons.arrow_back_outlined,
+                      color: Colors.blueAccent,
+                    ),
+                  ),
                   Text(
                     "Atualize seu agendamento",
                     style: GoogleFonts.openSans(
                       textStyle: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        color: Colors.grey.shade800,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.black,
                       ),
                     ),
                   ),
+                  Container(),
                 ],
               ),
               Padding(
@@ -204,69 +346,187 @@ class _ChangeHourAndDataState extends State<ChangeHourAndData> {
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             Text(
-                                "${DateFormat("dd/MM/yyyy").format(dataSelectedInModal!)}"),
+                              dataSelectedInModal != null
+                                  ? "${DateFormat("dd/MM/yyyy").format(dataSelectedInModal!)}"
+                                  : "",
+                            ),
                             SizedBox(
                               width: 5,
                             ),
                             InkWell(
-                              onTap: () {
-                                ShowModalData();
-                                getProfissional(
-                                    profissional:
-                                        widget.corteWidget.profissionalSelect);
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5),
-                                  color: Estabelecimento.primaryColor,
-                                ),
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 2, horizontal: 5),
-                                child: Text(
-                                  "Alterar",
-                                  style: GoogleFonts.openSans(
-                                    textStyle: TextStyle(
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.w600,
-                                      color: Estabelecimento.contraPrimaryColor,
+                                onTap: () {
+                                  ShowModalData();
+                                  getProfissional(
+                                      profissional: widget
+                                          .corteWidget.profissionalSelect);
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5),
+                                    color: Estabelecimento.primaryColor,
+                                  ),
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 2, horizontal: 5),
+                                  child: Text(
+                                    dataSelectedInModal != null
+                                        ? "Alterar"
+                                        : "Selecionar Data",
+                                    style: GoogleFonts.openSans(
+                                      textStyle: TextStyle(
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.w600,
+                                        color:
+                                            Estabelecimento.contraPrimaryColor,
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ),
-                            ),
+                                )),
                           ],
                         ),
                       ],
                     ),
+                    SizedBox(
+                      height: 15,
+                    ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 5),
-                      child: Container(
-                        color: Colors.red,
-                        width: double.infinity,
-                        height: MediaQuery.of(context).size.height * 0.65,
-                      ),
+                      child: dataSelectedInModal != null
+                          ? Container(
+                              width: double.infinity,
+                              child: loading == false
+                                  ? GridView.builder(
+                                      padding: const EdgeInsets.only(top: 5),
+                                      shrinkWrap: true,
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
+                                      itemCount: horarioFinal.length,
+                                      gridDelegate:
+                                          const SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: 3,
+                                        crossAxisSpacing: 2.3,
+                                        childAspectRatio: 2.3,
+                                      ),
+                                      itemBuilder:
+                                          (BuildContext ctx, int index) {
+                                        Color color = selectedIndex == index
+                                            ? Colors.amber
+                                            : Estabelecimento.primaryColor;
+                                        return InkWell(
+                                          onTap: () {
+                                            setState(() {
+                                              selectedIndex =
+                                                  selectedIndex == index
+                                                      ? -1
+                                                      : index;
+
+                                              hourSetForUser =
+                                                  horarioFinal[index].horario;
+                                            });
+                                          },
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 3, horizontal: 3),
+                                            child: Container(
+                                              alignment: Alignment.center,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    const BorderRadius.only(
+                                                  bottomLeft:
+                                                      Radius.elliptical(20, 20),
+                                                  bottomRight:
+                                                      Radius.elliptical(20, 20),
+                                                  topLeft:
+                                                      Radius.elliptical(20, 20),
+                                                  topRight:
+                                                      Radius.elliptical(20, 20),
+                                                ),
+                                                color: color,
+                                              ),
+                                              padding: const EdgeInsets.all(10),
+                                              child: Text(
+                                                "${horarioFinal[index].horario}",
+                                                style: GoogleFonts.openSans(
+                                                    textStyle: const TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.white,
+                                                  fontSize: 15,
+                                                )),
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    )
+                                  : Center(
+                                      child:
+                                          CircularProgressIndicator.adaptive(),
+                                    ),
+                            )
+                          : Container(
+                              alignment: Alignment.center,
+                              width: double.infinity,
+                              height: MediaQuery.of(context).size.height * 0.35,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    alignment: Alignment.center,
+                                    width:
+                                        MediaQuery.of(context).size.width / 2,
+                                    height: MediaQuery.of(context).size.height *
+                                        0.2,
+                                    child: Image.asset(
+                                      "imagesOfApp/selecionedata.jpg",
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Text(
+                                    "Selecione um Dia",
+                                    style: GoogleFonts.openSans(
+                                      textStyle: TextStyle(
+                                        fontStyle: FontStyle.italic,
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.black,
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Container(
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(15),
-                              color: Estabelecimento.primaryColor),
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 10),
-                          child: Text(
-                            "Salvar Alteração",
-                            style: GoogleFonts.poppins(
-                                textStyle: TextStyle(
-                              color: Estabelecimento.contraPrimaryColor,
-                              fontWeight: FontWeight.w400,
-                            )),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    if (dataSelectedInModal != null)
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          InkWell(
+                            onTap: showNotifyPreSave,
+                            child: Container(
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
+                                  color: Estabelecimento.primaryColor),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 10),
+                              child: Text(
+                                "Salvar Alteração",
+                                style: GoogleFonts.poppins(
+                                  textStyle: TextStyle(
+                                    color: Estabelecimento.contraPrimaryColor,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                              ),
+                            ),
                           ),
-                        ),
-                      ],
-                    )
+                        ],
+                      )
                   ],
                 ),
               ),

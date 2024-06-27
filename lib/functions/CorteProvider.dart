@@ -14,12 +14,13 @@ class CorteProvider with ChangeNotifier {
   final authSettings = FirebaseAuth.instance;
 
   //ENVIANDO O CORTE PARA AS LISTAS NO BANCO DE DADOS - INICIO
-  Future<void> AgendamentoCortePrincipalFunctions(
-      {required CorteClass corte,
-      required DateTime selectDateForUser,
-      required String nomeBarbeiro,
-      required int pricevalue,
-      required bool barbaHoraExtra}) async {
+  Future<void> AgendamentoCortePrincipalFunctions({
+    required CorteClass corte,
+    required DateTime selectDateForUser,
+    required String nomeBarbeiro,
+    required int pricevalue,
+    required bool barbaHoraExtra,
+  }) async {
     print("entrei na funcao");
 
     await initializeDateFormatting('pt_BR');
@@ -503,6 +504,293 @@ class CorteProvider with ChangeNotifier {
     }
     notifyListeners();
   }
-}
 
-//load dos cortes do usuario, e eadicionando a uma list - FIM
+  Future<void> removeAgendamentoForEditReagendar({
+    required CorteClass corte,
+    required String nomeMes,
+    required String horario,
+    required String nomeBarbeiro,
+  }) async {
+    //Referencia
+    int diaCorteSelect = corte.DiaDoCorte;
+    try {
+      await initializeDateFormatting('pt_BR');
+
+      final nomeBarber = Uri.encodeFull(nomeBarbeiro);
+      final caminhoParaExcluir = await database
+          .collection("agenda")
+          .doc(nomeMes)
+          .collection("${diaCorteSelect}")
+          .doc(nomeBarber)
+          .collection("all")
+          .doc(horario);
+
+      try {
+        await caminhoParaExcluir.delete();
+        print("o caminho foi excluido");
+      } catch (e) {
+        print("na funcao deletar deu iso: $e");
+      }
+      print("deletamos da agenda");
+    } catch (e) {
+      print("houve um erro pra tentar excluir este horário");
+    }
+  }
+
+  Future<void> removeAgendamentoForEditReagendar2({
+    required CorteClass corte,
+    required String nomeMes,
+    required String horario,
+    required String nomeBarbeiro,
+  }) async {
+    //Referencia
+    int diaCorteSelect = corte.DiaDoCorte;
+
+    try {
+      await initializeDateFormatting('pt_BR');
+
+      final nomeBarber = Uri.encodeFull(nomeBarbeiro);
+      final caminhoParaExcluir = await database
+          .collection("agenda")
+          .doc(nomeMes)
+          .collection("${diaCorteSelect}")
+          .doc(nomeBarber)
+          .collection("all")
+          .doc(horario);
+
+      try {
+        await caminhoParaExcluir.delete();
+        print("o caminho foi excluido");
+      } catch (e) {
+        print("na funcao deletar deu iso: $e");
+      }
+      print("deletamos da agenda");
+    } catch (e) {
+      print("houve um erro pra tentar excluir este horário");
+    }
+  }
+
+  Future<void> removeAgendamentoForEditReagendar3({
+    required CorteClass corte,
+    required String nomeMes,
+    required String horario,
+    required String nomeBarbeiro,
+  }) async {
+    //Referencia
+    int diaCorteSelect = corte.DiaDoCorte;
+
+    try {
+      await initializeDateFormatting('pt_BR');
+
+      final nomeBarber = Uri.encodeFull(nomeBarbeiro);
+      final caminhoParaExcluir = await database
+          .collection("agenda")
+          .doc(nomeMes)
+          .collection("${diaCorteSelect}")
+          .doc(nomeBarber)
+          .collection("all")
+          .doc(horario);
+
+      try {
+        await caminhoParaExcluir.delete();
+        print("o caminho foi excluido");
+      } catch (e) {
+        print("na funcao deletar deu iso: $e");
+      }
+      print("deletamos da agenda");
+    } catch (e) {
+      print("houve um erro pra tentar excluir este horário");
+    }
+  }
+
+  Future<void> RemoveFaturamentosRemarcacao(CorteClass corte) async {
+    final nomeBarber = Uri.encodeFull(corte.profissionalSelect);
+    final faturamentoGeral = await database
+        .collection("estabelecimento")
+        .doc("faturamento")
+        .collection(corte.NomeMes)
+        .doc(corte.id);
+    final mensalProfissional = await database
+        .collection("mensalCuts")
+        .doc(corte.NomeMes)
+        .collection(nomeBarber)
+        .doc(corte.id);
+
+    await faturamentoGeral.delete();
+    await mensalProfissional.delete();
+  }
+
+  Future<void> AgendamentoCortePrincipalFunctionsRemarcacao({
+    required CorteClass corte,
+    required DateTime selectDateForUser,
+    required String nomeBarbeiro,
+    required int pricevalue,
+    required bool barbaHoraExtra,
+  }) async {
+    print("entrei na funcao");
+
+    await initializeDateFormatting('pt_BR');
+    int diaCorteSelect = corte.DiaDoCorte;
+    String monthName =
+        await DateFormat('MMMM', 'pt_BR').format(selectDateForUser);
+    print(monthName);
+    print("entrei na funcao para reagendamento");
+    final nomeBarber = Uri.encodeFull(nomeBarbeiro);
+
+    try {
+      //adicionado lista principal de cortes do dia
+      final addOnDB = await database
+          .collection("agenda")
+          .doc(monthName)
+          .collection("${diaCorteSelect}")
+          .doc(nomeBarber)
+          .collection("all")
+          .doc(corte.horarioCorte)
+          .set({
+        "horariosExtras": corte.horariosExtra,
+        "totalValue": corte.totalValue,
+        'isActive': corte.isActive,
+        "diaDoCorte": corte.DiaDoCorte,
+        "id": corte.id,
+        "dataCreateAgendamento": corte.dateCreateAgendamento,
+        "clientName": corte.clientName,
+        "numeroContato": corte.numeroContato,
+        "barba": corte.barba,
+        "diaCorte": corte.diaCorte,
+        "horarioCorte": corte.horarioCorte,
+        "profissionalSelect": corte.profissionalSelect,
+        "ramdomNumber": corte.ramdomCode,
+        "monthName": monthName,
+      });
+      //ADICIONANDO 2 HORARIOS EXTRAS PARA SEREM PREENCHIDOS PELO HORARIO QUE É A BARBA INICIO :
+      // ADICIONANDO 2 HORARIOS EXTRAS PARA SEREM PREENCHIDOS PELO HORARIO QUE É A BARBA INICIO:
+      if (barbaHoraExtra == true) {
+        // Verificar se o primeiro horário extra não existe antes de adicioná-lo
+        final docRefHorario2 = database
+            .collection("agenda")
+            .doc(monthName)
+            .collection("${diaCorteSelect}")
+            .doc(nomeBarber)
+            .collection("all")
+            .doc(corte.horariosExtra[0]);
+        final docSnapshotHorario2 = await docRefHorario2.get();
+        if (!docSnapshotHorario2.exists) {
+          await docRefHorario2.set({
+            "horariosExtras": [],
+            "totalValue": 0,
+            'isActive': false,
+            "diaDoCorte": corte.DiaDoCorte,
+            "id": "extra",
+            "dataCreateAgendamento": corte.dateCreateAgendamento,
+            "clientName": "extra",
+            "numeroContato": "extra",
+            "barba": false,
+            "diaCorte": corte.diaCorte,
+            "horarioCorte": corte.horarioCorte,
+            "profissionalSelect": "extra",
+            "ramdomNumber": 00000,
+            "monthName": "extra",
+          });
+        }
+
+        // Verificar se o segundo horário extra não existe antes de adicioná-lo
+        final docRefHorario3 = database
+            .collection("agenda")
+            .doc(monthName)
+            .collection("${diaCorteSelect}")
+            .doc(nomeBarber)
+            .collection("all")
+            .doc(corte.horariosExtra[1]);
+        final docSnapshotHorario3 = await docRefHorario3.get();
+        if (!docSnapshotHorario3.exists) {
+          await docRefHorario3.set({
+            "horariosExtras": [],
+            "totalValue": 0,
+            'isActive': false,
+            "diaDoCorte": corte.DiaDoCorte,
+            "id": "extra",
+            "dataCreateAgendamento": corte.dateCreateAgendamento,
+            "clientName": "extra",
+            "numeroContato": "extra",
+            "barba": false,
+            "diaCorte": corte.diaCorte,
+            "horarioCorte": corte.horarioCorte,
+            "profissionalSelect": "extra",
+            "ramdomNumber": 00000,
+            "monthName": "extra",
+          });
+        }
+      }
+
+      //ADICIONANDO 2 HORARIOS EXTRAS PARA SEREM PREENCHIDOS PELO HORARIO QUE É A BARBA FIM :
+      //adicionado allcuts
+      final addAllcuts = await database
+          .collection("allCuts")
+          .doc(monthName)
+          .collection("${diaCorteSelect}")
+          .doc(corte.id)
+          .set({
+        "horariosExtras": corte.horariosExtra,
+        "totalValue": corte.totalValue,
+        "id": corte.id,
+        'isActive': corte.isActive,
+        "diaDoCorte": corte.DiaDoCorte,
+        "dataCreateAgendamento": corte.dateCreateAgendamento,
+        "clientName": corte.clientName,
+        "numeroContato": corte.numeroContato,
+        "barba": corte.barba,
+        "diaCorte": corte.diaCorte,
+        "horarioCorte": corte.horarioCorte,
+        "profissionalSelect": corte.profissionalSelect,
+        "ramdomNumber": corte.ramdomCode,
+        "monthName": monthName,
+      });
+      //adicionando na lista de cada funcionario - inicio
+      final addOnProfListAllcuts = await database
+          .collection("mensalCuts")
+          .doc(monthName)
+          .collection(corte.profissionalSelect)
+          .doc(corte.id)
+          .set({
+        "price": pricevalue,
+      });
+      //adicionando na lista de cada funcionario - fim
+
+      //adicionando o valor no faturamento total da barbearia - inicio
+      final addFaturamentoTotal = await database
+          .collection("estabelecimento")
+          .doc("faturamento")
+          .collection(monthName)
+          .doc(corte.id)
+          .set({
+        "price": pricevalue,
+      });
+      //adicionando o valor no faturamento total da barbearia - fim
+
+      final addTotalCortes = await database
+          .collection("totalCortes")
+          .doc(monthName)
+          .collection("all")
+          .add({
+        "horariosExtras": corte.horariosExtra,
+        "id": corte.id,
+        "totalValue": corte.totalValue,
+        'isActive': corte.isActive,
+        "diaDoCorte": corte.DiaDoCorte,
+        "dataCreateAgendamento": corte.dateCreateAgendamento,
+        "clientName": corte.clientName,
+        "numeroContato": corte.numeroContato,
+        "barba": corte.barba,
+        "diaCorte": corte.diaCorte,
+        "horarioCorte": corte.horarioCorte,
+        "profissionalSelect": corte.profissionalSelect,
+        "ramdomNumber": corte.ramdomCode,
+        "monthName": monthName,
+      });
+    } catch (e) {
+      print("o agenadmento noao foi feito. Deu Isto: ${e}");
+    }
+    notifyListeners();
+  }
+}
+//"agenda/${}/${}/${}/all/${}";

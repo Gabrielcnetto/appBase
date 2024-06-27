@@ -95,6 +95,7 @@ flutter:
     - imagesOfApp/shine.png
     - imagesOfApp/semCortesmanagerscreen.jpeg
     - imagesOfApp/defaultUserImage.jpg
+    - imagesOfApp/selecionedata.jpg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 
