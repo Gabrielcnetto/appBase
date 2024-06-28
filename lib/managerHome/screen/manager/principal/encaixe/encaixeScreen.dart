@@ -317,7 +317,7 @@ class _EncaixeScreenProfissionalOptionHomeProfState
       // Incluir minuto da hora extraída
       DateTime finalDatetime =
           DateTime(year, month, day, hora.hour, hora.minute);
-      await Provider.of<ManyChatConfirmation>(context, listen: false)
+       Provider.of<ManyChatConfirmation>(context, listen: false)
           .setClientsManyChat(
         dateSchedule: finalDatetime,
         externalId: 0,

@@ -382,7 +382,7 @@ class _AddScreenState extends State<AddScreen> {
       DateTime finalDatetime =
           DateTime(year, month, day, hora.hour, hora.minute);
 
-      await Provider.of<ManyChatConfirmation>(context, listen: false)
+       Provider.of<ManyChatConfirmation>(context, listen: false)
           .ScheduleMessage(
               phoneNumber: numberControler.text, finalDate: finalDatetime);
     }

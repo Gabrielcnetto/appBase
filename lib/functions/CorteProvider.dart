@@ -159,6 +159,7 @@ class CorteProvider with ChangeNotifier {
           .doc(corte.id)
           .set({
         "price": pricevalue,
+        "cliente": corte.clientName,
       });
       //adicionando o valor no faturamento total da barbearia - fim
 
@@ -166,7 +167,8 @@ class CorteProvider with ChangeNotifier {
           .collection("totalCortes")
           .doc(monthName)
           .collection("all")
-          .add({
+          .doc(corte.id)
+          .set({
         "horariosExtras": corte.horariosExtra,
         "id": corte.id,
         "totalValue": corte.totalValue,
@@ -457,9 +459,14 @@ class CorteProvider with ChangeNotifier {
           .doc(corte.NomeMes)
           .collection(nomeBarber)
           .doc(corte.id);
-
+      final totalCortes = await database
+          .collection("totalCortes")
+          .doc(corte.NomeMes)
+          .collection("all")
+          .doc(corte.id);
       await faturamentoGeral.delete();
       await mensalProfissional.delete();
+      await totalCortes.delete();
       print("Deletamos com sucesso");
     } catch (e) {
       print("Não conseguimos excluir, houve um erro: ${e}");
@@ -525,9 +532,14 @@ class CorteProvider with ChangeNotifier {
           .doc(nomeBarber)
           .collection("all")
           .doc(horario);
-
+      final totalCortes = await database
+          .collection("totalCortes")
+          .doc(corte.NomeMes)
+          .collection("all")
+          .doc(corte.id);
       try {
         await caminhoParaExcluir.delete();
+        totalCortes.delete();
         print("o caminho foi excluido");
       } catch (e) {
         print("na funcao deletar deu iso: $e");
@@ -767,6 +779,7 @@ class CorteProvider with ChangeNotifier {
           .doc(idAleatorioNew)
           .set({
         "price": pricevalue,
+        "cliente": corte.clientName,
       });
       //adicionando o valor no faturamento total da barbearia - fim
 
@@ -774,7 +787,8 @@ class CorteProvider with ChangeNotifier {
           .collection("totalCortes")
           .doc(monthName)
           .collection("all")
-          .add({
+          .doc(idAleatorioNew)
+          .set({
         "horariosExtras": corte.horariosExtra,
         "id": idAleatorioNew,
         "totalValue": corte.totalValue,
