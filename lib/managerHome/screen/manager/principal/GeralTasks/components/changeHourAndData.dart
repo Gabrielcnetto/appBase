@@ -299,6 +299,7 @@ class _ChangeHourAndDataState extends State<ChangeHourAndData> {
           nomeMes: widget.corteWidget.NomeMes,
           horario: widget.corteWidget.horarioCorte,
         );
+        showDialogConfirmAlteracao();
       } else {
         await Provider.of<CorteProvider>(context, listen: false)
             .AgendamentoCortePrincipalFunctionsRemarcacao(
@@ -317,6 +318,7 @@ class _ChangeHourAndDataState extends State<ChangeHourAndData> {
           nomeMes: widget.corteWidget.NomeMes,
           horario: widget.corteWidget.horarioCorte,
         );
+        showDialogConfirmAlteracao();
       }
 
       await Provider.of<CorteProvider>(context, listen: false)
@@ -370,7 +372,7 @@ class _ChangeHourAndDataState extends State<ChangeHourAndData> {
             TextButton(
               onPressed: () async {
                 await removeAtualAndSetNew();
-                showDialogConfirmAlteracao();
+                
               },
               child: Text(
                 "Confirmar Alteração",

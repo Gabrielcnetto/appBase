@@ -254,7 +254,7 @@ class _ModalDeEdicaoState extends State<ModalDeEdicao> {
                             actions: [
                               TextButton(
                                 onPressed: () {
-                                  Navigator.of(context).pop();
+                                    Navigator.of(context).pushReplacementNamed(AppRoutesApp.HomeScreen01);
                                 },
                                 child: Text(
                                   "Fechar",

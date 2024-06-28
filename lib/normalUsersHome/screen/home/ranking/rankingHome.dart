@@ -232,13 +232,18 @@ class _RankingHomeState extends State<RankingHome> {
                         top: MediaQuery.of(context).size.height * 0.16,
                         child: Column(
                           children: [
-                            Text(
-                              "${top2User!.name ?? ""}",
-                              style: GoogleFonts.openSans(
-                                textStyle: const TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                  color: Colors.black,
-                                  fontSize: 14,
+                            Container(
+                              alignment: Alignment.center,
+                              width: MediaQuery.of(context).size.width * 0.2,
+                              child: Text(
+                                "${top2User!.name ?? ""}",
+                                textAlign: TextAlign.center,
+                                style: GoogleFonts.openSans(
+                                  textStyle: const TextStyle(
+                                    fontWeight: FontWeight.w700,
+                                    color: Colors.black,
+                                    fontSize: 14,
+                                  ),
                                 ),
                               ),
                             ),
@@ -368,13 +373,19 @@ class _RankingHomeState extends State<RankingHome> {
                         top: MediaQuery.of(context).size.height * 0.16,
                         child: Column(
                           children: [
-                            Text(
-                              "${top1User!.name}",
-                              style: GoogleFonts.openSans(
-                                textStyle: const TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                  color: Colors.black,
-                                  fontSize: 14,
+                            Container(
+                              alignment: Alignment.center,
+                              width: MediaQuery.of(context).size.width * 0.2,
+                              child: Text(
+                                "${top1User!.name}",
+                                textAlign: TextAlign.center,
+                                style: GoogleFonts.openSans(
+                                  textStyle: const TextStyle(
+                                    fontWeight: FontWeight.w700,
+                                    color: Colors.black,
+                                    fontSize: 14,
+                                  ),
+                                  
                                 ),
                               ),
                             ),
@@ -483,13 +494,18 @@ class _RankingHomeState extends State<RankingHome> {
                         top: MediaQuery.of(context).size.height * 0.16,
                         child: Column(
                           children: [
-                            Text(
-                              "${top3User!.name}",
-                              style: GoogleFonts.openSans(
-                                textStyle: const TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                  color: Colors.black,
-                                  fontSize: 14,
+                            Container(
+                              alignment: Alignment.center,
+                              width: MediaQuery.of(context).size.width * 0.2,
+                              child: Text(
+                                "${top3User!.name}",
+                                textAlign: TextAlign.center,
+                                style: GoogleFonts.openSans(
+                                  textStyle: const TextStyle(
+                                    fontWeight: FontWeight.w700,
+                                    color: Colors.black,
+                                    fontSize: 14,
+                                  ),
                                 ),
                               ),
                             ),
