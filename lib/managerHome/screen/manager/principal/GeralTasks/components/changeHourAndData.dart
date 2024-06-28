@@ -1,12 +1,16 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:lionsbarberv1/classes/Estabelecimento.dart';
 import 'package:lionsbarberv1/classes/cortecClass.dart';
 import 'package:lionsbarberv1/classes/horarios.dart';
 import 'package:lionsbarberv1/functions/CorteProvider.dart';
 import 'package:lionsbarberv1/functions/managerScreenFunctions.dart';
+import 'package:lionsbarberv1/rotas/Approutes.dart';
 import 'package:provider/provider.dart';
 
 class ChangeHourAndData extends StatefulWidget {
@@ -167,13 +171,105 @@ class _ChangeHourAndDataState extends State<ChangeHourAndData> {
     });
   }
 
+  List<String> horariosExtras = [];
   Future<void> removeAtualAndSetNew() async {
+    List<Horarios> _horariosSemana =
+        listaHorariosEncaixe; // essa aqui usamos para enviar 2 horarios a mais com barba true
+
+    await initializeDateFormatting('pt_BR');
+
+    String monthName =
+        await DateFormat('MMMM', 'pt_BR').format(dataSelectedInModal!);
+    var rng = new Random();
+    int number = rng.nextInt(90000) + 10000;
+    int diaDoCorte = dataSelectedInModal!.day;
+
+    // Encontrar o índice do horário selecionado na lista _horariosSemana
+    int selectedIndex = _horariosSemana
+        .indexWhere((horario) => horario.horario == hourSetForUser);
+
+    // Verificar se a variável barba é verdadeira
+
+    List<String> horariosExtras = [];
+    if (widget.corteWidget.barba == true) {
+      print("tem a barba estou aqui");
+      if (selectedIndex != -1 && selectedIndex + 2 < _horariosSemana.length) {
+        print("pós barba true");
+        for (int i = 1; i <= 2; i++) {
+          print("dentro do for");
+          String horarioExtra = _horariosSemana[selectedIndex + i].horario;
+          // Verificar se o horário extra está presente na lista de horários preenchidos
+          bool horarioJaPreenchido = _horariosPreenchidosParaEvitarDupNoCreate
+              .any((horario) => horario.horario == horarioExtra);
+          print("podemos marcar? ${horarioJaPreenchido}");
+          if (horarioJaPreenchido == true) {
+            // Mostrar um dialog para o usuário selecionar outro horário
+            await showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: Text(
+                    'Horário Indisponível',
+                    style: GoogleFonts.openSans(
+                      textStyle: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        color: Estabelecimento.primaryColor,
+                      ),
+                    ),
+                  ),
+                  content: Text(
+                    'Este horário está reservado para corte e barba por outro cliente, então só podemos agendar para corte de cabelo. Por favor, escolha outro horário.',
+                    style: GoogleFonts.openSans(
+                      textStyle: TextStyle(
+                        fontWeight: FontWeight.w400,
+                        color: Estabelecimento.primaryColor,
+                      ),
+                    ),
+                  ),
+                  actions: <Widget>[
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                        Navigator.of(context).pop(); // Fechar o dialog
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: Estabelecimento.primaryColor,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Text(
+                          'Escolher outro',
+                          style: GoogleFonts.openSans(
+                            textStyle: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              color: Estabelecimento.contraPrimaryColor,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                );
+              },
+            );
+
+            // Abortar a adição ao provider
+            return;
+          }
+
+          horariosExtras.add(horarioExtra);
+        }
+      }
+    }
     try {
       if (widget.corteWidget.barba == true) {
         //se for barba true tira o primeiro horario
-        
+
         await Provider.of<CorteProvider>(context, listen: false)
             .AgendamentoCortePrincipalFunctionsRemarcacao(
+          horariosExtras: horariosExtras,
+          hourSetForUser: hourSetForUser!,
           corte: widget.corteWidget,
           nomeBarbeiro: widget.corteWidget.profissionalSelect,
           barbaHoraExtra: true,
@@ -206,6 +302,8 @@ class _ChangeHourAndDataState extends State<ChangeHourAndData> {
       } else {
         await Provider.of<CorteProvider>(context, listen: false)
             .AgendamentoCortePrincipalFunctionsRemarcacao(
+          horariosExtras: horariosExtras,
+          hourSetForUser: hourSetForUser!,
           corte: widget.corteWidget,
           nomeBarbeiro: widget.corteWidget.profissionalSelect,
           barbaHoraExtra: false,
@@ -237,7 +335,7 @@ class _ChangeHourAndDataState extends State<ChangeHourAndData> {
   int selectedIndex = -1;
   Map<int, Color> itemColors = {};
   Map<int, Color> _textColor = {};
-  String hourSetForUser = "00:00";
+  String? hourSetForUser;
   void showNotifyPreSave() {
     showDialog(
       context: context,
@@ -270,8 +368,9 @@ class _ChangeHourAndDataState extends State<ChangeHourAndData> {
               ),
             ),
             TextButton(
-              onPressed: () {
-                removeAtualAndSetNew();
+              onPressed: () async {
+                await removeAtualAndSetNew();
+                showDialogConfirmAlteracao();
               },
               child: Text(
                 "Confirmar Alteração",
@@ -287,6 +386,50 @@ class _ChangeHourAndDataState extends State<ChangeHourAndData> {
         );
       },
     );
+  }
+
+  void showDialogConfirmAlteracao() {
+    showDialog(
+        context: context,
+        builder: (ctx) {
+          return AlertDialog(
+            title: Text(
+              "Alteração concluída",
+              style: GoogleFonts.openSans(
+                textStyle: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  color: Colors.black,
+                ),
+              ),
+            ),
+            content: Text(
+              "A Alteração deste agendamento foi concluída",
+              style: GoogleFonts.openSans(
+                textStyle: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  color: Colors.black,
+                ),
+              ),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context)
+                      .pushReplacementNamed(AppRoutesApp.HomeScreen01);
+                },
+                child: Text(
+                  "Fechar",
+                  style: GoogleFonts.openSans(
+                    textStyle: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      color: Colors.blue.shade600,
+                    ),
+                  ),
+                ),
+              )
+            ],
+          );
+        });
   }
 
   @override

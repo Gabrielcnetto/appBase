@@ -117,7 +117,7 @@ class _MyAppState extends State<MyApp> {
           ),
         ),
         debugShowCheckedModeBanner: false,
-        title:  Estabelecimento.nomeLocal,
+        title: Estabelecimento.nomeLocal,
         routes: {
           AppRoutesApp.VerificationLoginScreen01: (ctx) =>
               const VerificationLoginScreen01(),

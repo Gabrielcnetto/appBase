@@ -638,7 +638,9 @@ class CorteProvider with ChangeNotifier {
     required DateTime selectDateForUser,
     required String nomeBarbeiro,
     required int pricevalue,
+    required String hourSetForUser,
     required bool barbaHoraExtra,
+    required List<String> horariosExtras
   }) async {
     print("entrei na funcao de reagendamento");
 
@@ -651,7 +653,7 @@ class CorteProvider with ChangeNotifier {
     print("entrei na funcao para reagendamento");
     final nomeBarber = Uri.encodeFull(nomeBarbeiro);
     print(
-        "#6 Caminho: agenda/$monthName/${diaCorteSelect}/$nomeBarber/all/${corte.horarioCorte}");
+        "#6 Caminho: agenda/$monthName/${diaCorteSelect}/$nomeBarber/all/${hourSetForUser}");
     try {
       //adicionado lista principal de cortes do dia
       final addOnDB = await database
@@ -660,9 +662,9 @@ class CorteProvider with ChangeNotifier {
           .collection("${diaCorteSelect}")
           .doc(nomeBarber)
           .collection("all")
-          .doc(corte.horarioCorte)
+          .doc(hourSetForUser)
           .set({
-        "horariosExtras": corte.horariosExtra,
+        "horariosExtras": horariosExtras,
         "totalValue": corte.totalValue,
         'isActive': corte.isActive,
         "diaDoCorte": diaCorteSelect,
@@ -672,7 +674,7 @@ class CorteProvider with ChangeNotifier {
         "numeroContato": corte.numeroContato,
         "barba": corte.barba,
         "diaCorte": corte.diaCorte,
-        "horarioCorte": corte.horarioCorte,
+        "horarioCorte": hourSetForUser,
         "profissionalSelect": corte.profissionalSelect,
         "ramdomNumber": corte.ramdomCode,
         "monthName": monthName,
@@ -687,7 +689,7 @@ class CorteProvider with ChangeNotifier {
             .collection("${diaCorteSelect}")
             .doc(nomeBarber)
             .collection("all")
-            .doc(corte.horariosExtra[0]);
+            .doc(horariosExtras[0]);
         final docSnapshotHorario2 = await docRefHorario2.get();
         if (!docSnapshotHorario2.exists) {
           await docRefHorario2.set({
@@ -701,7 +703,7 @@ class CorteProvider with ChangeNotifier {
             "numeroContato": "extra",
             "barba": false,
             "diaCorte": corte.diaCorte,
-            "horarioCorte": corte.horarioCorte,
+            "horarioCorte": hourSetForUser,
             "profissionalSelect": "extra",
             "ramdomNumber": 00000,
             "monthName": "extra",
@@ -715,7 +717,7 @@ class CorteProvider with ChangeNotifier {
             .collection("${diaCorteSelect}")
             .doc(nomeBarber)
             .collection("all")
-            .doc(corte.horariosExtra[1]);
+            .doc(horariosExtras[1]);
         final docSnapshotHorario3 = await docRefHorario3.get();
         if (!docSnapshotHorario3.exists) {
           await docRefHorario3.set({
@@ -729,7 +731,7 @@ class CorteProvider with ChangeNotifier {
             "numeroContato": "extra",
             "barba": false,
             "diaCorte": corte.diaCorte,
-            "horarioCorte": corte.horarioCorte,
+            "horarioCorte": hourSetForUser,
             "profissionalSelect": "extra",
             "ramdomNumber": 00000,
             "monthName": "extra",
@@ -745,7 +747,7 @@ class CorteProvider with ChangeNotifier {
           .collection("${diaCorteSelect}")
           .doc(idAleatorioNew)
           .set({
-        "horariosExtras": corte.horariosExtra,
+        "horariosExtras": horariosExtras,
         "totalValue": corte.totalValue,
         "id": idAleatorioNew,
         'isActive': corte.isActive,
@@ -755,7 +757,7 @@ class CorteProvider with ChangeNotifier {
         "numeroContato": corte.numeroContato,
         "barba": corte.barba,
         "diaCorte": corte.diaCorte,
-        "horarioCorte": corte.horarioCorte,
+        "horarioCorte": hourSetForUser,
         "profissionalSelect": corte.profissionalSelect,
         "ramdomNumber": corte.ramdomCode,
         "monthName": monthName,
@@ -789,7 +791,7 @@ class CorteProvider with ChangeNotifier {
           .collection("all")
           .doc(idAleatorioNew)
           .set({
-        "horariosExtras": corte.horariosExtra,
+        "horariosExtras": horariosExtras,
         "id": idAleatorioNew,
         "totalValue": corte.totalValue,
         'isActive': corte.isActive,
@@ -799,7 +801,7 @@ class CorteProvider with ChangeNotifier {
         "numeroContato": corte.numeroContato,
         "barba": corte.barba,
         "diaCorte": corte.diaCorte,
-        "horarioCorte": corte.horarioCorte,
+        "horarioCorte": hourSetForUser,
         "profissionalSelect": corte.profissionalSelect,
         "ramdomNumber": corte.ramdomCode,
         "monthName": monthName,
