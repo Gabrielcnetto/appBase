@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:lionsbarberv1/classes/cortecClass.dart';
 import 'package:lionsbarberv1/classes/horarios.dart';
@@ -627,16 +628,18 @@ class CorteProvider with ChangeNotifier {
     required int pricevalue,
     required bool barbaHoraExtra,
   }) async {
-    print("entrei na funcao");
+    print("entrei na funcao de reagendamento");
 
     await initializeDateFormatting('pt_BR');
-    int diaCorteSelect = corte.DiaDoCorte;
+    int diaCorteSelect = selectDateForUser.day;
+    String idAleatorioNew = Random().nextDouble().toString();
     String monthName =
         await DateFormat('MMMM', 'pt_BR').format(selectDateForUser);
     print(monthName);
     print("entrei na funcao para reagendamento");
     final nomeBarber = Uri.encodeFull(nomeBarbeiro);
-
+    print(
+        "#6 Caminho: agenda/$monthName/${diaCorteSelect}/$nomeBarber/all/${corte.horarioCorte}");
     try {
       //adicionado lista principal de cortes do dia
       final addOnDB = await database
@@ -650,8 +653,8 @@ class CorteProvider with ChangeNotifier {
         "horariosExtras": corte.horariosExtra,
         "totalValue": corte.totalValue,
         'isActive': corte.isActive,
-        "diaDoCorte": corte.DiaDoCorte,
-        "id": corte.id,
+        "diaDoCorte": diaCorteSelect,
+        "id": idAleatorioNew,
         "dataCreateAgendamento": corte.dateCreateAgendamento,
         "clientName": corte.clientName,
         "numeroContato": corte.numeroContato,
@@ -679,7 +682,7 @@ class CorteProvider with ChangeNotifier {
             "horariosExtras": [],
             "totalValue": 0,
             'isActive': false,
-            "diaDoCorte": corte.DiaDoCorte,
+            "diaDoCorte": diaCorteSelect,
             "id": "extra",
             "dataCreateAgendamento": corte.dateCreateAgendamento,
             "clientName": "extra",
@@ -707,7 +710,7 @@ class CorteProvider with ChangeNotifier {
             "horariosExtras": [],
             "totalValue": 0,
             'isActive': false,
-            "diaDoCorte": corte.DiaDoCorte,
+            "diaDoCorte": diaCorteSelect,
             "id": "extra",
             "dataCreateAgendamento": corte.dateCreateAgendamento,
             "clientName": "extra",
@@ -728,13 +731,13 @@ class CorteProvider with ChangeNotifier {
           .collection("allCuts")
           .doc(monthName)
           .collection("${diaCorteSelect}")
-          .doc(corte.id)
+          .doc(idAleatorioNew)
           .set({
         "horariosExtras": corte.horariosExtra,
         "totalValue": corte.totalValue,
-        "id": corte.id,
+        "id": idAleatorioNew,
         'isActive': corte.isActive,
-        "diaDoCorte": corte.DiaDoCorte,
+        "diaDoCorte": diaCorteSelect,
         "dataCreateAgendamento": corte.dateCreateAgendamento,
         "clientName": corte.clientName,
         "numeroContato": corte.numeroContato,
@@ -750,7 +753,7 @@ class CorteProvider with ChangeNotifier {
           .collection("mensalCuts")
           .doc(monthName)
           .collection(corte.profissionalSelect)
-          .doc(corte.id)
+          .doc(idAleatorioNew)
           .set({
         "price": pricevalue,
       });
@@ -761,7 +764,7 @@ class CorteProvider with ChangeNotifier {
           .collection("estabelecimento")
           .doc("faturamento")
           .collection(monthName)
-          .doc(corte.id)
+          .doc(idAleatorioNew)
           .set({
         "price": pricevalue,
       });
@@ -773,10 +776,10 @@ class CorteProvider with ChangeNotifier {
           .collection("all")
           .add({
         "horariosExtras": corte.horariosExtra,
-        "id": corte.id,
+        "id": idAleatorioNew,
         "totalValue": corte.totalValue,
         'isActive': corte.isActive,
-        "diaDoCorte": corte.DiaDoCorte,
+        "diaDoCorte": diaCorteSelect,
         "dataCreateAgendamento": corte.dateCreateAgendamento,
         "clientName": corte.clientName,
         "numeroContato": corte.numeroContato,

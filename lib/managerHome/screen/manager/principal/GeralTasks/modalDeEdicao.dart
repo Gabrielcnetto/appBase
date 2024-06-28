@@ -500,7 +500,8 @@ class _ModalDeEdicaoState extends State<ModalDeEdicao> {
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
                                 Text(
-                                  "${DateFormat('dd/MM/yyyy').format(infoRoutes.diaCorte)} - ${infoRoutes.horarioCorte}",
+                                  //"${DateFormat('dd/MM/yyyy').format(infoRoutes.diaCorte)} - ${infoRoutes.horarioCorte}",
+                                  "${infoRoutes.DiaDoCorte} de ${infoRoutes.NomeMes} - ${infoRoutes.horarioCorte}",
                                   style: GoogleFonts.openSans(
                                     textStyle: const TextStyle(
                                       fontWeight: FontWeight.w500,

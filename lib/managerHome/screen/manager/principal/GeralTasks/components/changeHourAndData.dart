@@ -171,6 +171,7 @@ class _ChangeHourAndDataState extends State<ChangeHourAndData> {
     try {
       if (widget.corteWidget.barba == true) {
         //se for barba true tira o primeiro horario
+        
         await Provider.of<CorteProvider>(context, listen: false)
             .AgendamentoCortePrincipalFunctionsRemarcacao(
           corte: widget.corteWidget,
