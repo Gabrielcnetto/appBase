@@ -295,25 +295,9 @@ class _BlocksManagerComponentState extends State<BlocksManagerComponent> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       InkWell(
-                        onTap: (){
-                        //  Navigator.of(context).pushNamed(AppRoutesApp.GraphicsManagerScreen);
-                        showDialog(
-                            context: context,
-                            builder: (ctx) {
-                              return AlertDialog(
-                                title: const Text("Opa! Perai..."),
-                                content: const Text(
-                                    "Ainda estamos trabalhando nesta funcionalidade, informaremos assim que estiver pronta!"),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                    child: const Text("Voltar"),
-                                  ),
-                                ],
-                              );
-                            });
+                        onTap: () {
+                          Navigator.of(context)
+                              .pushNamed(AppRoutesApp.GraphicsManagerScreen);
                         },
                         child: Container(
                           padding: const EdgeInsets.all(5),
@@ -342,8 +326,9 @@ class _BlocksManagerComponentState extends State<BlocksManagerComponent> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       InkWell(
-                        onTap: (){
-                          Navigator.of(context).pushNamed(AppRoutesApp.ProfileScreenManagerWithScafol);
+                        onTap: () {
+                          Navigator.of(context).pushNamed(
+                              AppRoutesApp.ProfileScreenManagerWithScafol);
                         },
                         child: Container(
                           padding: const EdgeInsets.all(5),
