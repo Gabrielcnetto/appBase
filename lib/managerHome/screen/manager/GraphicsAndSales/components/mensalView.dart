@@ -33,79 +33,76 @@ class _MensalViewFirstGraphicState extends State<MensalViewFirstGraphic> {
   int anoAtual = DateTime.now().year;
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            "Estatisticas Mensais",
-            style: GoogleFonts.openSans(
-              textStyle: TextStyle(
-                fontSize: 17,
-                fontWeight: FontWeight.w700,
-                color: Colors.black,
-              ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          "Estatisticas Mensais",
+          style: GoogleFonts.openSans(
+            textStyle: TextStyle(
+              fontSize: 17,
+              fontWeight: FontWeight.w700,
+              color: Colors.black,
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(top: 15),
-            child: Container(
-              padding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
-              decoration: BoxDecoration(
-                color: Colors.grey.shade100.withOpacity(0.6),
-                borderRadius: BorderRadius.circular(15),
-              ),
-              width: double.infinity,
-              height: MediaQuery.of(context).size.height * 0.45,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text(
-                        "${groupedTransactions.last['month']}".substring(0, 3),
-                        style: GoogleFonts.openSans(
-                          textStyle: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w700,
-                            color: Colors.grey.shade800,
-                          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(top: 15),
+          child: Container(
+            padding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+            decoration: BoxDecoration(
+              color: Colors.grey.shade100.withOpacity(0.6),
+              borderRadius: BorderRadius.circular(15),
+            ),
+            width: double.infinity,
+            height: MediaQuery.of(context).size.height * 0.45,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      "${groupedTransactions.last['month']}".substring(0, 3),
+                      style: GoogleFonts.openSans(
+                        textStyle: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.grey.shade800,
                         ),
                       ),
-                      Text(
-                        " ${anoAtual}",
-                        style: GoogleFonts.openSans(
-                          textStyle: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w700,
-                            color: Colors.grey.shade800,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 20),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: groupedTransactions.map((data) {
-                        return ContainerMesFaturamento(
-                          mes: data["month"] as String,
-                          Faturamento: 10,
-                        );
-                      }).toList(),
                     ),
+                    Text(
+                      " ${anoAtual}",
+                      style: GoogleFonts.openSans(
+                        textStyle: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.grey.shade800,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: groupedTransactions.map((data) {
+                      return ContainerMesFaturamento(
+                        mes: data["month"] as String,
+                        Faturamento: 10,
+                      );
+                    }).toList(),
                   ),
-
-                ],
-              ),
+                ),
+    
+              ],
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
