@@ -1,8 +1,8 @@
 import 'dart:math';
-
 import 'package:lionsbarberv1/classes/Estabelecimento.dart';
 import 'package:lionsbarberv1/classes/cortecClass.dart';
 import 'package:lionsbarberv1/classes/horarios.dart';
+import 'package:lionsbarberv1/classes/procedimentos_extras.dart';
 import 'package:lionsbarberv1/classes/profissionais.dart';
 import 'package:lionsbarberv1/functions/CorteProvider.dart';
 import 'package:lionsbarberv1/functions/ManyChatConfirmation.dart';
@@ -339,6 +339,8 @@ class _AddScreenState extends State<AddScreen> {
               ? "${profList[1].nomeProf}"
               : "Não Definido",
       corte: CorteClass(
+        apenasBarba: apenasBarba,
+        detalheDoProcedimento: "",
         horariosExtra: horariosExtras,
         totalValue: barba == true ? barbaMaisCabelo : atualPrice ?? 0,
         isActive: true,
@@ -443,8 +445,8 @@ class _AddScreenState extends State<AddScreen> {
           listaTemporaria.removeWhere((atributosFixo) {
             return atributosFixo.horario == horario.horario;
           });
-          _horariosPreenchidosParaEvitarDupNoCreate
-              .add(Horarios(horario: horario.horario, id: horario.id,quantidadeHorarios: 1));
+          _horariosPreenchidosParaEvitarDupNoCreate.add(Horarios(
+              horario: horario.horario, id: horario.id, quantidadeHorarios: 1));
         }
         setState(() {
           horarioFinal = List.from(listaTemporaria);
@@ -701,6 +703,23 @@ class _AddScreenState extends State<AddScreen> {
         });
   }
 
+  //tudo relacionado a servicos adicionais
+  bool verServicosAdicionais = false;
+  void ativarServicosAdicionais() {
+    setState(() {
+      verServicosAdicionais = !verServicosAdicionais;
+    });
+  }
+
+  bool apenasBarba = false;
+  bool procedimento0 = true;
+  bool procedimento1 = false;
+  bool procedimento2 = false;
+  bool procedimento3 = false;
+  bool procedimento4 = false;
+  bool procedimento5 = false;
+  List<Procedimentos_Extras> _procedimentos = procedimentosLista;
+
   @override
   Widget build(BuildContext context) {
     final widhScren = MediaQuery.of(context).size.width;
@@ -870,118 +889,370 @@ class _AddScreenState extends State<AddScreen> {
                               height: 25,
                             ),
                             //CONTAINER DO NUMERO
-                            //CONTAINER BOOL DA barba - INICIO
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 5, horizontal: 10),
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: Estabelecimento.secondaryColor
-                                          .withOpacity(0.4)),
-                                  child: const Text("3"),
-                                ),
-                                const SizedBox(
-                                  width: 5,
-                                ),
-                                Text(
-                                  "Deseja incluir barba?",
-                                  style: GoogleFonts.openSans(
-                                    textStyle: const TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 5,
-                            ),
+                            //PROCEDIMENTOS EXTRAS - INICIO
                             Container(
-                              width: widhScren,
-                              height: heighScreen * 0.07,
-                              child: Stack(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 10, horizontal: 10),
+                              alignment: Alignment.center,
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                color: Estabelecimento.primaryColor,
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Positioned(
-                                    right: 0,
-                                    child: InkWell(
-                                      onTap: barbaFalse,
-                                      child: Container(
-                                        padding:
-                                            const EdgeInsets.only(right: 30),
-                                        alignment: Alignment.centerRight,
-                                        height: heighScreen * 0.07,
-                                        width: !barba
-                                            ? widhScren / 1.8
-                                            : widhScren / 3,
-                                        decoration: BoxDecoration(
-                                          color: Estabelecimento.secondaryColor,
-                                          borderRadius: const BorderRadius.only(
-                                            topRight: Radius.circular(5),
-                                            bottomRight: Radius.circular(5),
-                                          ),
-                                        ),
-                                        child: Text(
-                                          "Não",
-                                          style: GoogleFonts.openSans(
-                                            textStyle: TextStyle(
-                                                fontSize: !barba ? 18 : 13,
-                                                fontWeight: !barba
-                                                    ? FontWeight.w800
-                                                    : FontWeight.w400,
-                                                color: Estabelecimento
-                                                    .contraPrimaryColor),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        "serviços adicionais",
+                                        style: GoogleFonts.openSans(
+                                          textStyle: const TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w600,
+                                            color: Colors.white,
                                           ),
                                         ),
                                       ),
-                                    ),
-                                  ),
-                                  Positioned(
-                                    left: 0,
-                                    child: InkWell(
-                                      onTap: barbaTrue,
-                                      child: Container(
-                                        padding:
-                                            const EdgeInsets.only(left: 30),
-                                        alignment: Alignment.centerLeft,
-                                        height: heighScreen * 0.07,
-                                        width: barba
-                                            ? widhScren / 1.8
-                                            : widhScren / 3,
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                const BorderRadius.only(
-                                              bottomLeft: Radius.circular(5),
-                                              topLeft: Radius.circular(5),
-                                              topRight:
-                                                  Radius.elliptical(20, 20),
-                                              bottomRight:
-                                                  Radius.elliptical(20, 20),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: [
+                                          InkWell(
+                                            onTap: ativarServicosAdicionais,
+                                            child: Text(
+                                              "Clique aqui",
+                                              style: GoogleFonts.openSans(
+                                                textStyle: const TextStyle(
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight.w400,
+                                                  color: Colors.white30,
+                                                ),
+                                              ),
                                             ),
-                                            color:
-                                                Estabelecimento.primaryColor),
-                                        child: Text(
-                                          "Sim",
-                                          style: GoogleFonts.openSans(
-                                            textStyle: TextStyle(
-                                                fontSize: barba ? 18 : 13,
-                                                fontWeight: barba
-                                                    ? FontWeight.w800
-                                                    : FontWeight.w400,
-                                                color: Estabelecimento
-                                                    .contraPrimaryColor),
                                           ),
-                                        ),
+                                          SizedBox(
+                                            width: 5,
+                                          ),
+                                          InkWell(
+                                            onTap: ativarServicosAdicionais,
+                                            child: Container(
+                                              alignment: Alignment.center,
+                                              padding: EdgeInsets.all(2),
+                                              decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                              ),
+                                              child: Icon(
+                                                verServicosAdicionais == false
+                                                    ? Icons.arrow_drop_down
+                                                    : Icons.arrow_drop_up,
+                                                color: Estabelecimento
+                                                    .primaryColor,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  //Container dos procedimentos(1) - inicio
+                                  if (verServicosAdicionais == true)
+                                    Column(
+                                      children: _procedimentos
+                                          .asMap()
+                                          .entries
+                                          .map((entry) {
+                                        int index = entry.key;
+                                        var item = entry.value;
+                                        return Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 4),
+                                          child: Container(
+                                            padding: EdgeInsets.symmetric(
+                                                vertical: 10, horizontal: 5),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      "${item.name} - ",
+                                                      style:
+                                                          GoogleFonts.openSans(
+                                                        textStyle:
+                                                            const TextStyle(
+                                                          fontSize: 12,
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          color: Colors.white,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    SizedBox(width: 5),
+                                                    Container(
+                                                      child: Row(
+                                                        children: [
+                                                          Icon(
+                                                            Icons.paid,
+                                                            color: Colors.green,
+                                                            size: 15,
+                                                          ),
+                                                          Text(
+                                                            "+R\$${item.value}",
+                                                            style: GoogleFonts
+                                                                .openSans(
+                                                              textStyle:
+                                                                  const TextStyle(
+                                                                fontSize: 10,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400,
+                                                                color: Colors
+                                                                    .white54,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    // Atualiza o estado dos procedimentos
+                                                    setState(() {
+                                                      // Define todos como false primeiro
+                                                      procedimento0 = false;
+                                                      procedimento1 = false;
+                                                      procedimento2 = false;
+                                                      procedimento3 = false;
+                                                      procedimento4 = false;
+                                                      procedimento5 = false;
+
+                                                      // Define o procedimento atual como true
+                                                      switch (index) {
+                                                        case 0:
+                                                          procedimento0 = true;
+                                                          barba = false;
+                                                          setState(() {
+                                                            apenasBarba = false;
+                                                          });
+                                                          break;
+                                                        case 1:
+                                                          procedimento1 = true;
+                                                          barba = false;
+                                                          setState(() {
+                                                            apenasBarba = true;
+                                                          });
+                                                          break;
+                                                        case 2:
+                                                          procedimento2 = true;
+                                                          barba = false;
+                                                          procedimento0 = true;
+                                                          setState(() {
+                                                            apenasBarba = false;
+                                                          });
+
+                                                          break;
+                                                        case 3:
+                                                          procedimento3 = true;
+                                                          barba = false;
+                                                          procedimento0 = true;
+                                                          break;
+                                                        case 4:
+                                                          procedimento4 = true;
+                                                          barba = true;
+                                                          setState(() {
+                                                            apenasBarba = false;
+                                                          });
+                                                          break;
+                                                        case 5:
+                                                          procedimento5 = true;
+                                                          barba = true;
+                                                          setState(() {
+                                                            apenasBarba = false;
+                                                          });
+                                                          break;
+                                                        default:
+                                                          break;
+                                                      }
+                                                    });
+                                                  },
+                                                  child: Icon(
+                                                    index == 0
+                                                        ? procedimento0
+                                                            ? Icons.toggle_on
+                                                            : Icons.toggle_off
+                                                        : index == 1
+                                                            ? procedimento1
+                                                                ? Icons
+                                                                    .toggle_on
+                                                                : Icons
+                                                                    .toggle_off
+                                                            : index == 2
+                                                                ? procedimento2
+                                                                    ? Icons
+                                                                        .toggle_on
+                                                                    : Icons
+                                                                        .toggle_off
+                                                                : index == 3
+                                                                    ? procedimento3
+                                                                        ? Icons
+                                                                            .toggle_on
+                                                                        : Icons
+                                                                            .toggle_off
+                                                                    : index == 4
+                                                                        ? procedimento4
+                                                                            ? Icons.toggle_on
+                                                                            : Icons.toggle_off
+                                                                        : procedimento5
+                                                                            ? Icons.toggle_on
+                                                                            : Icons.toggle_off,
+                                                    color: Colors.white,
+                                                    size: 45,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        );
+                                      }).toList(),
+                                    )
+
+                                  //Container dos procedimentos(1) - fim
+                                ],
+                              ),
+                            ),
+                            //PROCEDIMENTOS EXTRAS - FIM
+                            //CONTAINER BOOL DA barba - INICIO
+                            if (apenasBarba != true)
+                              SizedBox(
+                                height: 25,
+                              ),
+                            if (apenasBarba != true)
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 5, horizontal: 10),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: Estabelecimento.secondaryColor
+                                            .withOpacity(0.4)),
+                                    child: const Text("3"),
+                                  ),
+                                  const SizedBox(
+                                    width: 5,
+                                  ),
+                                  Text(
+                                    "Deseja incluir barba?",
+                                    style: GoogleFonts.openSans(
+                                      textStyle: const TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.black,
                                       ),
                                     ),
                                   ),
                                 ],
                               ),
-                            ),
+                            if (apenasBarba != true)
+                              const SizedBox(
+                                height: 5,
+                              ),
+                            if (apenasBarba != true)
+                              Container(
+                                width: widhScren,
+                                height: heighScreen * 0.07,
+                                child: Stack(
+                                  children: [
+                                    Positioned(
+                                      right: 0,
+                                      child: InkWell(
+                                        onTap: barbaFalse,
+                                        child: Container(
+                                          padding:
+                                              const EdgeInsets.only(right: 30),
+                                          alignment: Alignment.centerRight,
+                                          height: heighScreen * 0.07,
+                                          width: !barba
+                                              ? widhScren / 1.8
+                                              : widhScren / 3,
+                                          decoration: BoxDecoration(
+                                            color:
+                                                Estabelecimento.secondaryColor,
+                                            borderRadius:
+                                                const BorderRadius.only(
+                                              topRight: Radius.circular(5),
+                                              bottomRight: Radius.circular(5),
+                                            ),
+                                          ),
+                                          child: Text(
+                                            "Não",
+                                            style: GoogleFonts.openSans(
+                                              textStyle: TextStyle(
+                                                  fontSize: !barba ? 18 : 13,
+                                                  fontWeight: !barba
+                                                      ? FontWeight.w800
+                                                      : FontWeight.w400,
+                                                  color: Estabelecimento
+                                                      .contraPrimaryColor),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    Positioned(
+                                      left: 0,
+                                      child: InkWell(
+                                        onTap: barbaTrue,
+                                        child: Container(
+                                          padding:
+                                              const EdgeInsets.only(left: 30),
+                                          alignment: Alignment.centerLeft,
+                                          height: heighScreen * 0.07,
+                                          width: barba
+                                              ? widhScren / 1.8
+                                              : widhScren / 3,
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  const BorderRadius.only(
+                                                bottomLeft: Radius.circular(5),
+                                                topLeft: Radius.circular(5),
+                                                topRight:
+                                                    Radius.elliptical(20, 20),
+                                                bottomRight:
+                                                    Radius.elliptical(20, 20),
+                                              ),
+                                              color:
+                                                  Estabelecimento.primaryColor),
+                                          child: Text(
+                                            "Sim",
+                                            style: GoogleFonts.openSans(
+                                              textStyle: TextStyle(
+                                                  fontSize: barba ? 18 : 13,
+                                                  fontWeight: barba
+                                                      ? FontWeight.w800
+                                                      : FontWeight.w400,
+                                                  color: Estabelecimento
+                                                      .contraPrimaryColor),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
                             //CONTAINER BOOL DA barba - FIM
                             const SizedBox(
                               height: 25,

@@ -15,7 +15,11 @@ class CorteClass {
   final DateTime dateCreateAgendamento;
   final int totalValue;
   final List<String> horariosExtra;
+  final String detalheDoProcedimento;
+  final bool apenasBarba;
   CorteClass({
+    required this.detalheDoProcedimento,
+    required this.apenasBarba,
     required this.isActive,
     required this.DiaDoCorte,
     required this.clientName,
@@ -31,24 +35,4 @@ class CorteClass {
     required this.dateCreateAgendamento,
     required this.horariosExtra,
   });
-}
-
-class CorteClassEmpty extends CorteClass {
-  CorteClassEmpty()
-      : super(
-          DiaDoCorte: 0,
-          NomeMes: "",
-          barba: false,
-          clientName: "",
-          dateCreateAgendamento: DateTime.now(),
-          diaCorte: DateTime.now(),
-          horarioCorte: "",
-          horariosExtra: [],
-          id: "",
-          isActive: false,
-          numeroContato: "",
-          profissionalSelect: "",
-          ramdomCode: 0,
-          totalValue: 0,
-        );
 }

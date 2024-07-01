@@ -296,6 +296,8 @@ class CorteProvider with ChangeNotifier {
         DateTime diaCorteFinal = diafinalCorte?.toDate() ?? DateTime.now();
         // Acessando os atributos diretamente usando []
         return CorteClass(
+          apenasBarba: false,
+          detalheDoProcedimento: "",
           horariosExtra: data?["horariosExtras"] != null
               ? List<String>.from(data?["horariosExtras"])
               : [],
@@ -365,6 +367,8 @@ class CorteProvider with ChangeNotifier {
         DateTime diaCorteFinal = diafinalCorte?.toDate() ?? DateTime.now();
         // Acessando os atributos diretamente usando []
         return CorteClass(
+          apenasBarba: false,
+          detalheDoProcedimento: "",
           horariosExtra: data?["horariosExtras"] != null
               ? List<String>.from(data?["horariosExtras"])
               : [],

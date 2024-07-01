@@ -368,6 +368,8 @@ class _ScheduleWithTwoListsState extends State<ScheduleWithTwoLists> {
                         }
                         for (String horario in allHorariosExtra) {
                           CorteClass novaCorte = CorteClass(
+                            apenasBarba: false,
+                            detalheDoProcedimento: "",
                             horariosExtra: [], // Aqui você pode definir conforme necessário
                             totalValue: 0, // Defina os valores apropriados
                             isActive: false,

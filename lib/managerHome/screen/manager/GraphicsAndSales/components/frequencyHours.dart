@@ -53,7 +53,7 @@ class _FrequencHoursState extends State<FrequencHours> {
             Container(
               width: MediaQuery.of(context).size.width * 0.95,
               child: Text(
-                "Visualize os horários mais e menos escolhidos pelos usuários",
+                "Visualize os horários mais escolhidos pelos usuários",
                 style: GoogleFonts.openSans(
                   textStyle: TextStyle(
                     fontSize: 14,

@@ -339,6 +339,8 @@ class _AddScreenState extends State<AddScreen> {
               ? "${profList[1].nomeProf}"
               : "Não Definido",
       corte: CorteClass(
+        apenasBarba: false,
+        detalheDoProcedimento: "",
         horariosExtra: horariosExtras,
         totalValue: barba == true ? barbaMaisCabelo : atualPrice ?? 0,
         isActive: true,
