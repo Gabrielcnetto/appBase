@@ -134,7 +134,7 @@ class ManagerScreenFunctions with ChangeNotifier {
         print(data?["totalValue"].toString());
         return CorteClass(
           apenasBarba: false,
-          detalheDoProcedimento: "",
+          detalheDoProcedimento: data?["detalheDoProcedimento"] ?? "",
           horariosExtra: horariosExtras!,
           totalValue: data?["totalValue"],
           isActive: data?["isActive"],

@@ -677,24 +677,6 @@ class _HomeScreen01State extends State<HomeScreen01>
               bubbleColor: Colors.white,
               onPress: ShowModalData,
             ),
-          Bubble(
-            icon: Icons.pending_actions,
-            iconColor: Estabelecimento.primaryColor,
-            title: "Meus próximos 7 Dias",
-            titleStyle: GoogleFonts.openSans(
-              textStyle: const TextStyle(
-                fontSize: 12,
-                color: Colors.black,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
-            bubbleColor: Colors.white,
-            onPress: () {
-              Navigator.of(context).pushNamed(
-                AppRoutesApp.Agenda7DiasScreenManager,
-              );
-            },
-          ),
         ],
         iconColor: Estabelecimento.contraPrimaryColor,
         backGroundColor: Estabelecimento.primaryColor,

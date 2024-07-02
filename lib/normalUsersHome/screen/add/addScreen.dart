@@ -343,7 +343,7 @@ class _AddScreenState extends State<AddScreen> {
     Provider.of<CorteProvider>(context, listen: false)
         .AgendamentoCortePrincipalFunctions(
       barbaHoraExtra: barba,
-      pricevalue: barba == true ? valorFinalCobrado : atualPrice ?? 0,
+      pricevalue: valorFinalCobrado,
       nomeBarbeiro: isBarbeiro1
           ? "${profList[0].nomeProf}"
           : isBarbeiro2

@@ -303,7 +303,7 @@ class CorteProvider with ChangeNotifier {
         // Acessando os atributos diretamente usando []
         return CorteClass(
           apenasBarba: false,
-          detalheDoProcedimento: data?["detalheDoProcedimento"],
+          detalheDoProcedimento: data?["detalheDoProcedimento"] ?? "",
           horariosExtra: data?["horariosExtras"] != null
               ? List<String>.from(data?["horariosExtras"])
               : [],
@@ -374,7 +374,7 @@ class CorteProvider with ChangeNotifier {
         // Acessando os atributos diretamente usando []
         return CorteClass(
           apenasBarba: false,
-          detalheDoProcedimento: data?["detalheDoProcedimento"],
+          detalheDoProcedimento: data?["detalheDoProcedimento"] ?? "",
           horariosExtra: data?["horariosExtras"] != null
               ? List<String>.from(data?["horariosExtras"])
               : [],

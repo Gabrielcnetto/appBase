@@ -15,7 +15,6 @@ import 'package:lionsbarberv1/managerHome/screen/home/homeScreen01.dart';
 import 'package:lionsbarberv1/managerHome/screen/manager/GraphicsAndSales/GraphicsScreenManager.dart';
 import 'package:lionsbarberv1/managerHome/screen/manager/principal/GeralTasks/components/changeHourAndData.dart';
 import 'package:lionsbarberv1/managerHome/screen/manager/principal/GeralTasks/modalDeEdicao.dart';
-import 'package:lionsbarberv1/managerHome/screen/manager/principal/agenda_7dias/agenda7diasscreen.dart';
 import 'package:lionsbarberv1/managerHome/screen/manager/principal/components/agendaDia/pricesandpercentages/PricesAndPercentagens.dart';
 import 'package:lionsbarberv1/managerHome/screen/profile/profileScreen.dart';
 import 'package:lionsbarberv1/normalUsersHome/screen/profile/profileScreen.dart';
@@ -133,8 +132,6 @@ class _MyAppState extends State<MyApp> {
               const HomeScreen01WithBoolManager(
                 selectedIndex: 0,
               ),
-          AppRoutesApp.Agenda7DiasScreenManager: (ctx) =>
-              const Agenda7DiasScreenManager(),
           AppRoutesApp.ProfileScreen: (ctx) => const ProfileScreen(),
           AppRoutesApp.ProfileScreenManagerWithScafol: (ctx) =>
               const ProfileScreenManagerWithScafol(),

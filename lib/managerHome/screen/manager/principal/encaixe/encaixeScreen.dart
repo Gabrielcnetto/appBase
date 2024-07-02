@@ -5,6 +5,7 @@ import 'package:lionsbarberv1/classes/Estabelecimento.dart';
 import 'package:lionsbarberv1/classes/GeralUser.dart';
 import 'package:lionsbarberv1/classes/cortecClass.dart';
 import 'package:lionsbarberv1/classes/horarios.dart';
+import 'package:lionsbarberv1/classes/procedimentos_extras.dart';
 import 'package:lionsbarberv1/classes/profissionais.dart';
 import 'package:lionsbarberv1/functions/CorteProvider.dart';
 import 'package:lionsbarberv1/functions/ManyChatConfirmation.dart';
@@ -157,7 +158,7 @@ class _EncaixeScreenProfissionalOptionHomeProfState
   final nomeControler = TextEditingController();
   final numberControler = TextEditingController();
 
-  int? atualPrice;
+  int atualPrice = 0;
 
   Future<void> LoadPrice() async {
     int? priceDB = await ManagerScreenFunctions().getPriceCorte();
@@ -172,14 +173,14 @@ class _EncaixeScreenProfissionalOptionHomeProfState
 
   String? hourSetForUser;
   int? barbaPriceFinal;
-  int barbaMaisCabelo = 0;
+  int valorFinalCobrado = 0;
   Future<void> LoadPriceAdicionalBarba() async {
     int? priceDB = await ManagerScreenFunctions().getAdicionalBarbaCorte();
     print("pegamos a data do databse");
 
     setState(() {
       barbaPriceFinal = priceDB!;
-      barbaMaisCabelo = (atualPrice! + barbaPriceFinal!);
+      valorFinalCobrado = (atualPrice! + barbaPriceFinal!);
     });
   }
 
@@ -278,17 +279,17 @@ class _EncaixeScreenProfissionalOptionHomeProfState
     Provider.of<CorteProvider>(context, listen: false)
         .AgendamentoCortePrincipalFunctions(
       barbaHoraExtra: barba,
-      pricevalue: barba == true ? barbaMaisCabelo : atualPrice ?? 0,
+      pricevalue: valorFinalCobrado,
       nomeBarbeiro: isBarbeiro1
           ? "${profList[0].nomeProf}"
           : isBarbeiro2
               ? "${profList[1].nomeProf}"
               : "Não Definido",
       corte: CorteClass(
-        apenasBarba: false,
-        detalheDoProcedimento: "",
+        apenasBarba: apenasBarba,
+         detalheDoProcedimento: detalheDoProcedimento ?? "Corte Normal",
         horariosExtra: horariosExtras,
-        totalValue: barba == true ? barbaMaisCabelo : atualPrice ?? 0,
+        totalValue: valorFinalCobrado,
         isActive: true,
         DiaDoCorte: diaDoCorte,
         NomeMes: monthName,
@@ -319,7 +320,7 @@ class _EncaixeScreenProfissionalOptionHomeProfState
       // Incluir minuto da hora extraída
       DateTime finalDatetime =
           DateTime(year, month, day, hora.hour, hora.minute);
-       Provider.of<ManyChatConfirmation>(context, listen: false)
+      Provider.of<ManyChatConfirmation>(context, listen: false)
           .setClientsManyChat(
         dateSchedule: finalDatetime,
         externalId: 0,
@@ -725,23 +726,195 @@ class _EncaixeScreenProfissionalOptionHomeProfState
     }
   }
 
-  void barbaTrue() {
+    void barbaTrue() {
     if (barba == false) {
       setState(() {
         barba = true;
+        valorFinalCobrado = (atualPrice! + barbaPriceFinal!);
+        detalheDoProcedimento = "Corte Normal + Barba";
       });
     }
+    print("#8 valor final ficou: ${valorFinalCobrado}");
+    print("#8 valor final frase: ${detalheDoProcedimento}");
   }
 
   void barbaFalse() {
+    setState(() {
+      valorFinalCobrado = atualPrice!;
+      detalheDoProcedimento = "Corte Normal";
+    });
     if (barba == true) {
       setState(() {
         barba = false;
+        valorFinalCobrado = atualPrice!;
       });
+    }
+    print("#8 valor final ficou: ${valorFinalCobrado}");
+    print("#8 valor final frase: ${detalheDoProcedimento}");
+  }
+
+  //servicos adicionais - inicio
+
+  //valores adicionais - inicio
+  //valorFinalCobrado < este valor deve ser enviado fixo na funcao de enviar ao db (agora valida com barba pois tem apenas 2 proced.)
+  int? apenasBarbaValue = 1; //somente barba selecionada - pendente
+  int? limpezaDePele = 2; //extra
+  int? locaoDePele = 3; //extra
+  int? adicionalBarboTerapia =
+      4; // valor do corte(db) + barboterapia - pendente
+  int? adicionalBarbaExpress =
+      5; // valor do corte(db) + barboexpress - pendente
+// padrao ja carregado do database
+  //valores adicionais - fim
+
+  String? detalheDoProcedimento;
+  void FraseCreatedetalheDoProcedimento() {
+    String fraseMontadaFinal = "";
+    setState(() {
+      detalheDoProcedimento = "";
+    });
+    try {
+      //apenas o corte esta selecionado
+      if (barba == true && procedimento0 == true) {
+        setState(() {
+          fraseMontadaFinal = "Corte e Barba normal";
+        });
+      }
+      if (procedimento0 == true &&
+          procedimento1 == false &&
+          procedimento2 == false &&
+          procedimento3 == false &&
+          procedimento4 == false &&
+          procedimento5 == false) {
+        setState(() {
+          fraseMontadaFinal = "Apenas corte";
+        });
+      }
+      //apenas barba selecionada
+      if (apenasBarba == true) {
+        setState(() {
+          fraseMontadaFinal = "Apenas barba";
+        });
+      }
+      //cabelo e limpeza de pele
+      if (procedimento0 == true && procedimento2 == true) {
+        setState(() {
+          fraseMontadaFinal = "Corte + Limpeza Pele";
+        });
+      }
+      //cabelo e loção de pele
+      if (procedimento0 == true && procedimento3 == true) {
+        setState(() {
+          fraseMontadaFinal = "Corte + Loção";
+        });
+      }
+      //cabelo e barboterapia
+      if (procedimento4 == true) {
+        setState(() {
+          fraseMontadaFinal = "Corte e Barboterapia";
+        });
+      }
+      //cabelo e barboexpress
+      if (procedimento5 == true) {
+        print("adicionalBarbaExpress: ${adicionalBarbaExpress}");
+        setState(() {
+          fraseMontadaFinal = "Corte e Barbaexpress";
+        });
+      }
+
+      setState(() {
+        detalheDoProcedimento = fraseMontadaFinal;
+      });
+      print("#8 a frase final ficou: ${detalheDoProcedimento}");
+    } catch (e) {
+      print("erro ao montar a frase: $e");
     }
   }
 
+  void verificandoEsetandoValorTotal() async {
+    int valorAserCobradoTotalFinal = 0;
+
+    setState(() {
+      valorFinalCobrado = 0;
+    });
+    try {
+      //apenas o corte esta selecionado
+      if (barba == true && procedimento0 == true) {
+        setState(() {
+          valorAserCobradoTotalFinal = (atualPrice + barbaPriceFinal!);
+        });
+      }
+      if (procedimento0 == true &&
+          procedimento1 == false &&
+          procedimento2 == false &&
+          procedimento3 == false &&
+          procedimento4 == false &&
+          procedimento5 == false) {
+        setState(() {
+          valorAserCobradoTotalFinal = atualPrice ?? 0;
+        });
+      }
+      //apenas barba selecionada
+      if (apenasBarba == true) {
+        setState(() {
+          valorAserCobradoTotalFinal = apenasBarbaValue ?? 0;
+        });
+      }
+      //cabelo e limpeza de pele
+      if (procedimento0 == true && procedimento2 == true) {
+        setState(() {
+          valorAserCobradoTotalFinal = (atualPrice + (limpezaDePele ?? 00));
+        });
+      }
+      //cabelo e loção de pele
+      if (procedimento0 == true && procedimento3 == true) {
+        setState(() {
+          valorAserCobradoTotalFinal = (atualPrice + (locaoDePele ?? 00));
+        });
+      }
+      //cabelo e barboterapia
+      if (procedimento4 == true) {
+        setState(() {
+          valorAserCobradoTotalFinal = (atualPrice + adicionalBarboTerapia!);
+        });
+      }
+      //cabelo e barboterapia
+      if (procedimento5 == true) {
+        print("adicionalBarbaExpress: ${adicionalBarbaExpress}");
+        setState(() {
+          valorAserCobradoTotalFinal = (atualPrice + adicionalBarbaExpress!);
+        });
+      }
+
+      setState(() {
+        valorFinalCobrado = valorAserCobradoTotalFinal;
+        FraseCreatedetalheDoProcedimento();
+      });
+      print("#8o valor final cobrado será de: ${valorFinalCobrado}");
+    } catch (e) {
+      print("ao adicionar o valor a ser cobrado, deu isto: $e");
+    }
+  }
+
+  bool verServicosAdicionais = false;
+  void ativarServicosAdicionais() {
+    setState(() {
+      verServicosAdicionais = !verServicosAdicionais;
+    });
+  }
+
   bool _isSearching = false;
+
+  bool apenasBarba =
+      false; // apenas a barba (usado para verificações, mas tambem pode ser usado em outras funcoes)
+  bool procedimento0 = true; //corte padrao
+  bool procedimento1 = false; //apenas a barba
+  bool procedimento2 = false; //limpeza de pele
+  bool procedimento3 = false; // loção de pele
+  bool procedimento4 = false; // corte +barboterapia
+  bool procedimento5 = false; //corte +barbaexpress
+  List<Procedimentos_Extras> _procedimentos = procedimentosLista;
+  //servicos adicionais - fim
   @override
   Widget build(BuildContext context) {
     final widhScren = MediaQuery.of(context).size.width;
@@ -951,6 +1124,249 @@ class _EncaixeScreenProfissionalOptionHomeProfState
                       ),
                     ),
                     //CONTAINER DO NUMERO
+                    SizedBox(
+                      height: 25,
+                    ),
+                    //CONTAINER DOS PROCEDIMENTOS - INICIO
+                    Container(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      alignment: Alignment.center,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: Estabelecimento.primaryColor,
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "serviços adicionais",
+                                style: GoogleFonts.openSans(
+                                  textStyle: const TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  InkWell(
+                                    onTap: ativarServicosAdicionais,
+                                    child: Text(
+                                      "Clique aqui",
+                                      style: GoogleFonts.openSans(
+                                        textStyle: const TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w400,
+                                          color: Colors.white30,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  InkWell(
+                                    onTap: ativarServicosAdicionais,
+                                    child: Container(
+                                      alignment: Alignment.center,
+                                      padding: EdgeInsets.all(2),
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: Icon(
+                                        verServicosAdicionais == false
+                                            ? Icons.arrow_drop_down
+                                            : Icons.arrow_drop_up,
+                                        color: Estabelecimento.primaryColor,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                          //Container dos procedimentos(1) - inicio
+                          if (verServicosAdicionais == true)
+                            Column(
+                              children:
+                                  _procedimentos.asMap().entries.map((entry) {
+                                int index = entry.key;
+                                var item = entry.value;
+                                return Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 4),
+                                  child: Container(
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 10, horizontal: 5),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              "${item.name} - ",
+                                              style: GoogleFonts.openSans(
+                                                textStyle: const TextStyle(
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight.w400,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(width: 5),
+                                            Container(
+                                              child: Row(
+                                                children: [
+                                                  Icon(
+                                                    Icons.paid,
+                                                    color: Colors.green,
+                                                    size: 15,
+                                                  ),
+                                                  Text(
+                                                    "+R\$${item.value}",
+                                                    style: GoogleFonts.openSans(
+                                                      textStyle:
+                                                          const TextStyle(
+                                                        fontSize: 10,
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                        color: Colors.white54,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        GestureDetector(
+                                          onTap: () {
+                                            // Atualiza o estado dos procedimentos
+                                            setState(() {
+                                              // Define todos como false primeiro
+                                              procedimento0 = false;
+                                              procedimento1 = false;
+                                              procedimento2 = false;
+                                              procedimento3 = false;
+                                              procedimento4 = false;
+                                              procedimento5 = false;
+
+                                              // Define o procedimento atual como true
+                                              switch (index) {
+                                                case 0:
+                                                  procedimento0 = true;
+                                                  barba = false;
+                                                  setState(() {
+                                                    apenasBarba = false;
+                                                    verificandoEsetandoValorTotal();
+                                                  });
+                                                  break;
+                                                case 1:
+                                                  procedimento1 = true;
+                                                  barba = false;
+                                                  setState(() {
+                                                    apenasBarba = true;
+                                                    verificandoEsetandoValorTotal();
+                                                  });
+                                                  break;
+                                                case 2:
+                                                  procedimento2 = true;
+                                                  barba = false;
+                                                  procedimento0 = true;
+                                                  setState(() {
+                                                    apenasBarba = false;
+                                                    verificandoEsetandoValorTotal();
+                                                  });
+
+                                                  break;
+                                                case 3:
+                                                  procedimento3 = true;
+                                                  barba = false;
+                                                  procedimento0 = true;
+                                                  setState(() {
+                                                    apenasBarba = false;
+                                                    verificandoEsetandoValorTotal();
+                                                  });
+                                                  break;
+                                                case 4:
+                                                  procedimento4 = true;
+                                                  barba = true;
+                                                  setState(() {
+                                                    apenasBarba = false;
+                                                    verificandoEsetandoValorTotal();
+                                                  });
+                                                  break;
+                                                case 5:
+                                                  procedimento5 = true;
+                                                  barba = true;
+                                                  setState(() {
+                                                    apenasBarba = false;
+                                                    verificandoEsetandoValorTotal();
+                                                  });
+                                                  break;
+                                                default:
+                                                  break;
+                                              }
+                                            });
+                                          },
+                                          child: Icon(
+                                            index == 0
+                                                ? procedimento0
+                                                    ? Icons.toggle_on
+                                                    : Icons.toggle_off
+                                                : index == 1
+                                                    ? procedimento1
+                                                        ? Icons.toggle_on
+                                                        : Icons.toggle_off
+                                                    : index == 2
+                                                        ? procedimento2
+                                                            ? Icons.toggle_on
+                                                            : Icons.toggle_off
+                                                        : index == 3
+                                                            ? procedimento3
+                                                                ? Icons
+                                                                    .toggle_on
+                                                                : Icons
+                                                                    .toggle_off
+                                                            : index == 4
+                                                                ? procedimento4
+                                                                    ? Icons
+                                                                        .toggle_on
+                                                                    : Icons
+                                                                        .toggle_off
+                                                                : procedimento5
+                                                                    ? Icons
+                                                                        .toggle_on
+                                                                    : Icons
+                                                                        .toggle_off,
+                                            color: Colors.white,
+                                            size: 45,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              }).toList(),
+                            )
+
+                          //Container dos procedimentos(1) - fim
+                        ],
+                      ),
+                    ),
+                    //PROCEDIMENTOS EXTRAS - FIM
+                    //CONTAINER DOS PROCEDIMENTOS -FIM
                     // CONTAINER DA BARBA - INICIO
 
                     //container da barba true or false - inicio
@@ -958,6 +1374,7 @@ class _EncaixeScreenProfissionalOptionHomeProfState
                       height: 25,
                     ),
                     //CONTAINER BOOL DA barba - INICIO
+                    if (apenasBarba != true)
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
@@ -985,9 +1402,11 @@ class _EncaixeScreenProfissionalOptionHomeProfState
                         ),
                       ],
                     ),
+                    if (apenasBarba != true)
                     const SizedBox(
                       height: 5,
                     ),
+                    if (apenasBarba != true)
                     Container(
                       width: widhScren,
                       height: heighScreen * 0.07,
@@ -1062,6 +1481,7 @@ class _EncaixeScreenProfissionalOptionHomeProfState
                     //CONTAINER BOOL DA barba - FIM
 
                     //CONTAINER DA BARBA -FIM
+                    if (apenasBarba != true)
                     const SizedBox(
                       height: 25,
                     ),

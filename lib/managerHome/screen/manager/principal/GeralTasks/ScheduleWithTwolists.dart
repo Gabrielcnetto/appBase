@@ -8,13 +8,11 @@ import 'package:lionsbarberv1/classes/cortecClass.dart';
 import 'package:lionsbarberv1/classes/horarios.dart';
 import 'package:lionsbarberv1/classes/profissionais.dart';
 import 'package:lionsbarberv1/functions/managerScreenFunctions.dart';
+import 'package:lionsbarberv1/managerHome/screen/manager/agenda_7dias/semItems.dart';
 import 'package:lionsbarberv1/managerHome/screen/manager/principal/GeralTasks/modalDeEdicao.dart';
-import 'package:lionsbarberv1/managerHome/screen/manager/principal/agenda_7dias/semItems.dart';
 import 'package:lionsbarberv1/rotas/Approutes.dart';
 import 'package:provider/provider.dart';
 import 'package:timeline_tile/timeline_tile.dart';
-
-import '../agenda_7dias/corte7diasItem.dart';
 
 class ScheduleWithTwoLists extends StatefulWidget {
   const ScheduleWithTwoLists({Key? key}) : super(key: key);
@@ -567,7 +565,7 @@ class _ScheduleWithTwoListsState extends State<ScheduleWithTwoLists> {
                                                                                 .start,
                                                                         children: [
                                                                           Text(
-                                                                            "${corte.barba == true ? "Corte normal + Barba Incluída" : "Corte normal"}",
+                                                                            corte.detalheDoProcedimento,
                                                                             style:
                                                                                 GoogleFonts.openSans(
                                                                               textStyle:
