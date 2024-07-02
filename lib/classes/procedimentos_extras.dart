@@ -13,8 +13,8 @@ class Procedimentos_Extras {
 
 List<Procedimentos_Extras> procedimentosLista = [
     Procedimentos_Extras(
-    id: "P1",
-    name: "Apenas Corte(padrão)",
+    id: "P0",
+    name: "Corte(padrão)",
     value: 12,
   ),
   Procedimentos_Extras(
@@ -29,7 +29,7 @@ List<Procedimentos_Extras> procedimentosLista = [
   ),
   Procedimentos_Extras(
     id: "P3",
-    name: "Loção de Pele",
+    name: "Loção Facial",
     value: 12,
   ),
   Procedimentos_Extras(

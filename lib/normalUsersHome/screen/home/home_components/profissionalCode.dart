@@ -426,7 +426,8 @@ class _ProfissionalCodeState extends State<ProfissionalCode> {
                       height: 90,
                       child: widget.corte.profissionalSelect != "Não Definido"
                           ? Image.asset(
-                              widget.corte.profissionalSelect == "${profList[0].nomeProf}"
+                              widget.corte.profissionalSelect ==
+                                      "${profList[0].nomeProf}"
                                   ? "imagesOfApp/barbeiros/fotobarbeiro1.jpeg"
                                   : widget.corte.profissionalSelect ==
                                           "${profList[1].nomeProf}"
@@ -473,7 +474,7 @@ class _ProfissionalCodeState extends State<ProfissionalCode> {
                       Row(
                         children: [
                           Text(
-                            widget.corte.barba ? "Com barba" : "Sem barba",
+                            widget.corte.detalheDoProcedimento,
                             style: GoogleFonts.openSans(
                               textStyle: const TextStyle(
                                 fontWeight: FontWeight.w400,
@@ -484,16 +485,6 @@ class _ProfissionalCodeState extends State<ProfissionalCode> {
                           const SizedBox(
                             width: 5,
                           ),
-                          if (widget.corte.barba == true)
-                            Text(
-                              "(+${minutesView}${secondsView}min)",
-                              style: GoogleFonts.poppins(
-                                textStyle: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.grey.shade400,
-                                ),
-                              ),
-                            )
                         ],
                       ),
                       const SizedBox(

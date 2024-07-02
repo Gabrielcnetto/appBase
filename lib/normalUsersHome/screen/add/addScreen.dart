@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 import 'package:lionsbarberv1/classes/Estabelecimento.dart';
 import 'package:lionsbarberv1/classes/cortecClass.dart';
@@ -49,16 +50,27 @@ class _AddScreenState extends State<AddScreen> {
     if (barba == false) {
       setState(() {
         barba = true;
+        valorFinalCobrado = (atualPrice! + barbaPriceFinal!);
+        detalheDoProcedimento = "Corte Normal + Barba";
       });
     }
+    print("#8 valor final ficou: ${valorFinalCobrado}");
+    print("#8 valor final frase: ${detalheDoProcedimento}");
   }
 
   void barbaFalse() {
+    setState(() {
+      valorFinalCobrado = atualPrice!;
+      detalheDoProcedimento = "Corte Normal";
+    });
     if (barba == true) {
       setState(() {
         barba = false;
+        valorFinalCobrado = atualPrice!;
       });
     }
+    print("#8 valor final ficou: ${valorFinalCobrado}");
+    print("#8 valor final frase: ${detalheDoProcedimento}");
   }
 
   final List<Profissionais> _profList = profList;
@@ -223,14 +235,13 @@ class _AddScreenState extends State<AddScreen> {
   }
 
   int? barbaPriceFinal;
-  int barbaMaisCabelo = 0;
+  int valorFinalCobrado = 0;
   Future<void> LoadPriceAdicionalBarba() async {
     int? priceDB = await ManagerScreenFunctions().getAdicionalBarbaCorte();
     print("pegamos a data do databse");
 
     setState(() {
       barbaPriceFinal = priceDB!;
-      barbaMaisCabelo = (atualPrice! + barbaPriceFinal!);
     });
   }
 
@@ -332,7 +343,7 @@ class _AddScreenState extends State<AddScreen> {
     Provider.of<CorteProvider>(context, listen: false)
         .AgendamentoCortePrincipalFunctions(
       barbaHoraExtra: barba,
-      pricevalue: barba == true ? barbaMaisCabelo : atualPrice ?? 0,
+      pricevalue: barba == true ? valorFinalCobrado : atualPrice ?? 0,
       nomeBarbeiro: isBarbeiro1
           ? "${profList[0].nomeProf}"
           : isBarbeiro2
@@ -340,9 +351,9 @@ class _AddScreenState extends State<AddScreen> {
               : "Não Definido",
       corte: CorteClass(
         apenasBarba: apenasBarba,
-        detalheDoProcedimento: "",
+        detalheDoProcedimento: detalheDoProcedimento ?? "Corte Normal",
         horariosExtra: horariosExtras,
-        totalValue: barba == true ? barbaMaisCabelo : atualPrice ?? 0,
+        totalValue: valorFinalCobrado,
         isActive: true,
         DiaDoCorte: diaDoCorte,
         NomeMes: monthName,
@@ -711,13 +722,155 @@ class _AddScreenState extends State<AddScreen> {
     });
   }
 
-  bool apenasBarba = false;
-  bool procedimento0 = true;
-  bool procedimento1 = false;
-  bool procedimento2 = false;
-  bool procedimento3 = false;
-  bool procedimento4 = false;
-  bool procedimento5 = false;
+  //valores adicionais - inicio
+  //valorFinalCobrado < este valor deve ser enviado fixo na funcao de enviar ao db (agora valida com barba pois tem apenas 2 proced.)
+  int? apenasBarbaValue = 1; //somente barba selecionada - pendente
+  int? limpezaDePele = 2; //extra
+  int? locaoDePele = 3; //extra
+  int? adicionalBarboTerapia =
+      4; // valor do corte(db) + barboterapia - pendente
+  int? adicionalBarbaExpress =
+      5; // valor do corte(db) + barboexpress - pendente
+// padrao ja carregado do database
+  //valores adicionais - fim
+
+  String? detalheDoProcedimento;
+  void FraseCreatedetalheDoProcedimento() {
+    String fraseMontadaFinal = "";
+    setState(() {
+      detalheDoProcedimento = "";
+    });
+    try {
+      //apenas o corte esta selecionado
+      if (barba == true && procedimento0 == true) {
+        setState(() {
+          fraseMontadaFinal = "Corte e Barba normal";
+        });
+      }
+      if (procedimento0 == true &&
+          procedimento1 == false &&
+          procedimento2 == false &&
+          procedimento3 == false &&
+          procedimento4 == false &&
+          procedimento5 == false) {
+        setState(() {
+          fraseMontadaFinal = "Apenas corte";
+        });
+      }
+      //apenas barba selecionada
+      if (apenasBarba == true) {
+        setState(() {
+          fraseMontadaFinal = "Apenas barba";
+        });
+      }
+      //cabelo e limpeza de pele
+      if (procedimento0 == true && procedimento2 == true) {
+        setState(() {
+          fraseMontadaFinal = "Corte + Limpeza Pele";
+        });
+      }
+      //cabelo e loção de pele
+      if (procedimento0 == true && procedimento3 == true) {
+        setState(() {
+          fraseMontadaFinal = "Corte + Loção";
+        });
+      }
+      //cabelo e barboterapia
+      if (procedimento4 == true) {
+        setState(() {
+          fraseMontadaFinal = "Corte e Barboterapia";
+        });
+      }
+      //cabelo e barboexpress
+      if (procedimento5 == true) {
+        print("adicionalBarbaExpress: ${adicionalBarbaExpress}");
+        setState(() {
+          fraseMontadaFinal = "Corte e Barbaexpress";
+        });
+      }
+
+      setState(() {
+        detalheDoProcedimento = fraseMontadaFinal;
+      });
+      print("#8 a frase final ficou: ${detalheDoProcedimento}");
+    } catch (e) {
+      print("erro ao montar a frase: $e");
+    }
+  }
+
+  void verificandoEsetandoValorTotal() async {
+    int valorAserCobradoTotalFinal = 0;
+
+    setState(() {
+      valorFinalCobrado = 0;
+    });
+    try {
+      //apenas o corte esta selecionado
+      if (barba == true && procedimento0 == true) {
+        setState(() {
+          valorAserCobradoTotalFinal = (atualPrice + barbaPriceFinal!);
+        });
+      }
+      if (procedimento0 == true &&
+          procedimento1 == false &&
+          procedimento2 == false &&
+          procedimento3 == false &&
+          procedimento4 == false &&
+          procedimento5 == false) {
+        setState(() {
+          valorAserCobradoTotalFinal = atualPrice ?? 0;
+        });
+      }
+      //apenas barba selecionada
+      if (apenasBarba == true) {
+        setState(() {
+          valorAserCobradoTotalFinal = apenasBarbaValue ?? 0;
+        });
+      }
+      //cabelo e limpeza de pele
+      if (procedimento0 == true && procedimento2 == true) {
+        setState(() {
+          valorAserCobradoTotalFinal = (atualPrice + (limpezaDePele ?? 00));
+        });
+      }
+      //cabelo e loção de pele
+      if (procedimento0 == true && procedimento3 == true) {
+        setState(() {
+          valorAserCobradoTotalFinal = (atualPrice + (locaoDePele ?? 00));
+        });
+      }
+      //cabelo e barboterapia
+      if (procedimento4 == true) {
+        setState(() {
+          valorAserCobradoTotalFinal = (atualPrice + adicionalBarboTerapia!);
+        });
+      }
+      //cabelo e barboterapia
+      if (procedimento5 == true) {
+        print("adicionalBarbaExpress: ${adicionalBarbaExpress}");
+        setState(() {
+          valorAserCobradoTotalFinal = (atualPrice + adicionalBarbaExpress!);
+        });
+      }
+
+      setState(() {
+        valorFinalCobrado = valorAserCobradoTotalFinal;
+        FraseCreatedetalheDoProcedimento();
+      });
+      print("#8o valor final cobrado será de: ${valorFinalCobrado}");
+    } catch (e) {
+      print("ao adicionar o valor a ser cobrado, deu isto: $e");
+    }
+  }
+
+  bool apenasBarba =
+      false; // apenas a barba (usado para verificações, mas tambem pode ser usado em outras funcoes)
+  bool procedimento0 = true; //corte padrao
+  bool procedimento1 = false; //apenas a barba
+  bool procedimento2 = false; //limpeza de pele
+  bool procedimento3 = false; // loção de pele
+  bool procedimento4 = false; // corte +barboterapia
+  bool procedimento5 = false; //corte +barbaexpress
   List<Procedimentos_Extras> _procedimentos = procedimentosLista;
 
   @override
@@ -1044,6 +1197,7 @@ class _AddScreenState extends State<AddScreen> {
                                                           barba = false;
                                                           setState(() {
                                                             apenasBarba = false;
+                                                            verificandoEsetandoValorTotal();
                                                           });
                                                           break;
                                                         case 1:
@@ -1051,6 +1205,7 @@ class _AddScreenState extends State<AddScreen> {
                                                           barba = false;
                                                           setState(() {
                                                             apenasBarba = true;
+                                                            verificandoEsetandoValorTotal();
                                                           });
                                                           break;
                                                         case 2:
@@ -1059,6 +1214,7 @@ class _AddScreenState extends State<AddScreen> {
                                                           procedimento0 = true;
                                                           setState(() {
                                                             apenasBarba = false;
+                                                            verificandoEsetandoValorTotal();
                                                           });
 
                                                           break;
@@ -1066,12 +1222,17 @@ class _AddScreenState extends State<AddScreen> {
                                                           procedimento3 = true;
                                                           barba = false;
                                                           procedimento0 = true;
+                                                          setState(() {
+                                                            apenasBarba = false;
+                                                            verificandoEsetandoValorTotal();
+                                                          });
                                                           break;
                                                         case 4:
                                                           procedimento4 = true;
                                                           barba = true;
                                                           setState(() {
                                                             apenasBarba = false;
+                                                            verificandoEsetandoValorTotal();
                                                           });
                                                           break;
                                                         case 5:
@@ -1079,6 +1240,7 @@ class _AddScreenState extends State<AddScreen> {
                                                           barba = true;
                                                           setState(() {
                                                             apenasBarba = false;
+                                                            verificandoEsetandoValorTotal();
                                                           });
                                                           break;
                                                         default:
@@ -1178,7 +1340,10 @@ class _AddScreenState extends State<AddScreen> {
                                     Positioned(
                                       right: 0,
                                       child: InkWell(
-                                        onTap: barbaFalse,
+                                        onTap: () {
+                                          // setandoOValorBarbaCabeloNormalFuncaoBase();
+                                          barbaFalse();
+                                        },
                                         child: Container(
                                           padding:
                                               const EdgeInsets.only(right: 30),
@@ -1214,7 +1379,10 @@ class _AddScreenState extends State<AddScreen> {
                                     Positioned(
                                       left: 0,
                                       child: InkWell(
-                                        onTap: barbaTrue,
+                                        onTap: () {
+                                          barbaTrue();
+                                          //    setandoOValorBarbaCabeloNormalFuncaoBase();
+                                        },
                                         child: Container(
                                           padding:
                                               const EdgeInsets.only(left: 30),

@@ -42,6 +42,7 @@ class CorteProvider with ChangeNotifier {
           .collection("all")
           .doc(corte.horarioCorte)
           .set({
+        "detalheDoProcedimento": corte.detalheDoProcedimento,
         "horariosExtras": corte.horariosExtra,
         "totalValue": corte.totalValue,
         'isActive': corte.isActive,
@@ -71,6 +72,7 @@ class CorteProvider with ChangeNotifier {
         final docSnapshotHorario2 = await docRefHorario2.get();
         if (!docSnapshotHorario2.exists) {
           await docRefHorario2.set({
+            "detalheDoProcedimento": "",
             "horariosExtras": [],
             "totalValue": 0,
             'isActive': false,
@@ -100,6 +102,7 @@ class CorteProvider with ChangeNotifier {
         if (!docSnapshotHorario3.exists) {
           await docRefHorario3.set({
             "horariosExtras": [],
+            "detalheDoProcedimento": "",
             "totalValue": 0,
             'isActive': false,
             "diaDoCorte": corte.DiaDoCorte,
@@ -125,6 +128,7 @@ class CorteProvider with ChangeNotifier {
           .collection("${diaCorteSelect}")
           .doc(corte.id)
           .set({
+        "detalheDoProcedimento": corte.detalheDoProcedimento,
         "horariosExtras": corte.horariosExtra,
         "totalValue": corte.totalValue,
         "id": corte.id,
@@ -169,6 +173,7 @@ class CorteProvider with ChangeNotifier {
           .collection("all")
           .doc(corte.id)
           .set({
+        "detalheDoProcedimento": corte.detalheDoProcedimento,
         "horariosExtras": corte.horariosExtra,
         "id": corte.id,
         "totalValue": corte.totalValue,
@@ -192,6 +197,7 @@ class CorteProvider with ChangeNotifier {
           .collection("lista")
           .doc(corte.id)
           .set({
+        "detalheDoProcedimento": corte.detalheDoProcedimento,
         "horariosExtras": corte.horariosExtra,
         "id": corte.id,
         "totalValue": corte.totalValue,
@@ -297,7 +303,7 @@ class CorteProvider with ChangeNotifier {
         // Acessando os atributos diretamente usando []
         return CorteClass(
           apenasBarba: false,
-          detalheDoProcedimento: "",
+          detalheDoProcedimento: data?["detalheDoProcedimento"],
           horariosExtra: data?["horariosExtras"] != null
               ? List<String>.from(data?["horariosExtras"])
               : [],
@@ -368,7 +374,7 @@ class CorteProvider with ChangeNotifier {
         // Acessando os atributos diretamente usando []
         return CorteClass(
           apenasBarba: false,
-          detalheDoProcedimento: "",
+          detalheDoProcedimento: data?["detalheDoProcedimento"],
           horariosExtra: data?["horariosExtras"] != null
               ? List<String>.from(data?["horariosExtras"])
               : [],
@@ -637,15 +643,14 @@ class CorteProvider with ChangeNotifier {
     await mensalProfissional.delete();
   }
 
-  Future<void> AgendamentoCortePrincipalFunctionsRemarcacao({
-    required CorteClass corte,
-    required DateTime selectDateForUser,
-    required String nomeBarbeiro,
-    required int pricevalue,
-    required String hourSetForUser,
-    required bool barbaHoraExtra,
-    required List<String> horariosExtras
-  }) async {
+  Future<void> AgendamentoCortePrincipalFunctionsRemarcacao(
+      {required CorteClass corte,
+      required DateTime selectDateForUser,
+      required String nomeBarbeiro,
+      required int pricevalue,
+      required String hourSetForUser,
+      required bool barbaHoraExtra,
+      required List<String> horariosExtras}) async {
     print("entrei na funcao de reagendamento");
 
     await initializeDateFormatting('pt_BR');
@@ -668,6 +673,7 @@ class CorteProvider with ChangeNotifier {
           .collection("all")
           .doc(hourSetForUser)
           .set({
+        "detalheDoProcedimento": corte.detalheDoProcedimento,
         "horariosExtras": horariosExtras,
         "totalValue": corte.totalValue,
         'isActive': corte.isActive,
@@ -697,6 +703,7 @@ class CorteProvider with ChangeNotifier {
         final docSnapshotHorario2 = await docRefHorario2.get();
         if (!docSnapshotHorario2.exists) {
           await docRefHorario2.set({
+            "detalheDoProcedimento": "",
             "horariosExtras": [],
             "totalValue": 0,
             'isActive': false,
@@ -725,6 +732,7 @@ class CorteProvider with ChangeNotifier {
         final docSnapshotHorario3 = await docRefHorario3.get();
         if (!docSnapshotHorario3.exists) {
           await docRefHorario3.set({
+            "detalheDoProcedimento": "",
             "horariosExtras": [],
             "totalValue": 0,
             'isActive': false,
@@ -751,6 +759,7 @@ class CorteProvider with ChangeNotifier {
           .collection("${diaCorteSelect}")
           .doc(idAleatorioNew)
           .set({
+        "detalheDoProcedimento": corte.detalheDoProcedimento,
         "horariosExtras": horariosExtras,
         "totalValue": corte.totalValue,
         "id": idAleatorioNew,
@@ -795,6 +804,7 @@ class CorteProvider with ChangeNotifier {
           .collection("all")
           .doc(idAleatorioNew)
           .set({
+        "detalheDoProcedimento": corte.detalheDoProcedimento,
         "horariosExtras": horariosExtras,
         "id": idAleatorioNew,
         "totalValue": corte.totalValue,
