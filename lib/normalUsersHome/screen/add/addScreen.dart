@@ -42,6 +42,55 @@ class _AddScreenState extends State<AddScreen> {
     DataFolgaDatabase;
     LoadFolgaDatetime;
     LoadPrice();
+    LoadPriceAdicionalIndex2();
+    LoadPriceAdicionalIndex3();
+    LoadPriceAdicionalIndex4();
+    LoadPriceAdicionalIndex5();
+    
+  }
+
+  int? index5Value;
+  Future<void> LoadPriceAdicionalIndex5() async {
+    int? priceDB = await ManagerScreenFunctions().getAdicionalindex5();
+    print("pegamos a data do databse");
+
+    setState(() {
+      index5Value = priceDB ?? 00;
+      setandoTodosOsValores();
+    });
+  }
+
+  int? index4Value;
+  Future<void> LoadPriceAdicionalIndex4() async {
+    int? priceDB = await ManagerScreenFunctions().getAdicionalindex4();
+    print("pegamos a data do databse");
+
+    setState(() {
+      index4Value = priceDB ?? 00;
+      setandoTodosOsValores();
+    });
+  }
+
+  int? index3Value;
+  Future<void> LoadPriceAdicionalIndex3() async {
+    int? priceDB = await ManagerScreenFunctions().getAdicionalindex3();
+    print("pegamos a data do databse");
+
+    setState(() {
+      index3Value = priceDB ?? 00;
+      setandoTodosOsValores();
+    });
+  }
+
+  int? index2Value;
+  Future<void> LoadPriceAdicionalIndex2() async {
+    int? priceDB = await ManagerScreenFunctions().getAdicionalindex2();
+    print("pegamos a data do databse");
+
+    setState(() {
+      index2Value = priceDB ?? 00;
+      setandoTodosOsValores();
+    });
   }
 
   bool barba = false;
@@ -241,6 +290,7 @@ class _AddScreenState extends State<AddScreen> {
     print("pegamos a data do databse");
 
     setState(() {
+      apenasBarbaValue = priceDB!;
       barbaPriceFinal = priceDB!;
     });
   }
@@ -723,14 +773,24 @@ class _AddScreenState extends State<AddScreen> {
   }
 
   //valores adicionais - inicio
+  void setandoTodosOsValores() {
+    setState(() {
+      apenasBarbaValue = barbaPriceFinal;
+      limpezaDePele = index2Value;
+      locaoDePele = index3Value;
+      adicionalBarboTerapia = index4Value;
+      adicionalBarbaExpress = index5Value;
+    });
+  }
+
   //valorFinalCobrado < este valor deve ser enviado fixo na funcao de enviar ao db (agora valida com barba pois tem apenas 2 proced.)
-  int? apenasBarbaValue = 1; //somente barba selecionada - pendente
-  int? limpezaDePele = 2; //extra
-  int? locaoDePele = 3; //extra
+  int? apenasBarbaValue = 0; //somente barba selecionada - pendente
+  int? limpezaDePele = 0; //extra
+  int? locaoDePele = 0; //extra
   int? adicionalBarboTerapia =
-      4; // valor do corte(db) + barboterapia - pendente
+      0; // valor do corte(db) + barboterapia - pendente
   int? adicionalBarbaExpress =
-      5; // valor do corte(db) + barboexpress - pendente
+      0; // valor do corte(db) + barboexpress - pendente
 // padrao ja carregado do database
   //valores adicionais - fim
 
@@ -1158,21 +1218,114 @@ class _AddScreenState extends State<AddScreen> {
                                                             color: Colors.green,
                                                             size: 15,
                                                           ),
-                                                          Text(
-                                                            "+R\$${item.value}",
-                                                            style: GoogleFonts
-                                                                .openSans(
-                                                              textStyle:
-                                                                  const TextStyle(
-                                                                fontSize: 10,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400,
-                                                                color: Colors
-                                                                    .white54,
+                                                          if (item.name ==
+                                                              _procedimentos[0]
+                                                                  .name)
+                                                            Text(
+                                                              "R\$${atualPrice}",
+                                                              style: GoogleFonts
+                                                                  .openSans(
+                                                                textStyle:
+                                                                    const TextStyle(
+                                                                  fontSize: 10,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w400,
+                                                                  color: Colors
+                                                                      .white54,
+                                                                ),
                                                               ),
                                                             ),
-                                                          ),
+                                                          if (item.name ==
+                                                              _procedimentos[1]
+                                                                  .name)
+                                                            Text(
+                                                              "R\$${barbaPriceFinal}",
+                                                              style: GoogleFonts
+                                                                  .openSans(
+                                                                textStyle:
+                                                                    const TextStyle(
+                                                                  fontSize: 10,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w400,
+                                                                  color: Colors
+                                                                      .white54,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          if (item.name ==
+                                                              _procedimentos[2]
+                                                                  .name)
+                                                            Text(
+                                                              "R\$${index2Value}",
+                                                              style: GoogleFonts
+                                                                  .openSans(
+                                                                textStyle:
+                                                                    const TextStyle(
+                                                                  fontSize: 10,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w400,
+                                                                  color: Colors
+                                                                      .white54,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          if (item.name ==
+                                                              _procedimentos[3]
+                                                                  .name)
+                                                            Text(
+                                                              "R\$${index3Value}",
+                                                              style: GoogleFonts
+                                                                  .openSans(
+                                                                textStyle:
+                                                                    const TextStyle(
+                                                                  fontSize: 10,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w400,
+                                                                  color: Colors
+                                                                      .white54,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          if (item.name ==
+                                                              _procedimentos[4]
+                                                                  .name)
+                                                            Text(
+                                                              "R\$${index4Value}",
+                                                              style: GoogleFonts
+                                                                  .openSans(
+                                                                textStyle:
+                                                                    const TextStyle(
+                                                                  fontSize: 10,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w400,
+                                                                  color: Colors
+                                                                      .white54,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          if (item.name ==
+                                                              _procedimentos[5]
+                                                                  .name)
+                                                            Text(
+                                                              "R\$${index5Value}",
+                                                              style: GoogleFonts
+                                                                  .openSans(
+                                                                textStyle:
+                                                                    const TextStyle(
+                                                                  fontSize: 10,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w400,
+                                                                  color: Colors
+                                                                      .white54,
+                                                                ),
+                                                              ),
+                                                            ),
                                                         ],
                                                       ),
                                                     ),

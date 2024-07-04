@@ -41,6 +41,10 @@ class _EncaixeScreenProfissionalOptionHomeProfState
     LoadFolgaDatetime;
     LoadPrice();
     loadGeralUsers();
+    LoadPriceAdicionalIndex2();
+    LoadPriceAdicionalIndex3();
+    LoadPriceAdicionalIndex4();
+    LoadPriceAdicionalIndex5();
     nomeControler.addListener(() {
       final text = nomeControler.text;
       if (_isSearching || text.isEmpty) {
@@ -48,6 +52,50 @@ class _EncaixeScreenProfissionalOptionHomeProfState
         return;
       }
       _onSearchTextChanged(text: text.trim());
+    });
+  }
+
+  int? index5Value;
+  Future<void> LoadPriceAdicionalIndex5() async {
+    int? priceDB = await ManagerScreenFunctions().getAdicionalindex5();
+    print("pegamos a data do databse");
+
+    setState(() {
+      index5Value = priceDB ?? 00;
+      setandoTodosOsValores();
+    });
+  }
+
+  int? index4Value;
+  Future<void> LoadPriceAdicionalIndex4() async {
+    int? priceDB = await ManagerScreenFunctions().getAdicionalindex4();
+    print("pegamos a data do databse");
+
+    setState(() {
+      index4Value = priceDB ?? 00;
+      setandoTodosOsValores();
+    });
+  }
+
+  int? index3Value;
+  Future<void> LoadPriceAdicionalIndex3() async {
+    int? priceDB = await ManagerScreenFunctions().getAdicionalindex3();
+    print("pegamos a data do databse");
+
+    setState(() {
+      index3Value = priceDB ?? 00;
+      setandoTodosOsValores();
+    });
+  }
+
+  int? index2Value;
+  Future<void> LoadPriceAdicionalIndex2() async {
+    int? priceDB = await ManagerScreenFunctions().getAdicionalindex2();
+    print("pegamos a data do databse");
+
+    setState(() {
+      index2Value = priceDB ?? 00;
+      setandoTodosOsValores();
     });
   }
 
@@ -180,6 +228,7 @@ class _EncaixeScreenProfissionalOptionHomeProfState
 
     setState(() {
       barbaPriceFinal = priceDB!;
+      apenasBarbaValue = priceDB;
       valorFinalCobrado = (atualPrice! + barbaPriceFinal!);
     });
   }
@@ -287,7 +336,7 @@ class _EncaixeScreenProfissionalOptionHomeProfState
               : "Não Definido",
       corte: CorteClass(
         apenasBarba: apenasBarba,
-         detalheDoProcedimento: detalheDoProcedimento ?? "Corte Normal",
+        detalheDoProcedimento: detalheDoProcedimento ?? "Corte Normal",
         horariosExtra: horariosExtras,
         totalValue: valorFinalCobrado,
         isActive: true,
@@ -726,7 +775,7 @@ class _EncaixeScreenProfissionalOptionHomeProfState
     }
   }
 
-    void barbaTrue() {
+  void barbaTrue() {
     if (barba == false) {
       setState(() {
         barba = true;
@@ -756,14 +805,21 @@ class _EncaixeScreenProfissionalOptionHomeProfState
   //servicos adicionais - inicio
 
   //valores adicionais - inicio
-  //valorFinalCobrado < este valor deve ser enviado fixo na funcao de enviar ao db (agora valida com barba pois tem apenas 2 proced.)
-  int? apenasBarbaValue = 1; //somente barba selecionada - pendente
-  int? limpezaDePele = 2; //extra
-  int? locaoDePele = 3; //extra
-  int? adicionalBarboTerapia =
-      4; // valor do corte(db) + barboterapia - pendente
-  int? adicionalBarbaExpress =
-      5; // valor do corte(db) + barboexpress - pendente
+   void setandoTodosOsValores() {
+    setState(() {
+      apenasBarbaValue = barbaPriceFinal;
+      limpezaDePele = index2Value;
+      locaoDePele = index3Value;
+      adicionalBarboTerapia = index4Value;
+      adicionalBarbaExpress = index5Value;
+    });
+  }
+
+  int? apenasBarbaValue = 0; //somente barba selecionada - pendente
+  int? limpezaDePele= 0; //extra
+  int? locaoDePele= 0; //extra
+  int? adicionalBarboTerapia= 0; // valor do corte(db) + barboterapia - pendente
+  int? adicionalBarbaExpress = 0; // valor do corte(db) + barboexpress - pendente
 // padrao ja carregado do database
   //valores adicionais - fim
 
@@ -1233,18 +1289,96 @@ class _EncaixeScreenProfissionalOptionHomeProfState
                                                     color: Colors.green,
                                                     size: 15,
                                                   ),
-                                                  Text(
-                                                    "+R\$${item.value}",
-                                                    style: GoogleFonts.openSans(
-                                                      textStyle:
-                                                          const TextStyle(
-                                                        fontSize: 10,
-                                                        fontWeight:
-                                                            FontWeight.w400,
-                                                        color: Colors.white54,
+                                                  if (item.name ==
+                                                      _procedimentos[0].name)
+                                                    Text(
+                                                      "R\$${atualPrice}",
+                                                      style:
+                                                          GoogleFonts.openSans(
+                                                        textStyle:
+                                                            const TextStyle(
+                                                          fontSize: 10,
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          color: Colors.white54,
+                                                        ),
                                                       ),
                                                     ),
-                                                  ),
+                                                  if (item.name ==
+                                                      _procedimentos[1].name)
+                                                    Text(
+                                                      "R\$${barbaPriceFinal}",
+                                                      style:
+                                                          GoogleFonts.openSans(
+                                                        textStyle:
+                                                            const TextStyle(
+                                                          fontSize: 10,
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          color: Colors.white54,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  if (item.name ==
+                                                      _procedimentos[2].name)
+                                                    Text(
+                                                      "R\$${index2Value}",
+                                                      style:
+                                                          GoogleFonts.openSans(
+                                                        textStyle:
+                                                            const TextStyle(
+                                                          fontSize: 10,
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          color: Colors.white54,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  if (item.name ==
+                                                      _procedimentos[3].name)
+                                                    Text(
+                                                      "R\$${index3Value}",
+                                                      style:
+                                                          GoogleFonts.openSans(
+                                                        textStyle:
+                                                            const TextStyle(
+                                                          fontSize: 10,
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          color: Colors.white54,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  if (item.name ==
+                                                      _procedimentos[4].name)
+                                                    Text(
+                                                      "R\$${index4Value}",
+                                                      style:
+                                                          GoogleFonts.openSans(
+                                                        textStyle:
+                                                            const TextStyle(
+                                                          fontSize: 10,
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          color: Colors.white54,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  if (item.name ==
+                                                      _procedimentos[5].name)
+                                                    Text(
+                                                      "R\$${index5Value}",
+                                                      style:
+                                                          GoogleFonts.openSans(
+                                                        textStyle:
+                                                            const TextStyle(
+                                                          fontSize: 10,
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          color: Colors.white54,
+                                                        ),
+                                                      ),
+                                                    ),
                                                 ],
                                               ),
                                             ),
@@ -1375,116 +1509,118 @@ class _EncaixeScreenProfissionalOptionHomeProfState
                     ),
                     //CONTAINER BOOL DA barba - INICIO
                     if (apenasBarba != true)
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 5, horizontal: 10),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: Estabelecimento.secondaryColor
-                                  .withOpacity(0.4)),
-                          child: const Text("3"),
-                        ),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        Text(
-                          "Deseja incluir barba?",
-                          style: GoogleFonts.openSans(
-                            textStyle: const TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.black,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    if (apenasBarba != true)
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    if (apenasBarba != true)
-                    Container(
-                      width: widhScren,
-                      height: heighScreen * 0.07,
-                      child: Stack(
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Positioned(
-                            right: 0,
-                            child: InkWell(
-                              onTap: barbaFalse,
-                              child: Container(
-                                padding: const EdgeInsets.only(right: 30),
-                                alignment: Alignment.centerRight,
-                                height: heighScreen * 0.07,
-                                width: barba ? widhScren / 1.8 : widhScren / 2,
-                                decoration: BoxDecoration(
-                                  color: Estabelecimento.secondaryColor,
-                                  borderRadius: const BorderRadius.only(
-                                    topRight: Radius.circular(5),
-                                    bottomRight: Radius.circular(5),
-                                  ),
-                                ),
-                                child: Text(
-                                  "Não",
-                                  style: GoogleFonts.openSans(
-                                    textStyle: TextStyle(
-                                        fontSize: !barba ? 18 : 13,
-                                        fontWeight: !barba
-                                            ? FontWeight.w800
-                                            : FontWeight.w400,
-                                        color:
-                                            Estabelecimento.contraPrimaryColor),
-                                  ),
-                                ),
-                              ),
-                            ),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 5, horizontal: 10),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Estabelecimento.secondaryColor
+                                    .withOpacity(0.4)),
+                            child: const Text("3"),
                           ),
-                          Positioned(
-                            left: 0,
-                            child: InkWell(
-                              onTap: barbaTrue,
-                              child: Container(
-                                padding: const EdgeInsets.only(left: 30),
-                                alignment: Alignment.centerLeft,
-                                height: heighScreen * 0.07,
-                                width: barba ? widhScren / 1.8 : widhScren / 2,
-                                decoration: BoxDecoration(
-                                    borderRadius: const BorderRadius.only(
-                                      bottomLeft: Radius.circular(5),
-                                      topLeft: Radius.circular(5),
-                                      topRight: Radius.elliptical(20, 20),
-                                      bottomRight: Radius.elliptical(20, 20),
-                                    ),
-                                    color: Estabelecimento.primaryColor),
-                                child: Text(
-                                  "Sim",
-                                  style: GoogleFonts.openSans(
-                                    textStyle: TextStyle(
-                                        fontSize: barba ? 18 : 13,
-                                        fontWeight: barba
-                                            ? FontWeight.w800
-                                            : FontWeight.w400,
-                                        color:
-                                            Estabelecimento.contraPrimaryColor),
-                                  ),
-                                ),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          Text(
+                            "Deseja incluir barba?",
+                            style: GoogleFonts.openSans(
+                              textStyle: const TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.black,
                               ),
                             ),
                           ),
                         ],
                       ),
-                    ),
+                    if (apenasBarba != true)
+                      const SizedBox(
+                        height: 5,
+                      ),
+                    if (apenasBarba != true)
+                      Container(
+                        width: widhScren,
+                        height: heighScreen * 0.07,
+                        child: Stack(
+                          children: [
+                            Positioned(
+                              right: 0,
+                              child: InkWell(
+                                onTap: barbaFalse,
+                                child: Container(
+                                  padding: const EdgeInsets.only(right: 30),
+                                  alignment: Alignment.centerRight,
+                                  height: heighScreen * 0.07,
+                                  width:
+                                      barba ? widhScren / 1.8 : widhScren / 2,
+                                  decoration: BoxDecoration(
+                                    color: Estabelecimento.secondaryColor,
+                                    borderRadius: const BorderRadius.only(
+                                      topRight: Radius.circular(5),
+                                      bottomRight: Radius.circular(5),
+                                    ),
+                                  ),
+                                  child: Text(
+                                    "Não",
+                                    style: GoogleFonts.openSans(
+                                      textStyle: TextStyle(
+                                          fontSize: !barba ? 18 : 13,
+                                          fontWeight: !barba
+                                              ? FontWeight.w800
+                                              : FontWeight.w400,
+                                          color: Estabelecimento
+                                              .contraPrimaryColor),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                              left: 0,
+                              child: InkWell(
+                                onTap: barbaTrue,
+                                child: Container(
+                                  padding: const EdgeInsets.only(left: 30),
+                                  alignment: Alignment.centerLeft,
+                                  height: heighScreen * 0.07,
+                                  width:
+                                      barba ? widhScren / 1.8 : widhScren / 2,
+                                  decoration: BoxDecoration(
+                                      borderRadius: const BorderRadius.only(
+                                        bottomLeft: Radius.circular(5),
+                                        topLeft: Radius.circular(5),
+                                        topRight: Radius.elliptical(20, 20),
+                                        bottomRight: Radius.elliptical(20, 20),
+                                      ),
+                                      color: Estabelecimento.primaryColor),
+                                  child: Text(
+                                    "Sim",
+                                    style: GoogleFonts.openSans(
+                                      textStyle: TextStyle(
+                                          fontSize: barba ? 18 : 13,
+                                          fontWeight: barba
+                                              ? FontWeight.w800
+                                              : FontWeight.w400,
+                                          color: Estabelecimento
+                                              .contraPrimaryColor),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     //CONTAINER BOOL DA barba - FIM
 
                     //CONTAINER DA BARBA -FIM
                     if (apenasBarba != true)
-                    const SizedBox(
-                      height: 25,
-                    ),
+                      const SizedBox(
+                        height: 25,
+                      ),
                     //CONTAINER DO PROFISSIONAL - INICIO
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,

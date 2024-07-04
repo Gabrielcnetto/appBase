@@ -15,7 +15,7 @@ import 'package:lionsbarberv1/managerHome/screen/home/homeScreen01.dart';
 import 'package:lionsbarberv1/managerHome/screen/manager/GraphicsAndSales/GraphicsScreenManager.dart';
 import 'package:lionsbarberv1/managerHome/screen/manager/principal/GeralTasks/components/changeHourAndData.dart';
 import 'package:lionsbarberv1/managerHome/screen/manager/principal/GeralTasks/modalDeEdicao.dart';
-import 'package:lionsbarberv1/managerHome/screen/manager/principal/components/agendaDia/pricesandpercentages/PricesAndPercentagens.dart';
+import 'package:lionsbarberv1/managerHome/screen/manager/principal/components/agendaDia/pricesandpercentages/priceEPorcentagemNewScreen.dart';
 import 'package:lionsbarberv1/managerHome/screen/profile/profileScreen.dart';
 import 'package:lionsbarberv1/normalUsersHome/screen/profile/profileScreen.dart';
 import 'package:lionsbarberv1/rotas/Approutes.dart';
@@ -136,7 +136,7 @@ class _MyAppState extends State<MyApp> {
           AppRoutesApp.ProfileScreenManagerWithScafol: (ctx) =>
               const ProfileScreenManagerWithScafol(),
           AppRoutesApp.PricesAndPercentages: (ctx) =>
-              const PricesAndPercentages(),
+              const PriceEporcentagemNewPrice(), // mudei testando layout novo
           AppRoutesApp.GraphicsManagerScreen: (ctx) =>
               const GraphicsManagerScreen(),
           AppRoutesApp.ModalDeEdicao: (ctx) => const ModalDeEdicao(),

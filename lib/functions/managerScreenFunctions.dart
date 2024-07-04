@@ -461,4 +461,104 @@ class ManagerScreenFunctions with ChangeNotifier {
       return null;
     }
   }
+
+  //setando e get dos valores adicionais
+  Future<void> setAdicionalindex2({required int index2}) async {
+    database.collection("estabelecimento").doc("index2").set({
+      'index2': index2,
+    });
+  }
+
+  Future<int?> getAdicionalindex2() async {
+    print("entramos no get da folga");
+    int? index2;
+    await database
+        .collection("estabelecimento")
+        .doc("index2")
+        .get()
+        .then((event) {
+      if (event.exists) {
+        Map<String, dynamic> data = event.data() as Map<String, dynamic>;
+        index2 = data['index2'];
+      }
+      print("a data que foi pega foi: ${index2}");
+      return index2;
+    });
+    return index2;
+  }
+
+  //index 3
+  Future<void> setAdicionalindex3({required int index3}) async {
+    database.collection("estabelecimento").doc("index3").set({
+      'index3': index3,
+    });
+  }
+
+  Future<int?> getAdicionalindex3() async {
+    print("entramos no get da folga");
+    int? index3;
+    await database
+        .collection("estabelecimento")
+        .doc("index3")
+        .get()
+        .then((event) {
+      if (event.exists) {
+        Map<String, dynamic> data = event.data() as Map<String, dynamic>;
+        index3 = data['index3'];
+      }
+      print("a data que foi pega foi: ${index3}");
+      return index3;
+    });
+    return index3;
+  }
+
+  //index 4
+  Future<void> setAdicionalindex4({required int index4}) async {
+    database.collection("estabelecimento").doc("index4").set({
+      'index4': index4,
+    });
+  }
+
+  Future<int?> getAdicionalindex4() async {
+    print("entramos no get da folga");
+    int? index4;
+    await database
+        .collection("estabelecimento")
+        .doc("index4")
+        .get()
+        .then((event) {
+      if (event.exists) {
+        Map<String, dynamic> data = event.data() as Map<String, dynamic>;
+        index4 = data['index4'];
+      }
+      print("a data que foi pega foi: ${index4}");
+      return index4;
+    });
+    return index4;
+  }
+
+  //index 5
+  Future<void> setAdicionalindex5({required int index5}) async {
+    database.collection("estabelecimento").doc("index5").set({
+      'index5': index5,
+    });
+  }
+
+  Future<int?> getAdicionalindex5() async {
+    print("entramos no get da folga");
+    int? index5;
+    await database
+        .collection("estabelecimento")
+        .doc("index5")
+        .get()
+        .then((event) {
+      if (event.exists) {
+        Map<String, dynamic> data = event.data() as Map<String, dynamic>;
+        index5 = data['index5'];
+      }
+      print("a data que foi pega foi: ${index5}");
+      return index5;
+    });
+    return index5;
+  }
 }
