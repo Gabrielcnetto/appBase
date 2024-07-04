@@ -9,10 +9,16 @@ class UserLoginApp with ChangeNotifier {
   }
 
   Future<void> fazerLogin(String email, String password) async {
-    firebaseAuth.signInWithEmailAndPassword(
+    print("#login1 entrei no provider do login");
+    try{
+     await firebaseAuth.signInWithEmailAndPassword(
       email: email,
       password: password,
     );
     notifyListeners();
+    } catch(e){
+      print("#login1 : $e");
+      throw e;
+    }
   }
 }

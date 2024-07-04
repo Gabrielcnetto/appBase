@@ -1,14 +1,10 @@
-import 'dart:ui';
-
+import 'package:flutter/material.dart';
+import 'package:lionsbarberv1/usuarioDeslogado/screen/home/homeScreen01.dart';
+import 'package:provider/provider.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:lionsbarberv1/classes/Estabelecimento.dart';
-import 'package:lionsbarberv1/functions/profileScreenFunctions.dart';
 import 'package:lionsbarberv1/functions/userLogin.dart';
 import 'package:lionsbarberv1/rotas/Approutes.dart';
-import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 
 class LoginScreen01 extends StatefulWidget {
   const LoginScreen01({super.key});
@@ -18,218 +14,209 @@ class LoginScreen01 extends StatefulWidget {
 }
 
 class _LoginScreen01State extends State<LoginScreen01> {
-  final emailControler = TextEditingController();
-  final passwordControler = TextEditingController();
-  final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<ScaffoldMessengerState> _scaffoldKey =
+      GlobalKey<ScaffoldMessengerState>();
 
+  Future<void> userAuth(BuildContext context) async {
+    try {
+      await Provider.of<UserLoginApp>(context, listen: false).fazerLogin(
+        emailController.text,
+        passwordController.text,
+      );
 
-   void userAuth() {
-    Provider.of<UserLoginApp>(context, listen: false).fazerLogin(
-      emailControler.text,
-      passwordControler.text,
-    );
- 
+      // Após o login bem-sucedido, navegue para a próxima tela
+      Navigator.of(context).pushReplacementNamed(
+        AppRoutesApp.VerificationLoginScreen01,
+      );
+    } catch (e) {
+      print("#10 erro no login:${e}");
+      showDialog(
+          context: context,
+          builder: (ctx) {
+            return AlertDialog(
+              title: Text(
+                "Credenciais incorretas",
+                style: GoogleFonts.openSans(
+                  textStyle: TextStyle(
+                      fontWeight: FontWeight.w700,
+                      color: Colors.black,
+                      fontSize: 16),
+                ),
+              ),
+              content: Text(
+                "Insira as credenciais usadas ao criar a sua conta para efetuar o login e entrar em sua conta",
+                style: GoogleFonts.openSans(
+                  textStyle: TextStyle(
+                    fontWeight: FontWeight.w500,
+                    color: Colors.grey,
+                    fontSize: 13,
+                  ),
+                ),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text(
+                    "Voltar",  style: GoogleFonts.openSans(
+                  textStyle: TextStyle(
+                    fontWeight: FontWeight.w700,
+                    color: Colors.blue.shade600,
+                    fontSize: 14,
+                  ),
+                ),
+                  ),
+                ),
+              ],
+            );
+          });
+
+      // Aqui você pode exibir uma mensagem de erro para o usuário, se necessário
+    }
   }
 
-  bool showPass = true;
-  void ShowPass() {
+  bool showPassword = false;
+
+  void togglePasswordVisibility() {
     setState(() {
-      showPass = !showPass;
+      showPassword = !showPassword;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final WidhtTela = MediaQuery.of(context).size.width;
-    final heighTela = MediaQuery.of(context).size.height;
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
+      key: _scaffoldKey,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.only(top: 20, right: 15, left: 15),
-          child: Container(
-            width: WidhtTela,
-            height: heighTela,
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    width: WidhtTela / 5.4,
-                    height: heighTela / 5.4,
-                    alignment: Alignment.center,
-                    child: Image.asset(
-                      Estabelecimento.urlLogo,
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: 20),
+                Container(
+                  alignment: Alignment.center,
+                  width: screenWidth / 5.4,
+                  height: screenHeight / 5.4,
+                  child: Image.asset(Estabelecimento.urlLogo),
+                ),
+                SizedBox(height: 20),
+                Text(
+                  "Login",
+                  style: GoogleFonts.openSans(
+                    textStyle: TextStyle(
+                      color: Estabelecimento.primaryColor,
+                      fontSize: 34,
+                      fontWeight: FontWeight.w800,
                     ),
                   ),
-                  Text(
-                    "Login",
-                    style: GoogleFonts.openSans(
-                      textStyle: TextStyle(
-                        color: Estabelecimento.primaryColor,
-                        fontSize: 34,
-                        fontWeight: FontWeight.w800,
+                ),
+                SizedBox(height: 20),
+                Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      TextFormField(
+                        controller: emailController,
+                        decoration: InputDecoration(
+                          labelText: 'Seu E-mail',
+                          hintText: 'Digite seu e-mail',
+                          border: OutlineInputBorder(),
+                          filled: true,
+                          fillColor:
+                              Estabelecimento.secondaryColor.withOpacity(0.2),
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Por favor, digite seu e-mail';
+                          }
+                          return null;
+                        },
                       ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  //FORMULARIO DO LOGIN - INICIO
-                  //FORMULARIO DO EMAIL - INICIO
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    width: WidhtTela,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        //FORMULARIO DO E-MAIL
-                        Text(
-                          "Seu E-mail",
-                          style: GoogleFonts.openSans(
-                              textStyle: TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                  color: Estabelecimento.primaryColor)),
-                        ),
-                        const SizedBox(
-                          height: 8,
-                        ),
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            color:
-                                Estabelecimento.secondaryColor.withOpacity(0.2),
-                          ),
-                          child: TextFormField(
-                            controller: emailControler,
-                            decoration: const InputDecoration(
-                              border: InputBorder.none,
+                      SizedBox(height: 20),
+                      TextFormField(
+                        controller: passwordController,
+                        obscureText: !showPassword,
+                        decoration: InputDecoration(
+                          labelText: 'Sua Senha',
+                          hintText: 'Digite sua senha',
+                          border: OutlineInputBorder(),
+                          filled: true,
+                          fillColor:
+                              Estabelecimento.secondaryColor.withOpacity(0.2),
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              showPassword
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
                             ),
+                            onPressed: togglePasswordVisibility,
                           ),
                         ),
-                      ],
-                    ),
-                  ),
-                  //FIM FORMULARIO DO EMAIL
-                  const SizedBox(
-                    height: 25,
-                  ),
-
-                  //FORMULARIO DO PASSWORD - INICIO
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    width: WidhtTela,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        //FORMULARIO DO E-MAIL
-                        Text(
-                          "Sua Senha",
-                          style: GoogleFonts.openSans(
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Por favor, digite sua senha';
+                          }
+                          return null;
+                        },
+                      ),
+                      SizedBox(height: 20),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: TextButton(
+                          onPressed: () {
+                            // Implemente a lógica para redefinir a senha
+                          },
+                          child: Text(
+                            'Esqueceu a senha?',
+                            style: GoogleFonts.openSans(
                               textStyle: TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                  color: Estabelecimento.primaryColor)),
-                        ),
-                        const SizedBox(
-                          height: 8,
-                        ),
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            color:
-                                Estabelecimento.secondaryColor.withOpacity(0.2),
-                          ),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: TextFormField(
-                                  controller: passwordControler,
-                                  obscureText: showPass,
-                                  decoration: const InputDecoration(
-                                    border: InputBorder.none,
-                                  ),
-                                ),
+                                fontWeight: FontWeight.w500,
+                                color: Estabelecimento.secondaryColor,
                               ),
-                              InkWell(
-                                onTap: ShowPass,
-                                child: Icon(
-                                  showPass
-                                      ? Icons.visibility
-                                      : Icons.visibility_off,
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  //FORMULARIO DO PASSWORD - FIM
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  //FORMULARIO DO LOGIN - FIM
-                  Padding(
-                    padding: const EdgeInsets.only(right: 20),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Text(
-                          "Esqueceu a senha?",
-                          style: GoogleFonts.openSans(
-                            textStyle: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              color: Estabelecimento.secondaryColor,
                             ),
                           ),
                         ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: InkWell(
-                      onTap: () async {
-                        userAuth();
-                        Navigator.of(context).pushReplacementNamed(
-                          AppRoutesApp.VerificationLoginScreen01,
-                        );
-                      },
-                      child: Container(
-                        alignment: Alignment.center,
-                        padding: const EdgeInsets.symmetric(vertical: 15),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: Estabelecimento.primaryColor,
-                        ),
-                        width: WidhtTela,
-                        child: Text(
-                          "Entrar",
-                          style: GoogleFonts.openSans(
+                      ),
+                      SizedBox(height: 20),
+                      ElevatedButton(
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            userAuth(context);
+                          }
+                        },
+                        child: Container(
+                          alignment: Alignment.center,
+                          padding: const EdgeInsets.symmetric(vertical: 15),
+                          width: screenWidth,
+                          child: Text(
+                            "Entrar",
+                            style: GoogleFonts.openSans(
                               textStyle: TextStyle(
-                            fontWeight: FontWeight.w700,
-                            fontSize: 17,
-                            color: Estabelecimento.contraPrimaryColor,
-                          )),
+                                fontWeight: FontWeight.w700,
+                                fontSize: 17,
+                                color: Estabelecimento.contraPrimaryColor,
+                              ),
+                            ),
+                          ),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Estabelecimento.primaryColor,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
                         ),
                       ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 20, right: 20),
-                    child: Container(
-                      alignment: Alignment.bottomCenter,
-                      width: WidhtTela,
-                      height: heighTela / 6,
-                      child: Row(
+                      SizedBox(height: 20),
+                      Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
@@ -245,7 +232,8 @@ class _LoginScreen01State extends State<LoginScreen01> {
                           InkWell(
                             onTap: () {
                               Navigator.of(context).pushNamed(
-                                  AppRoutesApp.RegisterAccountScreen);
+                                AppRoutesApp.RegisterAccountScreen,
+                              );
                             },
                             child: Text(
                               "Crie a sua Conta",
@@ -257,13 +245,50 @@ class _LoginScreen01State extends State<LoginScreen01> {
                                 ),
                               ),
                             ),
-                          )
+                          ),
                         ],
                       ),
-                    ),
-                  )
-                ],
-              ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 30),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          Navigator.of(context).push(
+                            DialogRoute(
+                              context: context,
+                              builder: (ctx) =>
+                                  HomeScreen01Deslogado(selectedIndex: 0),
+                            ),
+                          );
+                        },
+                        child: Container(
+                          padding: EdgeInsets.symmetric(
+                              vertical: 10, horizontal: 10),
+                          decoration: BoxDecoration(
+                            color: Colors.grey.shade200,
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          child: Text(
+                            "Continuar sem conta",
+                            style: GoogleFonts.openSans(
+                              textStyle: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                color: Colors.black,
+                                fontSize: 13,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
           ),
         ),

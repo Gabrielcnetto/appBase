@@ -14,7 +14,7 @@ class Procedimentos_Extras {
 List<Procedimentos_Extras> procedimentosLista = [
     Procedimentos_Extras(
     id: "P0",
-    name: "Corte(padrão)",
+    name: "Corte",
     value: 12,
   ),
   Procedimentos_Extras(

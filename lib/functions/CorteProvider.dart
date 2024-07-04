@@ -31,7 +31,7 @@ class CorteProvider with ChangeNotifier {
     print(monthName);
     print("entrei na funcao");
     final nomeBarber = Uri.encodeFull(nomeBarbeiro);
-
+    final String idUserDeslogado = Random().nextDouble().toString();
     try {
       //adicionado lista principal de cortes do dia
       final addOnDB = await database
@@ -191,35 +191,37 @@ class CorteProvider with ChangeNotifier {
       });
       //adicionando em lista aleatoria apenas para soma:
       final userId = await authSettings.currentUser!.uid;
-      final myCortes = await database
-          .collection("meusCortes")
-          .doc(userId)
-          .collection("lista")
-          .doc(corte.id)
-          .set({
-        "detalheDoProcedimento": corte.detalheDoProcedimento,
-        "horariosExtras": corte.horariosExtra,
-        "id": corte.id,
-        "totalValue": corte.totalValue,
-        'isActive': corte.isActive,
-        "diaDoCorte": corte.DiaDoCorte,
-        "clientName": corte.clientName,
-        "numeroContato": corte.numeroContato,
-        "barba": corte.barba,
-        "diaCorte": corte.diaCorte,
-        "dataCreateAgendamento": corte.dateCreateAgendamento,
-        "horarioCorte": corte.horarioCorte,
-        "profissionalSelect": corte.profissionalSelect,
-        "ramdomNumber": corte.ramdomCode,
-        "monthName": monthName,
-      });
+      if (authSettings.currentUser != null) {
+        final myCortes = await database
+            .collection("meusCortes")
+            .doc(userId)
+            .collection("lista")
+            .doc(corte.id)
+            .set({
+          "detalheDoProcedimento": corte.detalheDoProcedimento,
+          "horariosExtras": corte.horariosExtra,
+          "id": corte.id,
+          "totalValue": corte.totalValue,
+          'isActive': corte.isActive,
+          "diaDoCorte": corte.DiaDoCorte,
+          "clientName": corte.clientName,
+          "numeroContato": corte.numeroContato,
+          "barba": corte.barba,
+          "diaCorte": corte.diaCorte,
+          "dataCreateAgendamento": corte.dateCreateAgendamento,
+          "horarioCorte": corte.horarioCorte,
+          "profissionalSelect": corte.profissionalSelect,
+          "ramdomNumber": corte.ramdomCode,
+          "monthName": monthName,
+        });
 
-      //adicionado aos meus cortes
-      final updateLenghCortesInProfile =
-          await database.collection("usuarios").doc(userId).update({
-        "totalCortes": FieldValue.increment(
-            1), //update do int para +1 atualizando ototal de cortes
-      });
+        //adicionado aos meus cortes
+        final updateLenghCortesInProfile =
+            await database.collection("usuarios").doc(userId).update({
+          "totalCortes": FieldValue.increment(
+              1), //update do int para +1 atualizando ototal de cortes
+        });
+      }
     } catch (e) {
       print("ocorreu isto:${e}");
     }

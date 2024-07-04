@@ -4,9 +4,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lionsbarberv1/usuarioDeslogado/screen/home/homeScreen01.dart';
 
-class ConfirmScreenCorte extends StatelessWidget {
-  const ConfirmScreenCorte({super.key});
+class ConfirmScreenCorteDeslogado extends StatelessWidget {
+  const ConfirmScreenCorteDeslogado({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -69,8 +70,11 @@ class ConfirmScreenCorte extends StatelessWidget {
                     height: 20,
                   ),
                   InkWell(
-                    onTap: (){
-                      Navigator.of(context).pushReplacementNamed(AppRoutesApp.HomeScreen01);
+                    onTap: () {
+                      Navigator.of(context).push(DialogRoute(
+                        context: context,
+                        builder: (ctx) => HomeScreen01Deslogado(selectedIndex: 0,),
+                      ));
                     },
                     child: Container(
                       alignment: Alignment.center,

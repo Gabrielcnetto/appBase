@@ -1447,133 +1447,7 @@ class _AddScreenState extends State<AddScreen> {
                               ),
                             ),
                             //PROCEDIMENTOS EXTRAS - FIM
-                            //CONTAINER BOOL DA barba - INICIO
-                            if (apenasBarba != true)
-                              SizedBox(
-                                height: 25,
-                              ),
-                            if (apenasBarba != true)
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 5, horizontal: 10),
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        color: Estabelecimento.secondaryColor
-                                            .withOpacity(0.4)),
-                                    child: const Text("3"),
-                                  ),
-                                  const SizedBox(
-                                    width: 5,
-                                  ),
-                                  Text(
-                                    "Deseja incluir barba?",
-                                    style: GoogleFonts.openSans(
-                                      textStyle: const TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            if (apenasBarba != true)
-                              const SizedBox(
-                                height: 5,
-                              ),
-                            if (apenasBarba != true)
-                              Container(
-                                width: widhScren,
-                                height: heighScreen * 0.07,
-                                child: Stack(
-                                  children: [
-                                    Positioned(
-                                      right: 0,
-                                      child: InkWell(
-                                        onTap: () {
-                                          // setandoOValorBarbaCabeloNormalFuncaoBase();
-                                          barbaFalse();
-                                        },
-                                        child: Container(
-                                          padding:
-                                              const EdgeInsets.only(right: 30),
-                                          alignment: Alignment.centerRight,
-                                          height: heighScreen * 0.07,
-                                          width: !barba
-                                              ? widhScren / 1.8
-                                              : widhScren / 3,
-                                          decoration: BoxDecoration(
-                                            color:
-                                                Estabelecimento.secondaryColor,
-                                            borderRadius:
-                                                const BorderRadius.only(
-                                              topRight: Radius.circular(5),
-                                              bottomRight: Radius.circular(5),
-                                            ),
-                                          ),
-                                          child: Text(
-                                            "Não",
-                                            style: GoogleFonts.openSans(
-                                              textStyle: TextStyle(
-                                                  fontSize: !barba ? 18 : 13,
-                                                  fontWeight: !barba
-                                                      ? FontWeight.w800
-                                                      : FontWeight.w400,
-                                                  color: Estabelecimento
-                                                      .contraPrimaryColor),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Positioned(
-                                      left: 0,
-                                      child: InkWell(
-                                        onTap: () {
-                                          barbaTrue();
-                                          //    setandoOValorBarbaCabeloNormalFuncaoBase();
-                                        },
-                                        child: Container(
-                                          padding:
-                                              const EdgeInsets.only(left: 30),
-                                          alignment: Alignment.centerLeft,
-                                          height: heighScreen * 0.07,
-                                          width: barba
-                                              ? widhScren / 1.8
-                                              : widhScren / 3,
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                                  const BorderRadius.only(
-                                                bottomLeft: Radius.circular(5),
-                                                topLeft: Radius.circular(5),
-                                                topRight:
-                                                    Radius.elliptical(20, 20),
-                                                bottomRight:
-                                                    Radius.elliptical(20, 20),
-                                              ),
-                                              color:
-                                                  Estabelecimento.primaryColor),
-                                          child: Text(
-                                            "Sim",
-                                            style: GoogleFonts.openSans(
-                                              textStyle: TextStyle(
-                                                  fontSize: barba ? 18 : 13,
-                                                  fontWeight: barba
-                                                      ? FontWeight.w800
-                                                      : FontWeight.w400,
-                                                  color: Estabelecimento
-                                                      .contraPrimaryColor),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
+                            
                             //CONTAINER BOOL DA barba - FIM
                             const SizedBox(
                               height: 25,
@@ -1589,7 +1463,7 @@ class _AddScreenState extends State<AddScreen> {
                                       borderRadius: BorderRadius.circular(10),
                                       color: Estabelecimento.secondaryColor
                                           .withOpacity(0.4)),
-                                  child: const Text("4"),
+                                  child: const Text("3"),
                                 ),
                                 const SizedBox(
                                   width: 5,
@@ -1759,7 +1633,7 @@ class _AddScreenState extends State<AddScreen> {
                                         borderRadius: BorderRadius.circular(10),
                                         color: Estabelecimento.secondaryColor
                                             .withOpacity(0.4)),
-                                    child: const Text("5"),
+                                    child: const Text("4"),
                                   ),
                                   const SizedBox(
                                     width: 5,
@@ -1838,7 +1712,7 @@ class _AddScreenState extends State<AddScreen> {
                                         borderRadius: BorderRadius.circular(10),
                                         color: Estabelecimento.secondaryColor
                                             .withOpacity(0.4)),
-                                    child: const Text("6"),
+                                    child: const Text("5"),
                                   ),
                                   const SizedBox(
                                     width: 5,

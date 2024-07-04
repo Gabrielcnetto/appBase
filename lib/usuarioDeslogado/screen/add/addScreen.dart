@@ -1,8 +1,9 @@
+import 'dart:async';
 import 'dart:math';
-
 import 'package:lionsbarberv1/classes/Estabelecimento.dart';
 import 'package:lionsbarberv1/classes/cortecClass.dart';
 import 'package:lionsbarberv1/classes/horarios.dart';
+import 'package:lionsbarberv1/classes/procedimentos_extras.dart';
 import 'package:lionsbarberv1/classes/profissionais.dart';
 import 'package:lionsbarberv1/functions/CorteProvider.dart';
 import 'package:lionsbarberv1/functions/ManyChatConfirmation.dart';
@@ -16,16 +17,17 @@ import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
+import 'package:lionsbarberv1/usuarioDeslogado/screen/add/confirmscreen/ConfirmScreenCorte.dart';
 import 'package:provider/provider.dart';
 
-class AddScreen extends StatefulWidget {
-  const AddScreen({super.key});
+class AddScreenUserDeslogado extends StatefulWidget {
+  const AddScreenUserDeslogado({super.key});
 
   @override
-  State<AddScreen> createState() => _AddScreenState();
+  State<AddScreenUserDeslogado> createState() => _AddScreenUserDeslogadoState();
 }
 
-class _AddScreenState extends State<AddScreen> {
+class _AddScreenUserDeslogadoState extends State<AddScreenUserDeslogado> {
   final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 
   @override
@@ -41,6 +43,54 @@ class _AddScreenState extends State<AddScreen> {
     DataFolgaDatabase;
     LoadFolgaDatetime;
     LoadPrice();
+    LoadPriceAdicionalIndex2();
+    LoadPriceAdicionalIndex3();
+    LoadPriceAdicionalIndex4();
+    LoadPriceAdicionalIndex5();
+  }
+
+  int? index5Value;
+  Future<void> LoadPriceAdicionalIndex5() async {
+    int? priceDB = await ManagerScreenFunctions().getAdicionalindex5();
+    print("pegamos a data do databse");
+
+    setState(() {
+      index5Value = priceDB ?? 00;
+      setandoTodosOsValores();
+    });
+  }
+
+  int? index4Value;
+  Future<void> LoadPriceAdicionalIndex4() async {
+    int? priceDB = await ManagerScreenFunctions().getAdicionalindex4();
+    print("pegamos a data do databse");
+
+    setState(() {
+      index4Value = priceDB ?? 00;
+      setandoTodosOsValores();
+    });
+  }
+
+  int? index3Value;
+  Future<void> LoadPriceAdicionalIndex3() async {
+    int? priceDB = await ManagerScreenFunctions().getAdicionalindex3();
+    print("pegamos a data do databse");
+
+    setState(() {
+      index3Value = priceDB ?? 00;
+      setandoTodosOsValores();
+    });
+  }
+
+  int? index2Value;
+  Future<void> LoadPriceAdicionalIndex2() async {
+    int? priceDB = await ManagerScreenFunctions().getAdicionalindex2();
+    print("pegamos a data do databse");
+
+    setState(() {
+      index2Value = priceDB ?? 00;
+      setandoTodosOsValores();
+    });
   }
 
   bool barba = false;
@@ -49,16 +99,27 @@ class _AddScreenState extends State<AddScreen> {
     if (barba == false) {
       setState(() {
         barba = true;
+        valorFinalCobrado = (atualPrice! + barbaPriceFinal!);
+        detalheDoProcedimento = "Corte Normal + Barba";
       });
     }
+    print("#8 valor final ficou: ${valorFinalCobrado}");
+    print("#8 valor final frase: ${detalheDoProcedimento}");
   }
 
   void barbaFalse() {
+    setState(() {
+      valorFinalCobrado = atualPrice!;
+      detalheDoProcedimento = "Corte Normal";
+    });
     if (barba == true) {
       setState(() {
         barba = false;
+        valorFinalCobrado = atualPrice!;
       });
     }
+    print("#8 valor final ficou: ${valorFinalCobrado}");
+    print("#8 valor final frase: ${detalheDoProcedimento}");
   }
 
   final List<Profissionais> _profList = profList;
@@ -223,14 +284,14 @@ class _AddScreenState extends State<AddScreen> {
   }
 
   int? barbaPriceFinal;
-  int barbaMaisCabelo = 0;
+  int valorFinalCobrado = 0;
   Future<void> LoadPriceAdicionalBarba() async {
     int? priceDB = await ManagerScreenFunctions().getAdicionalBarbaCorte();
     print("pegamos a data do databse");
 
     setState(() {
+      apenasBarbaValue = priceDB!;
       barbaPriceFinal = priceDB!;
-      barbaMaisCabelo = (atualPrice! + barbaPriceFinal!);
     });
   }
 
@@ -328,21 +389,72 @@ class _AddScreenState extends State<AddScreen> {
         }
       }
     }
-    Navigator.of(context).pushReplacementNamed(AppRoutesApp.ConfirmScreenCorte);
+    await showDialog(
+        context: context,
+        builder: (ctx) {
+          return AlertDialog(
+            title: Text(
+              "Você ainda não tem uma conta?",
+              style: GoogleFonts.openSans(
+                textStyle: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+              ),
+            ),
+            content: Text(
+              "Sem uma conta você não ganhará pontos nem entrará no ranking da ${Estabelecimento.nomeLocal}",
+              style: GoogleFonts.openSans(
+                textStyle: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  color: Colors.grey,
+                ),
+              ),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text("Continuar sem conta",style: GoogleFonts.openSans(
+                textStyle: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  color: Colors.grey,
+                ),
+              ),),
+              ),
+                TextButton(
+                onPressed: () {
+                  Navigator.of(context).pushReplacementNamed(AppRoutesApp.RegisterAccountScreen);
+                },
+                child: Text("Criar Conta",style: GoogleFonts.openSans(
+                textStyle: TextStyle(
+                  fontWeight: FontWeight.w700,
+                  color: Colors.blue.shade600,
+                ),
+              ),),
+              ),
+         ],
+          );
+        });
+    Navigator.of(context).push(DialogRoute(
+      context: context,
+      builder: (ctx) => ConfirmScreenCorteDeslogado(),
+    ));
     Provider.of<CorteProvider>(context, listen: false)
         .AgendamentoCortePrincipalFunctions(
       barbaHoraExtra: barba,
-      pricevalue: barba == true ? barbaMaisCabelo : atualPrice ?? 0,
+      pricevalue: valorFinalCobrado,
       nomeBarbeiro: isBarbeiro1
           ? "${profList[0].nomeProf}"
           : isBarbeiro2
               ? "${profList[1].nomeProf}"
               : "Não Definido",
       corte: CorteClass(
-        apenasBarba: false,
-        detalheDoProcedimento: "",
+        apenasBarba: apenasBarba,
+        detalheDoProcedimento: detalheDoProcedimento ?? "Corte Normal",
         horariosExtra: horariosExtras,
-        totalValue: barba == true ? barbaMaisCabelo : atualPrice ?? 0,
+        totalValue: valorFinalCobrado,
         isActive: true,
         DiaDoCorte: diaDoCorte,
         NomeMes: monthName,
@@ -384,7 +496,7 @@ class _AddScreenState extends State<AddScreen> {
       DateTime finalDatetime =
           DateTime(year, month, day, hora.hour, hora.minute);
 
-       Provider.of<ManyChatConfirmation>(context, listen: false)
+      await Provider.of<ManyChatConfirmation>(context, listen: false)
           .ScheduleMessage(
               phoneNumber: numberControler.text, finalDate: finalDatetime);
     }
@@ -445,8 +557,8 @@ class _AddScreenState extends State<AddScreen> {
           listaTemporaria.removeWhere((atributosFixo) {
             return atributosFixo.horario == horario.horario;
           });
-          _horariosPreenchidosParaEvitarDupNoCreate
-              .add(Horarios(horario: horario.horario, id: horario.id,quantidadeHorarios: 1));
+          _horariosPreenchidosParaEvitarDupNoCreate.add(Horarios(
+              horario: horario.horario, id: horario.id, quantidadeHorarios: 1));
         }
         setState(() {
           horarioFinal = List.from(listaTemporaria);
@@ -703,6 +815,175 @@ class _AddScreenState extends State<AddScreen> {
         });
   }
 
+  //tudo relacionado a servicos adicionais
+  bool verServicosAdicionais = false;
+  void ativarServicosAdicionais() {
+    setState(() {
+      verServicosAdicionais = !verServicosAdicionais;
+    });
+  }
+
+  //valores adicionais - inicio
+  void setandoTodosOsValores() {
+    setState(() {
+      apenasBarbaValue = barbaPriceFinal;
+      limpezaDePele = index2Value;
+      locaoDePele = index3Value;
+      adicionalBarboTerapia = index4Value;
+      adicionalBarbaExpress = index5Value;
+    });
+  }
+
+  //valorFinalCobrado < este valor deve ser enviado fixo na funcao de enviar ao db (agora valida com barba pois tem apenas 2 proced.)
+  int? apenasBarbaValue = 0; //somente barba selecionada - pendente
+  int? limpezaDePele = 0; //extra
+  int? locaoDePele = 0; //extra
+  int? adicionalBarboTerapia =
+      0; // valor do corte(db) + barboterapia - pendente
+  int? adicionalBarbaExpress =
+      0; // valor do corte(db) + barboexpress - pendente
+// padrao ja carregado do database
+  //valores adicionais - fim
+
+  String? detalheDoProcedimento;
+  void FraseCreatedetalheDoProcedimento() {
+    String fraseMontadaFinal = "";
+    setState(() {
+      detalheDoProcedimento = "";
+    });
+    try {
+      //apenas o corte esta selecionado
+      if (barba == true && procedimento0 == true) {
+        setState(() {
+          fraseMontadaFinal = "Corte e Barba normal";
+        });
+      }
+      if (procedimento0 == true &&
+          procedimento1 == false &&
+          procedimento2 == false &&
+          procedimento3 == false &&
+          procedimento4 == false &&
+          procedimento5 == false) {
+        setState(() {
+          fraseMontadaFinal = "Apenas corte";
+        });
+      }
+      //apenas barba selecionada
+      if (apenasBarba == true) {
+        setState(() {
+          fraseMontadaFinal = "Apenas barba";
+        });
+      }
+      //cabelo e limpeza de pele
+      if (procedimento0 == true && procedimento2 == true) {
+        setState(() {
+          fraseMontadaFinal = "Corte + Limpeza Pele";
+        });
+      }
+      //cabelo e loção de pele
+      if (procedimento0 == true && procedimento3 == true) {
+        setState(() {
+          fraseMontadaFinal = "Corte + Loção";
+        });
+      }
+      //cabelo e barboterapia
+      if (procedimento4 == true) {
+        setState(() {
+          fraseMontadaFinal = "Corte e Barboterapia";
+        });
+      }
+      //cabelo e barboexpress
+      if (procedimento5 == true) {
+        print("adicionalBarbaExpress: ${adicionalBarbaExpress}");
+        setState(() {
+          fraseMontadaFinal = "Corte e Barbaexpress";
+        });
+      }
+
+      setState(() {
+        detalheDoProcedimento = fraseMontadaFinal;
+      });
+      print("#8 a frase final ficou: ${detalheDoProcedimento}");
+    } catch (e) {
+      print("erro ao montar a frase: $e");
+    }
+  }
+
+  void verificandoEsetandoValorTotal() async {
+    int valorAserCobradoTotalFinal = 0;
+
+    setState(() {
+      valorFinalCobrado = 0;
+    });
+    try {
+      //apenas o corte esta selecionado
+      if (barba == true && procedimento0 == true) {
+        setState(() {
+          valorAserCobradoTotalFinal = (atualPrice + barbaPriceFinal!);
+        });
+      }
+      if (procedimento0 == true &&
+          procedimento1 == false &&
+          procedimento2 == false &&
+          procedimento3 == false &&
+          procedimento4 == false &&
+          procedimento5 == false) {
+        setState(() {
+          valorAserCobradoTotalFinal = atualPrice ?? 0;
+        });
+      }
+      //apenas barba selecionada
+      if (apenasBarba == true) {
+        setState(() {
+          valorAserCobradoTotalFinal = apenasBarbaValue ?? 0;
+        });
+      }
+      //cabelo e limpeza de pele
+      if (procedimento0 == true && procedimento2 == true) {
+        setState(() {
+          valorAserCobradoTotalFinal = (atualPrice + (limpezaDePele ?? 00));
+        });
+      }
+      //cabelo e loção de pele
+      if (procedimento0 == true && procedimento3 == true) {
+        setState(() {
+          valorAserCobradoTotalFinal = (atualPrice + (locaoDePele ?? 00));
+        });
+      }
+      //cabelo e barboterapia
+      if (procedimento4 == true) {
+        setState(() {
+          valorAserCobradoTotalFinal = (atualPrice + adicionalBarboTerapia!);
+        });
+      }
+      //cabelo e barboterapia
+      if (procedimento5 == true) {
+        print("adicionalBarbaExpress: ${adicionalBarbaExpress}");
+        setState(() {
+          valorAserCobradoTotalFinal = (atualPrice + adicionalBarbaExpress!);
+        });
+      }
+
+      setState(() {
+        valorFinalCobrado = valorAserCobradoTotalFinal;
+        FraseCreatedetalheDoProcedimento();
+      });
+      print("#8o valor final cobrado será de: ${valorFinalCobrado}");
+    } catch (e) {
+      print("ao adicionar o valor a ser cobrado, deu isto: $e");
+    }
+  }
+
+  bool apenasBarba =
+      false; // apenas a barba (usado para verificações, mas tambem pode ser usado em outras funcoes)
+  bool procedimento0 = true; //corte padrao
+  bool procedimento1 = false; //apenas a barba
+  bool procedimento2 = false; //limpeza de pele
+  bool procedimento3 = false; // loção de pele
+  bool procedimento4 = false; // corte +barboterapia
+  bool procedimento5 = false; //corte +barbaexpress
+  List<Procedimentos_Extras> _procedimentos = procedimentosLista;
+
   @override
   Widget build(BuildContext context) {
     final widhScren = MediaQuery.of(context).size.width;
@@ -872,119 +1153,351 @@ class _AddScreenState extends State<AddScreen> {
                               height: 25,
                             ),
                             //CONTAINER DO NUMERO
-                            //CONTAINER BOOL DA barba - INICIO
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 5, horizontal: 10),
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: Estabelecimento.secondaryColor
-                                          .withOpacity(0.4)),
-                                  child: const Text("3"),
-                                ),
-                                const SizedBox(
-                                  width: 5,
-                                ),
-                                Text(
-                                  "Deseja incluir barba?",
-                                  style: GoogleFonts.openSans(
-                                    textStyle: const TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 5,
-                            ),
+                            //PROCEDIMENTOS EXTRAS - INICIO
                             Container(
-                              width: widhScren,
-                              height: heighScreen * 0.07,
-                              child: Stack(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 10, horizontal: 10),
+                              alignment: Alignment.center,
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                color: Estabelecimento.primaryColor,
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Positioned(
-                                    right: 0,
-                                    child: InkWell(
-                                      onTap: barbaFalse,
-                                      child: Container(
-                                        padding:
-                                            const EdgeInsets.only(right: 30),
-                                        alignment: Alignment.centerRight,
-                                        height: heighScreen * 0.07,
-                                        width: !barba
-                                            ? widhScren / 1.8
-                                            : widhScren / 3,
-                                        decoration: BoxDecoration(
-                                          color: Estabelecimento.secondaryColor,
-                                          borderRadius: const BorderRadius.only(
-                                            topRight: Radius.circular(5),
-                                            bottomRight: Radius.circular(5),
-                                          ),
-                                        ),
-                                        child: Text(
-                                          "Não",
-                                          style: GoogleFonts.openSans(
-                                            textStyle: TextStyle(
-                                                fontSize: !barba ? 18 : 13,
-                                                fontWeight: !barba
-                                                    ? FontWeight.w800
-                                                    : FontWeight.w400,
-                                                color: Estabelecimento
-                                                    .contraPrimaryColor),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        "serviços adicionais",
+                                        style: GoogleFonts.openSans(
+                                          textStyle: const TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w600,
+                                            color: Colors.white,
                                           ),
                                         ),
                                       ),
-                                    ),
-                                  ),
-                                  Positioned(
-                                    left: 0,
-                                    child: InkWell(
-                                      onTap: barbaTrue,
-                                      child: Container(
-                                        padding:
-                                            const EdgeInsets.only(left: 30),
-                                        alignment: Alignment.centerLeft,
-                                        height: heighScreen * 0.07,
-                                        width: barba
-                                            ? widhScren / 1.8
-                                            : widhScren / 3,
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                const BorderRadius.only(
-                                              bottomLeft: Radius.circular(5),
-                                              topLeft: Radius.circular(5),
-                                              topRight:
-                                                  Radius.elliptical(20, 20),
-                                              bottomRight:
-                                                  Radius.elliptical(20, 20),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: [
+                                          InkWell(
+                                            onTap: ativarServicosAdicionais,
+                                            child: Text(
+                                              "Clique aqui",
+                                              style: GoogleFonts.openSans(
+                                                textStyle: const TextStyle(
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight.w400,
+                                                  color: Colors.white30,
+                                                ),
+                                              ),
                                             ),
-                                            color:
-                                                Estabelecimento.primaryColor),
-                                        child: Text(
-                                          "Sim",
-                                          style: GoogleFonts.openSans(
-                                            textStyle: TextStyle(
-                                                fontSize: barba ? 18 : 13,
-                                                fontWeight: barba
-                                                    ? FontWeight.w800
-                                                    : FontWeight.w400,
-                                                color: Estabelecimento
-                                                    .contraPrimaryColor),
                                           ),
-                                        ),
+                                          SizedBox(
+                                            width: 5,
+                                          ),
+                                          InkWell(
+                                            onTap: ativarServicosAdicionais,
+                                            child: Container(
+                                              alignment: Alignment.center,
+                                              padding: EdgeInsets.all(2),
+                                              decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                              ),
+                                              child: Icon(
+                                                verServicosAdicionais == false
+                                                    ? Icons.arrow_drop_down
+                                                    : Icons.arrow_drop_up,
+                                                color: Estabelecimento
+                                                    .primaryColor,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                    ),
+                                    ],
                                   ),
+                                  //Container dos procedimentos(1) - inicio
+                                  if (verServicosAdicionais == true)
+                                    Column(
+                                      children: _procedimentos
+                                          .asMap()
+                                          .entries
+                                          .map((entry) {
+                                        int index = entry.key;
+                                        var item = entry.value;
+                                        return Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 4),
+                                          child: Container(
+                                            padding: EdgeInsets.symmetric(
+                                                vertical: 10, horizontal: 5),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      "${item.name} - ",
+                                                      style:
+                                                          GoogleFonts.openSans(
+                                                        textStyle:
+                                                            const TextStyle(
+                                                          fontSize: 12,
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          color: Colors.white,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    SizedBox(width: 5),
+                                                    Container(
+                                                      child: Row(
+                                                        children: [
+                                                          Icon(
+                                                            Icons.paid,
+                                                            color: Colors.green,
+                                                            size: 15,
+                                                          ),
+                                                          if (item.name ==
+                                                              _procedimentos[0]
+                                                                  .name)
+                                                            Text(
+                                                              "R\$${atualPrice}",
+                                                              style: GoogleFonts
+                                                                  .openSans(
+                                                                textStyle:
+                                                                    const TextStyle(
+                                                                  fontSize: 10,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w400,
+                                                                  color: Colors
+                                                                      .white54,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          if (item.name ==
+                                                              _procedimentos[1]
+                                                                  .name)
+                                                            Text(
+                                                              "R\$${barbaPriceFinal}",
+                                                              style: GoogleFonts
+                                                                  .openSans(
+                                                                textStyle:
+                                                                    const TextStyle(
+                                                                  fontSize: 10,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w400,
+                                                                  color: Colors
+                                                                      .white54,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          if (item.name ==
+                                                              _procedimentos[2]
+                                                                  .name)
+                                                            Text(
+                                                              "R\$${index2Value}",
+                                                              style: GoogleFonts
+                                                                  .openSans(
+                                                                textStyle:
+                                                                    const TextStyle(
+                                                                  fontSize: 10,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w400,
+                                                                  color: Colors
+                                                                      .white54,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          if (item.name ==
+                                                              _procedimentos[3]
+                                                                  .name)
+                                                            Text(
+                                                              "R\$${index3Value}",
+                                                              style: GoogleFonts
+                                                                  .openSans(
+                                                                textStyle:
+                                                                    const TextStyle(
+                                                                  fontSize: 10,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w400,
+                                                                  color: Colors
+                                                                      .white54,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          if (item.name ==
+                                                              _procedimentos[4]
+                                                                  .name)
+                                                            Text(
+                                                              "R\$${index4Value}",
+                                                              style: GoogleFonts
+                                                                  .openSans(
+                                                                textStyle:
+                                                                    const TextStyle(
+                                                                  fontSize: 10,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w400,
+                                                                  color: Colors
+                                                                      .white54,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          if (item.name ==
+                                                              _procedimentos[5]
+                                                                  .name)
+                                                            Text(
+                                                              "R\$${index5Value}",
+                                                              style: GoogleFonts
+                                                                  .openSans(
+                                                                textStyle:
+                                                                    const TextStyle(
+                                                                  fontSize: 10,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w400,
+                                                                  color: Colors
+                                                                      .white54,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    // Atualiza o estado dos procedimentos
+                                                    setState(() {
+                                                      // Define todos como false primeiro
+                                                      procedimento0 = false;
+                                                      procedimento1 = false;
+                                                      procedimento2 = false;
+                                                      procedimento3 = false;
+                                                      procedimento4 = false;
+                                                      procedimento5 = false;
+
+                                                      // Define o procedimento atual como true
+                                                      switch (index) {
+                                                        case 0:
+                                                          procedimento0 = true;
+                                                          barba = false;
+                                                          setState(() {
+                                                            apenasBarba = false;
+                                                            verificandoEsetandoValorTotal();
+                                                          });
+                                                          break;
+                                                        case 1:
+                                                          procedimento1 = true;
+                                                          barba = false;
+                                                          setState(() {
+                                                            apenasBarba = true;
+                                                            verificandoEsetandoValorTotal();
+                                                          });
+                                                          break;
+                                                        case 2:
+                                                          procedimento2 = true;
+                                                          barba = false;
+                                                          procedimento0 = true;
+                                                          setState(() {
+                                                            apenasBarba = false;
+                                                            verificandoEsetandoValorTotal();
+                                                          });
+
+                                                          break;
+                                                        case 3:
+                                                          procedimento3 = true;
+                                                          barba = false;
+                                                          procedimento0 = true;
+                                                          setState(() {
+                                                            apenasBarba = false;
+                                                            verificandoEsetandoValorTotal();
+                                                          });
+                                                          break;
+                                                        case 4:
+                                                          procedimento4 = true;
+                                                          barba = true;
+                                                          setState(() {
+                                                            apenasBarba = false;
+                                                            verificandoEsetandoValorTotal();
+                                                          });
+                                                          break;
+                                                        case 5:
+                                                          procedimento5 = true;
+                                                          barba = true;
+                                                          setState(() {
+                                                            apenasBarba = false;
+                                                            verificandoEsetandoValorTotal();
+                                                          });
+                                                          break;
+                                                        default:
+                                                          break;
+                                                      }
+                                                    });
+                                                  },
+                                                  child: Icon(
+                                                    index == 0
+                                                        ? procedimento0
+                                                            ? Icons.toggle_on
+                                                            : Icons.toggle_off
+                                                        : index == 1
+                                                            ? procedimento1
+                                                                ? Icons
+                                                                    .toggle_on
+                                                                : Icons
+                                                                    .toggle_off
+                                                            : index == 2
+                                                                ? procedimento2
+                                                                    ? Icons
+                                                                        .toggle_on
+                                                                    : Icons
+                                                                        .toggle_off
+                                                                : index == 3
+                                                                    ? procedimento3
+                                                                        ? Icons
+                                                                            .toggle_on
+                                                                        : Icons
+                                                                            .toggle_off
+                                                                    : index == 4
+                                                                        ? procedimento4
+                                                                            ? Icons.toggle_on
+                                                                            : Icons.toggle_off
+                                                                        : procedimento5
+                                                                            ? Icons.toggle_on
+                                                                            : Icons.toggle_off,
+                                                    color: Colors.white,
+                                                    size: 45,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        );
+                                      }).toList(),
+                                    )
+
+                                  //Container dos procedimentos(1) - fim
                                 ],
                               ),
                             ),
-                            //CONTAINER BOOL DA barba - FIM
+                            //PROCEDIMENTOS EXTRAS - FIM
                             const SizedBox(
                               height: 25,
                             ),
@@ -999,7 +1512,7 @@ class _AddScreenState extends State<AddScreen> {
                                       borderRadius: BorderRadius.circular(10),
                                       color: Estabelecimento.secondaryColor
                                           .withOpacity(0.4)),
-                                  child: const Text("4"),
+                                  child: const Text("3"),
                                 ),
                                 const SizedBox(
                                   width: 5,
@@ -1169,7 +1682,7 @@ class _AddScreenState extends State<AddScreen> {
                                         borderRadius: BorderRadius.circular(10),
                                         color: Estabelecimento.secondaryColor
                                             .withOpacity(0.4)),
-                                    child: const Text("5"),
+                                    child: const Text("4"),
                                   ),
                                   const SizedBox(
                                     width: 5,
@@ -1248,7 +1761,7 @@ class _AddScreenState extends State<AddScreen> {
                                         borderRadius: BorderRadius.circular(10),
                                         color: Estabelecimento.secondaryColor
                                             .withOpacity(0.4)),
-                                    child: const Text("6"),
+                                    child: const Text("5"),
                                   ),
                                   const SizedBox(
                                     width: 5,
