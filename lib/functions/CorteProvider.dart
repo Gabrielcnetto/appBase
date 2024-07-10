@@ -221,6 +221,10 @@ class CorteProvider with ChangeNotifier {
           "totalCortes": FieldValue.increment(
               1), //update do int para +1 atualizando ototal de cortes
         });
+        final upDateDatetimeLastCortes =
+            await database.collection("usuarios").doc(userId).update({
+          "ultimoAgendamento": corte.diaCorte, //update do int para +1 atualizando ototal de cortes
+        });
       }
     } catch (e) {
       print("ocorreu isto:${e}");

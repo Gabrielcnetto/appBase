@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:lionsbarberv1/classes/GeralUser.dart';
 import 'package:lionsbarberv1/functions/rankingProviderHome.dart';
 import 'package:provider/provider.dart';
@@ -16,14 +17,15 @@ class _ClienteDetalhesState extends State<ClienteDetalhes> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    listadeClientes;
     loadListUsers();
   }
 
   List<GeralUser> listadeClientes = [];
   Future<void> loadListUsers() async {
     List<GeralUser> userList =
-        Provider.of<RankingProvider>(context, listen: false).listaUsers;
+        await Provider.of<RankingProvider>(context, listen: false)
+            .listaUsersManagerView2;
+    print("dentro do set ${userList.length}");
     List<GeralUser> filteredList = userList
         .where((user) => !user.isManager && !user.isfuncionario)
         .toList();
@@ -99,7 +101,9 @@ class _ClienteDetalhesState extends State<ClienteDetalhes> {
                                 size: 18,
                                 color: Colors.grey.shade800,
                               ),
-                              SizedBox(width: 5,),
+                              SizedBox(
+                                width: 5,
+                              ),
                               Text(
                                 "Mais antigo primeiro",
                                 style: GoogleFonts.openSans(
@@ -198,16 +202,22 @@ class _ClienteDetalhesState extends State<ClienteDetalhes> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
-                                    Text(
-                                      "10/05/2020",
-                                      style: GoogleFonts.poppins(
-                                        textStyle: TextStyle(
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 14,
-                                          color: Colors.grey.shade300,
-                                        ),
-                                      ),
-                                    ),
+                                    listadeClientes[index].ultimoAgendamento ==
+                                            DateTime.now()
+                                        ? Text("teste")
+                                        : Text(
+                                            "${DateFormat("dd/MMM/yyyy").format(
+                                              listadeClientes[index]
+                                                  .ultimoAgendamento,
+                                            )}",
+                                            style: GoogleFonts.poppins(
+                                              textStyle: TextStyle(
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 14,
+                                                color: Colors.grey.shade300,
+                                              ),
+                                            ),
+                                          ),
                                     Row(
                                       children: [
                                         Icon(

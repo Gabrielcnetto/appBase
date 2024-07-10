@@ -7,9 +7,10 @@ class GeralUser {
   final int listacortes;
   final bool isfuncionario;
   final bool isManager;
+  final DateTime ultimoAgendamento;
 
   GeralUser({
- 
+    required this.ultimoAgendamento,
     required this.isManager,
     required this.PhoneNumber,
     required this.listacortes,

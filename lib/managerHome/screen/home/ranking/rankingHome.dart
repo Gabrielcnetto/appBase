@@ -26,6 +26,7 @@ class _RankingHomeState extends State<RankingHome> {
     // TODO: implement initState
     super.initState();
     Provider.of<RankingProvider>(context, listen: false).loadingListUsers();
+     Provider.of<RankingProvider>(context, listen: false).loadingListUsersManagerView2();
     loadListUsers();
   }
 
@@ -61,6 +62,7 @@ class _RankingHomeState extends State<RankingHome> {
         switch (i) {
           case 0:
             top1User = GeralUser(
+              ultimoAgendamento: DateTime.now(),
               PhoneNumber: userList[userIndex].PhoneNumber ?? "",
               isfuncionario: userList[userIndex].isfuncionario,
               isManager: userList[userIndex].isManager,
@@ -71,6 +73,7 @@ class _RankingHomeState extends State<RankingHome> {
             break;
           case 1:
             top2User = GeralUser(
+              ultimoAgendamento: DateTime.now(),
               PhoneNumber: userList[userIndex].PhoneNumber ?? "",
               isfuncionario: userList[userIndex].isfuncionario,
               isManager: userList[userIndex].isManager,
@@ -81,6 +84,7 @@ class _RankingHomeState extends State<RankingHome> {
             break;
           case 2:
             top3User = GeralUser(
+              ultimoAgendamento: DateTime.now(),
               PhoneNumber: userList[userIndex].PhoneNumber ?? "",
               isfuncionario: userList[userIndex].isfuncionario,
               isManager: userList[userIndex].isManager,
@@ -91,6 +95,7 @@ class _RankingHomeState extends State<RankingHome> {
             break;
           case 3:
             top4User = GeralUser(
+              ultimoAgendamento: DateTime.now(),
               PhoneNumber: userList[userIndex].PhoneNumber ?? "",
               isfuncionario: userList[userIndex].isfuncionario,
               isManager: userList[userIndex].isManager,
@@ -101,6 +106,7 @@ class _RankingHomeState extends State<RankingHome> {
             break;
           case 4:
             top5User = GeralUser(
+              ultimoAgendamento: DateTime.now(),
               PhoneNumber: userList[userIndex].PhoneNumber ?? "",
               isfuncionario: userList[userIndex].isfuncionario,
               isManager: userList[userIndex].isManager,

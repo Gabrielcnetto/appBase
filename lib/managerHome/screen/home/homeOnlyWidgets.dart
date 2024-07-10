@@ -27,6 +27,7 @@ class _HomeOnlyWidgetsForManagersState extends State<HomeOnlyWidgetsForManagers>
     super.initState();
     Provider.of<CorteProvider>(context, listen: false).userCortesTotal;
     Provider.of<RankingProvider>(context, listen: false).loadingListUsers();
+     Provider.of<RankingProvider>(context, listen: false).loadingListUsersManagerView2();
     Provider.of<RankingProvider>(context, listen: false).listaUsers;
     List<GeralUser> userList =
         Provider.of<RankingProvider>(context, listen: false).listaUsers;
