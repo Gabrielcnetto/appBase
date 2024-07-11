@@ -38,7 +38,7 @@ class _GraphicsManagerScreenState extends State<GraphicsManagerScreen> {
                       ),
                     ),
                     Text(
-                      "Estatisticas Mensais",
+                      "Estatísticas Mensais",
                       style: GoogleFonts.openSans(
                         textStyle: TextStyle(
                           fontWeight: FontWeight.w600,

@@ -12,12 +12,21 @@ class FaturamentoMesSelecionado extends StatefulWidget {
 }
 
 class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
+  List<String> ultimos4Meses = [
+    "Mês Atual",
+    "Junho",
+    "Maio",
+    "Abril",
+    "Fevereiro"
+  ];
+
+  bool showMoreMonths = false;
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
       width: double.infinity,
-      height: MediaQuery.of(context).size.height * 0.7,
+      height: showMoreMonths == false ? MediaQuery.of(context).size.height * 0.7 : MediaQuery.of(context).size.height * 0.8 ,
       decoration: BoxDecoration(
         color: Colors.grey.shade100,
         borderRadius: BorderRadius.circular(15),
@@ -30,6 +39,7 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
               Container(
                 padding: EdgeInsets.all(5),
                 child: Row(
+               //   crossAxisAlignment: showMoreMonths == true ? CrossAxisAlignment.start : CrossAxisAlignment.c,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Container(
@@ -65,23 +75,54 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
                 ),
                 padding: EdgeInsets.all(5),
                 child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    Text(
-                      "Mês atual",
-                      style: GoogleFonts.poppins(
-                        textStyle: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            color: Estabelecimento.contraPrimaryColor,
-                            fontSize: 14),
-                      ),
+                    Column(
+                      children: [
+                        if(showMoreMonths ==false)
+                        Text(
+                          ultimos4Meses[0],
+                          style: GoogleFonts.poppins(
+                            textStyle: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              color: Estabelecimento.contraPrimaryColor,
+                              fontSize: 14,
+                            ),
+                          ),
+                        ),
+                        if(showMoreMonths==true)
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: ultimos4Meses.map((mes) {
+                            return Text(
+                              mes,
+                              style: GoogleFonts.poppins(
+                                textStyle: TextStyle(
+                                  fontWeight: FontWeight.w400,
+                                  color: Estabelecimento.contraPrimaryColor,
+                                  fontSize: 14,
+                                ),
+                              ),
+                            );
+                          }).toList(),
+                        ),
+                      ],
                     ),
                     SizedBox(
                       width: 3,
                     ),
-                    Icon(
-                      Icons.arrow_drop_down,
-                      color: Estabelecimento.contraPrimaryColor,
+                    InkWell(
+                      onTap: (){
+                        setState(() {
+                          showMoreMonths = !showMoreMonths;
+                        });
+                      },
+                      child: Icon(
+                        Icons.arrow_drop_down,
+                        color: Estabelecimento.contraPrimaryColor,
+                      ),
                     ),
                   ],
                 ),
