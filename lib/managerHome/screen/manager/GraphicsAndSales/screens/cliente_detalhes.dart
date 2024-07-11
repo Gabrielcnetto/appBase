@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:lionsbarberv1/classes/GeralUser.dart';
 import 'package:lionsbarberv1/functions/rankingProviderHome.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ClienteDetalhes extends StatefulWidget {
   const ClienteDetalhes({super.key});
@@ -27,7 +28,12 @@ class _ClienteDetalhesState extends State<ClienteDetalhes> {
             .listaUsersManagerView2;
     print("dentro do set ${userList.length}");
     List<GeralUser> filteredList = userList
-        .where((user) => !user.isManager && !user.isfuncionario)
+        .where((user) =>
+            !user.isManager &&
+            !user.isfuncionario &&
+            (user.ultimoAgendamento.day == diaAtualDayInt &&
+                    user.ultimoAgendamento.month == mesAtual) ==
+                false)
         .toList();
 
     setState(() {
@@ -35,6 +41,19 @@ class _ClienteDetalhesState extends State<ClienteDetalhes> {
     });
   }
 
+  int diaAtualDayInt = DateTime.now().day;
+  DateTime diaAtual = DateTime.now();
+  int mesAtual = DateTime.now().month;
+
+  void sendMessageWhatsApp({required String WhatsPhone}) async {
+    if (await canLaunch("https://wa.me/${WhatsPhone}")) {
+      await launch("https://wa.me/${WhatsPhone}");
+    } else {
+      throw 'Não foi possível abrir o link';
+    }
+  }
+
+  _launchURL(String url) async {}
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -182,15 +201,70 @@ class _ClienteDetalhesState extends State<ClienteDetalhes> {
                                             ),
                                           ),
                                         ),
-                                        Text(
-                                          "Nome",
-                                          style: GoogleFonts.poppins(
-                                            textStyle: TextStyle(
-                                              fontWeight: FontWeight.w400,
-                                              fontSize: 12,
-                                              color: Colors.grey.shade400,
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              "Nome",
+                                              style: GoogleFonts.poppins(
+                                                textStyle: TextStyle(
+                                                  fontWeight: FontWeight.w400,
+                                                  fontSize: 12,
+                                                  color: Colors.grey.shade400,
+                                                ),
+                                              ),
                                             ),
-                                          ),
+                                            SizedBox(
+                                              width: 8,
+                                            ),
+                                            if (listadeClientes[index]
+                                                .PhoneNumber
+                                                .isNotEmpty)
+                                              InkWell(
+                                                onTap: () {
+                                                  sendMessageWhatsApp(
+                                                      WhatsPhone:
+                                                          listadeClientes[index]
+                                                              .PhoneNumber);
+                                                },
+                                                child: Container(
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.green,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            15),
+                                                  ),
+                                                  padding: EdgeInsets.symmetric(
+                                                    horizontal: 5,
+                                                    vertical: 2,
+                                                  ),
+                                                  child: Row(
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    children: [
+                                                      Text(
+                                                        "Lembrar",
+                                                        style: GoogleFonts
+                                                            .openSans(
+                                                          textStyle: TextStyle(
+                                                            fontSize: 9,
+                                                            color: Colors.white,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      SizedBox(
+                                                        width: 5,
+                                                      ),
+                                                      Icon(
+                                                        Icons.open_in_new,
+                                                        size: 10,
+                                                        color: Colors.white,
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              )
+                                          ],
                                         ),
                                       ],
                                     ),
@@ -202,9 +276,23 @@ class _ClienteDetalhesState extends State<ClienteDetalhes> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
-                                    listadeClientes[index].ultimoAgendamento ==
-                                            DateTime.now()
-                                        ? Text("teste")
+                                    (listadeClientes[index]
+                                                    .ultimoAgendamento
+                                                    .day ==
+                                                diaAtual.day &&
+                                            listadeClientes[index]
+                                                    .ultimoAgendamento
+                                                    .month ==
+                                                diaAtual.month)
+                                        ? Text(
+                                            "Sem registro",
+                                            style: GoogleFonts.openSans(
+                                              textStyle: TextStyle(
+                                                fontWeight: FontWeight.w200,
+                                                color: Colors.grey.shade300,
+                                              ),
+                                            ),
+                                          )
                                         : Text(
                                             "${DateFormat("dd/MMM/yyyy").format(
                                               listadeClientes[index]
@@ -218,28 +306,58 @@ class _ClienteDetalhesState extends State<ClienteDetalhes> {
                                               ),
                                             ),
                                           ),
-                                    Row(
-                                      children: [
-                                        Icon(
-                                          Icons.radio_button_checked,
-                                          size: 10,
-                                          color: Colors.orangeAccent,
-                                        ),
-                                        SizedBox(
-                                          width: 5,
-                                        ),
-                                        Text(
-                                          "Último corte",
-                                          style: GoogleFonts.openSans(
-                                            textStyle: TextStyle(
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 12,
-                                              color: Colors.orangeAccent,
-                                            ),
-                                          ),
-                                        )
-                                      ],
-                                    )
+                                    (listadeClientes[index]
+                                                    .ultimoAgendamento
+                                                    .day ==
+                                                diaAtual.day &&
+                                            listadeClientes[index]
+                                                    .ultimoAgendamento
+                                                    .month ==
+                                                diaAtual.month)
+                                        ? Row(
+                                            children: [
+                                              Icon(
+                                                Icons.close,
+                                                size: 10,
+                                                color: Colors.redAccent,
+                                              ),
+                                              SizedBox(
+                                                width: 5,
+                                              ),
+                                              Text(
+                                                "Sem data",
+                                                style: GoogleFonts.openSans(
+                                                  textStyle: TextStyle(
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: 12,
+                                                    color: Colors.redAccent,
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          )
+                                        : Row(
+                                            children: [
+                                              Icon(
+                                                Icons.radio_button_checked,
+                                                size: 10,
+                                                color: Colors.green,
+                                              ),
+                                              SizedBox(
+                                                width: 5,
+                                              ),
+                                              Text(
+                                                "Último corte",
+                                                style: GoogleFonts.openSans(
+                                                  textStyle: TextStyle(
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: 12,
+                                                    color: Colors.green,
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          )
                                   ],
                                 ),
                               )
