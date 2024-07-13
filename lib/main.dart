@@ -138,7 +138,7 @@ class _MyAppState extends State<MyApp> {
           AppRoutesApp.PricesAndPercentages: (ctx) =>
               const PriceEporcentagemNewPrice(), // mudei testando layout novo
           AppRoutesApp.GraphicsManagerScreen: (ctx) =>
-              const GraphicsManagerScreen(),
+              const GraphicsManagerScreen(mesSelecionado: "Clique",),
           AppRoutesApp.ModalDeEdicao: (ctx) => const ModalDeEdicao(),
           AppRoutesApp.ChangeHourAndData: (ctx) => ChangeHourAndData(
                 corteWidget: CorteClass(

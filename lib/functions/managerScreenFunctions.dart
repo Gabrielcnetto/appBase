@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:collection';
 
 import 'package:lionsbarberv1/classes/GeralUser.dart';
 import 'package:lionsbarberv1/classes/cortecClass.dart';
@@ -562,5 +563,110 @@ class ManagerScreenFunctions with ChangeNotifier {
       return index5;
     });
     return index5;
+  }
+
+  //leitura de faturamento no manager especial
+  Future<int> loadFaturamentoBarbeariaSelectMenu(
+      {required String mesSelecionado}) async {
+    print("mes selecionado no load menu: ${mesSelecionado}");
+    final QuerySnapshot acessoFaturamentoSnapshot = await database
+        .collection("estabelecimento")
+        .doc("faturamento")
+        .collection(mesSelecionado)
+        .get();
+
+    int totalFaturamento = 0;
+
+    for (QueryDocumentSnapshot doc in acessoFaturamentoSnapshot.docs) {
+      // Verifica se o documento é nulo ou não tem a chave 'price'
+      if (doc.exists && doc.data() is Map<String, dynamic>) {
+        Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+        if (data.containsKey('price') && data['price'] is int) {
+          totalFaturamento += data['price'] as int;
+        }
+      }
+    }
+    print("valor pego de faturamento: ${totalFaturamento}");
+    return totalFaturamento;
+  }
+
+  Future<int> loadFaturamentoBarbeariaSelectMenuMesAnterior(
+      {required String mesSelecionado}) async {
+    print("mes selecionado no load menu: ${mesSelecionado}");
+    final QuerySnapshot acessoFaturamentoSnapshot = await database
+        .collection("estabelecimento")
+        .doc("faturamento")
+        .collection(mesSelecionado)
+        .get();
+
+    int totalFaturamento = 0;
+
+    for (QueryDocumentSnapshot doc in acessoFaturamentoSnapshot.docs) {
+      // Verifica se o documento é nulo ou não tem a chave 'price'
+      if (doc.exists && doc.data() is Map<String, dynamic>) {
+        Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+        if (data.containsKey('price') && data['price'] is int) {
+          totalFaturamento += data['price'] as int;
+        }
+      }
+    }
+    print("valor pego de faturamento: ${totalFaturamento}");
+    return totalFaturamento;
+  }
+
+  // load ultimos 4 meses
+  List<String> _ultimos4Meses = [];
+  List<String> get ultimos4Meses => [..._ultimos4Meses];
+    void gerarUltimos4Meses() {
+      print("carregando a lista");
+    // Limpar a lista antes de gerar os novos meses
+    _ultimos4Meses.clear();
+
+    // Obter o mês atual e o ano atual
+    DateTime hoje = DateTime.now();
+    int mesAtual = hoje.month;
+    int anoAtual = hoje.year;
+
+    // Gerar os últimos 4 meses
+    for (int i = 0; i < 4; i++) {  // Ajustado para gerar os últimos 4 meses
+      // Calcular o mês e o ano do mês atual - i
+      int mes = mesAtual - i;
+      int ano = anoAtual;
+
+      // Ajustar o ano se o mês for menor que 1 (menos de janeiro)
+      if (mes <= 0) {
+        mes += 12;
+        ano--;
+      }
+
+      // Converter o número do mês para nome do mês
+      String nomeMes = mes == 1
+          ? 'Janeiro'
+          : mes == 2
+              ? 'Fevereiro'
+              : mes == 3
+                  ? 'Março'
+                  : mes == 4
+                      ? 'Abril'
+                      : mes == 5
+                          ? 'Maio'
+                          : mes == 6
+                              ? 'Junho'
+                              : mes == 7
+                                  ? 'Julho'
+                                  : mes == 8
+                                      ? 'Agosto'
+                                      : mes == 9
+                                          ? 'Setembro'
+                                          : mes == 10
+                                              ? 'Outubro'
+                                              : mes == 11
+                                                  ? 'Novembro'
+                                                  : 'Dezembro';
+
+      // Criar a string no formato desejado e adicionar à lista
+      String mesAno = '$nomeMes';
+      _ultimos4Meses.add(mesAno);
+    }
   }
 }

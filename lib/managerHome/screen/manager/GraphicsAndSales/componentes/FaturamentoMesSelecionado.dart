@@ -1,10 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import 'package:intl/intl.dart';
 import 'package:lionsbarberv1/classes/Estabelecimento.dart';
 import 'package:lionsbarberv1/classes/profissionais.dart';
+import 'package:lionsbarberv1/functions/managerScreenFunctions.dart';
+import 'package:lionsbarberv1/managerHome/screen/manager/GraphicsAndSales/GraphicsScreenManager.dart';
+import 'package:provider/provider.dart';
 
 class FaturamentoMesSelecionado extends StatefulWidget {
-  const FaturamentoMesSelecionado({super.key});
+  final String mesInicial;
+  const FaturamentoMesSelecionado({
+    super.key,
+    required this.mesInicial,
+  });
 
   @override
   State<FaturamentoMesSelecionado> createState() =>
@@ -12,21 +21,106 @@ class FaturamentoMesSelecionado extends StatefulWidget {
 }
 
 class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
-  List<String> ultimos4Meses = [
-    "Mês Atual",
-    "Junho",
-    "Maio",
-    "Abril",
-    "Fevereiro"
-  ];
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Provider.of<ManagerScreenFunctions>(context, listen: false)
+        .gerarUltimos4Meses();
+    setlist();
+    loadTotalFaturamentoAtualMes();
+    selecionarMes();
+  }
 
+  //faturamento - load mes escolhido - inicio
+
+  //- # mes escolhido =>
+  int? faturamentoExibido;
+  Future<void> loadTotalFaturamentoAtualMes() async {
+    final DateTime dataAtual = DateTime.now();
+    await initializeDateFormatting('pt_BR');
+
+    String monthName = DateFormat('MMMM', 'pt_BR').format(dataAtual);
+    int totalFaturamentoGet = await ManagerScreenFunctions()
+        .loadFaturamentoBarbeariaSelectMenu(
+            mesSelecionado: widget.mesInicial == "Clique"
+                ? monthName.toLowerCase()
+                : widget.mesInicial.toLowerCase());
+
+    setState(() {
+      faturamentoExibido = totalFaturamentoGet;
+      selecionarMes();
+    });
+  }
+  //- # mes escolhido =<
+
+  //- # mes anterior do escolhido para comparativo =>
+  String? mesAnteriorAoSelecionado;
+  int? faturamentoAnteriorAoEscolhido;
+  Future<void> loadFaturamentoMesAnterior() async {
+    final DateTime dataAtual = DateTime.now();
+    await initializeDateFormatting('pt_BR');
+
+    String monthName = DateFormat('MMMM', 'pt_BR').format(dataAtual);
+    int totalFaturamentoGet = await ManagerScreenFunctions()
+        .loadFaturamentoBarbeariaSelectMenuMesAnterior(
+            mesSelecionado: mesAnteriorAoSelecionado ?? "");
+
+    setState(() {
+      faturamentoAnteriorAoEscolhido = totalFaturamentoGet;
+    });
+  }
+  //- # mes anterior do escolhido para comparativo =<
+  //faturamento - load mes escolhido - fim
+
+  //load dos ultimos 4 meses - inici
+
+  List<String> ultimos4Meses = [];
+  void setlist() {
+    setState(() {
+      ultimos4Meses =
+          Provider.of<ManagerScreenFunctions>(context, listen: false)
+              .ultimos4Meses;
+    });
+  }
+
+  void selecionarMes() async {
+    // Obter o índice do mês selecionado
+    int indiceSelecionado = 0;
+    if (widget.mesInicial == "Clique") {
+      indiceSelecionado = await ultimos4Meses.indexOf(
+        Provider.of<ManagerScreenFunctions>(context, listen: false)
+            .ultimos4Meses[0],
+      );
+    } else {
+      indiceSelecionado = await ultimos4Meses.indexOf(
+        widget.mesInicial,
+      );
+    }
+    print("#14o indice é ${indiceSelecionado}");
+    // Calcular o índice do mês anterior
+    int indiceAnterior = (indiceSelecionado + 1);
+    print("#14o anterior é ${indiceAnterior}");
+    // Definir o mês anterior
+    setState(() {
+      mesAnteriorAoSelecionado = ultimos4Meses[indiceAnterior];
+    });
+    print("#14o mes final foi:${mesAnteriorAoSelecionado}");
+  }
+
+  //load dos ultimos 4 meses - fim
   bool showMoreMonths = false;
+
   @override
   Widget build(BuildContext context) {
+    String mesSelecionado =
+        widget.mesInicial == "Clique" ? ultimos4Meses[0] : widget.mesInicial;
     return Container(
       padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
       width: double.infinity,
-      height: showMoreMonths == false ? MediaQuery.of(context).size.height * 0.7 : MediaQuery.of(context).size.height * 0.8 ,
+      height: showMoreMonths == false
+          ? MediaQuery.of(context).size.height * 0.7
+          : MediaQuery.of(context).size.height * 0.8,
       decoration: BoxDecoration(
         color: Colors.grey.shade100,
         borderRadius: BorderRadius.circular(15),
@@ -39,7 +133,7 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
               Container(
                 padding: EdgeInsets.all(5),
                 child: Row(
-               //   crossAxisAlignment: showMoreMonths == true ? CrossAxisAlignment.start : CrossAxisAlignment.c,
+                  //   crossAxisAlignment: showMoreMonths == true ? CrossAxisAlignment.start : CrossAxisAlignment.c,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Container(
@@ -80,41 +174,60 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
                   children: [
                     Column(
                       children: [
-                        if(showMoreMonths ==false)
-                        Text(
-                          ultimos4Meses[0],
-                          style: GoogleFonts.poppins(
-                            textStyle: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              color: Estabelecimento.contraPrimaryColor,
-                              fontSize: 14,
+                        if (showMoreMonths == false)
+                          Text(
+                            mesSelecionado,
+                            style: GoogleFonts.poppins(
+                              textStyle: TextStyle(
+                                fontWeight: FontWeight.w400,
+                                color: Estabelecimento.contraPrimaryColor,
+                                fontSize: 14,
+                              ),
                             ),
                           ),
-                        ),
-                        if(showMoreMonths==true)
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: ultimos4Meses.map((mes) {
-                            return Text(
-                              mes,
-                              style: GoogleFonts.poppins(
-                                textStyle: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  color: Estabelecimento.contraPrimaryColor,
-                                  fontSize: 14,
+                        if (showMoreMonths == true)
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: ultimos4Meses.map((mes) {
+                              return InkWell(
+                                onTap: () {
+                                  print("selecionei: ${mes}");
+                                  setState(() {
+                                    mesSelecionado = mes;
+                                    loadTotalFaturamentoAtualMes();
+                                    Navigator.of(context).push(
+                                      DialogRoute(
+                                        context: context,
+                                        builder: (ctx) {
+                                          return GraphicsManagerScreen(
+                                            mesSelecionado: mes,
+                                          );
+                                        },
+                                      ),
+                                    );
+                                  });
+                                },
+                                child: Text(
+                                  mes,
+                                  style: GoogleFonts.poppins(
+                                    textStyle: TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                      color: Estabelecimento.contraPrimaryColor,
+                                      fontSize: 14,
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            );
-                          }).toList(),
-                        ),
+                              );
+                            }).toList(),
+                          ),
                       ],
                     ),
                     SizedBox(
                       width: 3,
                     ),
                     InkWell(
-                      onTap: (){
+                      onTap: () {
                         setState(() {
                           showMoreMonths = !showMoreMonths;
                         });
@@ -142,7 +255,7 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
                   Container(
                     width: MediaQuery.of(context).size.width * 0.65,
                     child: Text(
-                      "R\$40,200",
+                      "R\$${faturamentoExibido ?? 0}",
                       textAlign: TextAlign.center,
                       style: GoogleFonts.poppins(
                         textStyle: TextStyle(

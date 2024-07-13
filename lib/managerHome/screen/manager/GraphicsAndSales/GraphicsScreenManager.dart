@@ -4,9 +4,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:lionsbarberv1/classes/Estabelecimento.dart';
 import 'package:lionsbarberv1/managerHome/screen/manager/GraphicsAndSales/componentes/FaturamentoMesSelecionado.dart';
 import 'package:lionsbarberv1/managerHome/screen/manager/GraphicsAndSales/componentes/detailsList.dart';
+import 'package:lionsbarberv1/rotas/Approutes.dart';
 
 class GraphicsManagerScreen extends StatefulWidget {
-  const GraphicsManagerScreen({super.key});
+  final String mesSelecionado;
+  const GraphicsManagerScreen({super.key, required this.mesSelecionado,});
 
   @override
   State<GraphicsManagerScreen> createState() => _GraphicsManagerScreenState();
@@ -29,7 +31,7 @@ class _GraphicsManagerScreenState extends State<GraphicsManagerScreen> {
                   children: [
                     InkWell(
                       onTap: () {
-                        Navigator.of(context).pop();
+                        Navigator.of(context).pushReplacementNamed(AppRoutesApp.HomeScreen01);
                       },
                       child: Icon(
                         Icons.arrow_back_ios,
@@ -63,7 +65,7 @@ class _GraphicsManagerScreenState extends State<GraphicsManagerScreen> {
                 SizedBox(
                   height: 20,
                 ),
-                FaturamentoMesSelecionado(),
+                FaturamentoMesSelecionado(mesInicial: widget.mesSelecionado,),
                 SizedBox(height: 15,),
                 CardWithDetailsView(),
               ],

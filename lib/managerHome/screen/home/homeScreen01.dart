@@ -38,6 +38,7 @@ class _HomeScreen01WithBoolManagerState extends State<HomeScreen01WithBoolManage
     Provider.of<ManagerScreenFunctions>(context, listen: false).loadClientes();
     Provider.of<ManagerScreenFunctions>(context, listen: false)
         .loadMonthCortes();
+
     _screensSelect = [
       {
         'tela': const HomeOnlyWidgets(),

@@ -1,4 +1,5 @@
 import 'package:lionsbarberv1/classes/Estabelecimento.dart';
+import 'package:lionsbarberv1/functions/managerScreenFunctions.dart';
 import 'package:lionsbarberv1/functions/profileScreenFunctions.dart';
 import 'package:lionsbarberv1/managerHome/screen/manager/principal/components/Blocks.dart';
 import 'package:lionsbarberv1/managerHome/screen/manager/principal/components/agendaDia/CortesHojeLista.dart';
@@ -8,6 +9,7 @@ import 'package:lionsbarberv1/normalUsersHome/screen/home/homeScreen01.dart';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class ManagerScreenViewHomeNewView extends StatefulWidget {
   const ManagerScreenViewHomeNewView({super.key});
@@ -23,6 +25,8 @@ class _ManagerScreenViewHomeNewViewState
   void initState() {
     // TODO: implement initState
     super.initState();
+    Provider.of<ManagerScreenFunctions>(context, listen: false)
+        .gerarUltimos4Meses();
     userName;
     loadUserName();
     urlImagePhoto;
