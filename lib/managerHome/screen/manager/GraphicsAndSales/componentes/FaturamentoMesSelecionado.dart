@@ -30,8 +30,125 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
     setlist();
     loadTotalFaturamentoAtualMes();
     selecionarMes();
+    loadTotalCortes();
+    loadTotalCortesProf2();
   }
 
+  //dados de clientes profissional 1 - inicio
+  int totalCortesMesSelecionado = 0;
+  Future<void> loadTotalCortes() async {
+    final DateTime dataAtual = DateTime.now();
+    await initializeDateFormatting('pt_BR');
+
+    String monthName = DateFormat('MMMM', 'pt_BR').format(dataAtual);
+    int totalCortesGet = await ManagerScreenFunctions()
+        .loadCortesMesesProfissional1MesSelecionado(
+            profissiona1lName: profList[0].nomeProf,
+            mesSelecionado: widget.mesInicial == "Clique"
+                ? monthName.toLowerCase()
+                : widget.mesInicial.toLowerCase());
+
+    setState(() {
+      totalCortesMesSelecionado = totalCortesGet;
+      loadTotalCortesMesAnterior();
+    });
+  }
+
+  int totalCortesMesAnterior = 0;
+  Future<void> loadTotalCortesMesAnterior() async {
+    int totalCortesGet = await ManagerScreenFunctions()
+        .loadCortesMesesProfissional1MesSelecionado(
+      profissiona1lName: profList[0].nomeProf,
+      mesSelecionado: mesAnteriorAoSelecionado!.toLowerCase() ?? "",
+    );
+
+    setState(() {
+      totalCortesMesAnterior = totalCortesGet;
+    });
+  }
+
+  double calcularDiferencaPercentualProfissional1Cortes() {
+    // Verifica se os valores são nulos ou zero
+    int faturamentoExibidoValor = totalCortesMesSelecionado ?? 0;
+    int faturamentoAnteriorAoEscolhidoValor = totalCortesMesAnterior ?? 0;
+
+    // Calcula a diferença entre os valores
+    int diferenca =
+        faturamentoExibidoValor - faturamentoAnteriorAoEscolhidoValor;
+
+    // Verifica se o denominador é zero para evitar divisão por zero
+    if (faturamentoAnteriorAoEscolhidoValor == 0) {
+      return 0; // Retorna 0 se houver divisão por zero
+    }
+
+    // Calcula a diferença percentual
+    double diferencaPercentual =
+        (diferenca / faturamentoAnteriorAoEscolhidoValor) * 100;
+
+    // Retorna o resultado
+    return diferencaPercentual;
+  }
+
+  //dados de clientes profissional 1 - fim
+  //dados de clientes profissional 2 - inicio
+  int totalCortesMesSelecionadoProf2 = 0;
+  Future<void> loadTotalCortesProf2() async {
+    final DateTime dataAtual = DateTime.now();
+    await initializeDateFormatting('pt_BR');
+
+    String monthName = DateFormat('MMMM', 'pt_BR').format(dataAtual);
+    int totalCortesGet = await ManagerScreenFunctions()
+        .loadCortesMesesProfissional2MesSelecionado(
+            profissiona1lName: profList[1].nomeProf,
+            mesSelecionado: widget.mesInicial == "Clique"
+                ? monthName.toLowerCase()
+                : widget.mesInicial.toLowerCase());
+
+    setState(() {
+      totalCortesMesSelecionadoProf2 = totalCortesGet;
+      loadTotalCortesMesAnterior();
+      loadTotalCortesProf2MesAnterior();
+    });
+  }
+
+  int totalCortesMesAnteriorProf2 = 0;
+  Future<void> loadTotalCortesProf2MesAnterior() async {
+    final DateTime dataAtual = DateTime.now();
+    await initializeDateFormatting('pt_BR');
+
+    String monthName = DateFormat('MMMM', 'pt_BR').format(dataAtual);
+    int totalCortesGet = await ManagerScreenFunctions()
+        .loadCortesMesesProfissional2MesSelecionado(
+            profissiona1lName: profList[1].nomeProf,
+            mesSelecionado: mesAnteriorAoSelecionado!.toLowerCase() ?? "");
+
+    setState(() {
+      totalCortesMesAnteriorProf2 = totalCortesGet;
+    });
+  }
+
+  double calcularDiferencaPercentualProfissional2Cortes() {
+    // Verifica se os valores são nulos ou zero
+    int faturamentoExibidoValor = totalCortesMesSelecionadoProf2 ?? 0;
+    int faturamentoAnteriorAoEscolhidoValor = totalCortesMesAnteriorProf2 ?? 0;
+
+    // Calcula a diferença entre os valores
+    int diferenca =
+        faturamentoExibidoValor - faturamentoAnteriorAoEscolhidoValor;
+
+    // Verifica se o denominador é zero para evitar divisão por zero
+    if (faturamentoAnteriorAoEscolhidoValor == 0) {
+      return 0; // Retorna 0 se houver divisão por zero
+    }
+
+    // Calcula a diferença percentual
+    double diferencaPercentual =
+        (diferenca / faturamentoAnteriorAoEscolhidoValor) * 100;
+
+    // Retorna o resultado
+    return diferencaPercentual;
+  }
+  //dados de clientes profissional 2 - fim
   //faturamento - load mes escolhido - inicio
 
   //- # mes escolhido =>
@@ -49,7 +166,9 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
 
     setState(() {
       faturamentoExibido = totalFaturamentoGet;
+      loadFaturamentoMesAnterior();
       selecionarMes();
+      calcularDiferencaPercentual();
     });
   }
   //- # mes escolhido =<
@@ -64,11 +183,13 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
     String monthName = DateFormat('MMMM', 'pt_BR').format(dataAtual);
     int totalFaturamentoGet = await ManagerScreenFunctions()
         .loadFaturamentoBarbeariaSelectMenuMesAnterior(
-            mesSelecionado: mesAnteriorAoSelecionado ?? "");
+            mesSelecionado: mesAnteriorAoSelecionado!.toLowerCase() ?? "");
 
     setState(() {
       faturamentoAnteriorAoEscolhido = totalFaturamentoGet;
     });
+    print(
+        "#17 o faturamento anterior foi de R\$${faturamentoAnteriorAoEscolhido}");
   }
   //- # mes anterior do escolhido para comparativo =<
   //faturamento - load mes escolhido - fim
@@ -97,19 +218,43 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
         widget.mesInicial,
       );
     }
-    print("#14o indice é ${indiceSelecionado}");
+
     // Calcular o índice do mês anterior
     int indiceAnterior = (indiceSelecionado + 1);
-    print("#14o anterior é ${indiceAnterior}");
+
     // Definir o mês anterior
     setState(() {
       mesAnteriorAoSelecionado = ultimos4Meses[indiceAnterior];
     });
-    print("#14o mes final foi:${mesAnteriorAoSelecionado}");
+    print("#17 mes setado:${mesAnteriorAoSelecionado}");
   }
 
   //load dos ultimos 4 meses - fim
   bool showMoreMonths = false;
+
+  //funcoes para converter em % as dive=ferencias
+  double calcularDiferencaPercentual() {
+    // Verifica se os valores são nulos ou zero
+    int faturamentoExibidoValor = faturamentoExibido ?? 0;
+    int faturamentoAnteriorAoEscolhidoValor =
+        faturamentoAnteriorAoEscolhido ?? 0;
+
+    // Calcula a diferença entre os valores
+    int diferenca =
+        faturamentoExibidoValor - faturamentoAnteriorAoEscolhidoValor;
+
+    // Verifica se o denominador é zero para evitar divisão por zero
+    if (faturamentoAnteriorAoEscolhidoValor == 0) {
+      return 0; // Retorna 0 se houver divisão por zero
+    }
+
+    // Calcula a diferença percentual
+    double diferencaPercentual =
+        (diferenca / faturamentoAnteriorAoEscolhidoValor) * 100;
+
+    // Retorna o resultado
+    return diferencaPercentual;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -186,41 +331,48 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
                             ),
                           ),
                         if (showMoreMonths == true)
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: ultimos4Meses.map((mes) {
-                              return InkWell(
-                                onTap: () {
-                                  print("selecionei: ${mes}");
-                                  setState(() {
-                                    mesSelecionado = mes;
-                                    loadTotalFaturamentoAtualMes();
-                                    Navigator.of(context).push(
-                                      DialogRoute(
-                                        context: context,
-                                        builder: (ctx) {
-                                          return GraphicsManagerScreen(
-                                            mesSelecionado: mes,
-                                          );
-                                        },
+                          Container(
+                            //padding: EdgeInsets.all(1),
+                            width: MediaQuery.of(context).size.width * 0.12,
+                            height: MediaQuery.of(context).size.height * 0.09,
+                            child: ListView.builder(
+                              itemCount: 3,
+                              itemBuilder: (ctx, index) {
+                                return InkWell(
+                                  onTap: () {
+                                    print(
+                                        "selecionei: ${ultimos4Meses[index]}");
+                                    setState(() {
+                                      mesSelecionado = ultimos4Meses[index];
+                                      loadTotalFaturamentoAtualMes();
+                                      Navigator.of(context).push(
+                                        DialogRoute(
+                                          context: context,
+                                          builder: (ctx) {
+                                            return GraphicsManagerScreen(
+                                              mesSelecionado:
+                                                  ultimos4Meses[index],
+                                            );
+                                          },
+                                        ),
+                                      );
+                                    });
+                                  },
+                                  child: Text(
+                                    ultimos4Meses[index],
+                                    style: GoogleFonts.poppins(
+                                      textStyle: TextStyle(
+                                        fontWeight: FontWeight.w400,
+                                        color:
+                                            Estabelecimento.contraPrimaryColor,
+                                        fontSize: 14,
                                       ),
-                                    );
-                                  });
-                                },
-                                child: Text(
-                                  mes,
-                                  style: GoogleFonts.poppins(
-                                    textStyle: TextStyle(
-                                      fontWeight: FontWeight.w400,
-                                      color: Estabelecimento.contraPrimaryColor,
-                                      fontSize: 14,
                                     ),
                                   ),
-                                ),
-                              );
-                            }).toList(),
-                          ),
+                                );
+                              },
+                            ),
+                          )
                       ],
                     ),
                     SizedBox(
@@ -334,7 +486,7 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "Último mês",
+                              "Mês anterior",
                               style: GoogleFonts.openSans(
                                 textStyle: TextStyle(
                                   fontWeight: FontWeight.bold,
@@ -360,7 +512,7 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             Text(
-                              "R\$25.300", // AQUI FATURAMENTO MES ANTERIOR
+                              "R\$${faturamentoAnteriorAoEscolhido ?? 0}", // AQUI FATURAMENTO MES ANTERIOR
                               style: GoogleFonts.openSans(
                                 textStyle: TextStyle(
                                   fontWeight: FontWeight.w500,
@@ -375,24 +527,47 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
                                 Container(
                                   padding: EdgeInsets.all(1),
                                   decoration: BoxDecoration(
-                                      color: Colors.green.withOpacity(0.3),
+                                      color: calcularDiferencaPercentual() <
+                                              0.00
+                                          ? Colors.redAccent.withOpacity(0.2)
+                                          : Colors.green.withOpacity(0.3),
                                       borderRadius: BorderRadius.circular(20)),
-                                  child: Icon(
-                                    Icons.arrow_drop_up,
-                                    size: 20,
-                                    color: Colors.green,
-                                  ),
+                                  child: calcularDiferencaPercentual() < 0.00
+                                      ? Icon(
+                                          Icons.arrow_drop_down,
+                                          color: Colors.red,
+                                          size: 20,
+                                        )
+                                      : Icon(
+                                          Icons.arrow_drop_up,
+                                          size: 20,
+                                          color: Colors.green,
+                                        ),
                                 ),
-                                Text(
-                                  "+4%",
-                                  style: GoogleFonts.openSans(
-                                    textStyle: TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 12,
-                                      color: Colors.green,
-                                    ),
-                                  ),
+                                SizedBox(
+                                  width: 5,
                                 ),
+                                calcularDiferencaPercentual() < 0.00
+                                    ? Text(
+                                        "${calcularDiferencaPercentual().toStringAsFixed(2) ?? 0}%",
+                                        style: GoogleFonts.openSans(
+                                          textStyle: TextStyle(
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 12,
+                                            color: Colors.red,
+                                          ),
+                                        ),
+                                      )
+                                    : Text(
+                                        "${calcularDiferencaPercentual().toStringAsFixed(2) ?? 0}%",
+                                        style: GoogleFonts.openSans(
+                                          textStyle: TextStyle(
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 12,
+                                            color: Colors.green,
+                                          ),
+                                        ),
+                                      ),
                               ],
                             )
                           ],
@@ -422,7 +597,7 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
                               ),
                             ),
                             Text(
-                              "Clientes (comparativo)",
+                              "Clientes mês Selecionado",
                               style: GoogleFonts.openSans(
                                 textStyle: TextStyle(
                                   fontWeight: FontWeight.w600,
@@ -438,7 +613,7 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             Text(
-                              "80 Clientes", // AQUI FATURAMENTO MES ANTERIOR
+                              "${totalCortesMesSelecionado ?? 0} Cortes", // AQUI FATURAMENTO MES ANTERIOR
                               style: GoogleFonts.openSans(
                                 textStyle: TextStyle(
                                   fontWeight: FontWeight.w500,
@@ -453,21 +628,40 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
                                 Container(
                                   padding: EdgeInsets.all(1),
                                   decoration: BoxDecoration(
-                                      color: Colors.green.withOpacity(0.3),
+                                      color:
+                                          calcularDiferencaPercentualProfissional1Cortes() >=
+                                                  0
+                                              ? Colors.green.withOpacity(0.3)
+                                              : Colors.redAccent
+                                                  .withOpacity(0.2),
                                       borderRadius: BorderRadius.circular(20)),
                                   child: Icon(
-                                    Icons.arrow_drop_up,
+                                    calcularDiferencaPercentualProfissional1Cortes() >=
+                                            0
+                                        ? Icons.arrow_drop_up
+                                        : Icons.arrow_drop_down,
                                     size: 20,
-                                    color: Colors.green,
+                                    color:
+                                        calcularDiferencaPercentualProfissional1Cortes() >=
+                                                0
+                                            ? Colors.green
+                                            : Colors.red,
                                   ),
                                 ),
+                                SizedBox(
+                                  width: 5,
+                                ),
                                 Text(
-                                  "+2%",
+                                  "${calcularDiferencaPercentualProfissional1Cortes().toStringAsFixed(2) ?? 0}%",
                                   style: GoogleFonts.openSans(
                                     textStyle: TextStyle(
                                       fontWeight: FontWeight.w600,
                                       fontSize: 12,
-                                      color: Colors.green,
+                                      color:
+                                          calcularDiferencaPercentualProfissional1Cortes() >=
+                                                  0
+                                              ? Colors.green
+                                              : Colors.red,
                                     ),
                                   ),
                                 ),
@@ -501,7 +695,7 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
                               ),
                             ),
                             Text(
-                              "Clientes (comparativo)",
+                              "Clientes mês Selecionado",
                               style: GoogleFonts.openSans(
                                 textStyle: TextStyle(
                                   fontWeight: FontWeight.w600,
@@ -517,7 +711,7 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             Text(
-                              "20 Clientes", // AQUI FATURAMENTO MES ANTERIOR
+                              "${totalCortesMesSelecionadoProf2 ?? 0} Cortes", // AQUI FATURAMENTO MES ANTERIOR
                               style: GoogleFonts.openSans(
                                 textStyle: TextStyle(
                                   fontWeight: FontWeight.w500,
@@ -532,21 +726,37 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
                                 Container(
                                   padding: EdgeInsets.all(1),
                                   decoration: BoxDecoration(
-                                      color: Colors.green.withOpacity(0.3),
+                                      color:
+                                          calcularDiferencaPercentualProfissional2Cortes() >=
+                                                  0
+                                              ? Colors.green.withOpacity(0.3)
+                                              : Colors.redAccent
+                                                  .withOpacity(0.2),
                                       borderRadius: BorderRadius.circular(20)),
                                   child: Icon(
-                                    Icons.arrow_drop_up,
+                                    calcularDiferencaPercentualProfissional2Cortes() >= 0 ? Icons.arrow_drop_up : Icons.arrow_drop_down,
                                     size: 20,
-                                    color: Colors.green,
+                                    color:
+                                        calcularDiferencaPercentualProfissional2Cortes() >=
+                                                0
+                                            ? Colors.green
+                                            : Colors.red,
                                   ),
                                 ),
+                                SizedBox(
+                                  width: 5,
+                                ),
                                 Text(
-                                  "+5%",
+                                  "${calcularDiferencaPercentualProfissional2Cortes().toStringAsFixed(2) ?? 0}%",
                                   style: GoogleFonts.openSans(
                                     textStyle: TextStyle(
                                       fontWeight: FontWeight.w600,
                                       fontSize: 12,
-                                      color: Colors.green,
+                                      color:
+                                          calcularDiferencaPercentualProfissional2Cortes() >=
+                                                  0
+                                              ? Colors.green
+                                              : Colors.red,
                                     ),
                                   ),
                                 ),

@@ -617,8 +617,8 @@ class ManagerScreenFunctions with ChangeNotifier {
   // load ultimos 4 meses
   List<String> _ultimos4Meses = [];
   List<String> get ultimos4Meses => [..._ultimos4Meses];
-    void gerarUltimos4Meses() {
-      print("carregando a lista");
+  void gerarUltimos4Meses() {
+    print("carregando a lista");
     // Limpar a lista antes de gerar os novos meses
     _ultimos4Meses.clear();
 
@@ -628,7 +628,8 @@ class ManagerScreenFunctions with ChangeNotifier {
     int anoAtual = hoje.year;
 
     // Gerar os últimos 4 meses
-    for (int i = 0; i < 4; i++) {  // Ajustado para gerar os últimos 4 meses
+    for (int i = 0; i < 4; i++) {
+      // Ajustado para gerar os últimos 4 meses
       // Calcular o mês e o ano do mês atual - i
       int mes = mesAtual - i;
       int ano = anoAtual;
@@ -668,5 +669,65 @@ class ManagerScreenFunctions with ChangeNotifier {
       String mesAno = '$nomeMes';
       _ultimos4Meses.add(mesAno);
     }
+  }
+
+  //total de cortes do profissional para comparativo mensais
+  Future<int> loadCortesMesesProfissional1MesSelecionado({
+    required String mesSelecionado,
+    required String profissiona1lName,
+  }) async {
+    final QuerySnapshot acessoFaturamentoSnapshot = await database
+        .collection("mensalCuts")
+        .doc(mesSelecionado)
+        .collection(profissiona1lName)
+        .get();
+    print(
+        "##1o caminho buscado foi: mensalCuts/${mesSelecionado}/${profissiona1lName}");
+    return acessoFaturamentoSnapshot.docs.length;
+  }
+
+  Future<int> loadCortesMesesProfissional1MesAnterior({
+    required String mesSelecionado,
+    required String profissiona1lName,
+  }) async {
+    final QuerySnapshot acessoFaturamentoSnapshot = await database
+        .collection("mensalCuts")
+        .doc(mesSelecionado)
+        .collection(profissiona1lName)
+        .get();
+    print(
+        "##1o caminho buscado foi: mensalCuts/${mesSelecionado}/${profissiona1lName}");
+    print("##2 total:${acessoFaturamentoSnapshot.docs.length}");
+    return acessoFaturamentoSnapshot.docs.length;
+  }
+
+  Future<int> loadCortesMesesProfissional2MesSelecionado({
+    required String mesSelecionado,
+    required String profissiona1lName,
+  }) async {
+    final QuerySnapshot acessoFaturamentoSnapshot = await database
+        .collection("mensalCuts")
+        .doc(mesSelecionado)
+        .collection(profissiona1lName)
+        .get();
+    print(
+        "##3o caminho buscado foi: mensalCuts/${mesSelecionado}/${profissiona1lName}");
+    print("##3o total do index1 ${acessoFaturamentoSnapshot.docs.length}");
+    return acessoFaturamentoSnapshot.docs.length;
+  }
+
+  Future<int> loadCortesMesesProfissional2MesAnterior({
+    required String mesSelecionado,
+    required String profissiona1lName,
+  }) async {
+    final QuerySnapshot acessoFaturamentoSnapshot = await database
+        .collection("mensalCuts")
+        .doc(mesSelecionado)
+        .collection(profissiona1lName)
+        .get();
+    print(
+        "##3o caminho buscado foi: mensalCuts/${mesSelecionado}/${profissiona1lName}");
+    print("##3o total do index1 ${acessoFaturamentoSnapshot.docs.length}");
+    return acessoFaturamentoSnapshot.docs.length;
   }
 }
