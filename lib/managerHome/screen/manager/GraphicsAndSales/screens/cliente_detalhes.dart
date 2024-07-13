@@ -243,7 +243,7 @@ class _ClienteDetalhesState extends State<ClienteDetalhes> {
                                                     mainAxisAlignment: MainAxisAlignment.center,
                                                     children: [
                                                       Text(
-                                                        "Lembrar",
+                                                        "Chamar",
                                                         style: GoogleFonts
                                                             .openSans(
                                                           textStyle: TextStyle(
