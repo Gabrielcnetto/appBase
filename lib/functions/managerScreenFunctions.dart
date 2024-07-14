@@ -730,4 +730,33 @@ class ManagerScreenFunctions with ChangeNotifier {
     print("##3o total do index1 ${acessoFaturamentoSnapshot.docs.length}");
     return acessoFaturamentoSnapshot.docs.length;
   }
+  //setando meta
+
+  Future<void> postMetaGeral({required int metaValue}) async {
+    final post =
+        await database.collection("estabelecimento").doc("metaMensal").set({
+      "metaMensal": metaValue,
+    });
+    notifyListeners();
+  }
+
+  Future<int?> getMetaBarberShop() async {
+    int? metaBarbershop;
+
+    await database
+        .collection("estabelecimento")
+        .doc("metaMensal")
+        .get()
+        .then((event) {
+      if (event.exists) {
+        Map<String, dynamic> data = event.data() as Map<String, dynamic>;
+
+        metaBarbershop = data['metaMensal'];
+      } else {
+        print("este evento nao existe");
+      }
+      return metaBarbershop;
+    });
+    return metaBarbershop;
+  }
 }

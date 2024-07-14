@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
@@ -6,6 +7,7 @@ import 'package:lionsbarberv1/classes/Estabelecimento.dart';
 import 'package:lionsbarberv1/classes/profissionais.dart';
 import 'package:lionsbarberv1/functions/managerScreenFunctions.dart';
 import 'package:lionsbarberv1/managerHome/screen/manager/GraphicsAndSales/GraphicsScreenManager.dart';
+import 'package:lionsbarberv1/rotas/Approutes.dart';
 import 'package:provider/provider.dart';
 
 class FaturamentoMesSelecionado extends StatefulWidget {
@@ -32,6 +34,7 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
     selecionarMes();
     loadTotalCortes();
     loadTotalCortesProf2();
+    loadMetaValue();
   }
 
   //dados de clientes profissional 1 - inicio
@@ -152,7 +155,7 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
   //faturamento - load mes escolhido - inicio
 
   //- # mes escolhido =>
-  int? faturamentoExibido;
+  int faturamentoExibido = 0;
   Future<void> loadTotalFaturamentoAtualMes() async {
     final DateTime dataAtual = DateTime.now();
     await initializeDateFormatting('pt_BR');
@@ -166,6 +169,7 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
 
     setState(() {
       faturamentoExibido = totalFaturamentoGet;
+      CalcPercent();
       loadFaturamentoMesAnterior();
       selecionarMes();
       calcularDiferencaPercentual();
@@ -256,6 +260,263 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
     return diferencaPercentual;
   }
 
+  //configurações de meta - INÍCIO
+  void confirmNewValue() {
+    showDialog(
+        context: context,
+        builder: (ctx) {
+          return AlertDialog(
+            title: Text(
+              "Sua meta foi atualizada",
+              style: GoogleFonts.openSans(
+                textStyle: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.blue.shade600,
+                  fontSize: 16,
+                ),
+              ),
+            ),
+            content: Text(
+              "Parabéns por estabelecer uma meta, agora é hora de alcançá-la!",
+              style: GoogleFonts.openSans(
+                textStyle: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.grey,
+                  fontSize: 14,
+                ),
+              ),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pushReplacementNamed(
+                    AppRoutesApp.HomeScreen01,
+                  );
+                },
+                child: Text(
+                  "Voltar ao trabalho",
+                  style: TextStyle(
+                    color: Colors.grey.shade300,
+                  ),
+                ),
+              ),
+            ],
+          );
+        });
+  }
+
+  void dialogNewMeta() {
+    showDialog(
+        context: context,
+        builder: (ctx) {
+          return AlertDialog(
+            title: Text(
+              "Atualizar meta?",
+              style: GoogleFonts.openSans(
+                textStyle: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.blue.shade600,
+                  fontSize: 16,
+                ),
+              ),
+            ),
+            content: Text(
+              "você pode alterar a qualquer momento o valor.",
+              style: GoogleFonts.openSans(
+                textStyle: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.grey,
+                  fontSize: 14,
+                ),
+              ),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  Navigator.of(context).pop();
+                },
+                child: Text(
+                  "Cancelar",
+                  style: TextStyle(
+                    color: Colors.grey.shade500,
+                  ),
+                ),
+              ),
+              TextButton(
+                onPressed: () async {
+                  functionSetNewMeta();
+                  Navigator.of(context).pop();
+                  confirmNewValue();
+                },
+                child: Text(
+                  "Confirmar e Salvar",
+                  style: GoogleFonts.openSans(
+                    textStyle: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+              )
+            ],
+          );
+        });
+  }
+
+  double percentualVisual = 0;
+  double PercentualMeta = 0;
+  void CalcPercent() {
+    if (metaDatabase == 0) {
+      setState(() {
+        PercentualMeta = 0.0;
+        percentualVisual = (PercentualMeta ?? 0) * 100;
+      });
+    } else {
+      setState(() {
+        PercentualMeta = faturamentoExibido / metaDatabase!;
+        percentualVisual = (PercentualMeta ?? 0) * 100;
+      });
+    }
+  }
+
+  int? metaDatabase = 0;
+  Future<void> loadMetaValue() async {
+    int? metaDatabaseAtual = await ManagerScreenFunctions().getMetaBarberShop();
+
+    setState(() {
+      metaDatabase = metaDatabaseAtual;
+      //   CalcPercent();
+    });
+    print("a meta do db esta por: ${metaDatabase}");
+  }
+
+  final metaControler = TextEditingController();
+  Future<void> functionSetNewMeta() async {
+    Provider.of<ManagerScreenFunctions>(context, listen: false).postMetaGeral(
+      metaValue: int.parse(metaControler.text),
+    );
+  }
+
+  void ShowModalMeta() {
+    showModalBottomSheet(
+      isScrollControlled: true,
+      context: context,
+      builder: (ctx) {
+        return Container(
+          padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+          height: MediaQuery.of(context).size.height * 0.7,
+          width: double.infinity,
+          child: SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Coloque a meta desejada",
+                      style: GoogleFonts.openSans(
+                        textStyle: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          color: Colors.black,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      "Formato em mil, Exemplo: (1000) - Sem vírgulas ou sinais",
+                      style: GoogleFonts.openSans(
+                        textStyle: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          color: Colors.grey.shade600,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  alignment: Alignment.center,
+                  width: double.infinity,
+                  height: MediaQuery.of(context).size.height * 0.4,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(25),
+                    color: Colors.grey.shade200.withOpacity(0.5),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        "R\$  ",
+                        style: GoogleFonts.poppins(
+                          textStyle: TextStyle(
+                            fontSize: 60,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Container(
+                          child: TextFormField(
+                            inputFormatters: [
+                              LengthLimitingTextInputFormatter(6),
+                              FilteringTextInputFormatter.allow(
+                                  RegExp(r'[0-9]')),
+                            ],
+                            controller: metaControler,
+                            decoration: InputDecoration(
+                              label: Text("VALOR(R\$1000)"),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                InkWell(
+                  onTap: dialogNewMeta,
+                  child: Container(
+                    alignment: Alignment.center,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: Colors.blue.shade600,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    padding: EdgeInsets.symmetric(vertical: 10),
+                    child: Text(
+                      "Salvar alteração",
+                      style: GoogleFonts.poppins(
+                        textStyle: TextStyle(
+                          fontSize: 16,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+  //configurações de meta - FIM
+
   @override
   Widget build(BuildContext context) {
     String mesSelecionado =
@@ -264,8 +525,8 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
       padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
       width: double.infinity,
       height: showMoreMonths == false
-          ? MediaQuery.of(context).size.height * 0.7
-          : MediaQuery.of(context).size.height * 0.8,
+          ? MediaQuery.of(context).size.height * 0.72
+          : MediaQuery.of(context).size.height * 0.75,
       decoration: BoxDecoration(
         color: Colors.grey.shade100,
         borderRadius: BorderRadius.circular(15),
@@ -424,7 +685,7 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
                   Column(
                     children: [
                       Text(
-                        "40% da meta batida",
+                        "${percentualVisual ?? 0}% da meta batida",
                         style: GoogleFonts.openSans(
                           textStyle: TextStyle(
                             fontWeight: FontWeight.w300,
@@ -450,16 +711,17 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
                                 borderRadius: BorderRadius.circular(15),
                               ),
                             ),
-                            Positioned(
-                              left: 0,
-                              right: 0,
-                              child: LinearProgressIndicator(
-                                value: 0.4,
-                                color: Colors.green,
-                                minHeight: 6,
-                                borderRadius: BorderRadius.circular(15),
+                            if (PercentualMeta > 0)
+                              Positioned(
+                                left: 0,
+                                right: 0,
+                                child: LinearProgressIndicator(
+                                  value: PercentualMeta,
+                                  color: Colors.green,
+                                  minHeight: 6,
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
                               ),
-                            ),
                           ],
                         ),
                       ),
@@ -734,7 +996,10 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
                                                   .withOpacity(0.2),
                                       borderRadius: BorderRadius.circular(20)),
                                   child: Icon(
-                                    calcularDiferencaPercentualProfissional2Cortes() >= 0 ? Icons.arrow_drop_up : Icons.arrow_drop_down,
+                                    calcularDiferencaPercentualProfissional2Cortes() >=
+                                            0
+                                        ? Icons.arrow_drop_up
+                                        : Icons.arrow_drop_down,
                                     size: 20,
                                     color:
                                         calcularDiferencaPercentualProfissional2Cortes() >=
@@ -775,6 +1040,61 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
               ),
             ),
           ),
+          SizedBox(
+            height: 5,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              if (metaDatabase == 0)
+                Row(
+                  children: [
+                    Icon(
+                      Icons.star,
+                      color: Colors.orangeAccent,
+                      size: 17,
+                    ),
+                    Text(
+                      "Novidade",
+                      style: GoogleFonts.poppins(
+                        textStyle: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 10,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              SizedBox(
+                width: 5,
+              ),
+              InkWell(
+                onTap: ShowModalMeta,
+                child: Container(
+                  padding: EdgeInsets.symmetric(vertical: 4, horizontal: 5),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.white,
+                    border: Border.all(
+                      width: 0.2,
+                      color: Colors.grey.shade100,
+                    ),
+                  ),
+                  child: Text(
+                    "Colocar/editar Meta",
+                    style: GoogleFonts.openSans(
+                      textStyle: TextStyle(
+                        color: Colors.blue.shade600,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 10,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          )
         ],
       ),
     );
