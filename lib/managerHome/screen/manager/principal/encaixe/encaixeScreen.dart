@@ -9,6 +9,7 @@ import 'package:lionsbarberv1/classes/procedimentos_extras.dart';
 import 'package:lionsbarberv1/classes/profissionais.dart';
 import 'package:lionsbarberv1/functions/CorteProvider.dart';
 import 'package:lionsbarberv1/functions/ManyChatConfirmation.dart';
+import 'package:lionsbarberv1/functions/horariosComuns.dart';
 import 'package:lionsbarberv1/functions/managerScreenFunctions.dart';
 import 'package:lionsbarberv1/functions/profileScreenFunctions.dart';
 
@@ -382,7 +383,10 @@ class _EncaixeScreenProfissionalOptionHomeProfState
               phoneNumber: numberControler.text, finalDate: finalDatetime);
     }
     try {
-      await analytics.logEvent(
+      await Provider.of<HorariosComuns>(context, listen: false).postHours(
+        horarioEscolhido: hourSetForUser ?? "",
+      );
+       analytics.logEvent(
         name: "scheduled_appointmen",
         parameters: {
           "appointment_type": "Corte-agendado",

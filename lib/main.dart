@@ -5,6 +5,7 @@ import 'package:lionsbarberv1/functions/CorteProvider.dart';
 import 'package:lionsbarberv1/functions/ManyChatConfirmation.dart';
 import 'package:lionsbarberv1/functions/agendaDataHorarios.dart';
 import 'package:lionsbarberv1/functions/createAccount.dart';
+import 'package:lionsbarberv1/functions/horariosComuns.dart';
 import 'package:lionsbarberv1/functions/managerScreenFunctions.dart';
 import 'package:lionsbarberv1/functions/profileScreenFunctions.dart';
 import 'package:lionsbarberv1/functions/providerFilterStrings.dart';
@@ -81,9 +82,9 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(
           create: (_) => ManyChatConfirmation(),
         ),
-        //ChangeNotifierProvider(
-        //  create: (_) => AgendaData(),
-        //),
+        ChangeNotifierProvider(
+          create: (_) => HorariosComuns(),
+        ),
       ],
 
       //TESTE DO REPOSITORIO
@@ -138,7 +139,9 @@ class _MyAppState extends State<MyApp> {
           AppRoutesApp.PricesAndPercentages: (ctx) =>
               const PriceEporcentagemNewPrice(), // mudei testando layout novo
           AppRoutesApp.GraphicsManagerScreen: (ctx) =>
-              const GraphicsManagerScreen(mesSelecionado: "Clique",),
+              const GraphicsManagerScreen(
+                mesSelecionado: "Clique",
+              ),
           AppRoutesApp.ModalDeEdicao: (ctx) => const ModalDeEdicao(),
           AppRoutesApp.ChangeHourAndData: (ctx) => ChangeHourAndData(
                 corteWidget: CorteClass(
