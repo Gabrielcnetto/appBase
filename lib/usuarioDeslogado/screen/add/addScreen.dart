@@ -7,6 +7,7 @@ import 'package:lionsbarberv1/classes/procedimentos_extras.dart';
 import 'package:lionsbarberv1/classes/profissionais.dart';
 import 'package:lionsbarberv1/functions/CorteProvider.dart';
 import 'package:lionsbarberv1/functions/ManyChatConfirmation.dart';
+import 'package:lionsbarberv1/functions/horariosComuns.dart';
 import 'package:lionsbarberv1/functions/managerScreenFunctions.dart';
 import 'package:lionsbarberv1/functions/profileScreenFunctions.dart';
 import 'package:lionsbarberv1/rotas/Approutes.dart';
@@ -416,25 +417,32 @@ class _AddScreenUserDeslogadoState extends State<AddScreenUserDeslogado> {
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: Text("Continuar sem conta",style: GoogleFonts.openSans(
-                textStyle: TextStyle(
-                  fontWeight: FontWeight.w500,
-                  color: Colors.grey,
+                child: Text(
+                  "Continuar sem conta",
+                  style: GoogleFonts.openSans(
+                    textStyle: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      color: Colors.grey,
+                    ),
+                  ),
                 ),
-              ),),
               ),
-                TextButton(
+              TextButton(
                 onPressed: () {
-                  Navigator.of(context).pushReplacementNamed(AppRoutesApp.RegisterAccountScreen);
+                  Navigator.of(context)
+                      .pushReplacementNamed(AppRoutesApp.RegisterAccountScreen);
                 },
-                child: Text("Criar Conta",style: GoogleFonts.openSans(
-                textStyle: TextStyle(
-                  fontWeight: FontWeight.w700,
-                  color: Colors.blue.shade600,
+                child: Text(
+                  "Criar Conta",
+                  style: GoogleFonts.openSans(
+                    textStyle: TextStyle(
+                      fontWeight: FontWeight.w700,
+                      color: Colors.blue.shade600,
+                    ),
+                  ),
                 ),
-              ),),
               ),
-         ],
+            ],
           );
         });
     Navigator.of(context).push(DialogRoute(
@@ -501,7 +509,10 @@ class _AddScreenUserDeslogadoState extends State<AddScreenUserDeslogado> {
               phoneNumber: numberControler.text, finalDate: finalDatetime);
     }
     try {
-      await analytics.logEvent(
+      await Provider.of<HorariosComuns>(context, listen: false).postHours(
+        horarioEscolhido: hourSetForUser ?? "",
+      );
+      analytics.logEvent(
         name: "scheduled_appointmen",
         parameters: {
           "appointment_type": "Corte-agendado",
