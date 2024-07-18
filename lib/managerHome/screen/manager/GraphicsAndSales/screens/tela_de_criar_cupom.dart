@@ -1,10 +1,12 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lionsbarberv1/classes/Estabelecimento.dart';
 import 'package:lionsbarberv1/classes/cupomClass.dart';
 import 'package:lionsbarberv1/classes/horarios.dart';
+import 'package:lionsbarberv1/managerHome/screen/manager/GraphicsAndSales/screens/confirmationCreateCupom.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../functions/cupomProvider.dart';
@@ -30,16 +32,71 @@ class _CreateInfsCupomState extends State<CreateInfsCupom> {
   String? hourSetForUser;
 
   Future<void> sendCupomForDataBase() async {
-    await Provider.of<CupomProvider>(context, listen: false).postNewCoupum(
-      cupomClassInfs: cupomClass(
-        codigo: codeHashTagControler.text,
-        name: cupomNameControler.text,
-        horario: hourSetForUser ?? "",
-        id: Random().nextDouble().toString(),
-        isActive: true,
-        percentage: porcentagemDescontada,
-      ),
-    );
+    try {
+      await Provider.of<CupomProvider>(context, listen: false).postNewCoupum(
+        cupomClassInfs: cupomClass(
+          codigo: codeHashTagControler.text,
+          name: cupomNameControler.text,
+          horario: hourSetForUser ?? "",
+          id: Random().nextDouble().toString(),
+          isActive: true,
+          percentage: porcentagemDescontada,
+        ),
+      );
+      Navigator.of(context).push(
+        DialogRoute(
+            context: context,
+            builder: (ctx) {
+              return ConfirmCreateCupomImage();
+            }),
+      );
+    } catch (e) {
+      print("ao criar o cupom deu este erro:${e}");
+      showDialog(
+        context: context,
+        builder: (ctx) {
+          return AlertDialog(
+            title: Text(
+              "Erro ao criar cupom",
+              style: GoogleFonts.openSans(
+                textStyle: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 18,
+                  color: Colors.black,
+                ),
+              ),
+            ),
+            content: Text(
+              "Verifique se todas os dados foram preenchidos, tente novamente, se persistir aguarde alguns minutos",
+              style: GoogleFonts.openSans(
+                textStyle: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 12,
+                  color: Colors.grey.shade600,
+                ),
+              ),
+            ),
+            actions: [
+              TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pop();
+                  },
+                  child: Text(
+                    "Fechar",
+                    style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ))
+            ],
+          );
+        },
+      );
+    }
   }
 
   //funcoes da porcentagem;
@@ -102,7 +159,7 @@ class _CreateInfsCupomState extends State<CreateInfsCupom> {
       builder: (ctx) {
         return Container(
           padding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
-          height: MediaQuery.of(context).size.height * 0.7,
+          height: MediaQuery.of(context).size.height * 0.5,
           width: double.infinity,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -119,28 +176,144 @@ class _CreateInfsCupomState extends State<CreateInfsCupom> {
                 ),
               ),
               Container(
+                padding: EdgeInsets.symmetric(
+                  vertical: 10,
+                  horizontal: 10,
+                ),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(
+                    10,
+                  ),
+                  color: Color.fromARGB(255, 171, 168, 168).withOpacity(0.2),
+                ),
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    SizedBox(
-                      width: 15,
-                    ),
+                    //NOME DO CUPOM - INICIO
+
                     Row(
                       children: [
                         Text(
                           "Nome do cupom:",
+                          style: GoogleFonts.openSans(
+                            textStyle: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.black,
+                            ),
+                          ),
                         ),
                         SizedBox(
                           width: 10,
                         ),
                         Text(
-                          cupomNameControler.text,
+                          "${cupomNameControler.text ?? "pendente"}",
                         ),
                       ],
                     ),
+                    //NOME DO CUPOM - FIM
+                    //HORARIO DO CUPOM - INICIO
+
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20),
+                      child: Row(
+                        children: [
+                          Text(
+                            "Horário para ser ativado:",
+                            style: GoogleFonts.openSans(
+                              textStyle: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w700,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            "${hourSetForUser ?? "pendente"}",
+                          ),
+                        ],
+                      ),
+                    ),
+                    //HORARIO DO CUPOM - FIM
+                    //porcentagem DO CUPOM - INICIO
+
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20),
+                      child: Row(
+                        children: [
+                          Text(
+                            "Porcentagem:",
+                            style: GoogleFonts.openSans(
+                              textStyle: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w700,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            "${porcentagemDescontada ?? "pendente"}",
+                          ),
+                        ],
+                      ),
+                    ),
+                    //porcentagem DO CUPOM - FIM
+                    //porcentagem DO CUPOM - INICIO
+
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20),
+                      child: Row(
+                        children: [
+                          Text(
+                            "Código de ativação:",
+                            style: GoogleFonts.openSans(
+                              textStyle: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w700,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            "${codeHashTagControler.text ?? "pendente"}",
+                          ),
+                        ],
+                      ),
+                    ),
+                    //porcentagem DO CUPOM - FIM
                   ],
                 ),
               ),
-              Text("Confirmar e criar cupom"),
+              InkWell(
+                onTap: sendCupomForDataBase,
+                child: Container(
+                  alignment: Alignment.center,
+                  width: double.infinity,
+                  padding: EdgeInsets.symmetric(vertical: 10),
+                  decoration: BoxDecoration(
+                    color: Estabelecimento.primaryColor,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Text(
+                    "Confirmar e criar cupom",
+                    style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                        fontWeight: FontWeight.w700,
+                        color: Estabelecimento.contraPrimaryColor,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         );
@@ -240,6 +413,8 @@ class _CreateInfsCupomState extends State<CreateInfsCupom> {
                       padding:
                           EdgeInsets.symmetric(vertical: 10, horizontal: 15),
                       child: TextFormField(
+                        maxLength: 15,
+                        maxLengthEnforcement: MaxLengthEnforcement.enforced,
                         controller: cupomNameControler,
                         decoration: InputDecoration(
                           border: InputBorder.none,
@@ -349,7 +524,7 @@ class _CreateInfsCupomState extends State<CreateInfsCupom> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(
-                      "Quantos % de desconto este cupom garante?",
+                      "Quantos % ele aumenta nos pontos?",
                       style: GoogleFonts.poppins(
                         textStyle: TextStyle(
                           fontSize: 12,
@@ -367,10 +542,10 @@ class _CreateInfsCupomState extends State<CreateInfsCupom> {
                   height: MediaQuery.of(context).size.height * 0.4,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.only(
-                       topRight: Radius.elliptical(20, 20),
-                            bottomRight: Radius.elliptical(20, 20),
-                               topLeft: Radius.elliptical(20, 20),
-                            bottomLeft: Radius.elliptical(20, 20),
+                      topRight: Radius.elliptical(20, 20),
+                      bottomRight: Radius.elliptical(20, 20),
+                      topLeft: Radius.elliptical(20, 20),
+                      bottomLeft: Radius.elliptical(20, 20),
                     ),
                     border: Border.all(
                       width: 0.3,
@@ -509,15 +684,22 @@ class _CreateInfsCupomState extends State<CreateInfsCupom> {
                       padding:
                           EdgeInsets.symmetric(vertical: 10, horizontal: 15),
                       child: TextFormField(
+                        inputFormatters: [
+                          FilteringTextInputFormatter.deny(RegExp(r'#')),
+                        ],
+                        maxLength: 7,
+                        maxLengthEnforcement: MaxLengthEnforcement
+                            .enforced, // Força o limite máximo
+
                         controller: codeHashTagControler,
                         decoration: InputDecoration(
                           border: InputBorder.none,
                           label: Text(
-                            "Insira um código de até 5 digitos",
+                            "Insira um código de até 7 digitos(Sem inserir simbolo #)",
                             style: GoogleFonts.poppins(
                               textStyle: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w500,
+                                fontSize: 10,
+                                fontWeight: FontWeight.w400,
                               ),
                             ),
                           ),
