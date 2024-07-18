@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lionsbarberv1/classes/cupomClass.dart';
+import 'package:lionsbarberv1/managerHome/screen/manager/GraphicsAndSales/screens/tela_de_criar_cupom.dart';
 
 class CuponsCreateandListView extends StatefulWidget {
   const CuponsCreateandListView({super.key});
@@ -125,21 +126,28 @@ class _CuponsCreateandListViewState extends State<CuponsCreateandListView> {
                         ),
                       ],
                     ),
-                    Container(
-                      alignment: Alignment.center,
-                      padding:
-                          EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                      decoration: BoxDecoration(
-                        color: Colors.blue.shade600,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Text(
-                        "Criar",
-                        style: GoogleFonts.poppins(
-                          textStyle: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            color: Colors.white,
-                            fontSize: 12,
+                    InkWell(
+                      onTap: (){
+                        Navigator.of(context).push(DialogRoute(context: context, builder: (ctx){
+                          return CreateInfsCupom();
+                        }),);
+                      },
+                      child: Container(
+                        alignment: Alignment.center,
+                        padding:
+                            EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                        decoration: BoxDecoration(
+                          color: Colors.blue.shade600,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Text(
+                          "Criar",
+                          style: GoogleFonts.poppins(
+                            textStyle: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              color: Colors.white,
+                              fontSize: 12,
+                            ),
                           ),
                         ),
                       ),
@@ -149,169 +157,216 @@ class _CuponsCreateandListViewState extends State<CuponsCreateandListView> {
                 SizedBox(
                   height: 25,
                 ),
-                Column(
-                  children: _listaTeste.map((item) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 5),
-                      child: Container(
-                        padding:
-                            EdgeInsets.symmetric(vertical: 15, horizontal: 15),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(
-                            width: 0.7,
-                            color: Colors.grey.shade200,
-                          ),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Container(
-                                  alignment: Alignment.center,
-                                  padding: EdgeInsets.all(1),
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.13,
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.07,
-                                  color: Colors.yellow,
-                                  child: Icon(
-                                    Icons.percent,
-                                    size: 30,
-                                    color: Colors.white,
+                _listaTeste.isEmpty
+                    ? Center(
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 30),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                padding: EdgeInsets.all(5),
+                                decoration: BoxDecoration(
+                                  color: Colors.blue.shade600,
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                                child: Icon(
+                                  Icons.sell,
+                                  size: 50,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              SizedBox(
+                                height: 15,
+                              ),
+                              Text(
+                                "Sem cupons Criados",
+                                style: GoogleFonts.openSans(
+                                  textStyle: TextStyle(
+                                    fontStyle: FontStyle.italic,
+                                    fontWeight: FontWeight.w400,
+                                    color: Colors.black,
                                   ),
                                 ),
-                                SizedBox(
-                                  width: 10,
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
+                    : Column(
+                        children: _listaTeste.map((item) {
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 5),
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 15, horizontal: 15),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all(
+                                  width: 0.7,
+                                  color: Colors.grey.shade200,
                                 ),
-                                Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          "${item.name}",
-                                          style: GoogleFonts.openSans(
-                                            textStyle: TextStyle(
-                                              fontWeight: FontWeight.w700,
-                                              fontSize: 16,
-                                              color: Colors.black,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          "Horário: ${item.horario} - ",
-                                          style: GoogleFonts.openSans(
-                                            textStyle: TextStyle(
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 13,
-                                              color: Colors.grey.shade500,
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          width: 2,
-                                        ),
-                                        Icon(
-                                          Icons.timer,
-                                          size: 15,
-                                          color: Colors.grey.shade500,
-                                        ),
-                                      ],
-                                    ),
-                                    Text(
-                                      "${item.percentage}% OFF",
-                                      style: GoogleFonts.openSans(
-                                        textStyle: TextStyle(
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 13,
-                                          color: Colors.black,
+                              ),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        alignment: Alignment.center,
+                                        padding: EdgeInsets.all(1),
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.13,
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.07,
+                                        color: Colors.yellow,
+                                        child: Icon(
+                                          Icons.percent,
+                                          size: 30,
+                                          color: Colors.white,
                                         ),
                                       ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 10),
-                                      child: Row(
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceAround,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                "${item.name}",
+                                                style: GoogleFonts.openSans(
+                                                  textStyle: TextStyle(
+                                                    fontWeight: FontWeight.w700,
+                                                    fontSize: 16,
+                                                    color: Colors.black,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          Row(
+                                            children: [
+                                              Text(
+                                                "Horário: ${item.horario} - ",
+                                                style: GoogleFonts.openSans(
+                                                  textStyle: TextStyle(
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: 13,
+                                                    color: Colors.grey.shade500,
+                                                  ),
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                width: 2,
+                                              ),
+                                              Icon(
+                                                Icons.timer,
+                                                size: 15,
+                                                color: Colors.grey.shade500,
+                                              ),
+                                            ],
+                                          ),
                                           Text(
-                                            "${item.codigo}",
+                                            "${item.percentage}% OFF",
                                             style: GoogleFonts.openSans(
                                               textStyle: TextStyle(
-                                                fontWeight: FontWeight.w700,
-                                                fontSize: 14,
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 13,
                                                 color: Colors.black,
                                               ),
                                             ),
                                           ),
-                                          SizedBox(
-                                            width: 5,
-                                          ),
-                                          Icon(
-                                            Icons.confirmation_number,
-                                            size: 15,
-                                            color: Colors.black,
+                                          Padding(
+                                            padding:
+                                                const EdgeInsets.only(top: 10),
+                                            child: Row(
+                                              children: [
+                                                Text(
+                                                  "${item.codigo}",
+                                                  style: GoogleFonts.openSans(
+                                                    textStyle: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w700,
+                                                      fontSize: 14,
+                                                      color: Colors.black,
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: 5,
+                                                ),
+                                                Icon(
+                                                  Icons.confirmation_number,
+                                                  size: 15,
+                                                  color: Colors.black,
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                         ],
                                       ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Icon(
-                                      Icons.radio_button_checked,
-                                      size: 15,
-                                      color: item.isActive
-                                          ? Colors.green.shade700
-                                          : Colors.grey.shade400,
-                                    ),
-                                    SizedBox(
-                                      width: 5,
-                                    ),
-                                    Text(
-                                      item.isActive ? "Ativo" : "Desativado",
-                                      style: GoogleFonts.openSans(
-                                        textStyle: TextStyle(
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: 14,
-                                        color: item.isActive
-                                          ? Colors.green.shade700
-                                          : Colors.grey.shade400,
+                                    ],
+                                  ),
+                                  Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Icon(
+                                            Icons.radio_button_checked,
+                                            size: 15,
+                                            color: item.isActive
+                                                ? Colors.green.shade700
+                                                : Colors.grey.shade400,
+                                          ),
+                                          SizedBox(
+                                            width: 5,
+                                          ),
+                                          Text(
+                                            item.isActive
+                                                ? "Ativo"
+                                                : "Desativado",
+                                            style: GoogleFonts.openSans(
+                                              textStyle: TextStyle(
+                                                fontWeight: FontWeight.w700,
+                                                fontSize: 14,
+                                                color: item.isActive
+                                                    ? Colors.green.shade700
+                                                    : Colors.grey.shade400,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Container(
+                                        child: Icon(
+                                          Icons.toggle_on,
+                                          size: 45,
                                         ),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                                Container(
-                                  child: Icon(
-                                    Icons.toggle_on,
-                                    size: 45,
+                                    ],
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                          ],
-                        ),
+                          );
+                        }).toList(),
                       ),
-                    );
-                  }).toList(),
-                ),
               ],
             ),
           ),

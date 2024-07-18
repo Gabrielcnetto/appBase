@@ -5,6 +5,7 @@ import 'package:lionsbarberv1/functions/CorteProvider.dart';
 import 'package:lionsbarberv1/functions/ManyChatConfirmation.dart';
 import 'package:lionsbarberv1/functions/agendaDataHorarios.dart';
 import 'package:lionsbarberv1/functions/createAccount.dart';
+import 'package:lionsbarberv1/functions/cupomProvider.dart';
 import 'package:lionsbarberv1/functions/horariosComuns.dart';
 import 'package:lionsbarberv1/functions/managerScreenFunctions.dart';
 import 'package:lionsbarberv1/functions/profileScreenFunctions.dart';
@@ -84,6 +85,9 @@ class _MyAppState extends State<MyApp> {
         ),
         ChangeNotifierProvider(
           create: (_) => HorariosComuns(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => CupomProvider(),
         ),
       ],
 

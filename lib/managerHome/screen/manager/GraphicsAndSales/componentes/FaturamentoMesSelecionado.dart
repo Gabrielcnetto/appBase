@@ -685,7 +685,7 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
                   Column(
                     children: [
                       Text(
-                        "${percentualVisual ?? 0}% da meta batida",
+                        "${percentualVisual.toStringAsFixed(2) ?? 0}% da meta batida",
                         style: GoogleFonts.openSans(
                           textStyle: TextStyle(
                             fontWeight: FontWeight.w300,
