@@ -47,7 +47,6 @@ class _AddScreenState extends State<AddScreen> {
     LoadPriceAdicionalIndex3();
     LoadPriceAdicionalIndex4();
     LoadPriceAdicionalIndex5();
-    
   }
 
   int? index5Value;
@@ -451,10 +450,10 @@ class _AddScreenState extends State<AddScreen> {
               phoneNumber: numberControler.text, finalDate: finalDatetime);
     }
     try {
-        await Provider.of<HorariosComuns>(context, listen: false).postHours(
+      await Provider.of<HorariosComuns>(context, listen: false).postHours(
         horarioEscolhido: hourSetForUser ?? "",
       );
-       analytics.logEvent(
+      analytics.logEvent(
         name: "scheduled_appointmen",
         parameters: {
           "appointment_type": "Corte-agendado",
@@ -937,6 +936,248 @@ class _AddScreenState extends State<AddScreen> {
   bool procedimento5 = false; //corte +barbaexpress
   List<Procedimentos_Extras> _procedimentos = procedimentosLista;
 
+  //funcoes do modal do cupom - inicio
+
+  void SearchAndActiveCoupon(){}
+  final cupomControler = TextEditingController();
+  void showModalCupom() {
+    showModalBottomSheet(
+      backgroundColor: Colors.white,
+      isScrollControlled: true,
+      context: context,
+      builder: (ctx) {
+        return Container(
+          padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+          width: double.infinity,
+          height: MediaQuery.of(context).size.height * 0.6,
+          child: SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Ative seu cupom",
+                  style: GoogleFonts.openSans(
+                    textStyle: TextStyle(
+                      fontSize: 16,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Colors.grey.shade100,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        padding: EdgeInsets.symmetric(
+                          vertical: 15,
+                          horizontal: 15,
+                        ),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: TextFormField(
+                                decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  label: Text(
+                                    "Digite o seu cupom",
+                                    style: GoogleFonts.openSans(
+                                      textStyle: TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.green.shade600,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                controller: cupomControler,
+                              ),
+                            ),
+                            Icon(
+                              Icons.confirmation_number,
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      Text(
+                        "Benefícios ativados",
+                        style: GoogleFonts.openSans(
+                          textStyle: TextStyle(
+                            fontSize: 14,
+                            color: Colors.grey.shade500,
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: Colors.red.shade100.withOpacity(0.3)),
+                        width: double.infinity,
+                        padding: EdgeInsets.symmetric(
+                          vertical: 15,
+                          horizontal: 25,
+                        ),
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.sell,
+                                  color: Colors.redAccent.shade700,
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "NOME DO CUPOM",
+                                      style: GoogleFonts.openSans(
+                                        textStyle: TextStyle(
+                                          fontSize: 14,
+                                          color: Colors.redAccent.shade700,
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    //HORARIO PARA SER USADO - INICIO
+                                    Row(
+                                      children: [
+                                        Icon(
+                                          Icons.schedule,
+                                          size: 15,
+                                          color: Colors.grey.shade700,
+                                        ),
+                                        SizedBox(
+                                          width: 5,
+                                        ),
+                                        Text(
+                                          "Apenas no horário: HORA",
+                                          style: GoogleFonts.openSans(
+                                            textStyle: TextStyle(
+                                              fontSize: 12,
+                                              color: Colors.grey.shade700,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    //HORARIO PARA SER USADO - FIM
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    //Multiplicacao de pontos - INICIO
+                                    Row(
+                                      children: [
+                                        Icon(
+                                          Icons.exposure_plus_1,
+                                          size: 15,
+                                          color: Colors.grey.shade700,
+                                        ),
+                                        SizedBox(
+                                          width: 5,
+                                        ),
+                                        Text(
+                                          "Pontos multiplicados em: VALOR",
+                                          style: GoogleFonts.openSans(
+                                            textStyle: TextStyle(
+                                              fontSize: 12,
+                                              color: Colors.grey.shade700,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    //Multiplicacao de pontos - FIM
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    //Multiplicacao de pontos - INICIO
+                                    Row(
+                                      children: [
+                                        Icon(
+                                          Icons.event,
+                                          size: 15,
+                                          color: Colors.grey.shade700,
+                                        ),
+                                        SizedBox(
+                                          width: 5,
+                                        ),
+                                        Text(
+                                          "Ative ao agendar em qualquer dia",
+                                          style: GoogleFonts.openSans(
+                                            textStyle: TextStyle(
+                                              fontSize: 12,
+                                              color: Colors.grey.shade700,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    //Multiplicacao de pontos - FIM
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+            
+                //botao de ativar - inicio
+                Padding(
+                  padding: const EdgeInsets.only(top: 30),
+                  child: InkWell(
+                    onTap: SearchAndActiveCoupon,
+                    child: Container(
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: Colors.green.shade700,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      width: double.infinity,
+                      padding: EdgeInsets.symmetric(
+                        vertical: 15,
+                      ),
+                      child: Text(
+                        "Ativar promoção",
+                        style: GoogleFonts.poppins(
+                          textStyle: TextStyle(
+                            fontWeight: FontWeight.w700,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                //botao de ativar - fim
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  //funcoes do modal do cupom - fim
   @override
   Widget build(BuildContext context) {
     final widhScren = MediaQuery.of(context).size.width;
@@ -1451,8 +1692,48 @@ class _AddScreenState extends State<AddScreen> {
                               ),
                             ),
                             //PROCEDIMENTOS EXTRAS - FIM
-                            
-                            //CONTAINER BOOL DA barba - FIM
+                            const SizedBox(
+                              height: 25,
+                            ),
+                            //container do cupom - inicio
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "Tem um cupom?",
+                                  style: GoogleFonts.openSans(
+                                    textStyle: TextStyle(
+                                      fontWeight: FontWeight.w700,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ),
+                                InkWell(
+                                  onTap: showModalCupom,
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: Estabelecimento.primaryColor,
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    alignment: Alignment.center,
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 2, horizontal: 5),
+                                    child: Text(
+                                      "Ativar Agora",
+                                      style: GoogleFonts.poppins(
+                                        textStyle: TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w400,
+                                          color: Estabelecimento
+                                              .contraPrimaryColor,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            //container do cupom - fim
                             const SizedBox(
                               height: 25,
                             ),

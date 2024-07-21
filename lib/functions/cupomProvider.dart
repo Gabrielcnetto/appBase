@@ -107,4 +107,19 @@ class CupomProvider with ChangeNotifier {
       print("nao consegui deletar o cupon, motivo: $e");
     }
   }
+
+  
+  Future<void> searchCoupon({required String cupom}) async {
+    try {
+      final pesquisaDocs =await database.collection("cupons").doc(cupom).get();
+
+      if(pesquisaDocs.exists){
+        
+
+        // atualValue = cupomDoc.data()?['isActive'];
+      }
+    } catch (e) {
+      print("ao pesquisar o cupom deu este erro: $e");
+    }
+  }
 }
