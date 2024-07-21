@@ -40,14 +40,17 @@ class _CreateInfsCupomState extends State<CreateInfsCupom> {
           horario: hourSetForUser ?? "",
           id: Random().nextDouble().toString(),
           isActive: true,
-          percentage: porcentagemDescontada,
+          multiplicador: porcentagemMultiplicada,
         ),
       );
       Navigator.of(context).push(
         DialogRoute(
             context: context,
             builder: (ctx) {
-              return ConfirmCreateCupomImage();
+              return ConfirmCreateCupomImage(
+                cupomCode: codeHashTagControler.text,
+                horarioCupom: hourSetForUser ?? "",
+              );
             }),
       );
     } catch (e) {
@@ -100,55 +103,75 @@ class _CreateInfsCupomState extends State<CreateInfsCupom> {
   }
 
   //funcoes da porcentagem;
-  int porcentagemDescontada = 0;
+  int porcentagemMultiplicada = 0;
+  void transformPorcentagemMultiplicadora() {
+    String finalValue = "${digito1}${digito2}";
+    setState(() {
+      porcentagemMultiplicada = int.parse(finalValue);
+    });
+    print("#98valor final: ${porcentagemMultiplicada}");
+  }
+
   int digito1 = 0;
   int digito2 = 0;
   void aumentarDigito1() {
     if (digito1 == 9) {
       setState(() {
         digito1 = 0;
+        transformPorcentagemMultiplicadora();
       });
     } else if (digito1 < 9) {
       setState(() {
         digito1 += 1;
+        transformPorcentagemMultiplicadora();
       });
     }
+    print("#98digito 1: ${digito1}");
   }
 
   void aumentarDigito2() {
     if (digito2 == 9) {
       setState(() {
         digito2 = 0;
+        transformPorcentagemMultiplicadora();
       });
     } else if (digito2 < 9) {
       setState(() {
         digito2 += 1;
+        transformPorcentagemMultiplicadora();
       });
     }
+    print("#98digito 1: ${digito2}");
   }
 
   void reduzirDigito1() {
     if (digito1 == 0) {
       setState(() {
         digito1 = 0;
+        transformPorcentagemMultiplicadora();
       });
     } else if (digito1 >= 1) {
       setState(() {
         digito1 -= 1;
+        transformPorcentagemMultiplicadora();
       });
     }
+    print("####14${porcentagemMultiplicada}");
   }
 
   void reduzirDigito2() {
     if (digito2 == 0) {
       setState(() {
         digito2 = 0;
+        transformPorcentagemMultiplicadora();
       });
     } else if (digito2 >= 1) {
       setState(() {
         digito2 -= 1;
+        transformPorcentagemMultiplicadora();
       });
     }
+    print("####14${porcentagemMultiplicada}");
   }
 
   //modal confirmation
@@ -245,7 +268,7 @@ class _CreateInfsCupomState extends State<CreateInfsCupom> {
                       child: Row(
                         children: [
                           Text(
-                            "Porcentagem:",
+                            "Multiplica por:",
                             style: GoogleFonts.openSans(
                               textStyle: TextStyle(
                                 fontSize: 14,
@@ -258,7 +281,7 @@ class _CreateInfsCupomState extends State<CreateInfsCupom> {
                             width: 10,
                           ),
                           Text(
-                            "${porcentagemDescontada ?? "pendente"}",
+                            "${porcentagemMultiplicada ?? 0}x",
                           ),
                         ],
                       ),
@@ -524,7 +547,7 @@ class _CreateInfsCupomState extends State<CreateInfsCupom> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(
-                      "Quantos % ele aumenta nos pontos?",
+                      "Quantos Vezes ele multiplica os pontos?",
                       style: GoogleFonts.poppins(
                         textStyle: TextStyle(
                           fontSize: 12,
@@ -566,7 +589,7 @@ class _CreateInfsCupomState extends State<CreateInfsCupom> {
                           ),
                         ),
                         child: Icon(
-                          Icons.percent,
+                          Icons.one_x_mobiledata,
                           size: 80,
                           color: Colors.white,
                         ),

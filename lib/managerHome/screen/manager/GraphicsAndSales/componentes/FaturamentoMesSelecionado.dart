@@ -531,571 +531,574 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
         color: Colors.grey.shade100,
         borderRadius: BorderRadius.circular(15),
       ),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Container(
-                padding: EdgeInsets.all(5),
-                child: Row(
-                  //   crossAxisAlignment: showMoreMonths == true ? CrossAxisAlignment.start : CrossAxisAlignment.c,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Container(
-                      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-                      decoration: BoxDecoration(
-                        color: Colors.grey.shade200,
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Icon(
-                        Icons.calendar_month,
-                      ),
-                    ),
-                    SizedBox(
-                      width: 5,
-                    ),
-                    Text(
-                      "Faturamento",
-                      style: GoogleFonts.openSans(
-                        textStyle: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 14,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                decoration: BoxDecoration(
-                  color: Estabelecimento.primaryColor,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                padding: EdgeInsets.all(5),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Column(
-                      children: [
-                        if (showMoreMonths == false)
-                          Text(
-                            mesSelecionado,
-                            style: GoogleFonts.poppins(
-                              textStyle: TextStyle(
-                                fontWeight: FontWeight.w400,
-                                color: Estabelecimento.contraPrimaryColor,
-                                fontSize: 14,
-                              ),
-                            ),
-                          ),
-                        if (showMoreMonths == true)
-                          Container(
-                            //padding: EdgeInsets.all(1),
-                            width: MediaQuery.of(context).size.width * 0.12,
-                            height: MediaQuery.of(context).size.height * 0.09,
-                            child: ListView.builder(
-                              itemCount: 3,
-                              itemBuilder: (ctx, index) {
-                                return InkWell(
-                                  onTap: () {
-                                    print(
-                                        "selecionei: ${ultimos4Meses[index]}");
-                                    setState(() {
-                                      mesSelecionado = ultimos4Meses[index];
-                                      loadTotalFaturamentoAtualMes();
-                                      Navigator.of(context).push(
-                                        DialogRoute(
-                                          context: context,
-                                          builder: (ctx) {
-                                            return GraphicsManagerScreen(
-                                              mesSelecionado:
-                                                  ultimos4Meses[index],
-                                            );
-                                          },
-                                        ),
-                                      );
-                                    });
-                                  },
-                                  child: Text(
-                                    ultimos4Meses[index],
-                                    style: GoogleFonts.poppins(
-                                      textStyle: TextStyle(
-                                        fontWeight: FontWeight.w400,
-                                        color:
-                                            Estabelecimento.contraPrimaryColor,
-                                        fontSize: 14,
-                                      ),
-                                    ),
-                                  ),
-                                );
-                              },
-                            ),
-                          )
-                      ],
-                    ),
-                    SizedBox(
-                      width: 3,
-                    ),
-                    InkWell(
-                      onTap: () {
-                        setState(() {
-                          showMoreMonths = !showMoreMonths;
-                        });
-                      },
-                      child: Icon(
-                        Icons.arrow_drop_down,
-                        color: Estabelecimento.contraPrimaryColor,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 15),
-            child: Container(
-              width: double.infinity,
-              height: MediaQuery.of(context).size.height * 0.22,
-              padding: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.65,
-                    child: Text(
-                      "R\$${faturamentoExibido ?? 0}",
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.poppins(
-                        textStyle: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          color: Colors.black,
-                          fontSize: 45,
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Column(
+      child: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  padding: EdgeInsets.all(5),
+                  child: Row(
+                    //   crossAxisAlignment: showMoreMonths == true ? CrossAxisAlignment.start : CrossAxisAlignment.c,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Text(
-                        "${percentualVisual.toStringAsFixed(2) ?? 0}% da meta batida",
-                        style: GoogleFonts.openSans(
-                          textStyle: TextStyle(
-                            fontWeight: FontWeight.w300,
-                            color: Estabelecimento.primaryColor,
-                          ),
+                      Container(
+                        padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                        decoration: BoxDecoration(
+                          color: Colors.grey.shade200,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Icon(
+                          Icons.calendar_month,
                         ),
                       ),
                       SizedBox(
-                        height: 5,
+                        width: 5,
                       ),
-                      Container(
-                        width: MediaQuery.of(context).size.width * 0.65,
-                        height: 30,
-                        child: Stack(
-                          children: [
-                            Positioned(
-                              left: 0,
-                              right: 0,
-                              child: LinearProgressIndicator(
-                                value: 1,
-                                color: Colors.grey.shade500,
-                                minHeight: 6,
-                                borderRadius: BorderRadius.circular(15),
+                      Text(
+                        "Faturamento",
+                        style: GoogleFonts.openSans(
+                          textStyle: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 14,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                    color: Estabelecimento.primaryColor,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  padding: EdgeInsets.all(5),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Column(
+                        children: [
+                          if (showMoreMonths == false)
+                            Text(
+                              mesSelecionado,
+                              style: GoogleFonts.poppins(
+                                textStyle: TextStyle(
+                                  fontWeight: FontWeight.w400,
+                                  color: Estabelecimento.contraPrimaryColor,
+                                  fontSize: 14,
+                                ),
                               ),
                             ),
-                            if (PercentualMeta > 0)
+                          if (showMoreMonths == true)
+                            Container(
+                              //padding: EdgeInsets.all(1),
+                              width: MediaQuery.of(context).size.width * 0.12,
+                              height: MediaQuery.of(context).size.height * 0.09,
+                              child: ListView.builder(
+                                itemCount: 3,
+                                itemBuilder: (ctx, index) {
+                                  return InkWell(
+                                    onTap: () {
+                                      print(
+                                          "selecionei: ${ultimos4Meses[index]}");
+                                      setState(() {
+                                        mesSelecionado = ultimos4Meses[index];
+                                        loadTotalFaturamentoAtualMes();
+                                        Navigator.of(context).push(
+                                          DialogRoute(
+                                            context: context,
+                                            builder: (ctx) {
+                                              return GraphicsManagerScreen(
+                                                mesSelecionado:
+                                                    ultimos4Meses[index],
+                                              );
+                                            },
+                                          ),
+                                        );
+                                      });
+                                    },
+                                    child: Text(
+                                      ultimos4Meses[index],
+                                      style: GoogleFonts.poppins(
+                                        textStyle: TextStyle(
+                                          fontWeight: FontWeight.w400,
+                                          color:
+                                              Estabelecimento.contraPrimaryColor,
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                            )
+                        ],
+                      ),
+                      SizedBox(
+                        width: 3,
+                      ),
+                      InkWell(
+                        onTap: () {
+                          setState(() {
+                            showMoreMonths = !showMoreMonths;
+                          });
+                        },
+                        child: Icon(
+                          Icons.arrow_drop_down,
+                          color: Estabelecimento.contraPrimaryColor,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 15),
+              child: Container(
+                width: double.infinity,
+                height: MediaQuery.of(context).size.height * 0.22,
+                padding: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.65,
+                      child: Text(
+                        "R\$${faturamentoExibido ?? 0}",
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.poppins(
+                          textStyle: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black,
+                            fontSize: 45,
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Column(
+                      children: [
+                        Text(
+                          "${percentualVisual.toStringAsFixed(2) ?? 0}% da meta batida",
+                          style: GoogleFonts.openSans(
+                            textStyle: TextStyle(
+                              fontWeight: FontWeight.w300,
+                              color: Estabelecimento.primaryColor,
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Container(
+                          width: MediaQuery.of(context).size.width * 0.65,
+                          height: 30,
+                          child: Stack(
+                            children: [
                               Positioned(
                                 left: 0,
                                 right: 0,
                                 child: LinearProgressIndicator(
-                                  value: PercentualMeta,
-                                  color: Colors.green,
+                                  value: 1,
+                                  color: Colors.grey.shade500,
                                   minHeight: 6,
                                   borderRadius: BorderRadius.circular(15),
                                 ),
                               ),
-                          ],
+                              if (PercentualMeta > 0)
+                                Positioned(
+                                  left: 0,
+                                  right: 0,
+                                  child: LinearProgressIndicator(
+                                    value: PercentualMeta,
+                                    color: Colors.green,
+                                    minHeight: 6,
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 15, right: 15),
+              child: Container(
+                width: double.infinity,
+                height: MediaQuery.of(context).size.height * 0.32,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    // primeiro container - inicio
+                    Container(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Mês anterior",
+                                style: GoogleFonts.openSans(
+                                  textStyle: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 14,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ),
+                              Text(
+                                "Faturamento vs Último mês",
+                                style: GoogleFonts.openSans(
+                                  textStyle: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 12,
+                                    color: Colors.black54,
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                          //informacoes do crescimento - inicio
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Text(
+                                "R\$${faturamentoAnteriorAoEscolhido ?? 0}", // AQUI FATURAMENTO MES ANTERIOR
+                                style: GoogleFonts.openSans(
+                                  textStyle: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 14,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                children: [
+                                  Container(
+                                    padding: EdgeInsets.all(1),
+                                    decoration: BoxDecoration(
+                                        color: calcularDiferencaPercentual() <
+                                                0.00
+                                            ? Colors.redAccent.withOpacity(0.2)
+                                            : Colors.green.withOpacity(0.3),
+                                        borderRadius: BorderRadius.circular(20)),
+                                    child: calcularDiferencaPercentual() < 0.00
+                                        ? Icon(
+                                            Icons.arrow_drop_down,
+                                            color: Colors.red,
+                                            size: 20,
+                                          )
+                                        : Icon(
+                                            Icons.arrow_drop_up,
+                                            size: 20,
+                                            color: Colors.green,
+                                          ),
+                                  ),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  calcularDiferencaPercentual() < 0.00
+                                      ? Text(
+                                          "${calcularDiferencaPercentual().toStringAsFixed(2) ?? 0}%",
+                                          style: GoogleFonts.openSans(
+                                            textStyle: TextStyle(
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 12,
+                                              color: Colors.red,
+                                            ),
+                                          ),
+                                        )
+                                      : Text(
+                                          "${calcularDiferencaPercentual().toStringAsFixed(2) ?? 0}%",
+                                          style: GoogleFonts.openSans(
+                                            textStyle: TextStyle(
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 12,
+                                              color: Colors.green,
+                                            ),
+                                          ),
+                                        ),
+                                ],
+                              )
+                            ],
+                          ),
+                          //informacoes do crescimento - fim
+                          //
+                        ],
+                      ),
+                    ),
+                    // primeiro container - fim
+                    // segundo container - inicio
+                    Container(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "${profList[0].nomeProf}",
+                                style: GoogleFonts.openSans(
+                                  textStyle: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 14,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ),
+                              Text(
+                                "Clientes mês Selecionado",
+                                style: GoogleFonts.openSans(
+                                  textStyle: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 12,
+                                    color: Colors.black54,
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                          //informacoes do crescimento - inicio
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Text(
+                                "${totalCortesMesSelecionado ?? 0} Cortes", // AQUI FATURAMENTO MES ANTERIOR
+                                style: GoogleFonts.openSans(
+                                  textStyle: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 14,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                children: [
+                                  Container(
+                                    padding: EdgeInsets.all(1),
+                                    decoration: BoxDecoration(
+                                        color:
+                                            calcularDiferencaPercentualProfissional1Cortes() >=
+                                                    0
+                                                ? Colors.green.withOpacity(0.3)
+                                                : Colors.redAccent
+                                                    .withOpacity(0.2),
+                                        borderRadius: BorderRadius.circular(20)),
+                                    child: Icon(
+                                      calcularDiferencaPercentualProfissional1Cortes() >=
+                                              0
+                                          ? Icons.arrow_drop_up
+                                          : Icons.arrow_drop_down,
+                                      size: 20,
+                                      color:
+                                          calcularDiferencaPercentualProfissional1Cortes() >=
+                                                  0
+                                              ? Colors.green
+                                              : Colors.red,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  Text(
+                                    "${calcularDiferencaPercentualProfissional1Cortes().toStringAsFixed(2) ?? 0}%",
+                                    style: GoogleFonts.openSans(
+                                      textStyle: TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 12,
+                                        color:
+                                            calcularDiferencaPercentualProfissional1Cortes() >=
+                                                    0
+                                                ? Colors.green
+                                                : Colors.red,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
+                          //informacoes do crescimento - fim
+        
+                          //
+                        ],
+                      ),
+                    ),
+                    // segundo container - fim
+                    //terceiro container - inicio
+                    Container(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "${profList[1].nomeProf}",
+                                style: GoogleFonts.openSans(
+                                  textStyle: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 14,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ),
+                              Text(
+                                "Clientes mês Selecionado",
+                                style: GoogleFonts.openSans(
+                                  textStyle: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 12,
+                                    color: Colors.black54,
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                          //informacoes do crescimento - inicio
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Text(
+                                "${totalCortesMesSelecionadoProf2 ?? 0} Cortes", // AQUI FATURAMENTO MES ANTERIOR
+                                style: GoogleFonts.openSans(
+                                  textStyle: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 14,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                children: [
+                                  Container(
+                                    padding: EdgeInsets.all(1),
+                                    decoration: BoxDecoration(
+                                        color:
+                                            calcularDiferencaPercentualProfissional2Cortes() >=
+                                                    0
+                                                ? Colors.green.withOpacity(0.3)
+                                                : Colors.redAccent
+                                                    .withOpacity(0.2),
+                                        borderRadius: BorderRadius.circular(20)),
+                                    child: Icon(
+                                      calcularDiferencaPercentualProfissional2Cortes() >=
+                                              0
+                                          ? Icons.arrow_drop_up
+                                          : Icons.arrow_drop_down,
+                                      size: 20,
+                                      color:
+                                          calcularDiferencaPercentualProfissional2Cortes() >=
+                                                  0
+                                              ? Colors.green
+                                              : Colors.red,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  Text(
+                                    "${calcularDiferencaPercentualProfissional2Cortes().toStringAsFixed(2) ?? 0}%",
+                                    style: GoogleFonts.openSans(
+                                      textStyle: TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 12,
+                                        color:
+                                            calcularDiferencaPercentualProfissional2Cortes() >=
+                                                    0
+                                                ? Colors.green
+                                                : Colors.red,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
+                          //informacoes do crescimento - fim
+        
+                          //
+                        ],
+                      ),
+                    ),
+                    //terceiro container - fim
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 5,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                if (metaDatabase == 0)
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.star,
+                        color: Colors.orangeAccent,
+                        size: 17,
+                      ),
+                      Text(
+                        "Novidade",
+                        style: GoogleFonts.poppins(
+                          textStyle: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 10,
+                          ),
                         ),
                       ),
                     ],
-                  )
-                ],
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 15, right: 15),
-            child: Container(
-              width: double.infinity,
-              height: MediaQuery.of(context).size.height * 0.32,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  // primeiro container - inicio
-                  Container(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Mês anterior",
-                              style: GoogleFonts.openSans(
-                                textStyle: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 14,
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ),
-                            Text(
-                              "Faturamento vs Último mês",
-                              style: GoogleFonts.openSans(
-                                textStyle: TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 12,
-                                  color: Colors.black54,
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                        //informacoes do crescimento - inicio
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Text(
-                              "R\$${faturamentoAnteriorAoEscolhido ?? 0}", // AQUI FATURAMENTO MES ANTERIOR
-                              style: GoogleFonts.openSans(
-                                textStyle: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 14,
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                Container(
-                                  padding: EdgeInsets.all(1),
-                                  decoration: BoxDecoration(
-                                      color: calcularDiferencaPercentual() <
-                                              0.00
-                                          ? Colors.redAccent.withOpacity(0.2)
-                                          : Colors.green.withOpacity(0.3),
-                                      borderRadius: BorderRadius.circular(20)),
-                                  child: calcularDiferencaPercentual() < 0.00
-                                      ? Icon(
-                                          Icons.arrow_drop_down,
-                                          color: Colors.red,
-                                          size: 20,
-                                        )
-                                      : Icon(
-                                          Icons.arrow_drop_up,
-                                          size: 20,
-                                          color: Colors.green,
-                                        ),
-                                ),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                calcularDiferencaPercentual() < 0.00
-                                    ? Text(
-                                        "${calcularDiferencaPercentual().toStringAsFixed(2) ?? 0}%",
-                                        style: GoogleFonts.openSans(
-                                          textStyle: TextStyle(
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 12,
-                                            color: Colors.red,
-                                          ),
-                                        ),
-                                      )
-                                    : Text(
-                                        "${calcularDiferencaPercentual().toStringAsFixed(2) ?? 0}%",
-                                        style: GoogleFonts.openSans(
-                                          textStyle: TextStyle(
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 12,
-                                            color: Colors.green,
-                                          ),
-                                        ),
-                                      ),
-                              ],
-                            )
-                          ],
-                        ),
-                        //informacoes do crescimento - fim
-                        //
-                      ],
-                    ),
                   ),
-                  // primeiro container - fim
-                  // segundo container - inicio
-                  Container(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "${profList[0].nomeProf}",
-                              style: GoogleFonts.openSans(
-                                textStyle: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 14,
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ),
-                            Text(
-                              "Clientes mês Selecionado",
-                              style: GoogleFonts.openSans(
-                                textStyle: TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 12,
-                                  color: Colors.black54,
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                        //informacoes do crescimento - inicio
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Text(
-                              "${totalCortesMesSelecionado ?? 0} Cortes", // AQUI FATURAMENTO MES ANTERIOR
-                              style: GoogleFonts.openSans(
-                                textStyle: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 14,
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                Container(
-                                  padding: EdgeInsets.all(1),
-                                  decoration: BoxDecoration(
-                                      color:
-                                          calcularDiferencaPercentualProfissional1Cortes() >=
-                                                  0
-                                              ? Colors.green.withOpacity(0.3)
-                                              : Colors.redAccent
-                                                  .withOpacity(0.2),
-                                      borderRadius: BorderRadius.circular(20)),
-                                  child: Icon(
-                                    calcularDiferencaPercentualProfissional1Cortes() >=
-                                            0
-                                        ? Icons.arrow_drop_up
-                                        : Icons.arrow_drop_down,
-                                    size: 20,
-                                    color:
-                                        calcularDiferencaPercentualProfissional1Cortes() >=
-                                                0
-                                            ? Colors.green
-                                            : Colors.red,
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                Text(
-                                  "${calcularDiferencaPercentualProfissional1Cortes().toStringAsFixed(2) ?? 0}%",
-                                  style: GoogleFonts.openSans(
-                                    textStyle: TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 12,
-                                      color:
-                                          calcularDiferencaPercentualProfissional1Cortes() >=
-                                                  0
-                                              ? Colors.green
-                                              : Colors.red,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            )
-                          ],
-                        ),
-                        //informacoes do crescimento - fim
-
-                        //
-                      ],
+                SizedBox(
+                  width: 5,
+                ),
+                InkWell(
+                  onTap: ShowModalMeta,
+                  child: Container(
+                    padding: EdgeInsets.symmetric(vertical: 4, horizontal: 5),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.white,
+                      border: Border.all(
+                        width: 0.2,
+                        color: Colors.grey.shade100,
+                      ),
                     ),
-                  ),
-                  // segundo container - fim
-                  //terceiro container - inicio
-                  Container(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "${profList[1].nomeProf}",
-                              style: GoogleFonts.openSans(
-                                textStyle: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 14,
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ),
-                            Text(
-                              "Clientes mês Selecionado",
-                              style: GoogleFonts.openSans(
-                                textStyle: TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 12,
-                                  color: Colors.black54,
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                        //informacoes do crescimento - inicio
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Text(
-                              "${totalCortesMesSelecionadoProf2 ?? 0} Cortes", // AQUI FATURAMENTO MES ANTERIOR
-                              style: GoogleFonts.openSans(
-                                textStyle: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 14,
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                Container(
-                                  padding: EdgeInsets.all(1),
-                                  decoration: BoxDecoration(
-                                      color:
-                                          calcularDiferencaPercentualProfissional2Cortes() >=
-                                                  0
-                                              ? Colors.green.withOpacity(0.3)
-                                              : Colors.redAccent
-                                                  .withOpacity(0.2),
-                                      borderRadius: BorderRadius.circular(20)),
-                                  child: Icon(
-                                    calcularDiferencaPercentualProfissional2Cortes() >=
-                                            0
-                                        ? Icons.arrow_drop_up
-                                        : Icons.arrow_drop_down,
-                                    size: 20,
-                                    color:
-                                        calcularDiferencaPercentualProfissional2Cortes() >=
-                                                0
-                                            ? Colors.green
-                                            : Colors.red,
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                Text(
-                                  "${calcularDiferencaPercentualProfissional2Cortes().toStringAsFixed(2) ?? 0}%",
-                                  style: GoogleFonts.openSans(
-                                    textStyle: TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 12,
-                                      color:
-                                          calcularDiferencaPercentualProfissional2Cortes() >=
-                                                  0
-                                              ? Colors.green
-                                              : Colors.red,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            )
-                          ],
-                        ),
-                        //informacoes do crescimento - fim
-
-                        //
-                      ],
-                    ),
-                  ),
-                  //terceiro container - fim
-                ],
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 5,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              if (metaDatabase == 0)
-                Row(
-                  children: [
-                    Icon(
-                      Icons.star,
-                      color: Colors.orangeAccent,
-                      size: 17,
-                    ),
-                    Text(
-                      "Novidade",
-                      style: GoogleFonts.poppins(
+                    child: Text(
+                      "Colocar/editar Meta",
+                      style: GoogleFonts.openSans(
                         textStyle: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
+                          color: Colors.blue.shade600,
+                          fontWeight: FontWeight.w500,
                           fontSize: 10,
                         ),
                       ),
                     ),
-                  ],
-                ),
-              SizedBox(
-                width: 5,
-              ),
-              InkWell(
-                onTap: ShowModalMeta,
-                child: Container(
-                  padding: EdgeInsets.symmetric(vertical: 4, horizontal: 5),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Colors.white,
-                    border: Border.all(
-                      width: 0.2,
-                      color: Colors.grey.shade100,
-                    ),
-                  ),
-                  child: Text(
-                    "Colocar/editar Meta",
-                    style: GoogleFonts.openSans(
-                      textStyle: TextStyle(
-                        color: Colors.blue.shade600,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 10,
-                      ),
-                    ),
                   ),
                 ),
-              ),
-            ],
-          )
-        ],
+              ],
+            )
+          ],
+        ),
       ),
     );
   }
