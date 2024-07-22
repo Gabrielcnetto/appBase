@@ -214,6 +214,7 @@ class CorteProvider with ChangeNotifier {
           "profissionalSelect": corte.profissionalSelect,
           "ramdomNumber": corte.ramdomCode,
           "monthName": monthName,
+          "easepoints": (1 * valorMultiplicador),
         });
 
         //adicionado aos meus cortes
@@ -221,6 +222,7 @@ class CorteProvider with ChangeNotifier {
           final updateLenghCortesInProfile =
               await database.collection("usuarios").doc(userId).update({
             "easepoints": FieldValue.increment(1 * valorMultiplicador),
+            "totalCortes": FieldValue.increment(1),
           });
         } catch (e) {
           print("ao atualizar os easepoints do user deu isto: $e");
@@ -425,7 +427,11 @@ class CorteProvider with ChangeNotifier {
   //CARREGANDO ALISTA DO DIA, PARA EXIBIR NA TELA DO MANAGER(LISTA2) - FIM
 
   Future<void> desmarcarCorte(CorteClass corte) async {
+    final String useriDSearch = await authSettings.currentUser!.uid;
     try {
+      //retirando a pontuacao deste procedimento - inicio
+
+      //retirando a pontuacao deste procedimento - fim
       //DELETANDO DA LISTA PRINCIPAL - INICIO
       print("Entramos na configuração de excluir");
       final nomeBarber = Uri.encodeFull(corte.profissionalSelect);
@@ -463,10 +469,11 @@ class CorteProvider with ChangeNotifier {
       //DELETANDO DA MINHA LISTA - INICIO
       final referenciaMeusCortes = database
           .collection("meusCortes")
-          .doc(authSettings.currentUser!.uid)
+          .doc(useriDSearch)
           .collection("lista")
           .doc(corte.id);
       print("referenciaMeus: ${referenciaMeusCortes.path}");
+
       await referenciaMeusCortes.delete();
       //DELETANDO DA MINHA LISTA FIM
       //Desmarcando da lista do profissional
@@ -497,10 +504,36 @@ class CorteProvider with ChangeNotifier {
   }
 
   Future<void> desmarcarCorteMeus(CorteClass corte) async {
+    String useriDSearch = await authSettings.currentUser!.uid;
+    try {
+      print("#989 fazendo o get do total de pontos deste corte");
+
+      // Variável para armazenar a pontuação total gerada
+      int pontuacaoTotalGerada = 0;
+      final docPointsGet = await database
+          .collection("meusCortes")
+          .doc(useriDSearch)
+          .collection("lista")
+          .doc(corte.id)
+          .get();
+      if (docPointsGet.exists) {
+        pontuacaoTotalGerada = await docPointsGet.data()?['easepoints'];
+        final userAtt =
+            await database.collection("usuarios").doc(useriDSearch).update({
+          'easepoints': FieldValue.increment(-pontuacaoTotalGerada),
+        });
+        print("#989 após o 2 get o valor do int ficou:${pontuacaoTotalGerada}");
+      } else {
+        print("este caminho nao foi encontrado");
+      }
+    } catch (e) {
+      // Capturando e tratando possíveis erros
+      print("#989 houve um erro ao tentar acessar o documento: $e");
+    }
     try {
       final referenciaMeusCortes = database
           .collection("meusCortes")
-          .doc(authSettings.currentUser!.uid)
+          .doc(useriDSearch)
           .collection("lista")
           .doc(corte.id);
       print("referenciaMeus: ${referenciaMeusCortes.path}");

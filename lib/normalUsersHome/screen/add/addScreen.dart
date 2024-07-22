@@ -281,6 +281,7 @@ class _AddScreenState extends State<AddScreen> {
 
     setState(() {
       atualPrice = priceDB!;
+      valorFinalCobrado = priceDB!;
       LoadPriceAdicionalBarba();
     });
   }
@@ -396,7 +397,9 @@ class _AddScreenState extends State<AddScreen> {
     Navigator.of(context).pushReplacementNamed(AppRoutesApp.ConfirmScreenCorte);
     Provider.of<CorteProvider>(context, listen: false)
         .AgendamentoCortePrincipalFunctions(
-      valorMultiplicador: CupomHorarioConfereCupomHorario == true ? valorMultiplicadorPontos : 1,
+      valorMultiplicador: CupomHorarioConfereCupomHorario == true
+          ? valorMultiplicadorPontos
+          : 1,
       barbaHoraExtra: barba,
       pricevalue: valorFinalCobrado,
       nomeBarbeiro: isBarbeiro1
@@ -870,6 +873,7 @@ class _AddScreenState extends State<AddScreen> {
     int valorAserCobradoTotalFinal = 0;
 
     setState(() {
+      
       valorFinalCobrado = 0;
     });
     try {
@@ -951,12 +955,16 @@ class _AddScreenState extends State<AddScreen> {
 
   bool CupomHorarioConfereCupomHorario = false;
   void confereCupomHorariosBatem() {
-    if (hourSetForUser == _listaCupomBuscadoDATABASE[0].horario) {
-      setState(() {
-        CupomHorarioConfereCupomHorario = true;
-      });
-    } else {
-      CupomHorarioConfereCupomHorario = false;
+    try {
+      if (hourSetForUser == _listaCupomBuscadoDATABASE[0].horario) {
+        setState(() {
+          CupomHorarioConfereCupomHorario = true;
+        });
+      } else {
+        CupomHorarioConfereCupomHorario = false;
+      }
+    } catch (e) {
+      print("provavelmente sem cupom, ou:$e");
     }
   }
 
@@ -2218,7 +2226,7 @@ class _AddScreenState extends State<AddScreen> {
                             if (hourSetForUser != null)
                               InkWell(
                                 onTap: () async {
-                                   confereCupomHorariosBatem();
+                                  confereCupomHorariosBatem();
                                   showModalConfirmAgend();
                                 },
                                 child: Padding(
