@@ -2,11 +2,13 @@ import 'dart:async';
 import 'dart:math';
 import 'package:lionsbarberv1/classes/Estabelecimento.dart';
 import 'package:lionsbarberv1/classes/cortecClass.dart';
+import 'package:lionsbarberv1/classes/cupomClass.dart';
 import 'package:lionsbarberv1/classes/horarios.dart';
 import 'package:lionsbarberv1/classes/procedimentos_extras.dart';
 import 'package:lionsbarberv1/classes/profissionais.dart';
 import 'package:lionsbarberv1/functions/CorteProvider.dart';
 import 'package:lionsbarberv1/functions/ManyChatConfirmation.dart';
+import 'package:lionsbarberv1/functions/cupomProvider.dart';
 import 'package:lionsbarberv1/functions/horariosComuns.dart';
 import 'package:lionsbarberv1/functions/managerScreenFunctions.dart';
 import 'package:lionsbarberv1/functions/profileScreenFunctions.dart';
@@ -296,6 +298,8 @@ class _AddScreenState extends State<AddScreen> {
   }
 
   String? hourSetForUser;
+  int valorMultiplicadorPontos = 0;
+
   List<Horarios> _horariosPreenchidosParaEvitarDupNoCreate =
       []; // a lista que tem todos os horariso preenchidos
   Future<void> CreateAgendamento() async {
@@ -392,6 +396,7 @@ class _AddScreenState extends State<AddScreen> {
     Navigator.of(context).pushReplacementNamed(AppRoutesApp.ConfirmScreenCorte);
     Provider.of<CorteProvider>(context, listen: false)
         .AgendamentoCortePrincipalFunctions(
+      valorMultiplicador: CupomHorarioConfereCupomHorario == true ? valorMultiplicadorPontos : 1,
       barbaHoraExtra: barba,
       pricevalue: valorFinalCobrado,
       nomeBarbeiro: isBarbeiro1
@@ -937,9 +942,61 @@ class _AddScreenState extends State<AddScreen> {
   List<Procedimentos_Extras> _procedimentos = procedimentosLista;
 
   //funcoes do modal do cupom - inicio
-
-  void SearchAndActiveCoupon(){}
+  bool cupomEncontradoeOk = false;
+  bool cupomNaoEncontrado = false;
+  bool prePesquisaDoCupom = true;
+  List<cupomClass> cupomBuscado = [];
+  List<cupomClass> _listaCupomBuscadoDATABASE = [];
   final cupomControler = TextEditingController();
+
+  bool CupomHorarioConfereCupomHorario = false;
+  void confereCupomHorariosBatem() {
+    if (hourSetForUser == _listaCupomBuscadoDATABASE[0].horario) {
+      setState(() {
+        CupomHorarioConfereCupomHorario = true;
+      });
+    } else {
+      CupomHorarioConfereCupomHorario = false;
+    }
+  }
+
+  Future<void> SearchAndActiveCoupon() async {
+    if (cupomControler.text.isNotEmpty) {
+      cupomBuscado.clear();
+      _listaCupomBuscadoDATABASE.clear();
+      await Provider.of<CupomProvider>(context, listen: false).searchCoupon(
+        cupom: cupomControler.text,
+      );
+
+      _listaCupomBuscadoDATABASE =
+          await Provider.of<CupomProvider>(context, listen: false).cupomBuscado;
+
+      if (_listaCupomBuscadoDATABASE.length >= 1) {
+        setState(() {
+          cupomEncontradoeOk = true;
+          prePesquisaDoCupom = false;
+          valorMultiplicadorPontos =
+              _listaCupomBuscadoDATABASE[0].multiplicador;
+        });
+      } else if (_listaCupomBuscadoDATABASE.length == 0) {
+        cupomEncontradoeOk = false;
+        cupomNaoEncontrado = true;
+        // prePesquisaDoCupom = false;
+      }
+
+      setState(() {
+        Navigator.of(context).pop();
+        cupomBuscado = _listaCupomBuscadoDATABASE;
+        showModalCupom();
+        cupomControler.text = "";
+      });
+
+      print("Após buscar, o total lengh foi: ${cupomBuscado.length}");
+    } else {
+      return;
+    }
+  }
+
   void showModalCupom() {
     showModalBottomSheet(
       backgroundColor: Colors.white,
@@ -1008,139 +1065,215 @@ class _AddScreenState extends State<AddScreen> {
                       SizedBox(
                         height: 15,
                       ),
-                      Text(
-                        "Benefícios ativados",
-                        style: GoogleFonts.openSans(
-                          textStyle: TextStyle(
-                            fontSize: 14,
-                            color: Colors.grey.shade500,
+                      if (cupomNaoEncontrado == true &&
+                          prePesquisaDoCupom == true)
+                        Container(
+                          decoration: BoxDecoration(
+                            color: Colors.red.shade100.withOpacity(0.3),
+                            borderRadius: BorderRadius.circular(15),
+                            border: Border.all(
+                              width: 0.5,
+                              color: Colors.red.shade100.withOpacity(0.4),
+                            ),
+                          ),
+                          alignment: Alignment.center,
+                          width: double.infinity,
+                          height: MediaQuery.of(context).size.height * 0.15,
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Cupom não encontrado",
+                                textAlign: TextAlign.center,
+                                style: GoogleFonts.openSans(
+                                  textStyle: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.grey.shade400,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              Icon(
+                                Icons.password_outlined,
+                                color: Colors.grey.shade400,
+                              ),
+                            ],
                           ),
                         ),
-                      ),
+                      if (prePesquisaDoCupom == true &&
+                          cupomNaoEncontrado == false)
+                        Container(
+                          alignment: Alignment.center,
+                          width: double.infinity,
+                          height: MediaQuery.of(context).size.height * 0.15,
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Antes de ativar,\nvalide um cupom!",
+                                textAlign: TextAlign.center,
+                                style: GoogleFonts.openSans(
+                                  textStyle: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.grey.shade400,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              Icon(
+                                Icons.password_outlined,
+                                color: Colors.grey.shade400,
+                              ),
+                            ],
+                          ),
+                        ),
+                      if (prePesquisaDoCupom == false)
+                        Text(
+                          "Benefícios ativados",
+                          style: GoogleFonts.openSans(
+                            textStyle: TextStyle(
+                              fontSize: 14,
+                              color: Colors.grey.shade500,
+                            ),
+                          ),
+                        ),
                       SizedBox(
                         height: 5,
                       ),
-                      Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                            color: Colors.red.shade100.withOpacity(0.3)),
-                        width: double.infinity,
-                        padding: EdgeInsets.symmetric(
-                          vertical: 15,
-                          horizontal: 25,
-                        ),
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                                Icon(
-                                  Icons.sell,
-                                  color: Colors.redAccent.shade700,
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "NOME DO CUPOM",
-                                      style: GoogleFonts.openSans(
-                                        textStyle: TextStyle(
-                                          fontSize: 14,
-                                          color: Colors.redAccent.shade700,
-                                        ),
+                      if (cupomEncontradoeOk == true)
+                        Column(
+                          children: cupomBuscado.map((item) {
+                            return Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
+                                  color: Colors.red.shade100.withOpacity(0.3)),
+                              width: double.infinity,
+                              padding: EdgeInsets.symmetric(
+                                vertical: 15,
+                                horizontal: 25,
+                              ),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      Icon(
+                                        Icons.sell,
+                                        color: Colors.redAccent.shade700,
                                       ),
-                                    ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    //HORARIO PARA SER USADO - INICIO
-                                    Row(
-                                      children: [
-                                        Icon(
-                                          Icons.schedule,
-                                          size: 15,
-                                          color: Colors.grey.shade700,
-                                        ),
-                                        SizedBox(
-                                          width: 5,
-                                        ),
-                                        Text(
-                                          "Apenas no horário: HORA",
-                                          style: GoogleFonts.openSans(
-                                            textStyle: TextStyle(
-                                              fontSize: 12,
-                                              color: Colors.grey.shade700,
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "${item.name ?? ""}",
+                                            style: GoogleFonts.openSans(
+                                              textStyle: TextStyle(
+                                                fontSize: 14,
+                                                color:
+                                                    Colors.redAccent.shade700,
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                    //HORARIO PARA SER USADO - FIM
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    //Multiplicacao de pontos - INICIO
-                                    Row(
-                                      children: [
-                                        Icon(
-                                          Icons.exposure_plus_1,
-                                          size: 15,
-                                          color: Colors.grey.shade700,
-                                        ),
-                                        SizedBox(
-                                          width: 5,
-                                        ),
-                                        Text(
-                                          "Pontos multiplicados em: VALOR",
-                                          style: GoogleFonts.openSans(
-                                            textStyle: TextStyle(
-                                              fontSize: 12,
-                                              color: Colors.grey.shade700,
-                                            ),
+                                          SizedBox(
+                                            height: 5,
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                    //Multiplicacao de pontos - FIM
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    //Multiplicacao de pontos - INICIO
-                                    Row(
-                                      children: [
-                                        Icon(
-                                          Icons.event,
-                                          size: 15,
-                                          color: Colors.grey.shade700,
-                                        ),
-                                        SizedBox(
-                                          width: 5,
-                                        ),
-                                        Text(
-                                          "Ative ao agendar em qualquer dia",
-                                          style: GoogleFonts.openSans(
-                                            textStyle: TextStyle(
-                                              fontSize: 12,
-                                              color: Colors.grey.shade700,
-                                            ),
+                                          //HORARIO PARA SER USADO - INICIO
+                                          Row(
+                                            children: [
+                                              Icon(
+                                                Icons.schedule,
+                                                size: 15,
+                                                color: Colors.grey.shade700,
+                                              ),
+                                              SizedBox(
+                                                width: 5,
+                                              ),
+                                              Text(
+                                                "Apenas no horário: ${item.horario ?? ""}",
+                                                style: GoogleFonts.openSans(
+                                                  textStyle: TextStyle(
+                                                    fontSize: 12,
+                                                    color: Colors.grey.shade700,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                    //Multiplicacao de pontos - FIM
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ],
+                                          //HORARIO PARA SER USADO - FIM
+                                          SizedBox(
+                                            height: 5,
+                                          ),
+                                          //Multiplicacao de pontos - INICIO
+                                          Row(
+                                            children: [
+                                              Icon(
+                                                Icons.exposure_plus_1,
+                                                size: 15,
+                                                color: Colors.grey.shade700,
+                                              ),
+                                              SizedBox(
+                                                width: 5,
+                                              ),
+                                              Text(
+                                                "Pontos multiplicados em: ${item.multiplicador ?? 0}x",
+                                                style: GoogleFonts.openSans(
+                                                  textStyle: TextStyle(
+                                                    fontSize: 12,
+                                                    color: Colors.grey.shade700,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          //Multiplicacao de pontos - FIM
+                                          SizedBox(
+                                            height: 5,
+                                          ),
+                                          //Multiplicacao de pontos - INICIO
+                                          Row(
+                                            children: [
+                                              Icon(
+                                                Icons.event,
+                                                size: 15,
+                                                color: Colors.grey.shade700,
+                                              ),
+                                              SizedBox(
+                                                width: 5,
+                                              ),
+                                              Text(
+                                                "Ative ao agendar em qualquer dia",
+                                                style: GoogleFonts.openSans(
+                                                  textStyle: TextStyle(
+                                                    fontSize: 12,
+                                                    color: Colors.grey.shade700,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          //Multiplicacao de pontos - FIM
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            );
+                          }).toList(),
                         ),
-                      ),
                     ],
                   ),
                 ),
-            
+
                 //botao de ativar - inicio
                 Padding(
                   padding: const EdgeInsets.only(top: 30),
@@ -1157,7 +1290,7 @@ class _AddScreenState extends State<AddScreen> {
                         vertical: 15,
                       ),
                       child: Text(
-                        "Ativar promoção",
+                        "PESQUISAR CUPOM",
                         style: GoogleFonts.poppins(
                           textStyle: TextStyle(
                             fontWeight: FontWeight.w700,
@@ -2084,7 +2217,10 @@ class _AddScreenState extends State<AddScreen> {
 
                             if (hourSetForUser != null)
                               InkWell(
-                                onTap: showModalConfirmAgend,
+                                onTap: () async {
+                                   confereCupomHorariosBatem();
+                                  showModalConfirmAgend();
+                                },
                                 child: Padding(
                                   padding: const EdgeInsets.only(top: 15),
                                   child: Container(

@@ -37,10 +37,22 @@ class _HomePageHeaderState extends State<HomePageHeader> {
     userProfileIsOk;
     urlImagePhoto;
     VerifyImageUser();
+    pontuacaoTotalCliente;
+    loadpoints();
     userName;
     urlImageFuncion();
     Provider.of<CorteProvider>(context, listen: false).userCortesTotal;
     Provider.of<CorteProvider>(context, listen: false).loadHistoryCortes;
+  }
+
+  int? pontuacaoTotalCliente;
+  Future<void> loadpoints() async {
+    print("entrei na load da pontuacao");
+    int? pointsDB = await MyProfileScreenFunctions().getUserPontuation();
+
+    setState(() {
+      pontuacaoTotalCliente = pointsDB;
+    });
   }
 
   String? urlImagePhoto;
@@ -56,6 +68,7 @@ class _HomePageHeaderState extends State<HomePageHeader> {
     setState(() {
       urlImagePhoto = number;
       loadUserName();
+      loadpoints();
     });
   }
 
@@ -209,7 +222,7 @@ class _HomePageHeaderState extends State<HomePageHeader> {
                               ),
                             ),
                             Text(
-                              "Você Possui ${(valorPoints * 3).toStringAsFixed(0)} Pontos",
+                              "Você Possui ${pontuacaoTotalCliente ?? 0} Pontos",
                               style: GoogleFonts.openSans(
                                 textStyle: TextStyle(
                                   fontWeight: FontWeight.w500,
@@ -222,9 +235,7 @@ class _HomePageHeaderState extends State<HomePageHeader> {
                         ),
                         CircularProgressWithImage(
                           totalCortes:
-                              Provider.of<CorteProvider>(context, listen: false)
-                                  .userCortesTotal
-                                  .length,
+                              pontuacaoTotalCliente ?? 0,
                           progress: calcularProgresso(),
                           imageSize: widget.widhTela / 5.5,
                           widghTela: widget.widhTela,
@@ -244,7 +255,8 @@ class _HomePageHeaderState extends State<HomePageHeader> {
               child: ProfissionalCode(
                 corte: CorteClass(
                   apenasBarba: _listaCortesUsuario.apenasBarba,
-                  detalheDoProcedimento: _listaCortesUsuario.detalheDoProcedimento,
+                  detalheDoProcedimento:
+                      _listaCortesUsuario.detalheDoProcedimento,
                   horariosExtra: _listaCortesUsuario.horariosExtra,
                   totalValue: _listaCortesUsuario.totalValue,
                   isActive: _listaCortesUsuario.isActive,

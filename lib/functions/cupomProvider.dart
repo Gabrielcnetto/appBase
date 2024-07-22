@@ -108,15 +108,31 @@ class CupomProvider with ChangeNotifier {
     }
   }
 
-  
+  List<cupomClass> _cupomBuscado = [];
+  List<cupomClass>get cupomBuscado => [..._cupomBuscado];
+  StreamController<List<cupomClass>> _cupomBuscadoStream =
+      StreamController<List<cupomClass>>.broadcast();
+
+  Stream<List<cupomClass>> get cupomStreamBusca => _cupomBuscadoStream.stream;
   Future<void> searchCoupon({required String cupom}) async {
     try {
-      final pesquisaDocs =await database.collection("cupons").doc(cupom).get();
+      print("o objeto buscado foi: ${cupom}");
+      final pesquisaDocs = await database.collection("cupons").doc(cupom).get();
 
-      if(pesquisaDocs.exists){
-        
-
-        // atualValue = cupomDoc.data()?['isActive'];
+      if (pesquisaDocs.exists) {
+        Map<String, dynamic>? data =
+            pesquisaDocs.data() as Map<String, dynamic>?;
+        cupomClass novoCupom = cupomClass(
+          id: pesquisaDocs.id,
+          codigo: data?['codigo'],
+          name: data?['name'],
+          horario: data?['horario'],
+          isActive: data?['isActive'],
+          multiplicador: data?['multiplicador'],
+        );
+        _cupomBuscado.add(novoCupom);
+        _cupomBuscadoStream.add(_cupomBuscado);
+        print("buscamos, e ocorreu tudo certo");
       }
     } catch (e) {
       print("ao pesquisar o cupom deu este erro: $e");

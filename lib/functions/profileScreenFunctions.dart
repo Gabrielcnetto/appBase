@@ -61,7 +61,6 @@ class MyProfileScreenFunctions with ChangeNotifier {
           Map<String, dynamic> data = event.data() as Map<String, dynamic>;
 
           PhoneNumber = data['PhoneNumber'];
-          
         } else {}
         return PhoneNumber;
       });
@@ -72,28 +71,29 @@ class MyProfileScreenFunctions with ChangeNotifier {
   }
 
   //get da imagem do perfil
-Future<bool?> getUserIsManager() async {
-  if (authSettings.currentUser == null) {
-    return null; // Retorna imediatamente se o usuário não estiver autenticado
+  Future<bool?> getUserIsManager() async {
+    if (authSettings.currentUser == null) {
+      return null; // Retorna imediatamente se o usuário não estiver autenticado
+    }
+
+    final String uidUser = authSettings.currentUser!.uid;
+    bool? isManager;
+
+    await db.collection("usuarios").doc(uidUser).get().then((event) {
+      if (event.exists) {
+        Map<String, dynamic>? data = event.data(); // Use Map<String, dynamic>?
+
+        if (data != null && data.containsKey('isManager')) {
+          isManager = data['isManager'];
+        }
+      }
+    });
+
+    return isManager; // Retorna o valor de isManager, que pode ser null
   }
 
-  final String uidUser = authSettings.currentUser!.uid;
-  bool? isManager;
-
-  await db.collection("usuarios").doc(uidUser).get().then((event) {
-    if (event.exists) {
-      Map<String, dynamic>? data = event.data(); // Use Map<String, dynamic>?
-
-      if (data != null && data.containsKey('isManager')) {
-        isManager = data['isManager'];
-      }
-    }
-  });
-
-  return isManager; // Retorna o valor de isManager, que pode ser null
-}
   //GET SE É FUNCIONARIO - INICIO
-      Future<bool?> getUserIsFuncionario() async {
+  Future<bool?> getUserIsFuncionario() async {
     if (authSettings.currentUser != null) {
       final String uidUser = await authSettings.currentUser!.uid;
       bool? ismManager;
@@ -103,7 +103,6 @@ Future<bool?> getUserIsManager() async {
           Map<String, dynamic> data = event.data() as Map<String, dynamic>;
 
           ismManager = data['isfuncionario'];
-          
         } else {}
         return ismManager;
       });
@@ -112,20 +111,23 @@ Future<bool?> getUserIsManager() async {
 
     return null;
   }
+
   //GET SE É FUNCIONARIO - FIM
   //attnome
-  Future<void> newName({required String newName})async{
+  Future<void> newName({required String newName}) async {
     db.collection("usuarios").doc(authSettings.currentUser!.uid).update({
       "userName": newName,
-     });
+    });
   }
-    Future<void> setPhone({required String phoneNumber})async{
+
+  Future<void> setPhone({required String phoneNumber}) async {
     db.collection("usuarios").doc(authSettings.currentUser!.uid).update({
       "PhoneNumber": phoneNumber,
-     });
+    });
   }
-    //Pegando o bool do isManager - INICIO
-        Future<String?> getUserImage() async {
+
+  //Pegando o bool do isManager - INICIO
+  Future<String?> getUserImage() async {
     if (authSettings.currentUser != null) {
       final String uidUser = await authSettings.currentUser!.uid;
       String? urlImagem;
@@ -135,7 +137,6 @@ Future<bool?> getUserIsManager() async {
           Map<String, dynamic> data = event.data() as Map<String, dynamic>;
 
           urlImagem = data['urlImagem'];
-          
         } else {}
         return urlImagem;
       });
@@ -144,5 +145,28 @@ Future<bool?> getUserIsManager() async {
 
     return null;
   }
-    //Pegando o bool do isManager - INICIO
+
+  //INICIO GET Da pontuacao
+  Future<int?> getUserPontuation() async {
+    print("carregando a pontuacao");
+    if (authSettings.currentUser != null) {
+      final String uidUser = await authSettings.currentUser!.uid;
+      int? pontos;
+
+      await db.collection("usuarios").doc(uidUser).get().then((event) {
+        if (event.exists) {
+          Map<String, dynamic> data = event.data() as Map<String, dynamic>;
+
+          pontos = data['easepoints'];
+        } else {}
+        print("o valor deste user pego é${pontos}");
+        return pontos;
+      });
+      return pontos;
+    }
+
+    return null;
+  }
+
+  //INICIO GET Da pontuacao
 }

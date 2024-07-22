@@ -32,8 +32,18 @@ class _Home_noItensWithLoadinState extends State<Home_noItensWithLoadin> {
     VerifyImageUser();
     userName;
     urlImageFuncion();
+    pontuacaoTotalCliente;
+    loadpoints();
   }
+ int? pontuacaoTotalCliente;
+  Future<void> loadpoints() async {
+    print("entrei na load da pontuacao");
+    int? pointsDB = await MyProfileScreenFunctions().getUserPontuation();
 
+    setState(() {
+      pontuacaoTotalCliente = pointsDB;
+    });
+  }
   String? urlImagePhoto;
   Future<void> urlImageFuncion() async {
     String? number = await MyProfileScreenFunctions().getUserImage();
@@ -163,7 +173,7 @@ class _Home_noItensWithLoadinState extends State<Home_noItensWithLoadin> {
                       ),
                     ),
                     Text(
-                      "Você Possui ${(valorPoints * 3).toStringAsFixed(0)} Pontos",
+                      "Você Possui ${pontuacaoTotalCliente ?? 0} Pontos",
                       style: GoogleFonts.openSans(
                         fontWeight: FontWeight.w500,
                         color: Colors.grey.shade700,
@@ -173,7 +183,7 @@ class _Home_noItensWithLoadinState extends State<Home_noItensWithLoadin> {
                   ],
                 ),
                 CircularProgressWithImage(
-                  totalCortes: Provider.of<CorteProvider>(context, listen: false).userCortesTotal.length,
+                  totalCortes:  pontuacaoTotalCliente ?? 0,
                   progress: calcularProgresso(),
                   imageSize: widget.widhTela / 5.5,
                   widghTela: widget.widhTela,

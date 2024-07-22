@@ -21,6 +21,7 @@ class CorteProvider with ChangeNotifier {
     required String nomeBarbeiro,
     required int pricevalue,
     required bool barbaHoraExtra,
+    required int valorMultiplicador,
   }) async {
     print("entrei na funcao");
 
@@ -216,14 +217,18 @@ class CorteProvider with ChangeNotifier {
         });
 
         //adicionado aos meus cortes
-        final updateLenghCortesInProfile =
-            await database.collection("usuarios").doc(userId).update({
-          "totalCortes": FieldValue.increment(
-              1), //update do int para +1 atualizando ototal de cortes
-        });
+        try {
+          final updateLenghCortesInProfile =
+              await database.collection("usuarios").doc(userId).update({
+            "easepoints": FieldValue.increment(1 * valorMultiplicador),
+          });
+        } catch (e) {
+          print("ao atualizar os easepoints do user deu isto: $e");
+        }
         final upDateDatetimeLastCortes =
             await database.collection("usuarios").doc(userId).update({
-          "ultimoAgendamento": corte.diaCorte, //update do int para +1 atualizando ototal de cortes
+          "ultimoAgendamento": corte
+              .diaCorte, //update do int para +1 atualizando ototal de cortes
         });
       }
     } catch (e) {

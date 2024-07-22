@@ -451,6 +451,7 @@ class _AddScreenUserDeslogadoState extends State<AddScreenUserDeslogado> {
     ));
     Provider.of<CorteProvider>(context, listen: false)
         .AgendamentoCortePrincipalFunctions(
+          valorMultiplicador: 0,
       barbaHoraExtra: barba,
       pricevalue: valorFinalCobrado,
       nomeBarbeiro: isBarbeiro1

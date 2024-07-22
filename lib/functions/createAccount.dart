@@ -31,6 +31,7 @@ class CreateAccount with ChangeNotifier {
       "isManager": false,
       "isfuncionario": false,
       "nameFuncionario": "",
+      "easepoints": 0,
     });
     notifyListeners();
   }

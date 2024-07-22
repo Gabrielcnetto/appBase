@@ -32,8 +32,19 @@ class _HomeHeaderSemListaState extends State<HomeHeaderSemLista> {
     VerifyImageUser();
     userName;
     urlImageFuncion();
+    pontuacaoTotalCliente;
+    loadpoints();
   }
 
+int? pontuacaoTotalCliente;
+  Future<void> loadpoints() async {
+    print("entrei na load da pontuacao");
+    int? pointsDB = await MyProfileScreenFunctions().getUserPontuation();
+
+    setState(() {
+      pontuacaoTotalCliente = pointsDB;
+    });
+  }
   String? urlImagePhoto;
   Future<void> urlImageFuncion() async {
     String? number = await MyProfileScreenFunctions().getUserImage();
@@ -187,7 +198,7 @@ class _HomeHeaderSemListaState extends State<HomeHeaderSemLista> {
                                 ),
                               ),
                               Text(
-                                "Você Possui ${(valorPoints * 3).toStringAsFixed(0)} Pontos",
+                                "Você Possui ${pontuacaoTotalCliente ?? 0} Pontos",
                                 style: GoogleFonts.openSans(
                                   textStyle: TextStyle(
                                     fontWeight: FontWeight.w500,
@@ -200,9 +211,7 @@ class _HomeHeaderSemListaState extends State<HomeHeaderSemLista> {
                           ),
                           CircularProgressWithImage(
                             totalCortes:
-                                Provider.of<CorteProvider>(context, listen: false)
-                                    .userCortesTotal
-                                    .length,
+                                pontuacaoTotalCliente ?? 0,
                             progress: calcularProgresso(),
                             imageSize: widget.widhTela / 5.5,
                             widghTela: widget.widhTela,
