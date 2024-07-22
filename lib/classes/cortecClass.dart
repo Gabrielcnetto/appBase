@@ -1,4 +1,4 @@
-import 'package:lionsbarberv1/classes/horarios.dart';
+// ignore_for_file: file_names, non_constant_identifier_names, duplicate_ignore
 
 class CorteClass {
   final int easepoints;
@@ -7,7 +7,9 @@ class CorteClass {
   final String clientName;
   final String numeroContato;
   final bool barba;
+  // ignore: non_constant_identifier_names
   final int DiaDoCorte;
+  // ignore: non_constant_identifier_names
   final String NomeMes;
   final DateTime diaCorte;
   final int ramdomCode;

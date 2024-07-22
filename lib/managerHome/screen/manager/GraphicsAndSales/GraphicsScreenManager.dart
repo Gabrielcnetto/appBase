@@ -70,7 +70,7 @@ class _GraphicsManagerScreenState extends State<GraphicsManagerScreen> {
                               Navigator.of(context).pushReplacementNamed(
                                   AppRoutesApp.HomeScreen01);
                             },
-                            child: Icon(
+                            child: const Icon(
                               Icons.arrow_back_ios,
                               size: 25,
                               color: Colors.black,
@@ -79,7 +79,7 @@ class _GraphicsManagerScreenState extends State<GraphicsManagerScreen> {
                           Text(
                             "Estatísticas Mensais",
                             style: GoogleFonts.openSans(
-                              textStyle: TextStyle(
+                              textStyle: const TextStyle(
                                 fontWeight: FontWeight.w600,
                                 fontSize: 16,
                                 color: Colors.black,
@@ -99,21 +99,21 @@ class _GraphicsManagerScreenState extends State<GraphicsManagerScreen> {
                           ),
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                       FaturamentoMesSelecionado(
                         mesInicial: widget.mesSelecionado,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 15,
                       ),
-                      CardWithDetailsView(),
+                      const CardWithDetailsView(),
                     ],
                   ),
                 ),
               )
-            : Center(
+            : const Center(
                 child: CircularProgressIndicator.adaptive(),
               ),
       ),

@@ -30,7 +30,7 @@ class _CuponsViewItemState extends State<CuponsViewItem> {
             title: Text(
               "Seu cupom foi excluído",
               style: GoogleFonts.openSans(
-                textStyle: TextStyle(
+                textStyle: const TextStyle(
                   fontWeight: FontWeight.w600,
                   color: Colors.black,
                   fontSize: 16,
@@ -57,7 +57,7 @@ class _CuponsViewItemState extends State<CuponsViewItem> {
                 child: Text(
                   "Fechar",
                   style: GoogleFonts.poppins(
-                    textStyle: TextStyle(
+                    textStyle: const TextStyle(
                       fontWeight: FontWeight.w600,
                       color: Colors.black,
                       fontSize: 16,
@@ -76,7 +76,7 @@ class _CuponsViewItemState extends State<CuponsViewItem> {
       stream: Provider.of<CupomProvider>(context, listen: true).cupomStream,
       builder: (ctx, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator.adaptive();
+          return const CircularProgressIndicator.adaptive();
         } else if (snapshot.hasData) {
           List<cupomClass> cupons = snapshot.data!;
 
@@ -93,13 +93,13 @@ class _CuponsViewItemState extends State<CuponsViewItem> {
                         content: Text(
                           'Cupom Excluido',
                           style: GoogleFonts.openSans(
-                            textStyle: TextStyle(
+                            textStyle: const TextStyle(
                               fontWeight: FontWeight.w500,
                               color: Colors.white,
                             ),
                           ),
                         ),
-                        duration: Duration(seconds: 2),
+                        duration: const Duration(seconds: 2),
                       ),
                     );
                   },
@@ -119,7 +119,7 @@ class _CuponsViewItemState extends State<CuponsViewItem> {
                         child: Text(
                           "Excluir Cupom?",
                           style: GoogleFonts.poppins(
-                            textStyle: TextStyle(
+                            textStyle: const TextStyle(
                                 fontWeight: FontWeight.w600,
                                 color: Colors.white,
                                 fontSize: 16),
@@ -129,7 +129,7 @@ class _CuponsViewItemState extends State<CuponsViewItem> {
                     ),
                   ),
                   child: Container(
-                    padding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+                    padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       border: Border.all(
@@ -145,7 +145,7 @@ class _CuponsViewItemState extends State<CuponsViewItem> {
                           children: [
                             Container(
                               alignment: Alignment.center,
-                              padding: EdgeInsets.all(1),
+                              padding: const EdgeInsets.all(1),
                               width: MediaQuery.of(context).size.width * 0.13,
                               height: MediaQuery.of(context).size.height * 0.07,
                               color: item.isActive == true
@@ -159,7 +159,7 @@ class _CuponsViewItemState extends State<CuponsViewItem> {
                                     : Colors.black,
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 10,
                             ),
                             Column(
@@ -173,7 +173,7 @@ class _CuponsViewItemState extends State<CuponsViewItem> {
                                     Text(
                                       "${item.name}",
                                       style: GoogleFonts.openSans(
-                                        textStyle: TextStyle(
+                                        textStyle: const TextStyle(
                                           fontWeight: FontWeight.w700,
                                           fontSize: 16,
                                           color: Colors.black,
@@ -194,7 +194,7 @@ class _CuponsViewItemState extends State<CuponsViewItem> {
                                         ),
                                       ),
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 2,
                                     ),
                                     Icon(
@@ -209,7 +209,7 @@ class _CuponsViewItemState extends State<CuponsViewItem> {
                                   child: Text(
                                     "Easepoints Multiplicado x${item.multiplicador}",
                                     style: GoogleFonts.openSans(
-                                      textStyle: TextStyle(
+                                      textStyle: const TextStyle(
                                         fontWeight: FontWeight.w600,
                                         fontSize: 13,
                                         color: Colors.black,
@@ -224,17 +224,17 @@ class _CuponsViewItemState extends State<CuponsViewItem> {
                                       Text(
                                         "${item.codigo}",
                                         style: GoogleFonts.openSans(
-                                          textStyle: TextStyle(
+                                          textStyle: const TextStyle(
                                             fontWeight: FontWeight.w700,
                                             fontSize: 14,
                                             color: Colors.black,
                                           ),
                                         ),
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         width: 5,
                                       ),
-                                      Icon(
+                                      const Icon(
                                         Icons.confirmation_number,
                                         size: 15,
                                         color: Colors.black,
@@ -259,7 +259,7 @@ class _CuponsViewItemState extends State<CuponsViewItem> {
                                       ? Colors.green.shade700
                                       : Colors.grey.shade400,
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 5,
                                 ),
                                 Text(
@@ -316,24 +316,24 @@ class _CuponsViewItemState extends State<CuponsViewItem> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                    padding: EdgeInsets.all(5),
+                    padding: const EdgeInsets.all(5),
                     decoration: BoxDecoration(
                       color: Colors.blue.shade600,
                       borderRadius: BorderRadius.circular(15),
                     ),
-                    child: Icon(
+                    child: const Icon(
                       Icons.sell,
                       size: 50,
                       color: Colors.white,
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 15,
                   ),
                   Text(
                     "Sem cupons Criados",
                     style: GoogleFonts.openSans(
-                      textStyle: TextStyle(
+                      textStyle: const TextStyle(
                         fontStyle: FontStyle.italic,
                         fontWeight: FontWeight.w400,
                         color: Colors.black,

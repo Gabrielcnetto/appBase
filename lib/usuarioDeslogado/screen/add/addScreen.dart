@@ -397,7 +397,7 @@ class _AddScreenUserDeslogadoState extends State<AddScreenUserDeslogado> {
             title: Text(
               "Você ainda não tem uma conta?",
               style: GoogleFonts.openSans(
-                textStyle: TextStyle(
+                textStyle: const TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Colors.black,
                 ),
@@ -406,7 +406,7 @@ class _AddScreenUserDeslogadoState extends State<AddScreenUserDeslogado> {
             content: Text(
               "Sem uma conta você não ganhará pontos nem entrará no ranking da ${Estabelecimento.nomeLocal}",
               style: GoogleFonts.openSans(
-                textStyle: TextStyle(
+                textStyle: const TextStyle(
                   fontWeight: FontWeight.w500,
                   color: Colors.grey,
                 ),
@@ -420,7 +420,7 @@ class _AddScreenUserDeslogadoState extends State<AddScreenUserDeslogado> {
                 child: Text(
                   "Continuar sem conta",
                   style: GoogleFonts.openSans(
-                    textStyle: TextStyle(
+                    textStyle: const TextStyle(
                       fontWeight: FontWeight.w500,
                       color: Colors.grey,
                     ),
@@ -447,11 +447,11 @@ class _AddScreenUserDeslogadoState extends State<AddScreenUserDeslogado> {
         });
     Navigator.of(context).push(DialogRoute(
       context: context,
-      builder: (ctx) => ConfirmScreenCorteDeslogado(),
+      builder: (ctx) => const ConfirmScreenCorteDeslogado(),
     ));
     Provider.of<CorteProvider>(context, listen: false)
         .AgendamentoCortePrincipalFunctions(
-          valorMultiplicador: 0,
+      valorMultiplicador: 0,
       barbaHoraExtra: barba,
       pricevalue: valorFinalCobrado,
       nomeBarbeiro: isBarbeiro1
@@ -1168,7 +1168,7 @@ class _AddScreenUserDeslogadoState extends State<AddScreenUserDeslogado> {
                             //CONTAINER DO NUMERO
                             //PROCEDIMENTOS EXTRAS - INICIO
                             Container(
-                              padding: EdgeInsets.symmetric(
+                              padding: const EdgeInsets.symmetric(
                                   vertical: 10, horizontal: 10),
                               alignment: Alignment.center,
                               width: double.infinity,
@@ -1210,14 +1210,14 @@ class _AddScreenUserDeslogadoState extends State<AddScreenUserDeslogado> {
                                               ),
                                             ),
                                           ),
-                                          SizedBox(
+                                          const SizedBox(
                                             width: 5,
                                           ),
                                           InkWell(
                                             onTap: ativarServicosAdicionais,
                                             child: Container(
                                               alignment: Alignment.center,
-                                              padding: EdgeInsets.all(2),
+                                              padding: const EdgeInsets.all(2),
                                               decoration: BoxDecoration(
                                                 color: Colors.white,
                                                 borderRadius:
@@ -1249,7 +1249,7 @@ class _AddScreenUserDeslogadoState extends State<AddScreenUserDeslogado> {
                                           padding: const EdgeInsets.symmetric(
                                               vertical: 4),
                                           child: Container(
-                                            padding: EdgeInsets.symmetric(
+                                            padding: const EdgeInsets.symmetric(
                                                 vertical: 10, horizontal: 5),
                                             child: Row(
                                               mainAxisAlignment:
@@ -1273,11 +1273,11 @@ class _AddScreenUserDeslogadoState extends State<AddScreenUserDeslogado> {
                                                         ),
                                                       ),
                                                     ),
-                                                    SizedBox(width: 5),
+                                                    const SizedBox(width: 5),
                                                     Container(
                                                       child: Row(
                                                         children: [
-                                                          Icon(
+                                                          const Icon(
                                                             Icons.paid,
                                                             color: Colors.green,
                                                             size: 15,
@@ -1511,6 +1511,147 @@ class _AddScreenUserDeslogadoState extends State<AddScreenUserDeslogado> {
                               ),
                             ),
                             //PROCEDIMENTOS EXTRAS - FIM
+                            const SizedBox(
+                              height: 25,
+                            ),
+                            //ativar cupom(bloqueado) - inicio
+
+                            //container do cupom - inicio
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "Tem um cupom?",
+                                  style: GoogleFonts.openSans(
+                                    textStyle: const TextStyle(
+                                      fontWeight: FontWeight.w700,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    Icon(
+                                      Icons.lock,
+                                      color: Colors.grey.shade300,
+                                      size: 18,
+                                    ),
+                                    const SizedBox(
+                                      width: 5,
+                                    ),
+                                    InkWell(
+                                      onTap: () {
+                                        showDialog(
+                                          context: context,
+                                          builder: (ctx) {
+                                            return AlertDialog(
+                                              title: Text(
+                                                "Crie um perfil",
+                                                style: GoogleFonts.openSans(
+                                                  textStyle: const TextStyle(
+                                                    color: Colors.black,
+                                                    fontWeight: FontWeight.w600,
+                                                    fontSize: 15,
+                                                  ),
+                                                ),
+                                              ),
+                                              content: Text(
+                                                "Para validar cupons você precisa de um perfil, mas é rapido para criar! Basta clicar no botão abaixo:",
+                                                style: GoogleFonts.openSans(
+                                                  textStyle: TextStyle(
+                                                    color: Colors.grey.shade400,
+                                                    fontWeight: FontWeight.w400,
+                                                    fontSize: 12,
+                                                  ),
+                                                ),
+                                              ),
+                                              actions: [
+                                                TextButton(
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                  child: Text(
+                                                    "Voltar",
+                                                    style: GoogleFonts.openSans(
+                                                      textStyle: TextStyle(
+                                                        color: Colors
+                                                            .grey.shade400,
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                        fontSize: 12,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                TextButton(
+                                                  onPressed: () {
+                                                    Navigator.of(context)
+                                                        .pushReplacementNamed(
+                                                      AppRoutesApp
+                                                          .RegisterAccountScreen,
+                                                    );
+                                                  },
+                                                  child: Container(
+                                                    alignment: Alignment.center,
+                                                    padding:
+                                                        const EdgeInsets.symmetric(
+                                                      vertical: 2,
+                                                      horizontal: 5,
+                                                    ),
+                                                    decoration: BoxDecoration(
+                                                      color:
+                                                          Colors.blue.shade600,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                    ),
+                                                    child: Text(
+                                                      "Criar conta ou Entrar",
+                                                      style:
+                                                          GoogleFonts.openSans(
+                                                        textStyle: const TextStyle(
+                                                          color: Colors.white,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          fontSize: 12,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            );
+                                          },
+                                        );
+                                      },
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          color: Colors.grey.shade300,
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                        ),
+                                        alignment: Alignment.center,
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 2, horizontal: 5),
+                                        child: Text(
+                                          "Ativar Agora",
+                                          style: GoogleFonts.poppins(
+                                            textStyle: const TextStyle(
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w400,
+                                              color: Colors.black,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            //container do cupom - fim
+                            //ativar cupom(bloqueado) - fim
                             const SizedBox(
                               height: 25,
                             ),

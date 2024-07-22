@@ -38,7 +38,7 @@ class _ScreenComponentsMyProfileDeslogadoState
             title: Text(
               "Você está deslogado",
               style: GoogleFonts.openSans(
-                textStyle: TextStyle(
+                textStyle: const TextStyle(
                   fontWeight: FontWeight.w700,
                 ),
               ),
@@ -58,14 +58,14 @@ class _ScreenComponentsMyProfileDeslogadoState
                   Navigator.of(context).push(
                     DialogRoute(
                       context: context,
-                      builder: (ctx) => RegisterAccountScreen(),
+                      builder: (ctx) => const RegisterAccountScreen(),
                     ),
                   );
                 },
                 child: Text(
                   "Criar Conta",
                   style: GoogleFonts.openSans(
-                    textStyle: TextStyle(
+                    textStyle: const TextStyle(
                       fontWeight: FontWeight.w500,
                       color: Colors.black,
                     ),
@@ -77,14 +77,14 @@ class _ScreenComponentsMyProfileDeslogadoState
                   Navigator.of(context).push(
                     DialogRoute(
                       context: context,
-                      builder: (ctx) => LoginScreen01(),
+                      builder: (ctx) => const LoginScreen01(),
                     ),
                   );
                 },
                 child: Text(
                   "Fazer login",
                   style: GoogleFonts.openSans(
-                    textStyle: TextStyle(
+                    textStyle: const TextStyle(
                       fontWeight: FontWeight.w500,
                       color: Colors.black,
                     ),

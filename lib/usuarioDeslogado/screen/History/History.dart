@@ -71,7 +71,7 @@ class _HistoryScreenDeslogadoState extends State<HistoryScreenDeslogado> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Container(
-                        padding: EdgeInsets.all(20),
+                        padding: const EdgeInsets.all(20),
                         decoration: BoxDecoration(
                             color: Colors.grey.shade100,
                             borderRadius: BorderRadius.circular(50)),
@@ -110,7 +110,7 @@ class _HistoryScreenDeslogadoState extends State<HistoryScreenDeslogado> {
                               color: Colors.blue.shade600,
                               borderRadius: BorderRadius.circular(20),
                             ),
-                            padding: EdgeInsets.symmetric(vertical: 15,horizontal: 15),
+                            padding: const EdgeInsets.symmetric(vertical: 15,horizontal: 15),
                             child: Text(
                               "Criar conta ou Entrar",
                               style: GoogleFonts.openSans(

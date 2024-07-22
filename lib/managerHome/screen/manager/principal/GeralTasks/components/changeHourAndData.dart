@@ -346,12 +346,12 @@ class _ChangeHourAndDataState extends State<ChangeHourAndData> {
           title: Text(
             "Alterar Agendamento?",
             style: GoogleFonts.openSans(
-                textStyle: TextStyle(
+                textStyle: const TextStyle(
               fontWeight: FontWeight.w400,
               color: Colors.black,
             )),
           ),
-          content: Text(
+          content: const Text(
               "Você realmente Deseja alterar as informações deste agendamento?"),
           actions: [
             TextButton(
@@ -362,7 +362,7 @@ class _ChangeHourAndDataState extends State<ChangeHourAndData> {
               child: Text(
                 "Cancelar",
                 style: GoogleFonts.openSans(
-                  textStyle: TextStyle(
+                  textStyle: const TextStyle(
                     fontWeight: FontWeight.w500,
                     color: Colors.black,
                   ),
@@ -398,7 +398,7 @@ class _ChangeHourAndDataState extends State<ChangeHourAndData> {
             title: Text(
               "Alteração concluída",
               style: GoogleFonts.openSans(
-                textStyle: TextStyle(
+                textStyle: const TextStyle(
                   fontWeight: FontWeight.w500,
                   color: Colors.black,
                 ),
@@ -407,7 +407,7 @@ class _ChangeHourAndDataState extends State<ChangeHourAndData> {
             content: Text(
               "A Alteração deste agendamento foi concluída",
               style: GoogleFonts.openSans(
-                textStyle: TextStyle(
+                textStyle: const TextStyle(
                   fontWeight: FontWeight.w500,
                   color: Colors.black,
                 ),
@@ -440,7 +440,7 @@ class _ChangeHourAndDataState extends State<ChangeHourAndData> {
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Container(
-          padding: EdgeInsets.only(top: 15, left: 15, right: 15),
+          padding: const EdgeInsets.only(top: 15, left: 15, right: 15),
           width: double.infinity,
           height: MediaQuery.of(context).size.height * 0.9,
           child: Column(
@@ -453,7 +453,7 @@ class _ChangeHourAndDataState extends State<ChangeHourAndData> {
                     onTap: () {
                       Navigator.of(context).pop();
                     },
-                    child: Icon(
+                    child: const Icon(
                       Icons.arrow_back_outlined,
                       color: Colors.blueAccent,
                     ),
@@ -461,7 +461,7 @@ class _ChangeHourAndDataState extends State<ChangeHourAndData> {
                   Text(
                     "Atualize seu agendamento",
                     style: GoogleFonts.openSans(
-                      textStyle: TextStyle(
+                      textStyle: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w700,
                         color: Colors.black,
@@ -482,7 +482,7 @@ class _ChangeHourAndDataState extends State<ChangeHourAndData> {
                         Text(
                           "Dia selecionado:",
                           style: GoogleFonts.openSans(
-                            textStyle: TextStyle(
+                            textStyle: const TextStyle(
                               fontWeight: FontWeight.w600,
                               color: Colors.black,
                             ),
@@ -496,7 +496,7 @@ class _ChangeHourAndDataState extends State<ChangeHourAndData> {
                                   ? "${DateFormat("dd/MM/yyyy").format(dataSelectedInModal!)}"
                                   : "",
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 5,
                             ),
                             InkWell(
@@ -511,7 +511,7 @@ class _ChangeHourAndDataState extends State<ChangeHourAndData> {
                                     borderRadius: BorderRadius.circular(5),
                                     color: Estabelecimento.primaryColor,
                                   ),
-                                  padding: EdgeInsets.symmetric(
+                                  padding: const EdgeInsets.symmetric(
                                       vertical: 2, horizontal: 5),
                                   child: Text(
                                     dataSelectedInModal != null
@@ -531,7 +531,7 @@ class _ChangeHourAndDataState extends State<ChangeHourAndData> {
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 15,
                     ),
                     Padding(
@@ -603,7 +603,7 @@ class _ChangeHourAndDataState extends State<ChangeHourAndData> {
                                         );
                                       },
                                     )
-                                  : Center(
+                                  : const Center(
                                       child:
                                           CircularProgressIndicator.adaptive(),
                                     ),
@@ -626,13 +626,13 @@ class _ChangeHourAndDataState extends State<ChangeHourAndData> {
                                       fit: BoxFit.cover,
                                     ),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 10,
                                   ),
                                   Text(
                                     "Selecione um Dia",
                                     style: GoogleFonts.openSans(
-                                      textStyle: TextStyle(
+                                      textStyle: const TextStyle(
                                         fontStyle: FontStyle.italic,
                                         fontWeight: FontWeight.w500,
                                         color: Colors.black,
@@ -644,7 +644,7 @@ class _ChangeHourAndDataState extends State<ChangeHourAndData> {
                               ),
                             ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 15,
                     ),
                     if (dataSelectedInModal != null)
@@ -658,7 +658,7 @@ class _ChangeHourAndDataState extends State<ChangeHourAndData> {
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(15),
                                   color: Estabelecimento.primaryColor),
-                              padding: EdgeInsets.symmetric(
+                              padding: const EdgeInsets.symmetric(
                                   horizontal: 10, vertical: 10),
                               child: Text(
                                 "Salvar Alteração",

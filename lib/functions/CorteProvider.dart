@@ -1,3 +1,5 @@
+// ignore_for_file: unused_local_variable, equal_keys_in_map, dead_code, file_names, non_constant_identifier_names, avoid_print, await_only_futures, unnecessary_brace_in_string_interps
+
 import 'dart:async';
 import 'dart:math';
 

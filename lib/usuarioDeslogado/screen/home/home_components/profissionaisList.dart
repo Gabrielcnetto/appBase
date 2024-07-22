@@ -51,7 +51,7 @@ class _ProfissionaisListDeslogadoState extends State<ProfissionaisListDeslogado>
                               print("teste");
                               Navigator.of(context).push(MaterialPageRoute(
                                   builder: (BuildContext ctx) {
-                                return  HomeScreen01Deslogado(selectedIndex: 1);
+                                return  const HomeScreen01Deslogado(selectedIndex: 1);
                               }));
                             },
                             child: Container(

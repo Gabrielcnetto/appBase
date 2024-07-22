@@ -1,5 +1,7 @@
+// ignore_for_file: unused_local_variable, dead_code, file_names, non_constant_identifier_names, avoid_print, unnecessary_brace_in_string_interps, prefer_final_fields, unnecessary_string_interpolations, await_only_futures
+
 import 'dart:async';
-import 'dart:collection';
+
 
 import 'package:lionsbarberv1/classes/GeralUser.dart';
 import 'package:lionsbarberv1/classes/cortecClass.dart';

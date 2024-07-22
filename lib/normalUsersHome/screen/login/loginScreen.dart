@@ -40,7 +40,7 @@ class _LoginScreen01State extends State<LoginScreen01> {
               title: Text(
                 "Credenciais incorretas",
                 style: GoogleFonts.openSans(
-                  textStyle: TextStyle(
+                  textStyle: const TextStyle(
                       fontWeight: FontWeight.w700,
                       color: Colors.black,
                       fontSize: 16),
@@ -49,7 +49,7 @@ class _LoginScreen01State extends State<LoginScreen01> {
               content: Text(
                 "Insira as credenciais usadas ao criar a sua conta para efetuar o login e entrar em sua conta",
                 style: GoogleFonts.openSans(
-                  textStyle: TextStyle(
+                  textStyle: const TextStyle(
                     fontWeight: FontWeight.w500,
                     color: Colors.grey,
                     fontSize: 13,
@@ -101,14 +101,14 @@ class _LoginScreen01State extends State<LoginScreen01> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 Container(
                   alignment: Alignment.center,
                   width: screenWidth / 5.4,
                   height: screenHeight / 5.4,
                   child: Image.asset(Estabelecimento.urlLogo),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 Text(
                   "Login",
                   style: GoogleFonts.openSans(
@@ -119,7 +119,7 @@ class _LoginScreen01State extends State<LoginScreen01> {
                     ),
                   ),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 Form(
                   key: _formKey,
                   child: Column(
@@ -129,7 +129,7 @@ class _LoginScreen01State extends State<LoginScreen01> {
                         decoration: InputDecoration(
                           labelText: 'Seu E-mail',
                           hintText: 'Digite seu e-mail',
-                          border: OutlineInputBorder(),
+                          border: const OutlineInputBorder(),
                           filled: true,
                           fillColor:
                               Estabelecimento.secondaryColor.withOpacity(0.2),
@@ -141,14 +141,14 @@ class _LoginScreen01State extends State<LoginScreen01> {
                           return null;
                         },
                       ),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       TextFormField(
                         controller: passwordController,
                         obscureText: !showPassword,
                         decoration: InputDecoration(
                           labelText: 'Sua Senha',
                           hintText: 'Digite sua senha',
-                          border: OutlineInputBorder(),
+                          border: const OutlineInputBorder(),
                           filled: true,
                           fillColor:
                               Estabelecimento.secondaryColor.withOpacity(0.2),
@@ -168,7 +168,7 @@ class _LoginScreen01State extends State<LoginScreen01> {
                           return null;
                         },
                       ),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       Align(
                         alignment: Alignment.centerRight,
                         child: TextButton(
@@ -186,7 +186,7 @@ class _LoginScreen01State extends State<LoginScreen01> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       ElevatedButton(
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
@@ -215,7 +215,7 @@ class _LoginScreen01State extends State<LoginScreen01> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -262,12 +262,12 @@ class _LoginScreen01State extends State<LoginScreen01> {
                             DialogRoute(
                               context: context,
                               builder: (ctx) =>
-                                  HomeScreen01Deslogado(selectedIndex: 0),
+                                  const HomeScreen01Deslogado(selectedIndex: 0),
                             ),
                           );
                         },
                         child: Container(
-                          padding: EdgeInsets.symmetric(
+                          padding: const EdgeInsets.symmetric(
                               vertical: 10, horizontal: 10),
                           decoration: BoxDecoration(
                             color: Colors.grey.shade200,
@@ -276,7 +276,7 @@ class _LoginScreen01State extends State<LoginScreen01> {
                           child: Text(
                             "Continuar sem conta",
                             style: GoogleFonts.openSans(
-                              textStyle: TextStyle(
+                              textStyle: const TextStyle(
                                 fontWeight: FontWeight.w600,
                                 color: Colors.black,
                                 fontSize: 13,

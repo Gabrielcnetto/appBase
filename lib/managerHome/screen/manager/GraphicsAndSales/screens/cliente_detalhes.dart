@@ -120,7 +120,7 @@ class _ClienteDetalhesState extends State<ClienteDetalhes> {
                                 size: 18,
                                 color: Colors.grey.shade800,
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 5,
                               ),
                               Text(
@@ -153,7 +153,7 @@ class _ClienteDetalhesState extends State<ClienteDetalhes> {
                         child: Container(
                           width: double.infinity,
                           padding:
-                              EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+                              const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
                           decoration: BoxDecoration(
                             border: Border.all(
                               width: 0.8,
@@ -193,7 +193,7 @@ class _ClienteDetalhesState extends State<ClienteDetalhes> {
                                         Text(
                                           listadeClientes[index].name,
                                           style: GoogleFonts.openSans(
-                                            textStyle: TextStyle(
+                                            textStyle: const TextStyle(
                                               fontSize: 15,
                                               fontWeight: FontWeight.w600,
                                               color:
@@ -215,7 +215,7 @@ class _ClienteDetalhesState extends State<ClienteDetalhes> {
                                                 ),
                                               ),
                                             ),
-                                            SizedBox(
+                                            const SizedBox(
                                               width: 8,
                                             ),
                                             if (listadeClientes[index]
@@ -235,7 +235,7 @@ class _ClienteDetalhesState extends State<ClienteDetalhes> {
                                                         BorderRadius.circular(
                                                             15),
                                                   ),
-                                                  padding: EdgeInsets.symmetric(
+                                                  padding: const EdgeInsets.symmetric(
                                                     horizontal: 5,
                                                     vertical: 2,
                                                   ),
@@ -246,16 +246,16 @@ class _ClienteDetalhesState extends State<ClienteDetalhes> {
                                                         "Chamar",
                                                         style: GoogleFonts
                                                             .openSans(
-                                                          textStyle: TextStyle(
+                                                          textStyle: const TextStyle(
                                                             fontSize: 9,
                                                             color: Colors.white,
                                                           ),
                                                         ),
                                                       ),
-                                                      SizedBox(
+                                                      const SizedBox(
                                                         width: 5,
                                                       ),
-                                                      Icon(
+                                                      const Icon(
                                                         Icons.open_in_new,
                                                         size: 10,
                                                         color: Colors.white,
@@ -316,18 +316,18 @@ class _ClienteDetalhesState extends State<ClienteDetalhes> {
                                                 diaAtual.month)
                                         ? Row(
                                             children: [
-                                              Icon(
+                                              const Icon(
                                                 Icons.close,
                                                 size: 10,
                                                 color: Colors.redAccent,
                                               ),
-                                              SizedBox(
+                                              const SizedBox(
                                                 width: 5,
                                               ),
                                               Text(
                                                 "Sem data",
                                                 style: GoogleFonts.openSans(
-                                                  textStyle: TextStyle(
+                                                  textStyle: const TextStyle(
                                                     fontWeight: FontWeight.w500,
                                                     fontSize: 12,
                                                     color: Colors.redAccent,
@@ -338,18 +338,18 @@ class _ClienteDetalhesState extends State<ClienteDetalhes> {
                                           )
                                         : Row(
                                             children: [
-                                              Icon(
+                                              const Icon(
                                                 Icons.radio_button_checked,
                                                 size: 10,
                                                 color: Colors.green,
                                               ),
-                                              SizedBox(
+                                              const SizedBox(
                                                 width: 5,
                                               ),
                                               Text(
                                                 "Último corte",
                                                 style: GoogleFonts.openSans(
-                                                  textStyle: TextStyle(
+                                                  textStyle: const TextStyle(
                                                     fontWeight: FontWeight.w500,
                                                     fontSize: 12,
                                                     color: Colors.green,

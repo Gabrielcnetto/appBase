@@ -46,18 +46,18 @@ class _CuponsCreateandListViewState extends State<CuponsCreateandListView> {
                       },
                       child: Container(
                         alignment: Alignment.center,
-                        padding: EdgeInsets.all(7),
+                        padding: const EdgeInsets.all(7),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8),
                           color: Colors.grey.shade300,
                         ),
-                        child: Icon(
+                        child: const Icon(
                           Icons.arrow_back_ios,
                           size: 15,
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 10,
                     ),
                     Column(
@@ -76,7 +76,7 @@ class _CuponsCreateandListViewState extends State<CuponsCreateandListView> {
                         Text(
                           "Crie seus Cupons Exclusivos",
                           style: GoogleFonts.openSans(
-                            textStyle: TextStyle(
+                            textStyle: const TextStyle(
                                 fontWeight: FontWeight.w700,
                                 color: Colors.black,
                                 fontSize: 16),
@@ -86,7 +86,7 @@ class _CuponsCreateandListViewState extends State<CuponsCreateandListView> {
                     )
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 Container(
@@ -100,7 +100,7 @@ class _CuponsCreateandListViewState extends State<CuponsCreateandListView> {
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 25,
                 ),
                 Row(
@@ -113,7 +113,7 @@ class _CuponsCreateandListViewState extends State<CuponsCreateandListView> {
                           child: Text(
                             "Todos os seus cupons criados",
                             style: GoogleFonts.poppins(
-                              textStyle: TextStyle(
+                              textStyle: const TextStyle(
                                 fontWeight: FontWeight.w700,
                                 color: Colors.black,
                                 fontSize: 14,
@@ -121,7 +121,7 @@ class _CuponsCreateandListViewState extends State<CuponsCreateandListView> {
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 5,
                         ),
                         Container(
@@ -145,14 +145,14 @@ class _CuponsCreateandListViewState extends State<CuponsCreateandListView> {
                           DialogRoute(
                               context: context,
                               builder: (ctx) {
-                                return CreateInfsCupom();
+                                return const CreateInfsCupom();
                               }),
                         );
                       },
                       child: Container(
                         alignment: Alignment.center,
                         padding:
-                            EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                            const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                         decoration: BoxDecoration(
                           color: Colors.blue.shade600,
                           borderRadius: BorderRadius.circular(10),
@@ -160,7 +160,7 @@ class _CuponsCreateandListViewState extends State<CuponsCreateandListView> {
                         child: Text(
                           "Criar",
                           style: GoogleFonts.poppins(
-                            textStyle: TextStyle(
+                            textStyle: const TextStyle(
                               fontWeight: FontWeight.w500,
                               color: Colors.white,
                               fontSize: 12,
@@ -171,10 +171,10 @@ class _CuponsCreateandListViewState extends State<CuponsCreateandListView> {
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 25,
                 ),
-                CuponsViewItem(),
+                const CuponsViewItem(),
               ],
             ),
           ),

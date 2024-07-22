@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_final_fields, unused_field, file_names
+
 import 'package:flutter/cupertino.dart';
 import 'package:lionsbarberv1/classes/horarios.dart';
 

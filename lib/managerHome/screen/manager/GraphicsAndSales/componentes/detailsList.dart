@@ -24,12 +24,12 @@ class CardWithDetailsView extends StatelessWidget {
                   Navigator.of(context).push(
                     DialogRoute(
                       context: context,
-                      builder: (ctx) => ClienteDetalhes(),
+                      builder: (ctx) => const ClienteDetalhes(),
                     ),
                   );
                 },
                 child: Container(
-                  padding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+                  padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
                   width: MediaQuery.of(context).size.width * 0.65,
                   height: MediaQuery.of(context).size.height * 0.28,
                   decoration: BoxDecoration(
@@ -40,13 +40,13 @@ class CardWithDetailsView extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Icon(
+                      const Icon(
                         Icons.badge,
                       ),
                       Text(
                         "Detalhe de clientes",
                         style: GoogleFonts.poppins(
-                          textStyle: TextStyle(
+                          textStyle: const TextStyle(
                             fontWeight: FontWeight.w600,
                             color: Colors.black,
                             fontSize: 14,
@@ -59,7 +59,7 @@ class CardWithDetailsView extends StatelessWidget {
                           Text(
                             "Últimos agendamentos",
                             style: GoogleFonts.poppins(
-                              textStyle: TextStyle(
+                              textStyle: const TextStyle(
                                 fontWeight: FontWeight.w400,
                                 color: Colors.black54,
                                 fontSize: 13,
@@ -71,7 +71,7 @@ class CardWithDetailsView extends StatelessWidget {
                               color: Estabelecimento.primaryColor,
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            padding: EdgeInsets.all(5),
+                            padding: const EdgeInsets.all(5),
                             child: Icon(
                               Icons.arrow_forward_ios,
                               color: Estabelecimento.contraPrimaryColor,
@@ -93,12 +93,12 @@ class CardWithDetailsView extends StatelessWidget {
                   Navigator.of(context).push(
                     DialogRoute(
                       context: context,
-                      builder: (ctx) => MediaHorariosPreenchidos(),
+                      builder: (ctx) => const MediaHorariosPreenchidos(),
                     ),
                   );
                 },
                 child: Container(
-                  padding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+                  padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
                   width: MediaQuery.of(context).size.width * 0.65,
                   height: MediaQuery.of(context).size.height * 0.28,
                   decoration: BoxDecoration(
@@ -109,13 +109,13 @@ class CardWithDetailsView extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Icon(
+                      const Icon(
                         Icons.timer,
                       ),
                       Text(
                         "Média de Preenchimentos de horários",
                         style: GoogleFonts.poppins(
-                          textStyle: TextStyle(
+                          textStyle: const TextStyle(
                             fontWeight: FontWeight.w600,
                             color: Colors.black,
                             fontSize: 14,
@@ -128,7 +128,7 @@ class CardWithDetailsView extends StatelessWidget {
                           Text(
                             "Buracos na agenda",
                             style: GoogleFonts.poppins(
-                              textStyle: TextStyle(
+                              textStyle: const TextStyle(
                                 fontWeight: FontWeight.w400,
                                 color: Colors.black54,
                                 fontSize: 13,
@@ -140,7 +140,7 @@ class CardWithDetailsView extends StatelessWidget {
                               color: Estabelecimento.primaryColor,
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            padding: EdgeInsets.all(5),
+                            padding: const EdgeInsets.all(5),
                             child: Icon(
                               Icons.arrow_forward_ios,
                               color: Estabelecimento.contraPrimaryColor,
@@ -162,12 +162,12 @@ class CardWithDetailsView extends StatelessWidget {
                   Navigator.of(context).push(
                     DialogRoute(
                       context: context,
-                      builder: (ctx) => CuponsCreateandListView(),
+                      builder: (ctx) => const CuponsCreateandListView(),
                     ),
                   );
                 },
                 child: Container(
-                  padding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+                  padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
                   width: MediaQuery.of(context).size.width * 0.65,
                   height: MediaQuery.of(context).size.height * 0.28,
                   decoration: BoxDecoration(
@@ -178,13 +178,13 @@ class CardWithDetailsView extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Icon(
+                      const Icon(
                         Icons.sell,
                       ),
                       Text(
                         "Gerenciador de Cupons",
                         style: GoogleFonts.poppins(
-                          textStyle: TextStyle(
+                          textStyle: const TextStyle(
                             fontWeight: FontWeight.w600,
                             color: Colors.black,
                             fontSize: 14,
@@ -197,7 +197,7 @@ class CardWithDetailsView extends StatelessWidget {
                           Text(
                             "Crie promoções",
                             style: GoogleFonts.poppins(
-                              textStyle: TextStyle(
+                              textStyle: const TextStyle(
                                 fontWeight: FontWeight.w400,
                                 color: Colors.black54,
                                 fontSize: 13,
@@ -209,7 +209,7 @@ class CardWithDetailsView extends StatelessWidget {
                               color: Estabelecimento.primaryColor,
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            padding: EdgeInsets.all(5),
+                            padding: const EdgeInsets.all(5),
                             child: Icon(
                               Icons.arrow_forward_ios,
                               color: Estabelecimento.contraPrimaryColor,

@@ -73,7 +73,7 @@ class ConfirmScreenCorteDeslogado extends StatelessWidget {
                     onTap: () {
                       Navigator.of(context).push(DialogRoute(
                         context: context,
-                        builder: (ctx) => HomeScreen01Deslogado(selectedIndex: 0,),
+                        builder: (ctx) => const HomeScreen01Deslogado(selectedIndex: 0,),
                       ));
                     },
                     child: Container(

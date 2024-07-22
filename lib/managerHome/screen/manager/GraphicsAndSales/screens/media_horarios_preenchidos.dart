@@ -73,19 +73,19 @@ class _MediaHorariosPreenchidosState extends State<MediaHorariosPreenchidos> {
                             Navigator.of(context).pop();
                           },
                           child: Container(
-                            padding: EdgeInsets.all(1),
+                            padding: const EdgeInsets.all(1),
                             decoration: BoxDecoration(
                               color: Colors.grey.shade200,
                               borderRadius: BorderRadius.circular(15),
                             ),
-                            child: Icon(
+                            child: const Icon(
                               Icons.keyboard_arrow_left_sharp,
                               color: Colors.black,
                               size: 15,
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
                         Expanded(
@@ -94,7 +94,7 @@ class _MediaHorariosPreenchidosState extends State<MediaHorariosPreenchidos> {
                             child: Text(
                               "Ocupação de Horários na ${Estabelecimento.nomeLocal}",
                               style: GoogleFonts.poppins(
-                                textStyle: TextStyle(
+                                textStyle: const TextStyle(
                                   fontWeight: FontWeight.w600,
                                   color: Colors.black,
                                   fontSize: 20,
@@ -116,7 +116,7 @@ class _MediaHorariosPreenchidosState extends State<MediaHorariosPreenchidos> {
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     Row(
@@ -125,7 +125,7 @@ class _MediaHorariosPreenchidosState extends State<MediaHorariosPreenchidos> {
                         Text(
                           "Horários",
                           style: GoogleFonts.openSans(
-                            textStyle: TextStyle(
+                            textStyle: const TextStyle(
                               fontWeight: FontWeight.w400,
                               fontSize: 13,
                             ),
@@ -142,7 +142,7 @@ class _MediaHorariosPreenchidosState extends State<MediaHorariosPreenchidos> {
                             Text(
                               "Vezes escolhida",
                               style: GoogleFonts.openSans(
-                                textStyle: TextStyle(
+                                textStyle: const TextStyle(
                                   fontWeight: FontWeight.w400,
                                   fontSize: 13,
                                 ),
@@ -152,7 +152,7 @@ class _MediaHorariosPreenchidosState extends State<MediaHorariosPreenchidos> {
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     Container(
@@ -160,7 +160,7 @@ class _MediaHorariosPreenchidosState extends State<MediaHorariosPreenchidos> {
                         color: Estabelecimento.primaryColor,
                         borderRadius: BorderRadius.circular(8),
                       ),
-                      padding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+                      padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
                       width: double.infinity,
                       child: Column(
                         children: [
@@ -170,7 +170,7 @@ class _MediaHorariosPreenchidosState extends State<MediaHorariosPreenchidos> {
                               Text(
                                 "Entenda este Ranking",
                                 style: GoogleFonts.openSans(
-                                  textStyle: TextStyle(
+                                  textStyle: const TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.w500,
                                     fontSize: 12,
@@ -184,7 +184,7 @@ class _MediaHorariosPreenchidosState extends State<MediaHorariosPreenchidos> {
                                   });
                                 },
                                 child: Container(
-                                  padding: EdgeInsets.symmetric(
+                                  padding: const EdgeInsets.symmetric(
                                       horizontal: 5, vertical: 5),
                                   decoration: BoxDecoration(
                                     color: Estabelecimento.contraPrimaryColor,
@@ -235,7 +235,7 @@ class _MediaHorariosPreenchidosState extends State<MediaHorariosPreenchidos> {
                                       ),
                                     ),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 5,
                                   ),
                                   Container(
@@ -251,7 +251,7 @@ class _MediaHorariosPreenchidosState extends State<MediaHorariosPreenchidos> {
                                       ),
                                     ),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 5,
                                   ),
                                   Container(
@@ -267,7 +267,7 @@ class _MediaHorariosPreenchidosState extends State<MediaHorariosPreenchidos> {
                                       ),
                                     ),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 5,
                                   ),
                                   Container(
@@ -283,7 +283,7 @@ class _MediaHorariosPreenchidosState extends State<MediaHorariosPreenchidos> {
                                       ),
                                     ),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 5,
                                   ),
                                   Container(
@@ -305,7 +305,7 @@ class _MediaHorariosPreenchidosState extends State<MediaHorariosPreenchidos> {
                         ],
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     Expanded(
@@ -326,7 +326,7 @@ class _MediaHorariosPreenchidosState extends State<MediaHorariosPreenchidos> {
                               padding: const EdgeInsets.symmetric(vertical: 4),
                               child: Container(
                                 width: double.infinity,
-                                padding: EdgeInsets.symmetric(
+                                padding: const EdgeInsets.symmetric(
                                     vertical: 15, horizontal: 10),
                                 decoration: BoxDecoration(
                                   color: Colors.grey.shade200,
@@ -337,14 +337,14 @@ class _MediaHorariosPreenchidosState extends State<MediaHorariosPreenchidos> {
                                     Text(
                                       "${horario.horario}",
                                       style: GoogleFonts.poppins(
-                                        textStyle: TextStyle(
+                                        textStyle: const TextStyle(
                                           fontSize: 16,
                                           color: Colors.black,
                                           fontWeight: FontWeight.w600,
                                         ),
                                       ),
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 15,
                                     ),
                                     Expanded(
@@ -358,7 +358,7 @@ class _MediaHorariosPreenchidosState extends State<MediaHorariosPreenchidos> {
                                         ),
                                       ),
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 10,
                                     ),
                                     Row(
@@ -381,13 +381,13 @@ class _MediaHorariosPreenchidosState extends State<MediaHorariosPreenchidos> {
                                                       ? Colors.yellow
                                                       : Colors.green.shade600,
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           width: 5,
                                         ),
                                         Text(
                                           "${count.toString()}",
                                           style: GoogleFonts.poppins(
-                                            textStyle: TextStyle(
+                                            textStyle: const TextStyle(
                                               fontSize: 16,
                                               color: Colors.black,
                                               fontWeight: FontWeight.w600,
@@ -422,7 +422,7 @@ class _MediaHorariosPreenchidosState extends State<MediaHorariosPreenchidos> {
                       Text(
                         "Carregando...",
                         style: GoogleFonts.poppins(
-                          textStyle: TextStyle(
+                          textStyle: const TextStyle(
                             fontSize: 16,
                             color: Colors.black,
                             fontWeight: FontWeight.w600,

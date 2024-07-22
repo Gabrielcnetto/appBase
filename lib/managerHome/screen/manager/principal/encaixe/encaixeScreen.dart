@@ -1189,13 +1189,13 @@ class _EncaixeScreenProfissionalOptionHomeProfState
                       ),
                     ),
                     //CONTAINER DO NUMERO
-                    SizedBox(
+                    const SizedBox(
                       height: 25,
                     ),
                     //CONTAINER DOS PROCEDIMENTOS - INICIO
                     Container(
                       padding:
-                          EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                          const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                       alignment: Alignment.center,
                       width: double.infinity,
                       decoration: BoxDecoration(
@@ -1234,14 +1234,14 @@ class _EncaixeScreenProfissionalOptionHomeProfState
                                       ),
                                     ),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 5,
                                   ),
                                   InkWell(
                                     onTap: ativarServicosAdicionais,
                                     child: Container(
                                       alignment: Alignment.center,
-                                      padding: EdgeInsets.all(2),
+                                      padding: const EdgeInsets.all(2),
                                       decoration: BoxDecoration(
                                         color: Colors.white,
                                         borderRadius: BorderRadius.circular(10),
@@ -1269,7 +1269,7 @@ class _EncaixeScreenProfissionalOptionHomeProfState
                                   padding:
                                       const EdgeInsets.symmetric(vertical: 4),
                                   child: Container(
-                                    padding: EdgeInsets.symmetric(
+                                    padding: const EdgeInsets.symmetric(
                                         vertical: 10, horizontal: 5),
                                     child: Row(
                                       mainAxisAlignment:
@@ -1289,11 +1289,11 @@ class _EncaixeScreenProfissionalOptionHomeProfState
                                                 ),
                                               ),
                                             ),
-                                            SizedBox(width: 5),
+                                            const SizedBox(width: 5),
                                             Container(
                                               child: Row(
                                                 children: [
-                                                  Icon(
+                                                  const Icon(
                                                     Icons.paid,
                                                     color: Colors.green,
                                                     size: 15,

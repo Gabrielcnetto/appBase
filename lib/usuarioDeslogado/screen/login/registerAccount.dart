@@ -275,7 +275,7 @@ class _RegisterAccountScreenState extends State<RegisterAccountScreen> {
                                 Navigator.of(context).pop();
                               },
                               child: Text(
-                                "< Voltar ao Login",
+                                "< Voltar",
                                 style: GoogleFonts.openSans(
                                     textStyle: TextStyle(
                                   fontSize: 13,

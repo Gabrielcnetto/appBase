@@ -6,6 +6,7 @@ import 'package:lionsbarberv1/normalUsersHome/screen/home/home_components/header
 import 'package:lionsbarberv1/normalUsersHome/screen/home/home_components/header/home_noItenswithLoading.dart';
 import 'package:lionsbarberv1/normalUsersHome/screen/home/home_components/profissionaisList.dart';
 import 'package:lionsbarberv1/normalUsersHome/screen/home/home_components/promotionBanner.dart';
+import 'package:lionsbarberv1/normalUsersHome/screen/home/points_rewards/geralView.dart';
 import 'package:lionsbarberv1/normalUsersHome/screen/home/ranking/rankingHome.dart';
 import 'package:lionsbarberv1/normalUsersHome/screen/home/ranking/semUsuarios.dart';
 import 'package:flutter/material.dart';
@@ -69,6 +70,7 @@ class _HomeOnlyWidgetsState extends State<HomeOnlyWidgets> {
                     widhScreen: widhtTela,
                   )
                 : const RankingSemUsuarios(),
+            GeralViewRewardsUser(),
           ],
         ),
       ),

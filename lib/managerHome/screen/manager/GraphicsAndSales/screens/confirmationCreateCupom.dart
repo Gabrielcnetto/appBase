@@ -52,7 +52,7 @@ class _ConfirmCreateCupomImageState extends State<ConfirmCreateCupomImage> {
               title: Text(
                 "Para compartilhar, use o App",
                 style: GoogleFonts.openSans(
-                  textStyle: TextStyle(
+                  textStyle: const TextStyle(
                     fontSize: 16,
                     color: Colors.black,
                     fontWeight: FontWeight.w600,
@@ -78,7 +78,7 @@ class _ConfirmCreateCupomImageState extends State<ConfirmCreateCupomImage> {
                   child: Text(
                     "Fechar",
                     style: GoogleFonts.openSans(
-                      textStyle: TextStyle(
+                      textStyle: const TextStyle(
                         fontSize: 14,
                         color: Colors.black,
                         fontWeight: FontWeight.w800,
@@ -141,7 +141,7 @@ class _ConfirmCreateCupomImageState extends State<ConfirmCreateCupomImage> {
                         size: 30,
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 5,
                     ),
                     InkWell(
@@ -153,7 +153,7 @@ class _ConfirmCreateCupomImageState extends State<ConfirmCreateCupomImage> {
                       child: Text(
                         "Voltar",
                         style: GoogleFonts.openSans(
-                          textStyle: TextStyle(
+                          textStyle: const TextStyle(
                             fontWeight: FontWeight.w500,
                             fontSize: 14,
                           ),
@@ -163,7 +163,7 @@ class _ConfirmCreateCupomImageState extends State<ConfirmCreateCupomImage> {
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 5,
               ),
               Container(
@@ -174,13 +174,13 @@ class _ConfirmCreateCupomImageState extends State<ConfirmCreateCupomImage> {
                     Text(
                       "Cupom Criado!",
                       style: GoogleFonts.poppins(
-                        textStyle: TextStyle(
+                        textStyle: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w800,
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 5,
                     ),
                     Container(
@@ -197,7 +197,7 @@ class _ConfirmCreateCupomImageState extends State<ConfirmCreateCupomImage> {
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     //Container da imagem
@@ -222,7 +222,7 @@ class _ConfirmCreateCupomImageState extends State<ConfirmCreateCupomImage> {
                       child: Container(
                         alignment: Alignment.center,
                         width: MediaQuery.of(context).size.width * 0.65,
-                        padding: EdgeInsets.all(3),
+                        padding: const EdgeInsets.all(3),
                         decoration: BoxDecoration(
                           color: Colors.grey.shade200,
                           borderRadius: BorderRadius.circular(10),
@@ -230,18 +230,18 @@ class _ConfirmCreateCupomImageState extends State<ConfirmCreateCupomImage> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(
+                            const Icon(
                               Icons.share,
                               color: Colors.black,
                               size: 18,
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 5,
                             ),
                             Text(
                               "Compartilhar Agora",
                               style: GoogleFonts.openSans(
-                                textStyle: TextStyle(
+                                textStyle: const TextStyle(
                                   fontSize: 14,
                                   color: Colors.black,
                                   fontWeight: FontWeight.w500,

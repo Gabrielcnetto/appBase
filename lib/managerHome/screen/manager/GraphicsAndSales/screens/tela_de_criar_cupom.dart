@@ -62,7 +62,7 @@ class _CreateInfsCupomState extends State<CreateInfsCupom> {
             title: Text(
               "Erro ao criar cupom",
               style: GoogleFonts.openSans(
-                textStyle: TextStyle(
+                textStyle: const TextStyle(
                   fontWeight: FontWeight.w500,
                   fontSize: 18,
                   color: Colors.black,
@@ -88,7 +88,7 @@ class _CreateInfsCupomState extends State<CreateInfsCupom> {
                   child: Text(
                     "Fechar",
                     style: GoogleFonts.poppins(
-                      textStyle: TextStyle(
+                      textStyle: const TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w500,
                         color: Colors.black,
@@ -181,7 +181,7 @@ class _CreateInfsCupomState extends State<CreateInfsCupom> {
       context: context,
       builder: (ctx) {
         return Container(
-          padding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+          padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
           height: MediaQuery.of(context).size.height * 0.5,
           width: double.infinity,
           child: Column(
@@ -191,7 +191,7 @@ class _CreateInfsCupomState extends State<CreateInfsCupom> {
               Text(
                 "Confirme as informações",
                 style: GoogleFonts.openSans(
-                  textStyle: TextStyle(
+                  textStyle: const TextStyle(
                     fontSize: 16,
                     color: Colors.black,
                     fontWeight: FontWeight.w700,
@@ -199,7 +199,7 @@ class _CreateInfsCupomState extends State<CreateInfsCupom> {
                 ),
               ),
               Container(
-                padding: EdgeInsets.symmetric(
+                padding: const EdgeInsets.symmetric(
                   vertical: 10,
                   horizontal: 10,
                 ),
@@ -207,7 +207,7 @@ class _CreateInfsCupomState extends State<CreateInfsCupom> {
                   borderRadius: BorderRadius.circular(
                     10,
                   ),
-                  color: Color.fromARGB(255, 171, 168, 168).withOpacity(0.2),
+                  color: const Color.fromARGB(255, 171, 168, 168).withOpacity(0.2),
                 ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -219,14 +219,14 @@ class _CreateInfsCupomState extends State<CreateInfsCupom> {
                         Text(
                           "Nome do cupom:",
                           style: GoogleFonts.openSans(
-                            textStyle: TextStyle(
+                            textStyle: const TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w700,
                               color: Colors.black,
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
                         Text(
@@ -244,14 +244,14 @@ class _CreateInfsCupomState extends State<CreateInfsCupom> {
                           Text(
                             "Horário para ser ativado:",
                             style: GoogleFonts.openSans(
-                              textStyle: TextStyle(
+                              textStyle: const TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w700,
                                 color: Colors.black,
                               ),
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 10,
                           ),
                           Text(
@@ -270,14 +270,14 @@ class _CreateInfsCupomState extends State<CreateInfsCupom> {
                           Text(
                             "Multiplica por:",
                             style: GoogleFonts.openSans(
-                              textStyle: TextStyle(
+                              textStyle: const TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w700,
                                 color: Colors.black,
                               ),
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 10,
                           ),
                           Text(
@@ -296,14 +296,14 @@ class _CreateInfsCupomState extends State<CreateInfsCupom> {
                           Text(
                             "Código de ativação:",
                             style: GoogleFonts.openSans(
-                              textStyle: TextStyle(
+                              textStyle: const TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w700,
                                 color: Colors.black,
                               ),
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 10,
                           ),
                           Text(
@@ -321,7 +321,7 @@ class _CreateInfsCupomState extends State<CreateInfsCupom> {
                 child: Container(
                   alignment: Alignment.center,
                   width: double.infinity,
-                  padding: EdgeInsets.symmetric(vertical: 10),
+                  padding: const EdgeInsets.symmetric(vertical: 10),
                   decoration: BoxDecoration(
                     color: Estabelecimento.primaryColor,
                     borderRadius: BorderRadius.circular(10),
@@ -363,7 +363,7 @@ class _CreateInfsCupomState extends State<CreateInfsCupom> {
                       onTap: () {
                         Navigator.of(context).pop();
                       },
-                      child: Icon(
+                      child: const Icon(
                         Icons.arrow_back_ios,
                         size: 30,
                       ),
@@ -376,14 +376,14 @@ class _CreateInfsCupomState extends State<CreateInfsCupom> {
                           Text(
                             "Vamos criar seu cupom.",
                             style: GoogleFonts.openSans(
-                              textStyle: TextStyle(
+                              textStyle: const TextStyle(
                                 fontSize: 30,
                                 fontWeight: FontWeight.w700,
                                 color: Colors.black,
                               ),
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 15,
                           ),
                           Container(
@@ -405,7 +405,7 @@ class _CreateInfsCupomState extends State<CreateInfsCupom> {
                   ],
                 ),
                 //ETAPAS
-                SizedBox(
+                const SizedBox(
                   height: 30,
                 ),
                 // ETAPA 1 - NOME DO CUPOM (MAXIMO 5 DIGITOS) - INICIO
@@ -415,13 +415,13 @@ class _CreateInfsCupomState extends State<CreateInfsCupom> {
                     Text(
                       "Qual o nome do cupom?",
                       style: GoogleFonts.poppins(
-                        textStyle: TextStyle(
+                        textStyle: const TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 5,
                     ),
                     Container(
@@ -434,7 +434,7 @@ class _CreateInfsCupomState extends State<CreateInfsCupom> {
                         ),
                       ),
                       padding:
-                          EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                          const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
                       child: TextFormField(
                         maxLength: 15,
                         maxLengthEnforcement: MaxLengthEnforcement.enforced,
@@ -444,7 +444,7 @@ class _CreateInfsCupomState extends State<CreateInfsCupom> {
                           label: Text(
                             "Insira um nome",
                             style: GoogleFonts.poppins(
-                              textStyle: TextStyle(
+                              textStyle: const TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w500,
                               ),
@@ -455,7 +455,7 @@ class _CreateInfsCupomState extends State<CreateInfsCupom> {
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 15,
                 ),
                 // ETAPA 1 - NOME DO CUPOM (MAXIMO 5 DIGITOS) - FIM
@@ -466,13 +466,13 @@ class _CreateInfsCupomState extends State<CreateInfsCupom> {
                     Text(
                       "Qual horário poderá ser ativado?",
                       style: GoogleFonts.poppins(
-                        textStyle: TextStyle(
+                        textStyle: const TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 5,
                     ),
                     Padding(
@@ -538,7 +538,7 @@ class _CreateInfsCupomState extends State<CreateInfsCupom> {
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 15,
                 ),
                 // ETAPA 2 - Horario - fim
@@ -549,7 +549,7 @@ class _CreateInfsCupomState extends State<CreateInfsCupom> {
                     Text(
                       "Quantos Vezes ele multiplica os pontos?",
                       style: GoogleFonts.poppins(
-                        textStyle: TextStyle(
+                        textStyle: const TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w500,
                         ),
@@ -557,14 +557,14 @@ class _CreateInfsCupomState extends State<CreateInfsCupom> {
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 15,
                 ),
                 Container(
                   width: double.infinity,
                   height: MediaQuery.of(context).size.height * 0.4,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
+                    borderRadius: const BorderRadius.only(
                       topRight: Radius.elliptical(20, 20),
                       bottomRight: Radius.elliptical(20, 20),
                       topLeft: Radius.elliptical(20, 20),
@@ -583,12 +583,12 @@ class _CreateInfsCupomState extends State<CreateInfsCupom> {
                         height: MediaQuery.of(context).size.height * 0.4,
                         decoration: BoxDecoration(
                           color: Colors.blue.shade600,
-                          borderRadius: BorderRadius.only(
+                          borderRadius: const BorderRadius.only(
                             topLeft: Radius.elliptical(20, 20),
                             bottomLeft: Radius.elliptical(20, 20),
                           ),
                         ),
-                        child: Icon(
+                        child: const Icon(
                           Icons.one_x_mobiledata,
                           size: 80,
                           color: Colors.white,
@@ -607,7 +607,7 @@ class _CreateInfsCupomState extends State<CreateInfsCupom> {
                                 children: [
                                   InkWell(
                                     onTap: aumentarDigito1,
-                                    child: Icon(
+                                    child: const Icon(
                                       Icons.arrow_drop_up,
                                       size: 45,
                                       color: Colors.black,
@@ -616,7 +616,7 @@ class _CreateInfsCupomState extends State<CreateInfsCupom> {
                                   Text(
                                     "${digito1}",
                                     style: GoogleFonts.openSans(
-                                      textStyle: TextStyle(
+                                      textStyle: const TextStyle(
                                         fontSize: 45,
                                         fontWeight: FontWeight.bold,
                                       ),
@@ -624,7 +624,7 @@ class _CreateInfsCupomState extends State<CreateInfsCupom> {
                                   ),
                                   InkWell(
                                     onTap: reduzirDigito1,
-                                    child: Icon(
+                                    child: const Icon(
                                       Icons.arrow_drop_down,
                                       size: 45,
                                       color: Colors.black,
@@ -632,7 +632,7 @@ class _CreateInfsCupomState extends State<CreateInfsCupom> {
                                   ),
                                 ],
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 10,
                               ),
                               //digito 2
@@ -642,7 +642,7 @@ class _CreateInfsCupomState extends State<CreateInfsCupom> {
                                 children: [
                                   InkWell(
                                     onTap: aumentarDigito2,
-                                    child: Icon(
+                                    child: const Icon(
                                       Icons.arrow_drop_up,
                                       size: 45,
                                       color: Colors.black,
@@ -651,7 +651,7 @@ class _CreateInfsCupomState extends State<CreateInfsCupom> {
                                   Text(
                                     "${digito2}",
                                     style: GoogleFonts.openSans(
-                                      textStyle: TextStyle(
+                                      textStyle: const TextStyle(
                                         fontSize: 45,
                                         fontWeight: FontWeight.bold,
                                       ),
@@ -659,7 +659,7 @@ class _CreateInfsCupomState extends State<CreateInfsCupom> {
                                   ),
                                   InkWell(
                                     onTap: reduzirDigito2,
-                                    child: Icon(
+                                    child: const Icon(
                                       Icons.arrow_drop_down,
                                       size: 45,
                                       color: Colors.black,
@@ -675,7 +675,7 @@ class _CreateInfsCupomState extends State<CreateInfsCupom> {
                   ),
                 ),
                 //ETAPA DA PORCETANGEM - FIM
-                SizedBox(
+                const SizedBox(
                   height: 15,
                 ),
 
@@ -686,13 +686,13 @@ class _CreateInfsCupomState extends State<CreateInfsCupom> {
                     Text(
                       "Crie um identificador # para o cupom:",
                       style: GoogleFonts.poppins(
-                        textStyle: TextStyle(
+                        textStyle: const TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 5,
                     ),
                     Container(
@@ -705,7 +705,7 @@ class _CreateInfsCupomState extends State<CreateInfsCupom> {
                         ),
                       ),
                       padding:
-                          EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                          const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
                       child: TextFormField(
                         inputFormatters: [
                           FilteringTextInputFormatter.deny(RegExp(r'#')),
@@ -720,7 +720,7 @@ class _CreateInfsCupomState extends State<CreateInfsCupom> {
                           label: Text(
                             "Insira um código de até 7 digitos(Sem inserir simbolo #)",
                             style: GoogleFonts.poppins(
-                              textStyle: TextStyle(
+                              textStyle: const TextStyle(
                                 fontSize: 10,
                                 fontWeight: FontWeight.w400,
                               ),
@@ -731,7 +731,7 @@ class _CreateInfsCupomState extends State<CreateInfsCupom> {
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 15,
                 ),
                 // ETAPA 3 - CODIGO # - FIM
@@ -751,7 +751,7 @@ class _CreateInfsCupomState extends State<CreateInfsCupom> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                       width: double.infinity,
-                      padding: EdgeInsets.symmetric(vertical: 15),
+                      padding: const EdgeInsets.symmetric(vertical: 15),
                       child: Text(
                         "CRIAR CUPOM AGORA",
                         style: GoogleFonts.openSans(
@@ -764,7 +764,7 @@ class _CreateInfsCupomState extends State<CreateInfsCupom> {
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 50,
                 ),
               ],

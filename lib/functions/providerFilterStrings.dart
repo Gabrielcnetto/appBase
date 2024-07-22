@@ -1,5 +1,6 @@
-import 'package:lionsbarberv1/classes/Estabelecimento.dart';
-import 'package:lionsbarberv1/classes/profissionais.dart';
+
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 
 class ProviderFilterManager with ChangeNotifier {

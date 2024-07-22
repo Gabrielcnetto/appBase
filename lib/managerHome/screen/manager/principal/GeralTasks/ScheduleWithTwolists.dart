@@ -498,7 +498,7 @@ class _ScheduleWithTwoListsState extends State<ScheduleWithTwoLists> {
                                                                                 arguments: corte);
                                                             },
                                                             child: Container(
-                                                              padding: EdgeInsets.only(bottom: 20),
+                                                              padding: const EdgeInsets.only(bottom: 20),
                                                                 alignment: Alignment
                                                                     .centerLeft,
                                                                 height: MediaQuery.of(

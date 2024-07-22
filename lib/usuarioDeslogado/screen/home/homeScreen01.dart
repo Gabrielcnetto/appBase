@@ -57,13 +57,13 @@ class _HomeScreen01DeslogadoState extends State<HomeScreen01Deslogado> {
     setState(() {
       _screensSelect = [
         {
-          'tela': HomeOnlyWidgetsDeslogado(),
+          'tela': const HomeOnlyWidgetsDeslogado(),
         },
         {
-          'tela': AddScreenUserDeslogado(),
+          'tela': const AddScreenUserDeslogado(),
         },
         {
-          'tela': HistoryScreenDeslogado(),
+          'tela': const HistoryScreenDeslogado(),
         },
         {
           'tela': const ProfileScreenDeslogado(),

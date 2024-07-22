@@ -25,7 +25,7 @@ class VerificationLoginScreen01 extends StatelessWidget {
             Navigator.of(context).push(
               DialogRoute(
                 context: context,
-                builder: (ctx) => HomeScreen01Deslogado(
+                builder: (ctx) => const HomeScreen01Deslogado(
                   selectedIndex: 0,
                 ),
               ),

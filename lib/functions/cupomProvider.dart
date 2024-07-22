@@ -1,3 +1,5 @@
+// ignore_for_file: unused_local_variable, file_names, avoid_print, use_rethrow_when_possible, prefer_final_fields, await_only_futures, unnecessary_brace_in_string_interps, unnecessary_cast
+
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';

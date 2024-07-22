@@ -1,5 +1,6 @@
+// ignore_for_file: unnecessary_null_comparison, unnecessary_type_check, unused_local_variable, file_names, unnecessary_brace_in_string_interps, avoid_print, non_constant_identifier_names, unnecessary_string_interpolations, await_only_futures
+
 import 'dart:convert';
-import 'dart:io';
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';

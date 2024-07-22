@@ -1012,7 +1012,7 @@ class _AddScreenState extends State<AddScreen> {
       context: context,
       builder: (ctx) {
         return Container(
-          padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
           width: double.infinity,
           height: MediaQuery.of(context).size.height * 0.6,
           child: SingleChildScrollView(
@@ -1024,7 +1024,7 @@ class _AddScreenState extends State<AddScreen> {
                 Text(
                   "Ative seu cupom",
                   style: GoogleFonts.openSans(
-                    textStyle: TextStyle(
+                    textStyle: const TextStyle(
                       fontSize: 16,
                       color: Colors.black,
                       fontWeight: FontWeight.w700,
@@ -1041,7 +1041,7 @@ class _AddScreenState extends State<AddScreen> {
                           color: Colors.grey.shade100,
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        padding: EdgeInsets.symmetric(
+                        padding: const EdgeInsets.symmetric(
                           vertical: 15,
                           horizontal: 15,
                         ),
@@ -1064,13 +1064,13 @@ class _AddScreenState extends State<AddScreen> {
                                 controller: cupomControler,
                               ),
                             ),
-                            Icon(
+                            const Icon(
                               Icons.confirmation_number,
                             ),
                           ],
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 15,
                       ),
                       if (cupomNaoEncontrado == true &&
@@ -1101,7 +1101,7 @@ class _AddScreenState extends State<AddScreen> {
                                   ),
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 5,
                               ),
                               Icon(
@@ -1131,7 +1131,7 @@ class _AddScreenState extends State<AddScreen> {
                                   ),
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 5,
                               ),
                               Icon(
@@ -1151,7 +1151,7 @@ class _AddScreenState extends State<AddScreen> {
                             ),
                           ),
                         ),
-                      SizedBox(
+                      const SizedBox(
                         height: 5,
                       ),
                       if (cupomEncontradoeOk == true)
@@ -1162,7 +1162,7 @@ class _AddScreenState extends State<AddScreen> {
                                   borderRadius: BorderRadius.circular(15),
                                   color: Colors.red.shade100.withOpacity(0.3)),
                               width: double.infinity,
-                              padding: EdgeInsets.symmetric(
+                              padding: const EdgeInsets.symmetric(
                                 vertical: 15,
                                 horizontal: 25,
                               ),
@@ -1174,7 +1174,7 @@ class _AddScreenState extends State<AddScreen> {
                                         Icons.sell,
                                         color: Colors.redAccent.shade700,
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         width: 10,
                                       ),
                                       Column(
@@ -1191,7 +1191,7 @@ class _AddScreenState extends State<AddScreen> {
                                               ),
                                             ),
                                           ),
-                                          SizedBox(
+                                          const SizedBox(
                                             height: 5,
                                           ),
                                           //HORARIO PARA SER USADO - INICIO
@@ -1202,7 +1202,7 @@ class _AddScreenState extends State<AddScreen> {
                                                 size: 15,
                                                 color: Colors.grey.shade700,
                                               ),
-                                              SizedBox(
+                                              const SizedBox(
                                                 width: 5,
                                               ),
                                               Text(
@@ -1217,7 +1217,7 @@ class _AddScreenState extends State<AddScreen> {
                                             ],
                                           ),
                                           //HORARIO PARA SER USADO - FIM
-                                          SizedBox(
+                                          const SizedBox(
                                             height: 5,
                                           ),
                                           //Multiplicacao de pontos - INICIO
@@ -1228,7 +1228,7 @@ class _AddScreenState extends State<AddScreen> {
                                                 size: 15,
                                                 color: Colors.grey.shade700,
                                               ),
-                                              SizedBox(
+                                              const SizedBox(
                                                 width: 5,
                                               ),
                                               Text(
@@ -1243,7 +1243,7 @@ class _AddScreenState extends State<AddScreen> {
                                             ],
                                           ),
                                           //Multiplicacao de pontos - FIM
-                                          SizedBox(
+                                          const SizedBox(
                                             height: 5,
                                           ),
                                           //Multiplicacao de pontos - INICIO
@@ -1254,7 +1254,7 @@ class _AddScreenState extends State<AddScreen> {
                                                 size: 15,
                                                 color: Colors.grey.shade700,
                                               ),
-                                              SizedBox(
+                                              const SizedBox(
                                                 width: 5,
                                               ),
                                               Text(
@@ -1294,13 +1294,13 @@ class _AddScreenState extends State<AddScreen> {
                         borderRadius: BorderRadius.circular(8),
                       ),
                       width: double.infinity,
-                      padding: EdgeInsets.symmetric(
+                      padding: const EdgeInsets.symmetric(
                         vertical: 15,
                       ),
                       child: Text(
                         "PESQUISAR CUPOM",
                         style: GoogleFonts.poppins(
-                          textStyle: TextStyle(
+                          textStyle: const TextStyle(
                             fontWeight: FontWeight.w700,
                             color: Colors.white,
                           ),
@@ -1490,7 +1490,7 @@ class _AddScreenState extends State<AddScreen> {
                             //CONTAINER DO NUMERO
                             //PROCEDIMENTOS EXTRAS - INICIO
                             Container(
-                              padding: EdgeInsets.symmetric(
+                              padding: const EdgeInsets.symmetric(
                                   vertical: 10, horizontal: 10),
                               alignment: Alignment.center,
                               width: double.infinity,
@@ -1532,14 +1532,14 @@ class _AddScreenState extends State<AddScreen> {
                                               ),
                                             ),
                                           ),
-                                          SizedBox(
+                                          const SizedBox(
                                             width: 5,
                                           ),
                                           InkWell(
                                             onTap: ativarServicosAdicionais,
                                             child: Container(
                                               alignment: Alignment.center,
-                                              padding: EdgeInsets.all(2),
+                                              padding: const EdgeInsets.all(2),
                                               decoration: BoxDecoration(
                                                 color: Colors.white,
                                                 borderRadius:
@@ -1571,7 +1571,7 @@ class _AddScreenState extends State<AddScreen> {
                                           padding: const EdgeInsets.symmetric(
                                               vertical: 4),
                                           child: Container(
-                                            padding: EdgeInsets.symmetric(
+                                            padding: const EdgeInsets.symmetric(
                                                 vertical: 10, horizontal: 5),
                                             child: Row(
                                               mainAxisAlignment:
@@ -1595,11 +1595,11 @@ class _AddScreenState extends State<AddScreen> {
                                                         ),
                                                       ),
                                                     ),
-                                                    SizedBox(width: 5),
+                                                    const SizedBox(width: 5),
                                                     Container(
                                                       child: Row(
                                                         children: [
-                                                          Icon(
+                                                          const Icon(
                                                             Icons.paid,
                                                             color: Colors.green,
                                                             size: 15,
@@ -1843,7 +1843,7 @@ class _AddScreenState extends State<AddScreen> {
                                 Text(
                                   "Tem um cupom?",
                                   style: GoogleFonts.openSans(
-                                    textStyle: TextStyle(
+                                    textStyle: const TextStyle(
                                       fontWeight: FontWeight.w700,
                                       color: Colors.black,
                                     ),
@@ -1857,7 +1857,7 @@ class _AddScreenState extends State<AddScreen> {
                                       borderRadius: BorderRadius.circular(8),
                                     ),
                                     alignment: Alignment.center,
-                                    padding: EdgeInsets.symmetric(
+                                    padding: const EdgeInsets.symmetric(
                                         vertical: 2, horizontal: 5),
                                     child: Text(
                                       "Ativar Agora",

@@ -279,7 +279,7 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
             content: Text(
               "Parabéns por estabelecer uma meta, agora é hora de alcançá-la!",
               style: GoogleFonts.openSans(
-                textStyle: TextStyle(
+                textStyle: const TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Colors.grey,
                   fontSize: 14,
@@ -323,7 +323,7 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
             content: Text(
               "você pode alterar a qualquer momento o valor.",
               style: GoogleFonts.openSans(
-                textStyle: TextStyle(
+                textStyle: const TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Colors.grey,
                   fontSize: 14,
@@ -352,7 +352,7 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
                 child: Text(
                   "Confirmar e Salvar",
                   style: GoogleFonts.openSans(
-                    textStyle: TextStyle(
+                    textStyle: const TextStyle(
                       fontWeight: FontWeight.bold,
                       color: Colors.black,
                       fontSize: 16,
@@ -405,7 +405,7 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
       context: context,
       builder: (ctx) {
         return Container(
-          padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
           height: MediaQuery.of(context).size.height * 0.7,
           width: double.infinity,
           child: SingleChildScrollView(
@@ -419,14 +419,14 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
                     Text(
                       "Coloque a meta desejada",
                       style: GoogleFonts.openSans(
-                        textStyle: TextStyle(
+                        textStyle: const TextStyle(
                           fontWeight: FontWeight.w700,
                           color: Colors.black,
                           fontSize: 16,
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     Text(
@@ -441,7 +441,7 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 Container(
@@ -459,7 +459,7 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
                       Text(
                         "R\$  ",
                         style: GoogleFonts.poppins(
-                          textStyle: TextStyle(
+                          textStyle: const TextStyle(
                             fontSize: 60,
                             fontWeight: FontWeight.bold,
                           ),
@@ -474,7 +474,7 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
                                   RegExp(r'[0-9]')),
                             ],
                             controller: metaControler,
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               label: Text("VALOR(R\$1000)"),
                             ),
                           ),
@@ -483,7 +483,7 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
                     ],
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 15,
                 ),
                 InkWell(
@@ -495,11 +495,11 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
                       color: Colors.blue.shade600,
                       borderRadius: BorderRadius.circular(20),
                     ),
-                    padding: EdgeInsets.symmetric(vertical: 10),
+                    padding: const EdgeInsets.symmetric(vertical: 10),
                     child: Text(
                       "Salvar alteração",
                       style: GoogleFonts.poppins(
-                        textStyle: TextStyle(
+                        textStyle: const TextStyle(
                           fontSize: 16,
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
@@ -522,7 +522,7 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
     String mesSelecionado =
         widget.mesInicial == "Clique" ? ultimos4Meses[0] : widget.mesInicial;
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
       width: double.infinity,
       height: showMoreMonths == false
           ? MediaQuery.of(context).size.height * 0.72
@@ -539,28 +539,28 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
-                  padding: EdgeInsets.all(5),
+                  padding: const EdgeInsets.all(5),
                   child: Row(
                     //   crossAxisAlignment: showMoreMonths == true ? CrossAxisAlignment.start : CrossAxisAlignment.c,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Container(
-                        padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                         decoration: BoxDecoration(
                           color: Colors.grey.shade200,
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        child: Icon(
+                        child: const Icon(
                           Icons.calendar_month,
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 5,
                       ),
                       Text(
                         "Faturamento",
                         style: GoogleFonts.openSans(
-                          textStyle: TextStyle(
+                          textStyle: const TextStyle(
                             fontWeight: FontWeight.w500,
                             fontSize: 14,
                             color: Colors.black,
@@ -575,7 +575,7 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
                     color: Estabelecimento.primaryColor,
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  padding: EdgeInsets.all(5),
+                  padding: const EdgeInsets.all(5),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -638,7 +638,7 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
                             )
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 3,
                       ),
                       InkWell(
@@ -662,7 +662,7 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
               child: Container(
                 width: double.infinity,
                 height: MediaQuery.of(context).size.height * 0.22,
-                padding: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+                padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -673,7 +673,7 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
                         "R\$${faturamentoExibido ?? 0}",
                         textAlign: TextAlign.center,
                         style: GoogleFonts.poppins(
-                          textStyle: TextStyle(
+                          textStyle: const TextStyle(
                             fontWeight: FontWeight.w600,
                             color: Colors.black,
                             fontSize: 45,
@@ -681,7 +681,7 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     Column(
@@ -695,7 +695,7 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 5,
                         ),
                         Container(
@@ -752,7 +752,7 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
                               Text(
                                 "Mês anterior",
                                 style: GoogleFonts.openSans(
-                                  textStyle: TextStyle(
+                                  textStyle: const TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 14,
                                     color: Colors.black,
@@ -762,7 +762,7 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
                               Text(
                                 "Faturamento vs Último mês",
                                 style: GoogleFonts.openSans(
-                                  textStyle: TextStyle(
+                                  textStyle: const TextStyle(
                                     fontWeight: FontWeight.w600,
                                     fontSize: 12,
                                     color: Colors.black54,
@@ -778,7 +778,7 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
                               Text(
                                 "R\$${faturamentoAnteriorAoEscolhido ?? 0}", // AQUI FATURAMENTO MES ANTERIOR
                                 style: GoogleFonts.openSans(
-                                  textStyle: TextStyle(
+                                  textStyle: const TextStyle(
                                     fontWeight: FontWeight.w500,
                                     fontSize: 14,
                                     color: Colors.black,
@@ -789,7 +789,7 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
                                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                                 children: [
                                   Container(
-                                    padding: EdgeInsets.all(1),
+                                    padding: const EdgeInsets.all(1),
                                     decoration: BoxDecoration(
                                         color: calcularDiferencaPercentual() <
                                                 0.00
@@ -797,25 +797,25 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
                                             : Colors.green.withOpacity(0.3),
                                         borderRadius: BorderRadius.circular(20)),
                                     child: calcularDiferencaPercentual() < 0.00
-                                        ? Icon(
+                                        ? const Icon(
                                             Icons.arrow_drop_down,
                                             color: Colors.red,
                                             size: 20,
                                           )
-                                        : Icon(
+                                        : const Icon(
                                             Icons.arrow_drop_up,
                                             size: 20,
                                             color: Colors.green,
                                           ),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 5,
                                   ),
                                   calcularDiferencaPercentual() < 0.00
                                       ? Text(
                                           "${calcularDiferencaPercentual().toStringAsFixed(2) ?? 0}%",
                                           style: GoogleFonts.openSans(
-                                            textStyle: TextStyle(
+                                            textStyle: const TextStyle(
                                               fontWeight: FontWeight.w600,
                                               fontSize: 12,
                                               color: Colors.red,
@@ -825,7 +825,7 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
                                       : Text(
                                           "${calcularDiferencaPercentual().toStringAsFixed(2) ?? 0}%",
                                           style: GoogleFonts.openSans(
-                                            textStyle: TextStyle(
+                                            textStyle: const TextStyle(
                                               fontWeight: FontWeight.w600,
                                               fontSize: 12,
                                               color: Colors.green,
@@ -853,7 +853,7 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
                               Text(
                                 "${profList[0].nomeProf}",
                                 style: GoogleFonts.openSans(
-                                  textStyle: TextStyle(
+                                  textStyle: const TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 14,
                                     color: Colors.black,
@@ -863,7 +863,7 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
                               Text(
                                 "Clientes mês Selecionado",
                                 style: GoogleFonts.openSans(
-                                  textStyle: TextStyle(
+                                  textStyle: const TextStyle(
                                     fontWeight: FontWeight.w600,
                                     fontSize: 12,
                                     color: Colors.black54,
@@ -879,7 +879,7 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
                               Text(
                                 "${totalCortesMesSelecionado ?? 0} Cortes", // AQUI FATURAMENTO MES ANTERIOR
                                 style: GoogleFonts.openSans(
-                                  textStyle: TextStyle(
+                                  textStyle: const TextStyle(
                                     fontWeight: FontWeight.w500,
                                     fontSize: 14,
                                     color: Colors.black,
@@ -890,7 +890,7 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
                                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                                 children: [
                                   Container(
-                                    padding: EdgeInsets.all(1),
+                                    padding: const EdgeInsets.all(1),
                                     decoration: BoxDecoration(
                                         color:
                                             calcularDiferencaPercentualProfissional1Cortes() >=
@@ -912,7 +912,7 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
                                               : Colors.red,
                                     ),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 5,
                                   ),
                                   Text(
@@ -951,7 +951,7 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
                               Text(
                                 "${profList[1].nomeProf}",
                                 style: GoogleFonts.openSans(
-                                  textStyle: TextStyle(
+                                  textStyle: const TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 14,
                                     color: Colors.black,
@@ -961,7 +961,7 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
                               Text(
                                 "Clientes mês Selecionado",
                                 style: GoogleFonts.openSans(
-                                  textStyle: TextStyle(
+                                  textStyle: const TextStyle(
                                     fontWeight: FontWeight.w600,
                                     fontSize: 12,
                                     color: Colors.black54,
@@ -977,7 +977,7 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
                               Text(
                                 "${totalCortesMesSelecionadoProf2 ?? 0} Cortes", // AQUI FATURAMENTO MES ANTERIOR
                                 style: GoogleFonts.openSans(
-                                  textStyle: TextStyle(
+                                  textStyle: const TextStyle(
                                     fontWeight: FontWeight.w500,
                                     fontSize: 14,
                                     color: Colors.black,
@@ -988,7 +988,7 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
                                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                                 children: [
                                   Container(
-                                    padding: EdgeInsets.all(1),
+                                    padding: const EdgeInsets.all(1),
                                     decoration: BoxDecoration(
                                         color:
                                             calcularDiferencaPercentualProfissional2Cortes() >=
@@ -1010,7 +1010,7 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
                                               : Colors.red,
                                     ),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 5,
                                   ),
                                   Text(
@@ -1042,7 +1042,7 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 5,
             ),
             Row(
@@ -1051,7 +1051,7 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
                 if (metaDatabase == 0)
                   Row(
                     children: [
-                      Icon(
+                      const Icon(
                         Icons.star,
                         color: Colors.orangeAccent,
                         size: 17,
@@ -1059,7 +1059,7 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
                       Text(
                         "Novidade",
                         style: GoogleFonts.poppins(
-                          textStyle: TextStyle(
+                          textStyle: const TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
                             fontSize: 10,
@@ -1068,13 +1068,13 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
                       ),
                     ],
                   ),
-                SizedBox(
+                const SizedBox(
                   width: 5,
                 ),
                 InkWell(
                   onTap: ShowModalMeta,
                   child: Container(
-                    padding: EdgeInsets.symmetric(vertical: 4, horizontal: 5),
+                    padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 5),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       color: Colors.white,

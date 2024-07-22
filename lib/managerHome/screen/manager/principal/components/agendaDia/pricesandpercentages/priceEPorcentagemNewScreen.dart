@@ -957,7 +957,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
       context: context,
       builder: (ctx) {
         return Container(
-          padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
           height: MediaQuery.of(context).size.height * 0.7,
           width: double.infinity,
           child: Column(
@@ -966,14 +966,14 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
               Text(
                 "Ajuste para o valor desejado",
                 style: GoogleFonts.openSans(
-                  textStyle: TextStyle(
+                  textStyle: const TextStyle(
                     fontWeight: FontWeight.w700,
                     color: Colors.black,
                     fontSize: 16,
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Container(
@@ -991,7 +991,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                     Text(
                       "R\$  ",
                       style: GoogleFonts.poppins(
-                        textStyle: TextStyle(
+                        textStyle: const TextStyle(
                           fontSize: 60,
                           fontWeight: FontWeight.bold,
                         ),
@@ -1008,14 +1008,14 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                             children: [
                               InkWell(
                                 onTap: aumentarNumbero1PriceCorteNormal,
-                                child: Icon(
+                                child: const Icon(
                                   Icons.keyboard_arrow_up,
                                   size: 25,
                                   color: Colors.black,
                                 ),
                               ),
                               Container(
-                                padding: EdgeInsets.all(10),
+                                padding: const EdgeInsets.all(10),
                                 decoration: BoxDecoration(
                                   color: Colors.grey.shade300,
                                   borderRadius: BorderRadius.circular(15),
@@ -1023,7 +1023,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                                 child: Text(
                                   "${number1priceCorteNormal}",
                                   style: GoogleFonts.poppins(
-                                    textStyle: TextStyle(
+                                    textStyle: const TextStyle(
                                       fontSize: 35,
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -1032,7 +1032,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                               ),
                               InkWell(
                                 onTap: DiminuirNumbero1PriceCorteNormal,
-                                child: Icon(
+                                child: const Icon(
                                   Icons.keyboard_arrow_down,
                                   size: 25,
                                   color: Colors.black,
@@ -1042,7 +1042,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                           ),
                         ),
                         //digito 1 - fim
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
                         //digito 2 - inicio
@@ -1052,14 +1052,14 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                             children: [
                               InkWell(
                                 onTap: aumentarNumbero2PriceCorteNormal,
-                                child: Icon(
+                                child: const Icon(
                                   Icons.keyboard_arrow_up,
                                   size: 25,
                                   color: Colors.black,
                                 ),
                               ),
                               Container(
-                                padding: EdgeInsets.all(10),
+                                padding: const EdgeInsets.all(10),
                                 decoration: BoxDecoration(
                                   color: Colors.grey.shade300,
                                   borderRadius: BorderRadius.circular(15),
@@ -1067,7 +1067,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                                 child: Text(
                                   "${number2priceCorteNormal}",
                                   style: GoogleFonts.poppins(
-                                    textStyle: TextStyle(
+                                    textStyle: const TextStyle(
                                       fontSize: 35,
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -1076,7 +1076,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                               ),
                               InkWell(
                                 onTap: DiminuirNumbero2PriceCorteNormal,
-                                child: Icon(
+                                child: const Icon(
                                   Icons.keyboard_arrow_down,
                                   size: 25,
                                   color: Colors.black,
@@ -1092,7 +1092,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 15,
               ),
               InkWell(
@@ -1104,11 +1104,11 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                     color: Colors.blue.shade600,
                     borderRadius: BorderRadius.circular(20),
                   ),
-                  padding: EdgeInsets.symmetric(vertical: 10),
+                  padding: const EdgeInsets.symmetric(vertical: 10),
                   child: Text(
                     "Salvar alteração",
                     style: GoogleFonts.poppins(
-                      textStyle: TextStyle(
+                      textStyle: const TextStyle(
                         fontSize: 16,
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
@@ -1131,7 +1131,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
       context: context,
       builder: (ctx) {
         return Container(
-          padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
           height: MediaQuery.of(context).size.height * 0.7,
           width: double.infinity,
           child: Column(
@@ -1140,14 +1140,14 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
               Text(
                 "Ajuste para o valor desejado",
                 style: GoogleFonts.openSans(
-                  textStyle: TextStyle(
+                  textStyle: const TextStyle(
                     fontWeight: FontWeight.w700,
                     color: Colors.black,
                     fontSize: 16,
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Container(
@@ -1165,7 +1165,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                     Text(
                       "R\$  ",
                       style: GoogleFonts.poppins(
-                        textStyle: TextStyle(
+                        textStyle: const TextStyle(
                           fontSize: 60,
                           fontWeight: FontWeight.bold,
                         ),
@@ -1182,14 +1182,14 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                             children: [
                               InkWell(
                                 onTap: aumentarNumbero1AdicionalBarba,
-                                child: Icon(
+                                child: const Icon(
                                   Icons.keyboard_arrow_up,
                                   size: 25,
                                   color: Colors.black,
                                 ),
                               ),
                               Container(
-                                padding: EdgeInsets.all(10),
+                                padding: const EdgeInsets.all(10),
                                 decoration: BoxDecoration(
                                   color: Colors.grey.shade300,
                                   borderRadius: BorderRadius.circular(15),
@@ -1197,7 +1197,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                                 child: Text(
                                   "${number1priceAdicionalBarba}",
                                   style: GoogleFonts.poppins(
-                                    textStyle: TextStyle(
+                                    textStyle: const TextStyle(
                                       fontSize: 35,
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -1206,7 +1206,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                               ),
                               InkWell(
                                 onTap: DiminuirNumbero1AdicionalBarba,
-                                child: Icon(
+                                child: const Icon(
                                   Icons.keyboard_arrow_down,
                                   size: 25,
                                   color: Colors.black,
@@ -1216,7 +1216,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                           ),
                         ),
                         //digito 1 - fim
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
                         //digito 2 - inicio
@@ -1226,14 +1226,14 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                             children: [
                               InkWell(
                                 onTap: aumentarNumbero2priceAdicionalBarba,
-                                child: Icon(
+                                child: const Icon(
                                   Icons.keyboard_arrow_up,
                                   size: 25,
                                   color: Colors.black,
                                 ),
                               ),
                               Container(
-                                padding: EdgeInsets.all(10),
+                                padding: const EdgeInsets.all(10),
                                 decoration: BoxDecoration(
                                   color: Colors.grey.shade300,
                                   borderRadius: BorderRadius.circular(15),
@@ -1241,7 +1241,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                                 child: Text(
                                   "${number2priceAdicionalBarba}",
                                   style: GoogleFonts.poppins(
-                                    textStyle: TextStyle(
+                                    textStyle: const TextStyle(
                                       fontSize: 35,
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -1250,7 +1250,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                               ),
                               InkWell(
                                 onTap: DiminuirNumbero2priceAdicionalBarba,
-                                child: Icon(
+                                child: const Icon(
                                   Icons.keyboard_arrow_down,
                                   size: 25,
                                   color: Colors.black,
@@ -1266,7 +1266,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 15,
               ),
               InkWell(
@@ -1278,11 +1278,11 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                     color: Colors.blue.shade600,
                     borderRadius: BorderRadius.circular(20),
                   ),
-                  padding: EdgeInsets.symmetric(vertical: 10),
+                  padding: const EdgeInsets.symmetric(vertical: 10),
                   child: Text(
                     "Salvar alteração",
                     style: GoogleFonts.poppins(
-                      textStyle: TextStyle(
+                      textStyle: const TextStyle(
                         fontSize: 16,
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
@@ -1304,7 +1304,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
       context: context,
       builder: (ctx) {
         return Container(
-          padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
           height: MediaQuery.of(context).size.height * 0.7,
           width: double.infinity,
           child: Column(
@@ -1313,14 +1313,14 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
               Text(
                 "Ajuste para o valor adicional de ${procedimentosLista[2].name}",
                 style: GoogleFonts.openSans(
-                  textStyle: TextStyle(
+                  textStyle: const TextStyle(
                     fontWeight: FontWeight.w700,
                     color: Colors.black,
                     fontSize: 16,
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Container(
@@ -1338,7 +1338,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                     Text(
                       "R\$  ",
                       style: GoogleFonts.poppins(
-                        textStyle: TextStyle(
+                        textStyle: const TextStyle(
                           fontSize: 60,
                           fontWeight: FontWeight.bold,
                         ),
@@ -1355,14 +1355,14 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                             children: [
                               InkWell(
                                 onTap: aumentarNumbero1AdicionalIndex2,
-                                child: Icon(
+                                child: const Icon(
                                   Icons.keyboard_arrow_up,
                                   size: 25,
                                   color: Colors.black,
                                 ),
                               ),
                               Container(
-                                padding: EdgeInsets.all(10),
+                                padding: const EdgeInsets.all(10),
                                 decoration: BoxDecoration(
                                   color: Colors.grey.shade300,
                                   borderRadius: BorderRadius.circular(15),
@@ -1370,7 +1370,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                                 child: Text(
                                   "${number1priceAdicionalIndex2}",
                                   style: GoogleFonts.poppins(
-                                    textStyle: TextStyle(
+                                    textStyle: const TextStyle(
                                       fontSize: 35,
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -1379,7 +1379,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                               ),
                               InkWell(
                                 onTap: DiminuirNumbero1AdicionalIndex2,
-                                child: Icon(
+                                child: const Icon(
                                   Icons.keyboard_arrow_down,
                                   size: 25,
                                   color: Colors.black,
@@ -1389,7 +1389,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                           ),
                         ),
                         //digito 1 - fim
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
                         //digito 2 - inicio
@@ -1399,14 +1399,14 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                             children: [
                               InkWell(
                                 onTap: aumentarNumbero2priceAdicionalIndex2,
-                                child: Icon(
+                                child: const Icon(
                                   Icons.keyboard_arrow_up,
                                   size: 25,
                                   color: Colors.black,
                                 ),
                               ),
                               Container(
-                                padding: EdgeInsets.all(10),
+                                padding: const EdgeInsets.all(10),
                                 decoration: BoxDecoration(
                                   color: Colors.grey.shade300,
                                   borderRadius: BorderRadius.circular(15),
@@ -1414,7 +1414,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                                 child: Text(
                                   "${number2priceAdicionalIndex2}",
                                   style: GoogleFonts.poppins(
-                                    textStyle: TextStyle(
+                                    textStyle: const TextStyle(
                                       fontSize: 35,
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -1423,7 +1423,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                               ),
                               InkWell(
                                 onTap: DiminuirNumbero2priceAdicionalIndex2,
-                                child: Icon(
+                                child: const Icon(
                                   Icons.keyboard_arrow_down,
                                   size: 25,
                                   color: Colors.black,
@@ -1439,7 +1439,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 15,
               ),
               InkWell(
@@ -1451,11 +1451,11 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                     color: Colors.blue.shade600,
                     borderRadius: BorderRadius.circular(20),
                   ),
-                  padding: EdgeInsets.symmetric(vertical: 10),
+                  padding: const EdgeInsets.symmetric(vertical: 10),
                   child: Text(
                     "Salvar alteração",
                     style: GoogleFonts.poppins(
-                      textStyle: TextStyle(
+                      textStyle: const TextStyle(
                         fontSize: 16,
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
@@ -1477,7 +1477,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
       context: context,
       builder: (ctx) {
         return Container(
-          padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
           height: MediaQuery.of(context).size.height * 0.7,
           width: double.infinity,
           child: Column(
@@ -1486,14 +1486,14 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
               Text(
                 "Ajuste para o valor adicional de ${procedimentosLista[3].name}",
                 style: GoogleFonts.openSans(
-                  textStyle: TextStyle(
+                  textStyle: const TextStyle(
                     fontWeight: FontWeight.w700,
                     color: Colors.black,
                     fontSize: 16,
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Container(
@@ -1511,7 +1511,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                     Text(
                       "R\$  ",
                       style: GoogleFonts.poppins(
-                        textStyle: TextStyle(
+                        textStyle: const TextStyle(
                           fontSize: 60,
                           fontWeight: FontWeight.bold,
                         ),
@@ -1528,14 +1528,14 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                             children: [
                               InkWell(
                                 onTap: aumentarNumbero1AdicionalIndex3,
-                                child: Icon(
+                                child: const Icon(
                                   Icons.keyboard_arrow_up,
                                   size: 25,
                                   color: Colors.black,
                                 ),
                               ),
                               Container(
-                                padding: EdgeInsets.all(10),
+                                padding: const EdgeInsets.all(10),
                                 decoration: BoxDecoration(
                                   color: Colors.grey.shade300,
                                   borderRadius: BorderRadius.circular(15),
@@ -1543,7 +1543,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                                 child: Text(
                                   "${number1priceAdicionalIndex3}",
                                   style: GoogleFonts.poppins(
-                                    textStyle: TextStyle(
+                                    textStyle: const TextStyle(
                                       fontSize: 35,
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -1552,7 +1552,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                               ),
                               InkWell(
                                 onTap: DiminuirNumbero1AdicionalIndex3,
-                                child: Icon(
+                                child: const Icon(
                                   Icons.keyboard_arrow_down,
                                   size: 25,
                                   color: Colors.black,
@@ -1562,7 +1562,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                           ),
                         ),
                         //digito 1 - fim
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
                         //digito 2 - inicio
@@ -1572,14 +1572,14 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                             children: [
                               InkWell(
                                 onTap: aumentarNumbero2priceAdicionalIndex3,
-                                child: Icon(
+                                child: const Icon(
                                   Icons.keyboard_arrow_up,
                                   size: 25,
                                   color: Colors.black,
                                 ),
                               ),
                               Container(
-                                padding: EdgeInsets.all(10),
+                                padding: const EdgeInsets.all(10),
                                 decoration: BoxDecoration(
                                   color: Colors.grey.shade300,
                                   borderRadius: BorderRadius.circular(15),
@@ -1587,7 +1587,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                                 child: Text(
                                   "${number2priceAdicionalIndex3}",
                                   style: GoogleFonts.poppins(
-                                    textStyle: TextStyle(
+                                    textStyle: const TextStyle(
                                       fontSize: 35,
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -1596,7 +1596,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                               ),
                               InkWell(
                                 onTap: DiminuirNumbero2priceAdicionalIndex3,
-                                child: Icon(
+                                child: const Icon(
                                   Icons.keyboard_arrow_down,
                                   size: 25,
                                   color: Colors.black,
@@ -1612,7 +1612,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 15,
               ),
               InkWell(
@@ -1624,11 +1624,11 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                     color: Colors.blue.shade600,
                     borderRadius: BorderRadius.circular(20),
                   ),
-                  padding: EdgeInsets.symmetric(vertical: 10),
+                  padding: const EdgeInsets.symmetric(vertical: 10),
                   child: Text(
                     "Salvar alteração",
                     style: GoogleFonts.poppins(
-                      textStyle: TextStyle(
+                      textStyle: const TextStyle(
                         fontSize: 16,
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
@@ -1650,7 +1650,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
       context: context,
       builder: (ctx) {
         return Container(
-          padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
           height: MediaQuery.of(context).size.height * 0.7,
           width: double.infinity,
           child: Column(
@@ -1659,14 +1659,14 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
               Text(
                 "Ajuste para o valor adicional de ${procedimentosLista[4].name}",
                 style: GoogleFonts.openSans(
-                  textStyle: TextStyle(
+                  textStyle: const TextStyle(
                     fontWeight: FontWeight.w700,
                     color: Colors.black,
                     fontSize: 16,
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Container(
@@ -1684,7 +1684,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                     Text(
                       "R\$  ",
                       style: GoogleFonts.poppins(
-                        textStyle: TextStyle(
+                        textStyle: const TextStyle(
                           fontSize: 60,
                           fontWeight: FontWeight.bold,
                         ),
@@ -1701,14 +1701,14 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                             children: [
                               InkWell(
                                 onTap: aumentarNumbero1AdicionalIndex4,
-                                child: Icon(
+                                child: const Icon(
                                   Icons.keyboard_arrow_up,
                                   size: 25,
                                   color: Colors.black,
                                 ),
                               ),
                               Container(
-                                padding: EdgeInsets.all(10),
+                                padding: const EdgeInsets.all(10),
                                 decoration: BoxDecoration(
                                   color: Colors.grey.shade300,
                                   borderRadius: BorderRadius.circular(15),
@@ -1716,7 +1716,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                                 child: Text(
                                   "${number1priceAdicionalIndex4}",
                                   style: GoogleFonts.poppins(
-                                    textStyle: TextStyle(
+                                    textStyle: const TextStyle(
                                       fontSize: 35,
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -1725,7 +1725,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                               ),
                               InkWell(
                                 onTap: DiminuirNumbero1AdicionalIndex4,
-                                child: Icon(
+                                child: const Icon(
                                   Icons.keyboard_arrow_down,
                                   size: 25,
                                   color: Colors.black,
@@ -1735,7 +1735,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                           ),
                         ),
                         //digito 1 - fim
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
                         //digito 2 - inicio
@@ -1745,14 +1745,14 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                             children: [
                               InkWell(
                                 onTap: aumentarNumbero2priceAdicionalIndex4,
-                                child: Icon(
+                                child: const Icon(
                                   Icons.keyboard_arrow_up,
                                   size: 25,
                                   color: Colors.black,
                                 ),
                               ),
                               Container(
-                                padding: EdgeInsets.all(10),
+                                padding: const EdgeInsets.all(10),
                                 decoration: BoxDecoration(
                                   color: Colors.grey.shade300,
                                   borderRadius: BorderRadius.circular(15),
@@ -1760,7 +1760,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                                 child: Text(
                                   "${number2priceAdicionalIndex4}",
                                   style: GoogleFonts.poppins(
-                                    textStyle: TextStyle(
+                                    textStyle: const TextStyle(
                                       fontSize: 35,
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -1769,7 +1769,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                               ),
                               InkWell(
                                 onTap: DiminuirNumbero2priceAdicionalIndex4,
-                                child: Icon(
+                                child: const Icon(
                                   Icons.keyboard_arrow_down,
                                   size: 25,
                                   color: Colors.black,
@@ -1785,7 +1785,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 15,
               ),
               InkWell(
@@ -1797,11 +1797,11 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                     color: Colors.blue.shade600,
                     borderRadius: BorderRadius.circular(20),
                   ),
-                  padding: EdgeInsets.symmetric(vertical: 10),
+                  padding: const EdgeInsets.symmetric(vertical: 10),
                   child: Text(
                     "Salvar alteração",
                     style: GoogleFonts.poppins(
-                      textStyle: TextStyle(
+                      textStyle: const TextStyle(
                         fontSize: 16,
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
@@ -1823,7 +1823,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
       context: context,
       builder: (ctx) {
         return Container(
-          padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
           height: MediaQuery.of(context).size.height * 0.7,
           width: double.infinity,
           child: Column(
@@ -1832,14 +1832,14 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
               Text(
                 "Ajuste para o valor adicional de ${procedimentosLista[5].name}",
                 style: GoogleFonts.openSans(
-                  textStyle: TextStyle(
+                  textStyle: const TextStyle(
                     fontWeight: FontWeight.w700,
                     color: Colors.black,
                     fontSize: 16,
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Container(
@@ -1857,7 +1857,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                     Text(
                       "R\$  ",
                       style: GoogleFonts.poppins(
-                        textStyle: TextStyle(
+                        textStyle: const TextStyle(
                           fontSize: 60,
                           fontWeight: FontWeight.bold,
                         ),
@@ -1874,14 +1874,14 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                             children: [
                               InkWell(
                                 onTap: aumentarNumbero1AdicionalIndex5,
-                                child: Icon(
+                                child: const Icon(
                                   Icons.keyboard_arrow_up,
                                   size: 25,
                                   color: Colors.black,
                                 ),
                               ),
                               Container(
-                                padding: EdgeInsets.all(10),
+                                padding: const EdgeInsets.all(10),
                                 decoration: BoxDecoration(
                                   color: Colors.grey.shade300,
                                   borderRadius: BorderRadius.circular(15),
@@ -1889,7 +1889,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                                 child: Text(
                                   "${number1priceAdicionalIndex5}",
                                   style: GoogleFonts.poppins(
-                                    textStyle: TextStyle(
+                                    textStyle: const TextStyle(
                                       fontSize: 35,
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -1898,7 +1898,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                               ),
                               InkWell(
                                 onTap: DiminuirNumbero1AdicionalIndex5,
-                                child: Icon(
+                                child: const Icon(
                                   Icons.keyboard_arrow_down,
                                   size: 25,
                                   color: Colors.black,
@@ -1908,7 +1908,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                           ),
                         ),
                         //digito 1 - fim
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
                         //digito 2 - inicio
@@ -1918,14 +1918,14 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                             children: [
                               InkWell(
                                 onTap: aumentarNumbero2priceAdicionalIndex5,
-                                child: Icon(
+                                child: const Icon(
                                   Icons.keyboard_arrow_up,
                                   size: 25,
                                   color: Colors.black,
                                 ),
                               ),
                               Container(
-                                padding: EdgeInsets.all(10),
+                                padding: const EdgeInsets.all(10),
                                 decoration: BoxDecoration(
                                   color: Colors.grey.shade300,
                                   borderRadius: BorderRadius.circular(15),
@@ -1933,7 +1933,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                                 child: Text(
                                   "${number2priceAdicionalIndex5}",
                                   style: GoogleFonts.poppins(
-                                    textStyle: TextStyle(
+                                    textStyle: const TextStyle(
                                       fontSize: 35,
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -1942,7 +1942,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                               ),
                               InkWell(
                                 onTap: DiminuirNumbero2priceAdicionalIndex5,
-                                child: Icon(
+                                child: const Icon(
                                   Icons.keyboard_arrow_down,
                                   size: 25,
                                   color: Colors.black,
@@ -1958,7 +1958,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 15,
               ),
               InkWell(
@@ -1970,11 +1970,11 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                     color: Colors.blue.shade600,
                     borderRadius: BorderRadius.circular(20),
                   ),
-                  padding: EdgeInsets.symmetric(vertical: 10),
+                  padding: const EdgeInsets.symmetric(vertical: 10),
                   child: Text(
                     "Salvar alteração",
                     style: GoogleFonts.poppins(
-                      textStyle: TextStyle(
+                      textStyle: const TextStyle(
                         fontSize: 16,
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
@@ -1996,7 +1996,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
       context: context,
       builder: (ctx) {
         return Container(
-          padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
           height: MediaQuery.of(context).size.height * 0.7,
           width: double.infinity,
           child: Column(
@@ -2005,14 +2005,14 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
               Text(
                 "Ajuste para a porcentagem correta",
                 style: GoogleFonts.openSans(
-                  textStyle: TextStyle(
+                  textStyle: const TextStyle(
                     fontWeight: FontWeight.w700,
                     color: Colors.black,
                     fontSize: 16,
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Container(
@@ -2030,7 +2030,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                     Text(
                       "%  ",
                       style: GoogleFonts.poppins(
-                        textStyle: TextStyle(
+                        textStyle: const TextStyle(
                           fontSize: 80,
                           fontWeight: FontWeight.bold,
                         ),
@@ -2047,14 +2047,14 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                             children: [
                               InkWell(
                                 onTap: aumentarnumero1percentual,
-                                child: Icon(
+                                child: const Icon(
                                   Icons.keyboard_arrow_up,
                                   size: 25,
                                   color: Colors.black,
                                 ),
                               ),
                               Container(
-                                padding: EdgeInsets.all(10),
+                                padding: const EdgeInsets.all(10),
                                 decoration: BoxDecoration(
                                   color: Colors.grey.shade300,
                                   borderRadius: BorderRadius.circular(15),
@@ -2062,7 +2062,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                                 child: Text(
                                   "${percentualnumero1}",
                                   style: GoogleFonts.poppins(
-                                    textStyle: TextStyle(
+                                    textStyle: const TextStyle(
                                       fontSize: 35,
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -2071,7 +2071,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                               ),
                               InkWell(
                                 onTap: Diminuirnumero1percentual,
-                                child: Icon(
+                                child: const Icon(
                                   Icons.keyboard_arrow_down,
                                   size: 25,
                                   color: Colors.black,
@@ -2081,7 +2081,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                           ),
                         ),
                         //digito 1 - fim
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
                         //digito 2 - inicio
@@ -2091,14 +2091,14 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                             children: [
                               InkWell(
                                 onTap: aumentarnumero2percentual,
-                                child: Icon(
+                                child: const Icon(
                                   Icons.keyboard_arrow_up,
                                   size: 25,
                                   color: Colors.black,
                                 ),
                               ),
                               Container(
-                                padding: EdgeInsets.all(10),
+                                padding: const EdgeInsets.all(10),
                                 decoration: BoxDecoration(
                                   color: Colors.grey.shade300,
                                   borderRadius: BorderRadius.circular(15),
@@ -2106,7 +2106,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                                 child: Text(
                                   "${percentualnumero2}",
                                   style: GoogleFonts.poppins(
-                                    textStyle: TextStyle(
+                                    textStyle: const TextStyle(
                                       fontSize: 35,
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -2115,7 +2115,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                               ),
                               InkWell(
                                 onTap: Diminuirnumero2percentual,
-                                child: Icon(
+                                child: const Icon(
                                   Icons.keyboard_arrow_down,
                                   size: 25,
                                   color: Colors.black,
@@ -2131,7 +2131,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 15,
               ),
               InkWell(
@@ -2143,11 +2143,11 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                     color: Colors.blue.shade600,
                     borderRadius: BorderRadius.circular(20),
                   ),
-                  padding: EdgeInsets.symmetric(vertical: 10),
+                  padding: const EdgeInsets.symmetric(vertical: 10),
                   child: Text(
                     "Salvar alteração",
                     style: GoogleFonts.poppins(
-                      textStyle: TextStyle(
+                      textStyle: const TextStyle(
                         fontSize: 16,
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
@@ -2185,7 +2185,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                       color: Colors.blue.shade600,
                       size: 25,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 5,
                     ),
                     Text(
@@ -2200,27 +2200,27 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 2,
                 ),
                 Text(
                   "Atualize os preços",
                   style: GoogleFonts.poppins(
-                    textStyle: TextStyle(
+                    textStyle: const TextStyle(
                       fontWeight: FontWeight.w800,
                       fontSize: 18,
                       color: Color.fromRGBO(32, 32, 32, 1),
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 15,
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 15),
                   child: Card(
                     elevation: 5,
-                    shape: RoundedRectangleBorder(
+                    shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.elliptical(15, 15),
                         topRight: Radius.elliptical(15, 15),
@@ -2230,7 +2230,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                     ),
                     child: Container(
                       padding:
-                          EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+                          const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
                       width: double.infinity,
                       height: MediaQuery.of(context).size.height * 0.35,
                       decoration: BoxDecoration(
@@ -2244,7 +2244,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                             Colors.blue.shade100.withOpacity(0.1),
                           ],
                         ),
-                        borderRadius: BorderRadius.only(
+                        borderRadius: const BorderRadius.only(
                           topLeft: Radius.elliptical(15, 15),
                           topRight: Radius.elliptical(15, 15),
                           bottomLeft: Radius.elliptical(15, 15),
@@ -2255,7 +2255,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Icon(
+                          const Icon(
                             Icons.work,
                             color: Colors.black,
                             size: 30,
@@ -2269,9 +2269,9 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                                 children: [
                                   Container(
                                     alignment: Alignment.center,
-                                    padding: EdgeInsets.symmetric(
+                                    padding: const EdgeInsets.symmetric(
                                         vertical: 5, horizontal: 10),
-                                    decoration: BoxDecoration(
+                                    decoration: const BoxDecoration(
                                       color: Colors.white,
                                       borderRadius: BorderRadius.only(
                                         topLeft: Radius.elliptical(15, 15),
@@ -2281,7 +2281,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                                     child: Text(
                                       "Porcentagem de Profissionais",
                                       style: GoogleFonts.openSans(
-                                        textStyle: TextStyle(
+                                        textStyle: const TextStyle(
                                           fontWeight: FontWeight.w800,
                                           color: Colors.black,
                                           fontSize: 14,
@@ -2292,7 +2292,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                                   Text(
                                     "%${loadPercentual ?? 0}",
                                     style: GoogleFonts.poppins(
-                                      textStyle: TextStyle(
+                                      textStyle: const TextStyle(
                                         fontWeight: FontWeight.w700,
                                         color: Color.fromRGBO(32, 32, 32, 1),
                                         fontSize: 22,
@@ -2301,7 +2301,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                                   ),
                                 ],
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 10,
                               ),
                               Text(
@@ -2318,7 +2318,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                           InkWell(
                             onTap: modalParaAtualizarPorcentagem,
                             child: Container(
-                              padding: EdgeInsets.symmetric(
+                              padding: const EdgeInsets.symmetric(
                                   vertical: 5, horizontal: 5),
                               decoration: BoxDecoration(
                                 color: Colors.orangeAccent,
@@ -2336,16 +2336,16 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                                   Text(
                                     "Clique para Alterar valor",
                                     style: GoogleFonts.openSans(
-                                      textStyle: TextStyle(
+                                      textStyle: const TextStyle(
                                         fontWeight: FontWeight.w500,
                                         color: Colors.white,
                                       ),
                                     ),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 5,
                                   ),
-                                  Icon(
+                                  const Icon(
                                     Icons.ads_click,
                                     color: Colors.white,
                                     size: 20,
@@ -2364,7 +2364,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                   padding: const EdgeInsets.only(top: 15),
                   child: Card(
                     elevation: 5,
-                    shape: RoundedRectangleBorder(
+                    shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.elliptical(15, 15),
                         topRight: Radius.elliptical(15, 15),
@@ -2374,7 +2374,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                     ),
                     child: Container(
                       padding:
-                          EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+                          const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
                       width: double.infinity,
                       height: MediaQuery.of(context).size.height * 0.35,
                       decoration: BoxDecoration(
@@ -2388,7 +2388,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                             Colors.blue.shade100.withOpacity(0.1),
                           ],
                         ),
-                        borderRadius: BorderRadius.only(
+                        borderRadius: const BorderRadius.only(
                           topLeft: Radius.elliptical(15, 15),
                           topRight: Radius.elliptical(15, 15),
                           bottomLeft: Radius.elliptical(15, 15),
@@ -2399,7 +2399,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Icon(
+                          const Icon(
                             Icons.paid,
                             color: Colors.black,
                             size: 30,
@@ -2413,9 +2413,9 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                                 children: [
                                   Container(
                                     alignment: Alignment.center,
-                                    padding: EdgeInsets.symmetric(
+                                    padding: const EdgeInsets.symmetric(
                                         vertical: 5, horizontal: 10),
-                                    decoration: BoxDecoration(
+                                    decoration: const BoxDecoration(
                                       color: Colors.white,
                                       borderRadius: BorderRadius.only(
                                         topLeft: Radius.elliptical(15, 15),
@@ -2425,7 +2425,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                                     child: Text(
                                       "Corte normal",
                                       style: GoogleFonts.openSans(
-                                        textStyle: TextStyle(
+                                        textStyle: const TextStyle(
                                           fontWeight: FontWeight.w800,
                                           color: Colors.black,
                                           fontSize: 14,
@@ -2436,7 +2436,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                                   Text(
                                     "R\$${atualPrice ?? 0}",
                                     style: GoogleFonts.poppins(
-                                      textStyle: TextStyle(
+                                      textStyle: const TextStyle(
                                         fontWeight: FontWeight.w700,
                                         color: Color.fromRGBO(32, 32, 32, 1),
                                         fontSize: 22,
@@ -2445,7 +2445,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                                   ),
                                 ],
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 10,
                               ),
                               Text(
@@ -2462,7 +2462,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                           InkWell(
                             onTap: modalParaAtualizarPrecoPadraoCorte,
                             child: Container(
-                              padding: EdgeInsets.symmetric(
+                              padding: const EdgeInsets.symmetric(
                                   vertical: 5, horizontal: 5),
                               decoration: BoxDecoration(
                                 color: Colors.blue.shade600,
@@ -2480,16 +2480,16 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                                   Text(
                                     "Clique para Alterar valor",
                                     style: GoogleFonts.openSans(
-                                      textStyle: TextStyle(
+                                      textStyle: const TextStyle(
                                         fontWeight: FontWeight.w500,
                                         color: Colors.white,
                                       ),
                                     ),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 5,
                                   ),
-                                  Icon(
+                                  const Icon(
                                     Icons.ads_click,
                                     color: Colors.white,
                                     size: 20,
@@ -2509,7 +2509,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                   padding: const EdgeInsets.only(top: 15),
                   child: Card(
                     elevation: 5,
-                    shape: RoundedRectangleBorder(
+                    shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.elliptical(15, 15),
                         topRight: Radius.elliptical(15, 15),
@@ -2519,7 +2519,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                     ),
                     child: Container(
                       padding:
-                          EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+                          const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
                       width: double.infinity,
                       height: MediaQuery.of(context).size.height * 0.35,
                       decoration: BoxDecoration(
@@ -2533,7 +2533,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                             Colors.blue.shade100.withOpacity(0.1),
                           ],
                         ),
-                        borderRadius: BorderRadius.only(
+                        borderRadius: const BorderRadius.only(
                           topLeft: Radius.elliptical(15, 15),
                           topRight: Radius.elliptical(15, 15),
                           bottomLeft: Radius.elliptical(15, 15),
@@ -2544,7 +2544,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Icon(
+                          const Icon(
                             Icons.paid,
                             color: Colors.black,
                             size: 30,
@@ -2558,9 +2558,9 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                                 children: [
                                   Container(
                                     alignment: Alignment.center,
-                                    padding: EdgeInsets.symmetric(
+                                    padding: const EdgeInsets.symmetric(
                                         vertical: 5, horizontal: 10),
-                                    decoration: BoxDecoration(
+                                    decoration: const BoxDecoration(
                                       color: Colors.white,
                                       borderRadius: BorderRadius.only(
                                         topLeft: Radius.elliptical(15, 15),
@@ -2570,7 +2570,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                                     child: Text(
                                       "Adicional Barba",
                                       style: GoogleFonts.openSans(
-                                        textStyle: TextStyle(
+                                        textStyle: const TextStyle(
                                           fontWeight: FontWeight.w800,
                                           color: Colors.black,
                                           fontSize: 14,
@@ -2581,7 +2581,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                                   Text(
                                     "R\$${barbaPriceFinal}",
                                     style: GoogleFonts.poppins(
-                                      textStyle: TextStyle(
+                                      textStyle: const TextStyle(
                                         fontWeight: FontWeight.w700,
                                         color: Color.fromRGBO(32, 32, 32, 1),
                                         fontSize: 22,
@@ -2590,7 +2590,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                                   ),
                                 ],
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 10,
                               ),
                               Text(
@@ -2607,7 +2607,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                           InkWell(
                             onTap: modalParaAtualizarPrecoAdicionalBarba,
                             child: Container(
-                              padding: EdgeInsets.symmetric(
+                              padding: const EdgeInsets.symmetric(
                                   vertical: 5, horizontal: 5),
                               decoration: BoxDecoration(
                                 color: Colors.blue.shade600,
@@ -2625,16 +2625,16 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                                   Text(
                                     "Clique para Alterar valor",
                                     style: GoogleFonts.openSans(
-                                      textStyle: TextStyle(
+                                      textStyle: const TextStyle(
                                         fontWeight: FontWeight.w500,
                                         color: Colors.white,
                                       ),
                                     ),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 5,
                                   ),
-                                  Icon(
+                                  const Icon(
                                     Icons.ads_click,
                                     color: Colors.white,
                                     size: 20,
@@ -2654,7 +2654,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                   padding: const EdgeInsets.only(top: 15),
                   child: Card(
                     elevation: 5,
-                    shape: RoundedRectangleBorder(
+                    shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.elliptical(15, 15),
                         topRight: Radius.elliptical(15, 15),
@@ -2664,7 +2664,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                     ),
                     child: Container(
                       padding:
-                          EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+                          const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
                       width: double.infinity,
                       height: MediaQuery.of(context).size.height * 0.35,
                       decoration: BoxDecoration(
@@ -2678,7 +2678,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                             Colors.blue.shade100.withOpacity(0.1),
                           ],
                         ),
-                        borderRadius: BorderRadius.only(
+                        borderRadius: const BorderRadius.only(
                           topLeft: Radius.elliptical(15, 15),
                           topRight: Radius.elliptical(15, 15),
                           bottomLeft: Radius.elliptical(15, 15),
@@ -2689,7 +2689,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Icon(
+                          const Icon(
                             Icons.paid,
                             color: Colors.black,
                             size: 30,
@@ -2703,9 +2703,9 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                                 children: [
                                   Container(
                                     alignment: Alignment.center,
-                                    padding: EdgeInsets.symmetric(
+                                    padding: const EdgeInsets.symmetric(
                                         vertical: 5, horizontal: 10),
-                                    decoration: BoxDecoration(
+                                    decoration: const BoxDecoration(
                                       color: Colors.white,
                                       borderRadius: BorderRadius.only(
                                         topLeft: Radius.elliptical(15, 15),
@@ -2715,7 +2715,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                                     child: Text(
                                       "${procedimentosLista[2].name}",
                                       style: GoogleFonts.openSans(
-                                        textStyle: TextStyle(
+                                        textStyle: const TextStyle(
                                           fontWeight: FontWeight.w800,
                                           color: Colors.black,
                                           fontSize: 14,
@@ -2726,7 +2726,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                                   Text(
                                     "R\$${index2Value ?? 0}",
                                     style: GoogleFonts.poppins(
-                                      textStyle: TextStyle(
+                                      textStyle: const TextStyle(
                                         fontWeight: FontWeight.w700,
                                         color: Color.fromRGBO(32, 32, 32, 1),
                                         fontSize: 22,
@@ -2735,7 +2735,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                                   ),
                                 ],
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 10,
                               ),
                               Text(
@@ -2753,7 +2753,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                             onTap:
                                 modalParaAtualizarPrecoAdicionalProcedimentoIndex2,
                             child: Container(
-                              padding: EdgeInsets.symmetric(
+                              padding: const EdgeInsets.symmetric(
                                   vertical: 5, horizontal: 5),
                               decoration: BoxDecoration(
                                 color: Colors.blue.shade600,
@@ -2771,16 +2771,16 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                                   Text(
                                     "Clique para Alterar valor",
                                     style: GoogleFonts.openSans(
-                                      textStyle: TextStyle(
+                                      textStyle: const TextStyle(
                                         fontWeight: FontWeight.w500,
                                         color: Colors.white,
                                       ),
                                     ),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 5,
                                   ),
-                                  Icon(
+                                  const Icon(
                                     Icons.ads_click,
                                     color: Colors.white,
                                     size: 20,
@@ -2800,7 +2800,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                   padding: const EdgeInsets.only(top: 15),
                   child: Card(
                     elevation: 5,
-                    shape: RoundedRectangleBorder(
+                    shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.elliptical(15, 15),
                         topRight: Radius.elliptical(15, 15),
@@ -2810,7 +2810,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                     ),
                     child: Container(
                       padding:
-                          EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+                          const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
                       width: double.infinity,
                       height: MediaQuery.of(context).size.height * 0.35,
                       decoration: BoxDecoration(
@@ -2824,7 +2824,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                             Colors.blue.shade100.withOpacity(0.1),
                           ],
                         ),
-                        borderRadius: BorderRadius.only(
+                        borderRadius: const BorderRadius.only(
                           topLeft: Radius.elliptical(15, 15),
                           topRight: Radius.elliptical(15, 15),
                           bottomLeft: Radius.elliptical(15, 15),
@@ -2835,7 +2835,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Icon(
+                          const Icon(
                             Icons.paid,
                             color: Colors.black,
                             size: 30,
@@ -2849,9 +2849,9 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                                 children: [
                                   Container(
                                     alignment: Alignment.center,
-                                    padding: EdgeInsets.symmetric(
+                                    padding: const EdgeInsets.symmetric(
                                         vertical: 5, horizontal: 10),
-                                    decoration: BoxDecoration(
+                                    decoration: const BoxDecoration(
                                       color: Colors.white,
                                       borderRadius: BorderRadius.only(
                                         topLeft: Radius.elliptical(15, 15),
@@ -2861,7 +2861,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                                     child: Text(
                                       "${procedimentosLista[3].name}",
                                       style: GoogleFonts.openSans(
-                                        textStyle: TextStyle(
+                                        textStyle: const TextStyle(
                                           fontWeight: FontWeight.w800,
                                           color: Colors.black,
                                           fontSize: 14,
@@ -2872,7 +2872,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                                   Text(
                                     "R\$${index3Value ?? 0}",
                                     style: GoogleFonts.poppins(
-                                      textStyle: TextStyle(
+                                      textStyle: const TextStyle(
                                         fontWeight: FontWeight.w700,
                                         color: Color.fromRGBO(32, 32, 32, 1),
                                         fontSize: 22,
@@ -2881,7 +2881,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                                   ),
                                 ],
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 10,
                               ),
                               Text(
@@ -2899,7 +2899,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                             onTap:
                                 modalParaAtualizarPrecoAdicionalProcedimentoIndex3,
                             child: Container(
-                              padding: EdgeInsets.symmetric(
+                              padding: const EdgeInsets.symmetric(
                                   vertical: 5, horizontal: 5),
                               decoration: BoxDecoration(
                                 color: Colors.blue.shade600,
@@ -2917,16 +2917,16 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                                   Text(
                                     "Clique para Alterar valor",
                                     style: GoogleFonts.openSans(
-                                      textStyle: TextStyle(
+                                      textStyle: const TextStyle(
                                         fontWeight: FontWeight.w500,
                                         color: Colors.white,
                                       ),
                                     ),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 5,
                                   ),
-                                  Icon(
+                                  const Icon(
                                     Icons.ads_click,
                                     color: Colors.white,
                                     size: 20,
@@ -2946,7 +2946,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                   padding: const EdgeInsets.only(top: 15),
                   child: Card(
                     elevation: 5,
-                    shape: RoundedRectangleBorder(
+                    shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.elliptical(15, 15),
                         topRight: Radius.elliptical(15, 15),
@@ -2956,7 +2956,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                     ),
                     child: Container(
                       padding:
-                          EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+                          const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
                       width: double.infinity,
                       height: MediaQuery.of(context).size.height * 0.35,
                       decoration: BoxDecoration(
@@ -2970,7 +2970,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                             Colors.blue.shade100.withOpacity(0.1),
                           ],
                         ),
-                        borderRadius: BorderRadius.only(
+                        borderRadius: const BorderRadius.only(
                           topLeft: Radius.elliptical(15, 15),
                           topRight: Radius.elliptical(15, 15),
                           bottomLeft: Radius.elliptical(15, 15),
@@ -2981,7 +2981,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Icon(
+                          const Icon(
                             Icons.paid,
                             color: Colors.black,
                             size: 30,
@@ -2995,9 +2995,9 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                                 children: [
                                   Container(
                                     alignment: Alignment.center,
-                                    padding: EdgeInsets.symmetric(
+                                    padding: const EdgeInsets.symmetric(
                                         vertical: 5, horizontal: 10),
-                                    decoration: BoxDecoration(
+                                    decoration: const BoxDecoration(
                                       color: Colors.white,
                                       borderRadius: BorderRadius.only(
                                         topLeft: Radius.elliptical(15, 15),
@@ -3007,7 +3007,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                                     child: Text(
                                       "${procedimentosLista[4].name}",
                                       style: GoogleFonts.openSans(
-                                        textStyle: TextStyle(
+                                        textStyle: const TextStyle(
                                           fontWeight: FontWeight.w800,
                                           color: Colors.black,
                                           fontSize: 14,
@@ -3018,7 +3018,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                                   Text(
                                     "R\$${index4Value ?? 0}",
                                     style: GoogleFonts.poppins(
-                                      textStyle: TextStyle(
+                                      textStyle: const TextStyle(
                                         fontWeight: FontWeight.w700,
                                         color: Color.fromRGBO(32, 32, 32, 1),
                                         fontSize: 22,
@@ -3027,7 +3027,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                                   ),
                                 ],
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 10,
                               ),
                               Text(
@@ -3045,7 +3045,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                             onTap:
                                 modalParaAtualizarPrecoAdicionalProcedimentoIndex4,
                             child: Container(
-                              padding: EdgeInsets.symmetric(
+                              padding: const EdgeInsets.symmetric(
                                   vertical: 5, horizontal: 5),
                               decoration: BoxDecoration(
                                 color: Colors.blue.shade600,
@@ -3063,16 +3063,16 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                                   Text(
                                     "Clique para Alterar valor",
                                     style: GoogleFonts.openSans(
-                                      textStyle: TextStyle(
+                                      textStyle: const TextStyle(
                                         fontWeight: FontWeight.w500,
                                         color: Colors.white,
                                       ),
                                     ),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 5,
                                   ),
-                                  Icon(
+                                  const Icon(
                                     Icons.ads_click,
                                     color: Colors.white,
                                     size: 20,
@@ -3093,7 +3093,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                   padding: const EdgeInsets.only(top: 15),
                   child: Card(
                     elevation: 5,
-                    shape: RoundedRectangleBorder(
+                    shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.elliptical(15, 15),
                         topRight: Radius.elliptical(15, 15),
@@ -3103,7 +3103,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                     ),
                     child: Container(
                       padding:
-                          EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+                          const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
                       width: double.infinity,
                       height: MediaQuery.of(context).size.height * 0.35,
                       decoration: BoxDecoration(
@@ -3117,7 +3117,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                             Colors.blue.shade100.withOpacity(0.1),
                           ],
                         ),
-                        borderRadius: BorderRadius.only(
+                        borderRadius: const BorderRadius.only(
                           topLeft: Radius.elliptical(15, 15),
                           topRight: Radius.elliptical(15, 15),
                           bottomLeft: Radius.elliptical(15, 15),
@@ -3128,7 +3128,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Icon(
+                          const Icon(
                             Icons.paid,
                             color: Colors.black,
                             size: 30,
@@ -3142,9 +3142,9 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                                 children: [
                                   Container(
                                     alignment: Alignment.center,
-                                    padding: EdgeInsets.symmetric(
+                                    padding: const EdgeInsets.symmetric(
                                         vertical: 5, horizontal: 10),
-                                    decoration: BoxDecoration(
+                                    decoration: const BoxDecoration(
                                       color: Colors.white,
                                       borderRadius: BorderRadius.only(
                                         topLeft: Radius.elliptical(15, 15),
@@ -3154,7 +3154,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                                     child: Text(
                                       "${procedimentosLista[5].name}",
                                       style: GoogleFonts.openSans(
-                                        textStyle: TextStyle(
+                                        textStyle: const TextStyle(
                                           fontWeight: FontWeight.w800,
                                           color: Colors.black,
                                           fontSize: 14,
@@ -3165,7 +3165,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                                   Text(
                                     "R\$${index5Value ?? 0}",
                                     style: GoogleFonts.poppins(
-                                      textStyle: TextStyle(
+                                      textStyle: const TextStyle(
                                         fontWeight: FontWeight.w700,
                                         color: Color.fromRGBO(32, 32, 32, 1),
                                         fontSize: 22,
@@ -3174,7 +3174,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                                   ),
                                 ],
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 10,
                               ),
                               Text(
@@ -3192,7 +3192,7 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                             onTap:
                                 modalParaAtualizarPrecoAdicionalProcedimentoIndex5,
                             child: Container(
-                              padding: EdgeInsets.symmetric(
+                              padding: const EdgeInsets.symmetric(
                                   vertical: 5, horizontal: 5),
                               decoration: BoxDecoration(
                                 color: Colors.blue.shade600,
@@ -3210,16 +3210,16 @@ class _PriceEporcentagemNewPriceState extends State<PriceEporcentagemNewPrice> {
                                   Text(
                                     "Clique para Alterar valor",
                                     style: GoogleFonts.openSans(
-                                      textStyle: TextStyle(
+                                      textStyle: const TextStyle(
                                         fontWeight: FontWeight.w500,
                                         color: Colors.white,
                                       ),
                                     ),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 5,
                                   ),
-                                  Icon(
+                                  const Icon(
                                     Icons.ads_click,
                                     color: Colors.white,
                                     size: 20,
