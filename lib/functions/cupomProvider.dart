@@ -109,15 +109,17 @@ class CupomProvider with ChangeNotifier {
   }
 
   List<cupomClass> _cupomBuscado = [];
-  List<cupomClass>get cupomBuscado => [..._cupomBuscado];
+  List<cupomClass> get cupomBuscado => [..._cupomBuscado];
   StreamController<List<cupomClass>> _cupomBuscadoStream =
       StreamController<List<cupomClass>>.broadcast();
 
   Stream<List<cupomClass>> get cupomStreamBusca => _cupomBuscadoStream.stream;
   Future<void> searchCoupon({required String cupom}) async {
+    String textoSemSimbolos = cupom.replaceAll('#', '');
+
     try {
-      print("o objeto buscado foi: ${cupom}");
-      final pesquisaDocs = await database.collection("cupons").doc(cupom).get();
+      print("o objeto buscado foi: ${textoSemSimbolos}");
+      final pesquisaDocs = await database.collection("cupons").doc(textoSemSimbolos).get();
 
       if (pesquisaDocs.exists) {
         Map<String, dynamic>? data =

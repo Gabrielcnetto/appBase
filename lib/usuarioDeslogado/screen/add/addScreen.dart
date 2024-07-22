@@ -460,6 +460,7 @@ class _AddScreenUserDeslogadoState extends State<AddScreenUserDeslogado> {
               ? "${profList[1].nomeProf}"
               : "Não Definido",
       corte: CorteClass(
+        easepoints: 0,
         apenasBarba: apenasBarba,
         detalheDoProcedimento: detalheDoProcedimento ?? "Corte Normal",
         horariosExtra: horariosExtras,

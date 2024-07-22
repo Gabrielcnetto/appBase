@@ -1,6 +1,7 @@
 import 'package:lionsbarberv1/classes/horarios.dart';
 
 class CorteClass {
+  final int easepoints;
   final String id;
   final bool isActive;
   final String clientName;
@@ -18,6 +19,7 @@ class CorteClass {
   final String detalheDoProcedimento;
   final bool apenasBarba;
   CorteClass({
+    required this.easepoints,
     required this.detalheDoProcedimento,
     required this.apenasBarba,
     required this.isActive,

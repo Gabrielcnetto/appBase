@@ -408,6 +408,7 @@ class _AddScreenState extends State<AddScreen> {
               ? "${profList[1].nomeProf}"
               : "Não Definido",
       corte: CorteClass(
+        easepoints: 0,
         apenasBarba: apenasBarba,
         detalheDoProcedimento: detalheDoProcedimento ?? "Corte Normal",
         horariosExtra: horariosExtras,
@@ -873,7 +874,6 @@ class _AddScreenState extends State<AddScreen> {
     int valorAserCobradoTotalFinal = 0;
 
     setState(() {
-      
       valorFinalCobrado = 0;
     });
     try {

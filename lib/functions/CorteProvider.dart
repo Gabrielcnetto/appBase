@@ -199,6 +199,7 @@ class CorteProvider with ChangeNotifier {
             .collection("lista")
             .doc(corte.id)
             .set({
+          "easepoints": valorMultiplicador,
           "detalheDoProcedimento": corte.detalheDoProcedimento,
           "horariosExtras": corte.horariosExtra,
           "id": corte.id,
@@ -315,6 +316,7 @@ class CorteProvider with ChangeNotifier {
         DateTime diaCorteFinal = diafinalCorte?.toDate() ?? DateTime.now();
         // Acessando os atributos diretamente usando []
         return CorteClass(
+          easepoints: data?['easepoints'] ?? 0,
           apenasBarba: false,
           detalheDoProcedimento: data?["detalheDoProcedimento"] ?? "",
           horariosExtra: data?["horariosExtras"] != null
@@ -386,6 +388,7 @@ class CorteProvider with ChangeNotifier {
         DateTime diaCorteFinal = diafinalCorte?.toDate() ?? DateTime.now();
         // Acessando os atributos diretamente usando []
         return CorteClass(
+          easepoints: data?[''] ?? 0,
           apenasBarba: false,
           detalheDoProcedimento: data?["detalheDoProcedimento"] ?? "",
           horariosExtra: data?["horariosExtras"] != null
@@ -519,6 +522,10 @@ class CorteProvider with ChangeNotifier {
       if (docPointsGet.exists) {
         pontuacaoTotalGerada = await docPointsGet.data()?['easepoints'];
         final userAtt =
+            await database.collection("usuarios").doc(useriDSearch).update({
+          'totalCortes': FieldValue.increment(-1),
+        });
+         final totalCortesSub =
             await database.collection("usuarios").doc(useriDSearch).update({
           'easepoints': FieldValue.increment(-pontuacaoTotalGerada),
         });

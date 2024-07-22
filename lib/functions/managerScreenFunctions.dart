@@ -63,6 +63,7 @@ class ManagerScreenFunctions with ChangeNotifier {
           String documentName = doc.id;
           _listaCortes.add(
             CorteClass(
+              easepoints: 0,
               apenasBarba: false,
               detalheDoProcedimento: "",
               horariosExtra: [],
@@ -135,6 +136,7 @@ class ManagerScreenFunctions with ChangeNotifier {
         print("tipos de dados:");
         print(data?["totalValue"].toString());
         return CorteClass(
+          easepoints: data?['easepoints'],
           apenasBarba: false,
           detalheDoProcedimento: data?["detalheDoProcedimento"] ?? "",
           horariosExtra: horariosExtras!,

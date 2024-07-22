@@ -25,11 +25,9 @@ class providerLoadingHistoryList extends StatefulWidget {
       _providerLoadingHistoryListState();
 }
 
-
-
 class _providerLoadingHistoryListState
     extends State<providerLoadingHistoryList> {
-      bool exibirInformacoes = false;
+  bool exibirInformacoes = false;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -38,13 +36,17 @@ class _providerLoadingHistoryListState
         alignment: Alignment.center,
         padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
         width: widget.widhtScreen,
-        height:exibirInformacoes ?  widget.heighScren * 0.27 : widget.heighScren * 0.13,
+        height: exibirInformacoes
+            ? widget.heighScren * 0.32
+            : widget.heighScren * 0.13,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
           color: Estabelecimento.primaryColor.withOpacity(0.2),
         ),
         child: Column(
-          mainAxisAlignment:exibirInformacoes ? MainAxisAlignment.start: MainAxisAlignment.center,
+          mainAxisAlignment: exibirInformacoes
+              ? MainAxisAlignment.start
+              : MainAxisAlignment.center,
           children: [
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -169,7 +171,7 @@ class _providerLoadingHistoryListState
                       Row(
                         children: [
                           Text(
-                            "barba:",
+                            "Usou cupom?",
                             style: GoogleFonts.openSans(
                               textStyle: TextStyle(
                                 fontWeight: FontWeight.w700,
@@ -181,7 +183,8 @@ class _providerLoadingHistoryListState
                             width: 5,
                           ),
                           Text(
-                            "${widget.corte.barba == true ? "Sim" : "Não"}",
+                            "${widget.corte.easepoints > 1 ? "Sim" : "Sem cupons"}",
+                            //   "${widget.corte.barba == true ? "Sim" : "Não"}",
                             style: GoogleFonts.openSans(
                               textStyle: const TextStyle(
                                 fontWeight: FontWeight.w400,
@@ -191,8 +194,41 @@ class _providerLoadingHistoryListState
                           )
                         ],
                       ),
-                      //FIM barba
-   
+                      //PROCEDIMENTO NOME - INICIO
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      //INICIO barba
+                      Row(
+                        children: [
+                          Text(
+                            "Procedimento feito:",
+                            style: GoogleFonts.openSans(
+                              textStyle: TextStyle(
+                                fontWeight: FontWeight.w700,
+                                color: Colors.grey.shade800,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          Container(
+                            width: MediaQuery.of(context).size.width * 0.45,
+                            child: Text(
+                              "${widget.corte.detalheDoProcedimento ?? ""}",
+                              overflow: TextOverflow.clip,
+                              style: GoogleFonts.openSans(
+                                textStyle: const TextStyle(
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                      //PROCEDIMENTO NOME - FIM
                       const SizedBox(
                         height: 5,
                       ),
@@ -218,7 +254,7 @@ class _providerLoadingHistoryListState
                             padding: const EdgeInsets.symmetric(
                                 vertical: 5, horizontal: 10),
                             child: Text(
-                              "+3 pontos",
+                              "+${widget.corte.easepoints} pontos",
                               style: GoogleFonts.openSans(
                                 textStyle: const TextStyle(
                                   fontWeight: FontWeight.w700,
