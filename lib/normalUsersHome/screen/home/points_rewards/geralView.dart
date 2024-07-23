@@ -18,14 +18,14 @@ class GeralViewRewardsUser extends StatelessWidget {
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10), color: Colors.black),
               width: MediaQuery.of(context).size.width * 1,
-              height: MediaQuery.of(context).size.height * 0.7,
+              height: MediaQuery.of(context).size.height * 0.73,
             ),
             Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
               ),
               width: MediaQuery.of(context).size.width * 1,
-              height: MediaQuery.of(context).size.height * 0.7,
+              height: MediaQuery.of(context).size.height * 0.73,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(10),
                 child: Opacity(
@@ -40,7 +40,7 @@ class GeralViewRewardsUser extends StatelessWidget {
             // CONTAINER DAS INFORMAÇOES - INICIO
             Container(
               width: MediaQuery.of(context).size.width * 1,
-              height: MediaQuery.of(context).size.height * 0.7,
+              height: MediaQuery.of(context).size.height * 0.73,
               padding: EdgeInsets.symmetric(
                 horizontal: 15,
                 vertical: 15,

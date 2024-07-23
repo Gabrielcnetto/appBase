@@ -16,6 +16,7 @@ import 'package:lionsbarberv1/managerHome/screen/manager/principal/funcionario/f
 import 'package:lionsbarberv1/normalUsersHome/screen/add/addScreen.dart';
 import 'package:lionsbarberv1/normalUsersHome/screen/calendar/calendarScreen.dart';
 import 'package:lionsbarberv1/normalUsersHome/screen/home/homeOnlyWidgets.dart';
+import 'package:lionsbarberv1/normalUsersHome/screen/home/points_rewards/home_configCoupon/configCoupon.dart';
 import 'package:lionsbarberv1/normalUsersHome/screen/profile/profileScreen.dart';
 import 'package:lionsbarberv1/normalUsersHome/screen/History/History.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
@@ -627,69 +628,93 @@ class _HomeScreen01State extends State<HomeScreen01>
       body: _screensSelect != null && _screensSelect![screen]['tela'] != null
           ? _screensSelect![screen]['tela'] as Widget
           : Container(),
-      floatingActionButton: (isFuncionario || isManager) == true?  FloatingActionBubble(
-        items: <Bubble>[
-          Bubble(
-            icon: Icons.qr_code,
-            iconColor: Estabelecimento.primaryColor,
-            title: "Verificar Código",
-            titleStyle: GoogleFonts.openSans(
-              textStyle: const TextStyle(
-                fontSize: 12,
-                color: Colors.black,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
-            bubbleColor: Colors.white,
-            onPress: showVerificationModalManager,
-          ),
-          if (isFuncionario == false && isManager == true)
-            Bubble(
-              icon: Icons.attach_money,
-              iconColor: Estabelecimento.primaryColor,
-              title: "Preços e porcentagens",
-              titleStyle: GoogleFonts.openSans(
-                textStyle: const TextStyle(
-                  fontSize: 12,
-                  color: Colors.black,
-                  fontWeight: FontWeight.w400,
+      floatingActionButton: (isFuncionario || isManager) == true
+          ? FloatingActionBubble(
+              items: <Bubble>[
+                Bubble(
+                  icon: Icons.qr_code,
+                  iconColor: Estabelecimento.primaryColor,
+                  title: "Verificar Código",
+                  titleStyle: GoogleFonts.openSans(
+                    textStyle: const TextStyle(
+                      fontSize: 12,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                  bubbleColor: Colors.white,
+                  onPress: showVerificationModalManager,
                 ),
-              ),
-              bubbleColor: Colors.white,
+                if (isFuncionario == false && isManager == true)
+                  Bubble(
+                    icon: Icons.attach_money,
+                    iconColor: Estabelecimento.primaryColor,
+                    title: "Preços e porcentagens",
+                    titleStyle: GoogleFonts.openSans(
+                      textStyle: const TextStyle(
+                        fontSize: 12,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                    bubbleColor: Colors.white,
+                    onPress: () {
+                      Navigator.of(context)
+                          .pushNamed(AppRoutesApp.PricesAndPercentages);
+                    },
+                  ),
+                if (isFuncionario == false && isManager == true)
+                  Bubble(
+                    icon: Icons.celebration,
+                    iconColor: Estabelecimento.primaryColor,
+                    title: "Adicionar Day Off",
+                    titleStyle: GoogleFonts.openSans(
+                      textStyle: const TextStyle(
+                        fontSize: 12,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                    bubbleColor: Colors.white,
+                    onPress: ShowModalData,
+                  ),
+                if (isFuncionario == false && isManager == true)
+                  Bubble(
+                    icon: Icons.confirmation_number,
+                    iconColor: Estabelecimento.primaryColor,
+                    title: "Configurar Cupom",
+                    titleStyle: GoogleFonts.openSans(
+                      textStyle: const TextStyle(
+                        fontSize: 12,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                    bubbleColor: Colors.white,
+                    onPress: () {
+                      Navigator.of(context).push(DialogRoute(
+                          context: context,
+                          builder: (ctx) {
+                            return ConfigCouponScreen();
+                          }));
+                    },
+                  ),
+              ],
+              iconColor: Estabelecimento.contraPrimaryColor,
+              backGroundColor: Estabelecimento.primaryColor,
               onPress: () {
-                Navigator.of(context)
-                    .pushNamed(AppRoutesApp.PricesAndPercentages);
+                setState(() {
+                  exibindoItens = !exibindoItens;
+                });
+                _animationController.isCompleted
+                    ? _animationController.reverse()
+                    : _animationController.forward();
               },
-            ),
-          if (isFuncionario == false && isManager == true)
-            Bubble(
-              icon: Icons.celebration,
-              iconColor: Estabelecimento.primaryColor,
-              title: "Adicionar Day Off",
-              titleStyle: GoogleFonts.openSans(
-                textStyle: const TextStyle(
-                  fontSize: 12,
-                  color: Colors.black,
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-              bubbleColor: Colors.white,
-              onPress: ShowModalData,
-            ),
-        ],
-        iconColor: Estabelecimento.contraPrimaryColor,
-        backGroundColor: Estabelecimento.primaryColor,
-        onPress: () {
-          setState(() {
-            exibindoItens = !exibindoItens;
-          });
-          _animationController.isCompleted
-              ? _animationController.reverse()
-              : _animationController.forward();
-        },
-        iconData: exibindoItens ? Icons.arrow_drop_down : Icons.arrow_drop_up,
-        animation: _animation!,
-      ): null,
+              iconData:
+                  exibindoItens ? Icons.arrow_drop_down : Icons.arrow_drop_up,
+              animation: _animation!,
+            )
+          : null,
     );
   }
 }
