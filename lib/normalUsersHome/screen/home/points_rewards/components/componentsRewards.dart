@@ -81,7 +81,7 @@ class _ComponentDataRewardsState extends State<ComponentDataRewards> {
                   width: double.infinity,
                   height: MediaQuery.of(context).size.height * 0.3,
                   child: Text(
-                    "Você poderá trocar seus pontos por um corte grátis quando alcançar a quantidade necessária definida pelo ${Estabelecimento.nomeLocal}. Ao usá-los, seus pontos serão deduzidos e você começará a acumular novamente após o próximo agendamento. Agende com mais frequência para atingir a meta mais rapidamente.",
+                    "Você poderá trocar seus pontos por um corte grátis quando alcançar a quantidade necessária definida pela ${Estabelecimento.nomeLocal}. Ao usá-los, seus pontos serão reduzidos e você começará a acumular novamente após o próximo agendamento. Agende com mais frequência para atingir a meta mais rapidamente.",
                     style: GoogleFonts.poppins(
                       textStyle: TextStyle(
                         fontSize: 13,

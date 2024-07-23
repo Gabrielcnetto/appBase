@@ -157,7 +157,7 @@ class MyProfileScreenFunctions with ChangeNotifier {
         if (event.exists) {
           Map<String, dynamic> data = event.data() as Map<String, dynamic>;
 
-          pontos = data['easepoints'];
+          pontos = data['easepoints'] ?? 0;
         } else {}
         print("o valor deste user pego é${pontos}");
         return pontos;

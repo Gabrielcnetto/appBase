@@ -121,7 +121,8 @@ class CupomProvider with ChangeNotifier {
 
     try {
       print("o objeto buscado foi: ${textoSemSimbolos}");
-      final pesquisaDocs = await database.collection("cupons").doc(textoSemSimbolos).get();
+      final pesquisaDocs =
+          await database.collection("cupons").doc(textoSemSimbolos).get();
 
       if (pesquisaDocs.exists) {
         Map<String, dynamic>? data =
@@ -141,5 +142,58 @@ class CupomProvider with ChangeNotifier {
     } catch (e) {
       print("ao pesquisar o cupom deu este erro: $e");
     }
+  }
+
+  Future<void> AtivarOuDesativarUsoDeCupom({required bool Possivel}) async {
+    final set = await database
+        .collection("estabelecimento")
+        .doc('possibilidadeUsoCupom')
+        .set({
+      'possivel': Possivel,
+    });
+  }
+
+  Future<void> setValorResgateCuponsGerenteFunctions(
+      {required int points}) async {
+    final set =
+        await database.collection("estabelecimento").doc('resgateCupons').set({
+      'totalParaResgate': points,
+    });
+  }
+
+  Future<bool?> getPossivelUsarCupom() async {
+    bool? possibilidadeDeUsoCupom;
+
+    await database
+        .collection("estabelecimento")
+        .doc("possibilidadeUsoCupom")
+        .get()
+        .then((event) {
+      if (event.exists) {
+        Map<String, dynamic> data = event.data() as Map<String, dynamic>;
+
+        possibilidadeDeUsoCupom = data['possivel'] ?? false;
+      } else {}
+      return possibilidadeDeUsoCupom;
+    });
+    return possibilidadeDeUsoCupom;
+  }
+
+  Future<int?> getCupons() async {
+    int? pontuacaoSetada;
+
+    await database
+        .collection("estabelecimento")
+        .doc("resgateCupons")
+        .get()
+        .then((event) {
+      if (event.exists) {
+        Map<String, dynamic> data = event.data() as Map<String, dynamic>;
+
+        pontuacaoSetada = data['totalParaResgate'] ?? 0;
+      } else {}
+      return pontuacaoSetada;
+    });
+    return pontuacaoSetada;
   }
 }

@@ -1,5 +1,6 @@
 import 'package:lionsbarberv1/classes/cortecClass.dart';
 import 'package:lionsbarberv1/functions/CorteProvider.dart';
+import 'package:lionsbarberv1/functions/cupomProvider.dart';
 import 'package:lionsbarberv1/functions/rankingProviderHome.dart';
 import 'package:lionsbarberv1/normalUsersHome/screen/home/home_components/StreamHaveItems.dart';
 import 'package:lionsbarberv1/normalUsersHome/screen/home/home_components/header/homeHeaderSemItens.dart';
@@ -27,11 +28,30 @@ class _HomeOnlyWidgetsState extends State<HomeOnlyWidgets> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    loadpossibilidadeCupom();
     Provider.of<CorteProvider>(context, listen: false).userCortesTotal;
     Provider.of<RankingProvider>(context, listen: false).loadingListUsers();
     Provider.of<RankingProvider>(context, listen: false).listaUsers;
     List<GeralUser> userList =
         Provider.of<RankingProvider>(context, listen: false).listaUsers;
+  }
+
+  bool isLoading = false;
+  bool? PontosPorCortes;
+  Future<void> loadpossibilidadeCupom() async {
+    setState(() {
+      isLoading = true;
+    });
+    try {
+      bool? valorBoolDatabase = await CupomProvider().getPossivelUsarCupom();
+      setState(() {
+        PontosPorCortes = valorBoolDatabase;
+        isLoading = false;
+      });
+      print("o valor do database bool ficou:$PontosPorCortes");
+    } catch (e) {
+      print("ao atualizar geral do bool:$e");
+    }
   }
 
   @override
@@ -70,7 +90,13 @@ class _HomeOnlyWidgetsState extends State<HomeOnlyWidgets> {
                     widhScreen: widhtTela,
                   )
                 : const RankingSemUsuarios(),
-            GeralViewRewardsUser(),
+            isLoading == true
+                ? Center(
+                    child: CircularProgressIndicator.adaptive(),
+                  )
+                : 
+                PontosPorCortes == true ?
+                GeralViewRewardsUser() : Container(),
           ],
         ),
       ),

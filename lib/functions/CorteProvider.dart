@@ -522,7 +522,7 @@ class CorteProvider with ChangeNotifier {
           .doc(corte.id)
           .get();
       if (docPointsGet.exists) {
-        pontuacaoTotalGerada = await docPointsGet.data()?['easepoints'];
+        pontuacaoTotalGerada = await docPointsGet.data()?['easepoints'] ?? 0;
         final userAtt =
             await database.collection("usuarios").doc(useriDSearch).update({
           'totalCortes': FieldValue.increment(-1),

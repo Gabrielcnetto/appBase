@@ -138,7 +138,7 @@ class ManagerScreenFunctions with ChangeNotifier {
         print("tipos de dados:");
         print(data?["totalValue"].toString());
         return CorteClass(
-          easepoints: data?['easepoints'],
+          easepoints: data?['easepoints'] ?? 0,
           apenasBarba: false,
           detalheDoProcedimento: data?["detalheDoProcedimento"] ?? "",
           horariosExtra: horariosExtras!,
@@ -155,6 +155,7 @@ class ManagerScreenFunctions with ChangeNotifier {
           horarioCorte: data?['horarioCorte'],
           barba: data?['barba'],
           ramdomCode: data?['ramdomNumber'],
+
         );
       }).toList();
       _CorteslistaManager.add(_managerListCortes);
