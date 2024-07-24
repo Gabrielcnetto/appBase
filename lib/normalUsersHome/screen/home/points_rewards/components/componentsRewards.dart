@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lionsbarberv1/classes/Estabelecimento.dart';
+import 'package:lionsbarberv1/functions/cupomProvider.dart';
+import 'package:lionsbarberv1/functions/profileScreenFunctions.dart';
 
 class ComponentDataRewards extends StatefulWidget {
   const ComponentDataRewards({super.key});
@@ -11,6 +13,69 @@ class ComponentDataRewards extends StatefulWidget {
 }
 
 class _ComponentDataRewardsState extends State<ComponentDataRewards> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    pontuacaoMeta;
+    loadcupomValue();
+  }
+
+  int? pontuacaoMeta;
+  Future<void> loadcupomValue() async {
+    try {
+      int? pontuacaoDatabase = await CupomProvider().getCupons();
+      setState(() async {
+        pontuacaoMeta = pontuacaoDatabase;
+        await loadpoints();
+        CalculoQuantosFaltam();
+        calcularPorcentagemFalta();
+      });
+    } catch (e) {
+      print("ao atualizar geral:$e");
+    }
+  }
+
+  int? pontuacaoTotalCliente;
+  Future<void> loadpoints() async {
+    print("entrei na load da pontuacao");
+    int? pointsDB = await MyProfileScreenFunctions().getUserPontuation();
+
+    setState(() {
+      pontuacaoTotalCliente = pointsDB;
+    });
+  }
+
+  //funcoes para os calculos para liberar o uso - inicio
+  int quantosFaltam = 0;
+  void CalculoQuantosFaltam() {
+    int meusPontos = pontuacaoTotalCliente ?? 0;
+    int pontosParaAtivar = pontuacaoMeta ?? 0;
+    setState(() {
+      quantosFaltam = pontosParaAtivar -= meusPontos;
+    });
+  }
+
+  bool liberadoParaResgate = false;
+  double calcularPorcentagemFalta() {
+    if (pontuacaoMeta == null ||
+        pontuacaoTotalCliente == null ||
+        pontuacaoMeta == 0) {
+      return 0.0;
+    }
+
+    double percent = (pontuacaoTotalCliente! / pontuacaoMeta!) * 100;
+    if (percent >= 99) {
+      setState(() {
+        liberadoParaResgate = true;
+      });
+    }
+    print("#555 valorzin final:$percent");
+
+    return percent.clamp(0.0, 100.0) / 100.0;
+  }
+
+  //funcoes para os calculos para liberar o uso - fim
   void showModalRegras() {
     showModalBottomSheet(
       isDismissible: true,
@@ -165,7 +230,7 @@ class _ComponentDataRewardsState extends State<ComponentDataRewards> {
                             borderRadius: BorderRadius.circular(30),
                           ),
                           child: Text(
-                            "73",
+                            "${pontuacaoTotalCliente ?? 0}",
                             style: GoogleFonts.poppins(
                               textStyle: TextStyle(
                                 fontSize: 24,
@@ -216,12 +281,12 @@ class _ComponentDataRewardsState extends State<ComponentDataRewards> {
                                 LinearProgressIndicator(
                                   borderRadius: BorderRadius.circular(8),
                                   color: Colors.grey.shade300,
-                                  value: 1,
+                                  value: 1.0,
                                 ),
                                 LinearProgressIndicator(
                                   borderRadius: BorderRadius.circular(8),
                                   color: Colors.green.shade600,
-                                  value: 0.5,
+                                  value: calcularPorcentagemFalta(),
                                 ),
                               ],
                             ),
@@ -243,7 +308,7 @@ class _ComponentDataRewardsState extends State<ComponentDataRewards> {
                     Container(
                       width: MediaQuery.of(context).size.width * 0.9,
                       child: Text(
-                        "Colete 520 pontos para resgatar o prêmio",
+                       liberadoParaResgate == true ? "Você já pode resgatar o prêmio!": "Colete ${quantosFaltam ?? 0} pontos para resgatar o prêmio",
                         style: GoogleFonts.openSans(
                           textStyle: TextStyle(
                             fontWeight: FontWeight.w300,
@@ -292,7 +357,7 @@ class _ComponentDataRewardsState extends State<ComponentDataRewards> {
                   ).createShader(bounds);
                 },
                 child: Text(
-                  "80",
+                  "${pontuacaoMeta ?? 0}",
                   style: GoogleFonts.poppins(
                     textStyle: TextStyle(
                         fontSize: 60,
@@ -362,10 +427,15 @@ class _ComponentDataRewardsState extends State<ComponentDataRewards> {
                 width: MediaQuery.of(context).size.width * 0.6,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(25),
-                  gradient: LinearGradient(
+                  gradient: liberadoParaResgate == true ? LinearGradient(
                     colors: [
                       Colors.orange.shade400,
                       Colors.orangeAccent.shade700,
+                    ],
+                  ) : LinearGradient(
+                    colors: [
+                      Colors.grey.shade400,
+                      Colors.grey.shade700,
                     ],
                   ),
                 ),
@@ -374,15 +444,32 @@ class _ComponentDataRewardsState extends State<ComponentDataRewards> {
                   vertical: 5,
                   horizontal: 10,
                 ),
-                child: Text(
-                  "Troque seus pontos",
-                  style: GoogleFonts.openSans(
-                    textStyle: TextStyle(
-                      fontSize: 14,
-                      color: Colors.white,
-                      fontWeight: FontWeight.w500,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    if (liberadoParaResgate == false)
+                      Icon(
+                        Icons.lock,
+                        size: 15,
+                        color: Colors.grey.shade800,
+                      ),
+                    if (liberadoParaResgate == false)
+                      SizedBox(
+                        width: 5,
+                      ),
+                    Text(
+                      liberadoParaResgate == true
+                          ? "Trocar os Pontos"
+                          : 'Libera ao alcançar',
+                      style: GoogleFonts.openSans(
+                        textStyle: TextStyle(
+                          fontSize: 14,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
                     ),
-                  ),
+                  ],
                 ),
               ),
             ],

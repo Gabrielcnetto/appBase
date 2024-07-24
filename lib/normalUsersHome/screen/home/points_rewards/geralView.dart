@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:lionsbarberv1/functions/cupomProvider.dart';
 import 'package:lionsbarberv1/normalUsersHome/screen/home/points_rewards/components/componentsRewards.dart';
 
 class GeralViewRewardsUser extends StatelessWidget {
