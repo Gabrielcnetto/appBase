@@ -46,7 +46,7 @@ class _HomeScreen01WithBoolManagerState extends State<HomeScreen01WithBoolManage
       //    'tela': const CalendarScreen(),
       //  },
       {
-        'tela': const AddScreen(),
+        'tela':  AddScreen(cupomActive: false,),
       },
       {
         'tela': const HistoryScreen(),

@@ -85,7 +85,7 @@ class _providerLoadingHistoryListState
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "Corte Agendado",
+                              "Corte Agendado - ${widget.corte.pagoComCupom == true ? "Cupom*": ""}",
                               style: GoogleFonts.openSans(
                                 textStyle: const TextStyle(
                                   fontWeight: FontWeight.w600,
@@ -171,7 +171,7 @@ class _providerLoadingHistoryListState
                       Row(
                         children: [
                           Text(
-                            "Usou cupom?",
+                            "Pagou com cupom?",
                             style: GoogleFonts.openSans(
                               textStyle: TextStyle(
                                 fontWeight: FontWeight.w700,
@@ -183,7 +183,7 @@ class _providerLoadingHistoryListState
                             width: 5,
                           ),
                           Text(
-                            "${widget.corte.easepoints > 1 ? "Sim" : "Sem cupons"}",
+                            "${widget.corte.pagoComCupom == true ? "Sim": "Não"}",
                             //   "${widget.corte.barba == true ? "Sim" : "Não"}",
                             style: GoogleFonts.openSans(
                               textStyle: const TextStyle(
@@ -254,7 +254,7 @@ class _providerLoadingHistoryListState
                             padding: const EdgeInsets.symmetric(
                                 vertical: 5, horizontal: 10),
                             child: Text(
-                              "+${widget.corte.easepoints} pontos",
+                              "+${widget.corte.easepoints ?? 0 } pontos",
                               style: GoogleFonts.openSans(
                                 textStyle: const TextStyle(
                                   fontWeight: FontWeight.w700,

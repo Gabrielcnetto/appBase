@@ -23,7 +23,11 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class AddScreen extends StatefulWidget {
-  const AddScreen({super.key});
+   bool cupomActive;
+   AddScreen({
+    super.key,
+    required this.cupomActive,
+  });
 
   @override
   State<AddScreen> createState() => _AddScreenState();
@@ -49,6 +53,7 @@ class _AddScreenState extends State<AddScreen> {
     LoadPriceAdicionalIndex3();
     LoadPriceAdicionalIndex4();
     LoadPriceAdicionalIndex5();
+    setValueBoolCupom();
   }
 
   int? index5Value;
@@ -298,6 +303,15 @@ class _AddScreenState extends State<AddScreen> {
     });
   }
 
+  //bool para ativar o cupom - corte grátis > inicio
+  bool cupomAtivadoCorteGratis = false;
+  void setValueBoolCupom(){
+    setState(() {
+      cupomAtivadoCorteGratis = widget.cupomActive;
+    });
+    print("agora o bool fisico é$cupomAtivadoCorteGratis");
+  }
+  //bool para ativar o cupom - corte grátis > fim
   String? hourSetForUser;
   int valorMultiplicadorPontos = 0;
 
@@ -408,6 +422,7 @@ class _AddScreenState extends State<AddScreen> {
               ? "${profList[1].nomeProf}"
               : "Não Definido",
       corte: CorteClass(
+        pagoComCupom: cupomAtivadoCorteGratis,
         easepoints: 0,
         apenasBarba: apenasBarba,
         detalheDoProcedimento: detalheDoProcedimento ?? "Corte Normal",
@@ -1833,10 +1848,12 @@ class _AddScreenState extends State<AddScreen> {
                               ),
                             ),
                             //PROCEDIMENTOS EXTRAS - FIM
+                            if(cupomAtivadoCorteGratis == false)
                             const SizedBox(
                               height: 25,
                             ),
                             //container do cupom - inicio
+                            if(cupomAtivadoCorteGratis == false)
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [

@@ -130,6 +130,7 @@ class _MyAppState extends State<MyApp> {
           AppRoutesApp.LoginScreen01: (ctx) => const LoginScreen01(),
           AppRoutesApp.HomeScreen01: (ctx) => const HomeScreen01(
                 selectedIndex: 0,
+                cupomIsAcitve: false,
               ),
           AppRoutesApp.RegisterAccountScreen: (ctx) =>
               const RegisterAccountScreen(),
@@ -150,6 +151,7 @@ class _MyAppState extends State<MyApp> {
           AppRoutesApp.ModalDeEdicao: (ctx) => const ModalDeEdicao(),
           AppRoutesApp.ChangeHourAndData: (ctx) => ChangeHourAndData(
                 corteWidget: CorteClass(
+                  pagoComCupom: false,
                   easepoints: 0,
                   apenasBarba: false,
                   detalheDoProcedimento: "",

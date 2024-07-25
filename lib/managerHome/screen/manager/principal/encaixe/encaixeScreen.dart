@@ -337,6 +337,7 @@ class _EncaixeScreenProfissionalOptionHomeProfState
               ? "${profList[1].nomeProf}"
               : "Não Definido",
       corte: CorteClass(
+        pagoComCupom: false,
         easepoints: 0,
         apenasBarba: apenasBarba,
         detalheDoProcedimento: detalheDoProcedimento ?? "Corte Normal",

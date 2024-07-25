@@ -366,6 +366,7 @@ class _ScheduleWithTwoListsState extends State<ScheduleWithTwoLists> {
                         }
                         for (String horario in allHorariosExtra) {
                           CorteClass novaCorte = CorteClass(
+                            pagoComCupom: false,
                             easepoints: 0,
                             apenasBarba: false,
                             detalheDoProcedimento: "",
@@ -465,20 +466,23 @@ class _ScheduleWithTwoListsState extends State<ScheduleWithTwoLists> {
                                                                       .height *
                                                                   0.2,
                                                               decoration:
-                                                                  const BoxDecoration(
-                                                                color:
-                                                                    Colors.blue,
+                                                                  BoxDecoration(
+                                                                color:Colors
+                                                                        .orange
+                                                                        .shade600
+                                                                    ,
                                                               ),
                                                               width: MediaQuery.of(
                                                                           context)
                                                                       .size
                                                                       .width *
                                                                   0.7,
-                                                              child: const Padding(
+                                                              child:
+                                                                  const Padding(
                                                                 padding: EdgeInsets
                                                                     .symmetric(
-                                                                    horizontal:
-                                                                        8.0),
+                                                                        horizontal:
+                                                                            8.0),
                                                                 child: Text(
                                                                   "",
                                                                   style:
@@ -493,16 +497,27 @@ class _ScheduleWithTwoListsState extends State<ScheduleWithTwoLists> {
                                                               ),
                                                             )
                                                           : InkWell(
-                                                            onTap:(){
-                                                              Navigator.of(context).pushNamed(AppRoutesApp.ModalDeEdicao,
-                                                                                arguments: corte);
-                                                            },
-                                                            child: Container(
-                                                              padding: const EdgeInsets.only(bottom: 20),
+                                                              onTap: () {
+                                                                Navigator.of(
+                                                                        context)
+                                                                    .pushNamed(
+                                                                        AppRoutesApp
+                                                                            .ModalDeEdicao,
+                                                                        arguments:
+                                                                            corte);
+                                                              },
+                                                              child: Container(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                        .only(
+                                                                        bottom:
+                                                                            20),
                                                                 alignment: Alignment
                                                                     .centerLeft,
-                                                                height: MediaQuery.of(
-                                                                            context)
+                                                                height: corte.pagoComCupom ? MediaQuery.of(context).size.height *0.22:  MediaQuery
+                                                                            .of(
+                                                                      context,
+                                                                    )
                                                                         .size
                                                                         .height *
                                                                     0.2,
@@ -522,8 +537,13 @@ class _ScheduleWithTwoListsState extends State<ScheduleWithTwoLists> {
                                                                           .circular(
                                                                           10,
                                                                         ),
-                                                                  color:
-                                                                      Colors.blue,
+                                                                  color: corte.pagoComCupom ==
+                                                                          true
+                                                                      ? Colors
+                                                                          .orange
+                                                                          .shade600
+                                                                      : Colors
+                                                                          .blue,
                                                                 ),
                                                                 width: MediaQuery.of(
                                                                             context)
@@ -546,31 +566,48 @@ class _ScheduleWithTwoListsState extends State<ScheduleWithTwoLists> {
                                                                             .start,
                                                                     children: [
                                                                       Row(
+                                                                        mainAxisAlignment:
+                                                                            MainAxisAlignment.spaceBetween,
                                                                         children: [
                                                                           Text(
                                                                             "ínicio: ${corte.horarioCorte}",
                                                                             style:
                                                                                 GoogleFonts.openSans(
-                                                                              textStyle:
-                                                                                  const TextStyle(
+                                                                              textStyle: const TextStyle(
                                                                                 fontSize: 13,
                                                                                 color: Colors.white70,
                                                                               ),
                                                                             ),
-                                                                          )
+                                                                          ),
+                                                                          if (corte
+                                                                              .pagoComCupom)
+                                                                            Container(
+                                                                              decoration: BoxDecoration(
+                                                                                borderRadius: BorderRadius.circular(8),
+                                                                                color: Colors.white,
+                                                                                border: Border.all(
+                                                                                  width: 0.5,
+                                                                                  color: Colors.white,
+                                                                                ),
+                                                                              ),
+                                                                              child: Text(
+                                                                                "Grátis, Troca de cupom",
+                                                                                style: GoogleFonts.openSans(
+                                                                                  textStyle: const TextStyle(fontSize: 13, color: Colors.black, fontStyle: FontStyle.italic),
+                                                                                ),
+                                                                              ),
+                                                                            ),
                                                                         ],
                                                                       ),
                                                                       Column(
                                                                         crossAxisAlignment:
-                                                                            CrossAxisAlignment
-                                                                                .start,
+                                                                            CrossAxisAlignment.start,
                                                                         children: [
                                                                           Text(
                                                                             corte.detalheDoProcedimento,
                                                                             style:
                                                                                 GoogleFonts.openSans(
-                                                                              textStyle:
-                                                                                  const TextStyle(
+                                                                              textStyle: const TextStyle(
                                                                                 fontWeight: FontWeight.w600,
                                                                                 fontSize: 16,
                                                                                 color: Colors.white,
@@ -578,12 +615,10 @@ class _ScheduleWithTwoListsState extends State<ScheduleWithTwoLists> {
                                                                             ),
                                                                           ),
                                                                           Text(
-                                                                            corte
-                                                                                .clientName,
+                                                                            corte.clientName,
                                                                             style:
                                                                                 GoogleFonts.openSans(
-                                                                              textStyle:
-                                                                                  TextStyle(
+                                                                              textStyle: TextStyle(
                                                                                 fontWeight: FontWeight.w700,
                                                                                 fontSize: 16,
                                                                                 color: Estabelecimento.primaryColor,
@@ -594,23 +629,18 @@ class _ScheduleWithTwoListsState extends State<ScheduleWithTwoLists> {
                                                                       ),
                                                                       Row(
                                                                         mainAxisAlignment:
-                                                                            MainAxisAlignment
-                                                                                .end,
+                                                                            MainAxisAlignment.end,
                                                                         children: [
                                                                           InkWell(
                                                                             onTap:
                                                                                 () {
-                                                                              Navigator.of(context).pushNamed(AppRoutesApp.ModalDeEdicao,
-                                                                                  arguments: corte);
+                                                                              Navigator.of(context).pushNamed(AppRoutesApp.ModalDeEdicao, arguments: corte);
                                                                             },
                                                                             child:
                                                                                 Container(
-                                                                              padding:
-                                                                                  const EdgeInsets.all(5),
-                                                                              decoration:
-                                                                                  BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(15)),
-                                                                              child:
-                                                                                  const Icon(
+                                                                              padding: const EdgeInsets.all(5),
+                                                                              decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(15)),
+                                                                              child: const Icon(
                                                                                 Icons.open_in_new,
                                                                                 size: 18,
                                                                                 color: Colors.black,
@@ -623,7 +653,7 @@ class _ScheduleWithTwoListsState extends State<ScheduleWithTwoLists> {
                                                                   ),
                                                                 ),
                                                               ),
-                                                          );
+                                                            );
                                                     }).toList(),
                                                   ),
                                                 )
@@ -637,7 +667,6 @@ class _ScheduleWithTwoListsState extends State<ScheduleWithTwoLists> {
                                                                 .width *
                                                             0.7,
                                                     decoration: BoxDecoration(
-                                                      
                                                       color:
                                                           Colors.grey.shade200,
                                                       borderRadius:

@@ -45,6 +45,7 @@ class CorteProvider with ChangeNotifier {
           .collection("all")
           .doc(corte.horarioCorte)
           .set({
+        "pagocomcupom": corte.pagoComCupom,
         "detalheDoProcedimento": corte.detalheDoProcedimento,
         "horariosExtras": corte.horariosExtra,
         "totalValue": corte.totalValue,
@@ -75,6 +76,7 @@ class CorteProvider with ChangeNotifier {
         final docSnapshotHorario2 = await docRefHorario2.get();
         if (!docSnapshotHorario2.exists) {
           await docRefHorario2.set({
+            'pagocomcupom': corte.pagoComCupom,
             "detalheDoProcedimento": "",
             "horariosExtras": [],
             "totalValue": 0,
@@ -104,6 +106,7 @@ class CorteProvider with ChangeNotifier {
         final docSnapshotHorario3 = await docRefHorario3.get();
         if (!docSnapshotHorario3.exists) {
           await docRefHorario3.set({
+            'pagocomcupom': corte.pagoComCupom,
             "horariosExtras": [],
             "detalheDoProcedimento": "",
             "totalValue": 0,
@@ -131,6 +134,7 @@ class CorteProvider with ChangeNotifier {
           .collection("${diaCorteSelect}")
           .doc(corte.id)
           .set({
+        'pagocomcupom': corte.pagoComCupom,
         "detalheDoProcedimento": corte.detalheDoProcedimento,
         "horariosExtras": corte.horariosExtra,
         "totalValue": corte.totalValue,
@@ -176,6 +180,7 @@ class CorteProvider with ChangeNotifier {
           .collection("all")
           .doc(corte.id)
           .set({
+        'pagocomcupom': corte.pagoComCupom,
         "detalheDoProcedimento": corte.detalheDoProcedimento,
         "horariosExtras": corte.horariosExtra,
         "id": corte.id,
@@ -201,6 +206,7 @@ class CorteProvider with ChangeNotifier {
             .collection("lista")
             .doc(corte.id)
             .set({
+          'pagocomcupom': corte.pagoComCupom,
           "easepoints": valorMultiplicador,
           "detalheDoProcedimento": corte.detalheDoProcedimento,
           "horariosExtras": corte.horariosExtra,
@@ -235,9 +241,34 @@ class CorteProvider with ChangeNotifier {
           "ultimoAgendamento": corte
               .diaCorte, //update do int para +1 atualizando ototal de cortes
         });
+        //CASO FOR UMA TROCA DE PONTOS POR CORTES, ESSE CODIGO É LIDO:
+        try {
+          final String userId = authSettings.currentUser!.uid;
+          int pontosASubtrair = 0;
+
+          await database
+              .collection("estabelecimento")
+              .doc("resgateCupons")
+              .get()
+              .then((event) {
+            if (event.exists) {
+              Map<String, dynamic> data = event.data() as Map<String, dynamic>;
+
+              pontosASubtrair = data['totalParaResgate'] ?? 0;
+            } else {
+              print("#erro77 erro ao fazer o get dos pontos");
+            }
+          });
+          final attPointsInProfile =
+              await database.collection('usuarios').doc(userId).update({
+            'easepoints': FieldValue.increment(-pontosASubtrair),
+          });
+        } catch (e) {
+          print("#erro77 a leitura e subtracao de pontos deu erro: $e");
+        }
       }
     } catch (e) {
-      print("ocorreu isto:${e}");
+      print("#erro77 ocorreu isto:${e}");
     }
     notifyListeners();
   }
@@ -318,6 +349,7 @@ class CorteProvider with ChangeNotifier {
         DateTime diaCorteFinal = diafinalCorte?.toDate() ?? DateTime.now();
         // Acessando os atributos diretamente usando []
         return CorteClass(
+          pagoComCupom: data?['pagocomcupom'] ?? false,
           easepoints: data?['easepoints'] ?? 0,
           apenasBarba: false,
           detalheDoProcedimento: data?["detalheDoProcedimento"] ?? "",
@@ -390,6 +422,7 @@ class CorteProvider with ChangeNotifier {
         DateTime diaCorteFinal = diafinalCorte?.toDate() ?? DateTime.now();
         // Acessando os atributos diretamente usando []
         return CorteClass(
+          pagoComCupom: data?['pagocomcupom'] ?? false,
           easepoints: data?[''] ?? 0,
           apenasBarba: false,
           detalheDoProcedimento: data?["detalheDoProcedimento"] ?? "",
@@ -527,7 +560,7 @@ class CorteProvider with ChangeNotifier {
             await database.collection("usuarios").doc(useriDSearch).update({
           'totalCortes': FieldValue.increment(-1),
         });
-         final totalCortesSub =
+        final totalCortesSub =
             await database.collection("usuarios").doc(useriDSearch).update({
           'easepoints': FieldValue.increment(-pontuacaoTotalGerada),
         });
@@ -726,6 +759,7 @@ class CorteProvider with ChangeNotifier {
           .collection("all")
           .doc(hourSetForUser)
           .set({
+        'pagocomcupom': false,
         "detalheDoProcedimento": corte.detalheDoProcedimento,
         "horariosExtras": horariosExtras,
         "totalValue": corte.totalValue,
@@ -756,6 +790,7 @@ class CorteProvider with ChangeNotifier {
         final docSnapshotHorario2 = await docRefHorario2.get();
         if (!docSnapshotHorario2.exists) {
           await docRefHorario2.set({
+            'pagocomcupom': false,
             "detalheDoProcedimento": "",
             "horariosExtras": [],
             "totalValue": 0,
@@ -785,6 +820,7 @@ class CorteProvider with ChangeNotifier {
         final docSnapshotHorario3 = await docRefHorario3.get();
         if (!docSnapshotHorario3.exists) {
           await docRefHorario3.set({
+            'pagocomcupom': false,
             "detalheDoProcedimento": "",
             "horariosExtras": [],
             "totalValue": 0,
@@ -812,6 +848,7 @@ class CorteProvider with ChangeNotifier {
           .collection("${diaCorteSelect}")
           .doc(idAleatorioNew)
           .set({
+        'pagocomcupom': false,
         "detalheDoProcedimento": corte.detalheDoProcedimento,
         "horariosExtras": horariosExtras,
         "totalValue": corte.totalValue,
@@ -857,6 +894,7 @@ class CorteProvider with ChangeNotifier {
           .collection("all")
           .doc(idAleatorioNew)
           .set({
+        'pagocomcupom': false,
         "detalheDoProcedimento": corte.detalheDoProcedimento,
         "horariosExtras": horariosExtras,
         "id": idAleatorioNew,

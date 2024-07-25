@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:lionsbarberv1/classes/Estabelecimento.dart';
 import 'package:lionsbarberv1/functions/cupomProvider.dart';
 import 'package:lionsbarberv1/functions/profileScreenFunctions.dart';
+import 'package:lionsbarberv1/normalUsersHome/screen/home/homeScreen01.dart';
 
 class ComponentDataRewards extends StatefulWidget {
   const ComponentDataRewards({super.key});
@@ -308,7 +309,9 @@ class _ComponentDataRewardsState extends State<ComponentDataRewards> {
                     Container(
                       width: MediaQuery.of(context).size.width * 0.9,
                       child: Text(
-                       liberadoParaResgate == true ? "Você já pode resgatar o prêmio!": "Colete ${quantosFaltam ?? 0} pontos para resgatar o prêmio",
+                        liberadoParaResgate == true
+                            ? "Você já pode resgatar o prêmio!"
+                            : "Colete ${quantosFaltam ?? 0} pontos para resgatar o prêmio",
                         style: GoogleFonts.openSans(
                           textStyle: TextStyle(
                             fontWeight: FontWeight.w300,
@@ -423,53 +426,65 @@ class _ComponentDataRewardsState extends State<ComponentDataRewards> {
                   ),
                 ),
               ),
-              Container(
-                width: MediaQuery.of(context).size.width * 0.6,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(25),
-                  gradient: liberadoParaResgate == true ? LinearGradient(
-                    colors: [
-                      Colors.orange.shade400,
-                      Colors.orangeAccent.shade700,
-                    ],
-                  ) : LinearGradient(
-                    colors: [
-                      Colors.grey.shade400,
-                      Colors.grey.shade700,
-                    ],
+              InkWell(
+                onTap: () {
+                  if (liberadoParaResgate == true) {
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (BuildContext ctx) {
+                      return const HomeScreen01(selectedIndex: 1,cupomIsAcitve: true,);
+                    }));
+                  }
+                },
+                child: Container(
+                  width: MediaQuery.of(context).size.width * 0.6,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(25),
+                    gradient: liberadoParaResgate == true
+                        ? LinearGradient(
+                            colors: [
+                              Colors.orange.shade400,
+                              Colors.orangeAccent.shade700,
+                            ],
+                          )
+                        : LinearGradient(
+                            colors: [
+                              Colors.grey.shade400,
+                              Colors.grey.shade700,
+                            ],
+                          ),
                   ),
-                ),
-                alignment: Alignment.center,
-                padding: EdgeInsets.symmetric(
-                  vertical: 5,
-                  horizontal: 10,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    if (liberadoParaResgate == false)
-                      Icon(
-                        Icons.lock,
-                        size: 15,
-                        color: Colors.grey.shade800,
-                      ),
-                    if (liberadoParaResgate == false)
-                      SizedBox(
-                        width: 5,
-                      ),
-                    Text(
-                      liberadoParaResgate == true
-                          ? "Trocar os Pontos"
-                          : 'Libera ao alcançar',
-                      style: GoogleFonts.openSans(
-                        textStyle: TextStyle(
-                          fontSize: 14,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w500,
+                  alignment: Alignment.center,
+                  padding: EdgeInsets.symmetric(
+                    vertical: 5,
+                    horizontal: 10,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      if (liberadoParaResgate == false)
+                        Icon(
+                          Icons.lock,
+                          size: 15,
+                          color: Colors.grey.shade800,
+                        ),
+                      if (liberadoParaResgate == false)
+                        SizedBox(
+                          width: 5,
+                        ),
+                      Text(
+                        liberadoParaResgate == true
+                            ? "Trocar os Pontos"
+                            : 'Libera ao alcançar',
+                        style: GoogleFonts.openSans(
+                          textStyle: TextStyle(
+                            fontSize: 14,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ],

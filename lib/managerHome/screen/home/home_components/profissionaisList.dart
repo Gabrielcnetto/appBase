@@ -50,7 +50,7 @@ class _ProfissionaisListState extends State<ProfissionaisList> {
                               print("teste");
                               Navigator.of(context).push(MaterialPageRoute(
                                   builder: (BuildContext ctx) {
-                                return const HomeScreen01(selectedIndex: 1);
+                                return const HomeScreen01(selectedIndex: 1,cupomIsAcitve: false,);
                               }));
                             },
                             child: Container(

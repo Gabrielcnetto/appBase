@@ -4,6 +4,7 @@ class CorteClass {
   final int easepoints;
   final String id;
   final bool isActive;
+  final bool pagoComCupom;
   final String clientName;
   final String numeroContato;
   final bool barba;
@@ -21,6 +22,7 @@ class CorteClass {
   final String detalheDoProcedimento;
   final bool apenasBarba;
   CorteClass({
+    required this.pagoComCupom,
     required this.easepoints,
     required this.detalheDoProcedimento,
     required this.apenasBarba,

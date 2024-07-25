@@ -28,7 +28,8 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 
 class HomeScreen01 extends StatefulWidget {
   final int selectedIndex;
-  const HomeScreen01({super.key, required this.selectedIndex});
+  final bool cupomIsAcitve;
+  const HomeScreen01({super.key, required this.selectedIndex,required this.cupomIsAcitve,});
 
   @override
   State<HomeScreen01> createState() => _HomeScreen01State();
@@ -76,7 +77,7 @@ class _HomeScreen01State extends State<HomeScreen01>
         {
           'tela': (isManager || isFuncionario) == true
               ? const EncaixeScreenProfissionalOptionHomeProf()
-              : const AddScreen(),
+              :  AddScreen(cupomActive:widget.cupomIsAcitve ),
         },
         {
           'tela': (isManager || isFuncionario) == true
