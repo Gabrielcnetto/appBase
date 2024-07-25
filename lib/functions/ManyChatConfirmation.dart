@@ -18,11 +18,12 @@ class ManyChatConfirmation with ChangeNotifier {
     required DateTime dateSchedule,
     required int externalId,
   }) async {
-    String cleanedNumber = userPhoneNumber.replaceAll(RegExp(r'^\+?55|\-'), '');
+    String cleanedNumber =
+        userPhoneNumber.replaceAll(RegExp(r'^\+?55|\- '), '');
     var createSubscriberUrl = Uri.parse(
         "https://us-central1-lionsbarber-easecorte.cloudfunctions.net/manyChatProxy/fb/subscriber/createSubscriber");
     var myManyToken = "1438889:178a28fe8cd1db32c7fbd2e27a0c4415";
-
+    print("#manychatPRINT: o numero que chega aqui é o ${cleanedNumber}");
     // Dados do assinante a serem enviados
     var subscriberData = {
       "phone": "+55$cleanedNumber",
@@ -44,20 +45,21 @@ class ManyChatConfirmation with ChangeNotifier {
         },
         body: jsonEncode(subscriberData),
       );
+       print("#manychatPRINT: criando um novo assinante");
       var createResponseBody = jsonDecode(createResponse.body);
       var subscriberId = await createResponseBody['data']['id'];
-      print("o id do usuario ficou com: ${subscriberId}");
-      await ScheduleMessageFirst(finalDate: dateSchedule,userId: subscriberId);
+      print("#manychatPRINT: o id do usuario ficou com: ${subscriberId}");
+      await ScheduleMessageFirst(finalDate: dateSchedule, userId: subscriberId);
       await saveContactID(
           phoneNumber: userPhoneNumber, subscriber_id: subscriberId);
       // Assinante criado com sucesso, agora você pode adicionar tags, enviar mensagens, etc.
-      print("Assinante criado com sucesso. ID: $subscriberId");
+      print("#manychatPRINT: Assinante criado com sucesso. ID: $subscriberId");
     } catch (e) {
       try {
-        print("entrei aqui na funcao de enviar a segunda mensagem ");
+        print("#manychatPRINT: entrei aqui na funcao de enviar a segunda mensagem ");
         await UserExistButSendConfirmation(phoneNumber: userPhoneNumber);
       } catch (e) {
-        print("erro maior, nao executamos");
+        print("#manychatPRINT: erro maior, nao executamos");
       }
     }
   }
@@ -74,13 +76,13 @@ class ManyChatConfirmation with ChangeNotifier {
         List<String> tag = await getTagsSystem(contactId: subId);
         List<String>? userTag =
             await fetchTags(userId: subId); // Change to nullable
-        print("a tag que deveria ser usada é esta: ${tag[0]}");
+        print("#manychatPRINT: a tag que deveria ser usada é esta: ${tag[0]}");
 
         // Check if userTag is null or empty
         if (userTag == null || userTag.isEmpty || userTag[0] == null) {
-          print("Não há tag definida para este usuário.");
-          print("A tag que vamos adicionar será esta: ${tag[0]}");
-          print("Não tem tag, vamos enviar.");
+          print("#manychatPRINT: Não há tag definida para este usuário.");
+          print("#manychatPRINT: A tag que vamos adicionar será esta: ${tag[0]}");
+          print("#manychatPRINT: Não tem tag, vamos enviar.");
 
           String tagUrl =
               "https://us-central1-lionsbarber-easecorte.cloudfunctions.net/manyChatProxy/fb/subscriber/addTag";
@@ -100,7 +102,7 @@ class ManyChatConfirmation with ChangeNotifier {
           String jsonBody = jsonEncode(body);
 
           try {
-            print("Fazendo o post da tag.");
+            print("#manychatPRINT: Fazendo o post da tag.");
             final response = await http.post(
               Uri.parse(tagUrl),
               headers: headers,
@@ -108,25 +110,26 @@ class ManyChatConfirmation with ChangeNotifier {
             );
 
             if (response.statusCode == 200) {
-              print('Tag atribuída com sucesso ao contato $subId.');
+              print(
+                  'Tag atribuída com sucesso ao contato $subId.');
             } else {
               print(
                   'Erro ao atribuir tag ao contato $subId. Status code: ${response.statusCode}');
               print('Response body: ${response.body}');
             }
           } catch (e) {
-            print("Ao enviar a tag ao usuário, ocorreu o seguinte erro: $e");
+            print("#manychatPRINT: Ao enviar a tag ao usuário, ocorreu o seguinte erro: $e");
           }
         } else {
           removetag(
             tagId: tag[0],
             userId: subId,
           );
-          print("Tinha tag atribuída, então foi removida.");
+          print("#manychatPRINT: Tinha tag atribuída, então foi removida.");
         }
       }
     } catch (e) {
-      print("Problemas na função da tag, ocorreu o seguinte erro: $e");
+      print("#manychatPRINT: Problemas na função da tag, ocorreu o seguinte erro: $e");
     }
   }
 
@@ -151,14 +154,14 @@ class ManyChatConfirmation with ChangeNotifier {
         print(data);
         // Verifica se a chave 'data' existe no mapa
         if (data.containsKey('data')) {
-          print("existe data");
+          print("#manychatPRINT: existe data");
           // Extrai a lista de tags do campo 'data' da resposta
           List<dynamic> tags = data['data'];
 
           // Mapeia as tags para obter apenas os nomes
           List<String> tagNames =
               tags.map((tag) => tag['id'].toString()).toList();
-          print("tagsNames $tagNames");
+          print("#manychatPRINT: tagsNames $tagNames");
           // Retorna a lista de nomes das tags
           return tagNames;
         } else {
@@ -173,7 +176,7 @@ class ManyChatConfirmation with ChangeNotifier {
       }
     } catch (e) {
       // Captura e imprime quaisquer exceções que ocorram durante a requisição
-      print("Erro geral na função: $e");
+      print("#manychatPRINT: Erro geral na função: $e");
       return [];
     }
   }
@@ -204,7 +207,8 @@ class ManyChatConfirmation with ChangeNotifier {
                 tagsData.map((tag) => tag['id'].toString()).toList();
             return tagNames;
           } else {
-            print('O campo "tags" na resposta da API não é uma lista');
+            print(
+                'O campo "tags" na resposta da API não é uma lista');
             return [];
           }
         } else {
@@ -216,7 +220,7 @@ class ManyChatConfirmation with ChangeNotifier {
         return [];
       }
     } catch (e) {
-      print("Erro geral na função: $e");
+      print("#manychatPRINT: Erro geral na função: $e");
       return [];
     }
   }
@@ -242,7 +246,7 @@ class ManyChatConfirmation with ChangeNotifier {
         body: jsonEncode(subscriberData),
       );
     } catch (e) {
-      print("ao remover a tag aconteceu isto: $e");
+      print("#manychatPRINT: ao remover a tag aconteceu isto: $e");
     }
   }
 
@@ -269,7 +273,7 @@ class ManyChatConfirmation with ChangeNotifier {
     final getSubscriberId =
         await database.collection("ManyChatids").doc(cleanedNumber).get();
     var subId = await getSubscriberId.data()?["subscriber_id"];
-    print("o aid do user é ${subId}");
+    print("#manychatPRINT: o aid do user é ${subId}");
     try {
       var subscriberData = {
         "subscriber_id": subId,
@@ -291,9 +295,9 @@ class ManyChatConfirmation with ChangeNotifier {
         },
       );
 
-      print("o bool foi enviado");
+      print("#manychatPRINT: o bool foi enviado");
     } catch (e) {
-      print("ao enviar o lembrete pelo bool, deu este erro: $e");
+      print("#manychatPRINT: ao enviar o lembrete pelo bool, deu este erro: $e");
     }
   }
 
@@ -304,20 +308,20 @@ class ManyChatConfirmation with ChangeNotifier {
     String url =
         "https://us-central1-lionsbarber-easecorte.cloudfunctions.net/manyChatProxy/fb/subscriber/setCustomFields";
     String accessToken = '1438889:178a28fe8cd1db32c7fbd2e27a0c4415';
-    String cleanedNumber = phoneNumber.replaceAll(RegExp(r'^\+?55|\-'), '');
+    String cleanedNumber = await phoneNumber.replaceAll(RegExp(r'^\+?55|\-'), '');
 
     try {
       // Obter o subscriber_id do banco de dados
       final getSubscriberId =
           await database.collection("ManyChatids").doc(cleanedNumber).get();
       var subId = await getSubscriberId.data()?["subscriber_id"];
-      print("Schd: o subs id é ${subId}");
+      print("#manychatPRINT: Schd: o subs id é ${subId}");
 
       // Formatando a data para o formato desejado (YYYY-MM-DDTHH:MM:SSZ)
       DateFormat dateFormat = DateFormat("yyyy-MM-dd'T'HH:mm:ss+00:00");
       DateTime horaAtrasada = finalDate.subtract(const Duration(hours: 1));
       String formattedDate = dateFormat.format(horaAtrasada.toUtc());
-      print("a hora ficou: ${formattedDate}");
+      print("#manychatPRINT: a hora ficou: ${formattedDate}");
       var subscriberData = {
         "subscriber_id": subId,
         "fields": [
@@ -340,19 +344,18 @@ class ManyChatConfirmation with ChangeNotifier {
       );
 
       if (createResponse.statusCode == 200) {
-        print("Schd: a data foi enviada com sucesso.");
+        print("#manychatPRINT: Schd: a data foi enviada com sucesso.");
       } else {
         print(
             "Schd: não foi possível enviar a data. Status code: ${createResponse.statusCode}");
       }
     } catch (e) {
-      print("Schd: houve um erro ao enviar a data: $e");
+      print("#manychatPRINT: Schd: houve um erro ao enviar a data: $e");
     }
   }
 
-
   //agendar mensagem para o primeiro perfil do cliente
-   Future<void> ScheduleMessageFirst({
+  Future<void> ScheduleMessageFirst({
     required String userId,
     required DateTime finalDate,
   }) async {
@@ -360,13 +363,12 @@ class ManyChatConfirmation with ChangeNotifier {
         "https://us-central1-lionsbarber-easecorte.cloudfunctions.net/manyChatProxy/fb/subscriber/setCustomFields";
     String accessToken = '1438889:178a28fe8cd1db32c7fbd2e27a0c4415';
 
-
     try {
       // Formatando a data para o formato desejado (YYYY-MM-DDTHH:MM:SSZ)
       DateFormat dateFormat = DateFormat("yyyy-MM-dd'T'HH:mm:ss+00:00");
       DateTime horaAtrasada = finalDate.subtract(const Duration(hours: 1));
       String formattedDate = dateFormat.format(horaAtrasada.toUtc());
-      print("a hora ficou: ${formattedDate}");
+      print("#manychatPRINT: a hora ficou: ${formattedDate}");
       var subscriberData = {
         "subscriber_id": userId,
         "fields": [
@@ -389,13 +391,13 @@ class ManyChatConfirmation with ChangeNotifier {
       );
 
       if (createResponse.statusCode == 200) {
-        print("Schd: a data foi enviada com sucesso.");
+        print("#manychatPRINT: Schd: a data foi enviada com sucesso.");
       } else {
         print(
             "Schd: não foi possível enviar a data. Status code: ${createResponse.statusCode}");
       }
     } catch (e) {
-      print("Schd: houve um erro ao enviar a data: $e");
+      print("#manychatPRINT: Schd: houve um erro ao enviar a data: $e");
     }
   }
 }

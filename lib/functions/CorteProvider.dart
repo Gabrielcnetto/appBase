@@ -242,29 +242,32 @@ class CorteProvider with ChangeNotifier {
               .diaCorte, //update do int para +1 atualizando ototal de cortes
         });
         //CASO FOR UMA TROCA DE PONTOS POR CORTES, ESSE CODIGO É LIDO:
-        try {
-          final String userId = authSettings.currentUser!.uid;
-          int pontosASubtrair = 0;
+        if (corte.pagoComCupom) {
+          try {
+            final String userId = authSettings.currentUser!.uid;
+            int pontosASubtrair = 0;
 
-          await database
-              .collection("estabelecimento")
-              .doc("resgateCupons")
-              .get()
-              .then((event) {
-            if (event.exists) {
-              Map<String, dynamic> data = event.data() as Map<String, dynamic>;
+            await database
+                .collection("estabelecimento")
+                .doc("resgateCupons")
+                .get()
+                .then((event) {
+              if (event.exists) {
+                Map<String, dynamic> data =
+                    event.data() as Map<String, dynamic>;
 
-              pontosASubtrair = data['totalParaResgate'] ?? 0;
-            } else {
-              print("#erro77 erro ao fazer o get dos pontos");
-            }
-          });
-          final attPointsInProfile =
-              await database.collection('usuarios').doc(userId).update({
-            'easepoints': FieldValue.increment(-pontosASubtrair),
-          });
-        } catch (e) {
-          print("#erro77 a leitura e subtracao de pontos deu erro: $e");
+                pontosASubtrair = data['totalParaResgate'] ?? 0;
+              } else {
+                print("#erro77 erro ao fazer o get dos pontos");
+              }
+            });
+            final attPointsInProfile =
+                await database.collection('usuarios').doc(userId).update({
+              'easepoints': FieldValue.increment(-pontosASubtrair),
+            });
+          } catch (e) {
+            print("#erro77 a leitura e subtracao de pontos deu erro: $e");
+          }
         }
       }
     } catch (e) {
@@ -279,10 +282,11 @@ class CorteProvider with ChangeNotifier {
   List<Horarios> _horariosListLoad = [];
   List<Horarios> get horariosListLoad => [..._horariosListLoad];
   //
-  Future<void> loadCortesDataBaseFuncionts(
-      {required DateTime mesSelecionado,
-      required int DiaSelecionado,
-      required String Barbeiroselecionado}) async {
+  Future<void> loadCortesDataBaseFuncionts({
+    required DateTime mesSelecionado,
+    required int DiaSelecionado,
+    required String Barbeiroselecionado,
+  }) async {
     _horariosListLoad.clear();
     await initializeDateFormatting('pt_BR');
 
@@ -565,6 +569,35 @@ class CorteProvider with ChangeNotifier {
           'easepoints': FieldValue.increment(-pontuacaoTotalGerada),
         });
         print("#989 após o 2 get o valor do int ficou:${pontuacaoTotalGerada}");
+
+        //recuperando os pontos no caso de cancelamento - inicio
+        if (corte.pagoComCupom) {
+          try {
+            final String userId = authSettings.currentUser!.uid;
+            int pontosASubtrair = 0;
+
+            await database
+                .collection("estabelecimento")
+                .doc("resgateCupons")
+                .get()
+                .then((event) {
+              if (event.exists) {
+                Map<String, dynamic> data =
+                    event.data() as Map<String, dynamic>;
+
+                pontosASubtrair = data['totalParaResgate'] ?? 0;
+              } else {
+                print("#erro77 erro ao fazer o get dos pontos");
+              }
+            });
+            final attPointsInProfile =
+                await database.collection('usuarios').doc(userId).update({
+              'easepoints': FieldValue.increment(pontosASubtrair),
+            });
+          } catch (e) {
+            print("#erro77 a leitura e subtracao de pontos deu erro: $e");
+          }
+        }
       } else {
         print("este caminho nao foi encontrado");
       }

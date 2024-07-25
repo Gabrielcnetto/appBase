@@ -458,7 +458,7 @@ class _AddScreenState extends State<AddScreen> {
       //
       DateTime dateFirts = DateTime(year, month, day, hora.hour, hora.minute);
       //
-      Provider.of<ManyChatConfirmation>(context, listen: false)
+      await Provider.of<ManyChatConfirmation>(context, listen: false)
           .setClientsManyChat(
         dateSchedule: dateFirts,
         userPhoneNumber: numberControler.text,
@@ -466,7 +466,7 @@ class _AddScreenState extends State<AddScreen> {
         externalId: Random().nextDouble().toInt(),
       );
       // Incluir minuto da hora extraída
-      DateTime finalDatetime =
+      DateTime finalDatetime =await
           DateTime(year, month, day, hora.hour, hora.minute);
 
       await Provider.of<ManyChatConfirmation>(context, listen: false)

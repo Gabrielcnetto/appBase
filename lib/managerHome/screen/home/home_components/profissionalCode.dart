@@ -547,7 +547,7 @@ class _ProfissionalCodeState extends State<ProfissionalCode> {
                                 InkWell(
                                   onTap: showModalWithCode,
                                   child: Text(
-                                    "Ver Mais",
+                                    "Alterar",
                                     style: GoogleFonts.openSans(
                                       textStyle: TextStyle(
                                           fontWeight: FontWeight.w700,
