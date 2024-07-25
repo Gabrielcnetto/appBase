@@ -513,6 +513,7 @@ class _ProfissionalCodeState extends State<ProfissionalCode> {
                             padding: const EdgeInsets.symmetric(
                                 vertical: 5, horizontal: 10),
                             child: Text(
+                              widget.corte.pagoComCupom ? "Grátis":
                               "R\$${widget.corte.totalValue ?? 00},00",
                               style: GoogleFonts.openSans(
                                 textStyle: const TextStyle(
