@@ -15,7 +15,7 @@ class SemItens extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              width: MediaQuery.of(context).size.width * 0.4,
+              width: MediaQuery.of(context).size.width * 0.3,
               height: MediaQuery.of(context).size.height * 0.2,
               child: Image.asset(
                 "imagesOfApp/semhistoricodecortes.jpeg",
@@ -25,28 +25,35 @@ class SemItens extends StatelessWidget {
             const SizedBox(
               height: 15,
             ),
-            Text(
-              "Este Dia ainda não tem horários preenchidos.",
-              style: GoogleFonts.openSans(
-                textStyle: TextStyle(
-                    fontWeight: FontWeight.w400,
-                    color: Colors.grey.shade500,
-                    fontSize: 13),
+            Container(
+              width: MediaQuery.of(context).size.width * 0.85,
+              child: Text(
+                "Este Dia ainda não tem horários preenchidos.",
+                style: GoogleFonts.openSans(
+                  textStyle: TextStyle(
+                      fontWeight: FontWeight.w400,
+                      color: Colors.grey.shade500,
+                      fontSize: 13),
+                ),
+                textAlign: TextAlign.center,
               ),
-              textAlign: TextAlign.center,
             ),
             const SizedBox(
               height: 5,
             ),
-            Text(
-              "Assim que o primeiro for agendado, a lista aparecerá aqui.",
-              style: GoogleFonts.openSans(
-                textStyle: const TextStyle(
-                    fontWeight: FontWeight.w700,
-                    color: Colors.black,
-                    fontSize: 13),
+            Container(
+              width: MediaQuery.of(context).size.width * 0.85,
+              child: Text(
+                "Assim que o primeiro for agendado, a lista aparecerá aqui.",
+                
+                style: GoogleFonts.openSans(
+                  textStyle: const TextStyle(
+                      fontWeight: FontWeight.w700,
+                      color: Colors.black,
+                      fontSize: 13),
+                ),
+                textAlign: TextAlign.center,
               ),
-              textAlign: TextAlign.center,
             ),
           ],
         ),
