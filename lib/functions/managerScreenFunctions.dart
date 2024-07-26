@@ -786,7 +786,7 @@ class ManagerScreenFunctions with ChangeNotifier {
 
     try {
      
-      // _CorteslistaManagerProfissional1.sink.add([]); // Isso irá enviar uma lista vazia para o fluxo
+    // Isso irá enviar uma lista vazia para o fluxo
       final nomeBarber = Uri.encodeFull(profList[0].nomeProf);
       QuerySnapshot querySnapshot = await database
           .collection('agenda/${selectMonth}/${selectDay}/${nomeBarber}/all')
@@ -850,6 +850,89 @@ class ManagerScreenFunctions with ChangeNotifier {
       print("ao carregar a lista do manager dia, deu isto: ${e}");
     }
     print("o tamanho da lista é manager ${_managerListCortesProfssional1.length}");
+    notifyListeners();
+  }
+  //lista 2 da visao geral
+    final StreamController<List<CorteClass>> _CorteslistaManagerProfissional2 =
+      StreamController<List<CorteClass>>.broadcast();
+
+  Stream<List<CorteClass>> get CorteslistaManagerProfissional2 => _CorteslistaManagerProfissional2.stream;
+
+  List<CorteClass> _managerListCortesProfssional2 = [];
+  List<CorteClass> get managerListCortesProfssional2 => [..._managerListCortesProfssional1];
+  Future<void> loadAfterSetDayProfissional2({
+    required int selectDay,
+    required String selectMonth,
+   
+  }) async {
+    print("tela do manager, 7 dias corte funcao executada");
+
+    try {
+     
+      // _CorteslistaManagerProfissional2.sink.add([]); // Isso irá enviar uma lista vazia para o fluxo
+      final nomeBarber = Uri.encodeFull(profList[1].nomeProf);
+      QuerySnapshot querySnapshot = await database
+          .collection('agenda/${selectMonth}/${selectDay}/${nomeBarber}/all')
+          .get();
+      print('agenda/${selectMonth}/${selectDay}/${nomeBarber}/all');
+      _managerListCortesProfssional1 = querySnapshot.docs.map((doc) {
+        Map<String, dynamic>? data = doc.data() as Map<String, dynamic>?;
+
+        Timestamp? timestamp;
+        if (data != null) {
+          timestamp = data['dataCreateAgendamento'] as Timestamp?;
+        }
+
+        DateTime diaCorte = timestamp?.toDate() ?? DateTime.now();
+        //CONVERTENDO O DIA DO CORTE AGORA
+        Timestamp? diafinalCorte;
+        if (data != null) {
+          timestamp = data['diaCorte'] as Timestamp?;
+        }
+
+        DateTime diaCorteFinal = diafinalCorte?.toDate() ?? DateTime.now();
+        List<String>? horariosExtras = data?["horariosExtras"] != null
+            ? List<String>.from(data?["horariosExtras"])
+            : null;
+        // Acessando os atributos diretamente usando []
+        print("tipos de dados:");
+        print(data?["totalValue"].toString());
+        return CorteClass(
+          pagoComCupom: data?['pagocomcupom'] ?? false,
+          easepoints: data?['easepoints'] ?? 0,
+          apenasBarba: false,
+          detalheDoProcedimento: data?["detalheDoProcedimento"] ?? "",
+          horariosExtra: horariosExtras!,
+          totalValue: data?["totalValue"],
+          isActive: data?["isActive"],
+          DiaDoCorte: data?["diaDoCorte"],
+          NomeMes: data?["monthName"],
+          dateCreateAgendamento: diaCorte,
+          clientName: data?['clientName'],
+          id: data?['id'],
+          numeroContato: data?['numeroContato'],
+          profissionalSelect: data?['profissionalSelect'],
+          diaCorte: diaCorteFinal, // Usando o atributo diaCorte
+          horarioCorte: data?['horarioCorte'],
+          barba: data?['barba'],
+          ramdomCode: data?['ramdomNumber'],
+
+        );
+      }).toList();
+      _CorteslistaManagerProfissional2.add(_managerListCortesProfssional1);
+
+      // Ordenar os dados pela data
+      _managerListCortesProfssional2.sort((a, b) {
+        return b.dateCreateAgendamento.compareTo(a.dateCreateAgendamento);
+      });
+      _managerListCortesProfssional2.sort((a, b) {
+        // Aqui, estamos comparando os horários de corte como strings
+        return a.horarioCorte.compareTo(b.horarioCorte);
+      });
+    } catch (e) {
+      print("ao carregar a lista do manager dia, deu isto: ${e}");
+    }
+    print("o tamanho da lista é manager ${_managerListCortesProfssional2.length}");
     notifyListeners();
   }
 }

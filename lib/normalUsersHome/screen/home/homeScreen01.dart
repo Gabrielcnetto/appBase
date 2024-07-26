@@ -82,7 +82,7 @@ class _HomeScreen01State extends State<HomeScreen01>
         },
         {
           'tela': (isManager || isFuncionario) == true
-              ? const ScheduleWithTwoListsVer2Profissionais()//ScheduleWithTwoLists()
+              ? const ScheduleWithTwoLists()//ScheduleWithTwoLists()
               : const HistoryScreen(),
         },
         {
