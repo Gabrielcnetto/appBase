@@ -125,7 +125,7 @@ class _ScheduleWithTwoListsState extends State<ScheduleWithTwoLists> {
     }
     return -1; // Retorna -1 se não encontrar
   }
-
+  bool secondaryView = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -134,7 +134,7 @@ class _ScheduleWithTwoListsState extends State<ScheduleWithTwoLists> {
         child: Padding(
           padding: const EdgeInsets.only(left: 15, right: 15, top: 15),
           child: SingleChildScrollView(
-            child: Column(
+            child: secondaryView == false ? Column(
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -703,7 +703,7 @@ class _ScheduleWithTwoListsState extends State<ScheduleWithTwoLists> {
                   ),
                 ),
               ],
-            ),
+            ) : Text("scondary"),
           ),
         ),
       ),

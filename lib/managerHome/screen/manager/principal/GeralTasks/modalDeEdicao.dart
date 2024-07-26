@@ -408,7 +408,7 @@ class _ModalDeEdicaoState extends State<ModalDeEdicao> {
                             ),
                           ),
                           Text(
-                            "${infoRoutes.barba == true ? "120min" : "30min"}",
+                            "${infoRoutes.barba == true ? "60min" : "30min"}",
                             style: GoogleFonts.openSans(
                               textStyle: const TextStyle(
                                 fontWeight: FontWeight.w500,

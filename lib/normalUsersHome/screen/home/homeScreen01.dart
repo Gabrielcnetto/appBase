@@ -10,6 +10,7 @@ import 'package:lionsbarberv1/functions/managerScreenFunctions.dart';
 import 'package:lionsbarberv1/functions/profileScreenFunctions.dart';
 import 'package:lionsbarberv1/managerHome/screen/home/homeOnlyWidgets.dart';
 import 'package:lionsbarberv1/managerHome/screen/manager/principal/GeralTasks/ScheduleWithTwolists.dart';
+import 'package:lionsbarberv1/managerHome/screen/manager/principal/GeralTasks/scheduleWithTwoLists_geralView.dart';
 import 'package:lionsbarberv1/managerHome/screen/manager/principal/ManagerScreen.dart';
 import 'package:lionsbarberv1/managerHome/screen/manager/principal/encaixe/encaixeScreen.dart';
 import 'package:lionsbarberv1/managerHome/screen/manager/principal/funcionario/funcionario_screen.dart';
@@ -81,7 +82,7 @@ class _HomeScreen01State extends State<HomeScreen01>
         },
         {
           'tela': (isManager || isFuncionario) == true
-              ? const ScheduleWithTwoLists()
+              ? const ScheduleWithTwoListsVer2Profissionais()//ScheduleWithTwoLists()
               : const HistoryScreen(),
         },
         {
