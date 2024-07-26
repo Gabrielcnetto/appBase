@@ -21,4 +21,5 @@ class AppRoutesApp {
   static const GraphicsManagerScreen = "/GraphicsManagerScreen";
   static const ModalDeEdicao = "/ModalDeEdicao";
   static const ChangeHourAndData = "/ChangeHourAndData";
+  
 }

@@ -2,7 +2,6 @@
 
 import 'dart:async';
 
-
 import 'package:lionsbarberv1/classes/GeralUser.dart';
 import 'package:lionsbarberv1/classes/cortecClass.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -158,7 +157,6 @@ class ManagerScreenFunctions with ChangeNotifier {
           horarioCorte: data?['horarioCorte'],
           barba: data?['barba'],
           ramdomCode: data?['ramdomNumber'],
-
         );
       }).toList();
       _CorteslistaManager.add(_managerListCortes);
@@ -768,25 +766,24 @@ class ManagerScreenFunctions with ChangeNotifier {
     return metaBarbershop;
   }
 
-
   // load das listas duplas na tela de calendario completo - visao geral
   final StreamController<List<CorteClass>> _CorteslistaManagerProfissional1 =
       StreamController<List<CorteClass>>.broadcast();
 
-  Stream<List<CorteClass>> get CorteslistaManagerProfissional1 => _CorteslistaManagerProfissional1.stream;
+  Stream<List<CorteClass>> get CorteslistaManagerProfissional1 =>
+      _CorteslistaManagerProfissional1.stream;
 
   List<CorteClass> _managerListCortesProfssional1 = [];
-  List<CorteClass> get managerListCortesProfssional1 => [..._managerListCortesProfssional1];
+  List<CorteClass> get managerListCortesProfssional1 =>
+      [..._managerListCortesProfssional1];
   Future<void> loadAfterSetDayProfissional1({
     required int selectDay,
     required String selectMonth,
-   
   }) async {
     print("tela do manager, 7 dias corte funcao executada");
 
     try {
-     
-    // Isso irá enviar uma lista vazia para o fluxo
+      // Isso irá enviar uma lista vazia para o fluxo
       final nomeBarber = Uri.encodeFull(profList[0].nomeProf);
       QuerySnapshot querySnapshot = await database
           .collection('agenda/${selectMonth}/${selectDay}/${nomeBarber}/all')
@@ -833,7 +830,6 @@ class ManagerScreenFunctions with ChangeNotifier {
           horarioCorte: data?['horarioCorte'],
           barba: data?['barba'],
           ramdomCode: data?['ramdomNumber'],
-
         );
       }).toList();
       _CorteslistaManagerProfissional1.add(_managerListCortesProfssional1);
@@ -849,26 +845,28 @@ class ManagerScreenFunctions with ChangeNotifier {
     } catch (e) {
       print("ao carregar a lista do manager dia, deu isto: ${e}");
     }
-    print("o tamanho da lista é manager ${_managerListCortesProfssional1.length}");
+    print(
+        "o tamanho da lista é manager ${_managerListCortesProfssional1.length}");
     notifyListeners();
   }
+
   //lista 2 da visao geral
-    final StreamController<List<CorteClass>> _CorteslistaManagerProfissional2 =
+  final StreamController<List<CorteClass>> _CorteslistaManagerProfissional2 =
       StreamController<List<CorteClass>>.broadcast();
 
-  Stream<List<CorteClass>> get CorteslistaManagerProfissional2 => _CorteslistaManagerProfissional2.stream;
+  Stream<List<CorteClass>> get CorteslistaManagerProfissional2 =>
+      _CorteslistaManagerProfissional2.stream;
 
   List<CorteClass> _managerListCortesProfssional2 = [];
-  List<CorteClass> get managerListCortesProfssional2 => [..._managerListCortesProfssional1];
+  List<CorteClass> get managerListCortesProfssional2 =>
+      [..._managerListCortesProfssional1];
   Future<void> loadAfterSetDayProfissional2({
     required int selectDay,
     required String selectMonth,
-   
   }) async {
     print("tela do manager, 7 dias corte funcao executada");
 
     try {
-     
       // _CorteslistaManagerProfissional2.sink.add([]); // Isso irá enviar uma lista vazia para o fluxo
       final nomeBarber = Uri.encodeFull(profList[1].nomeProf);
       QuerySnapshot querySnapshot = await database
@@ -916,7 +914,6 @@ class ManagerScreenFunctions with ChangeNotifier {
           horarioCorte: data?['horarioCorte'],
           barba: data?['barba'],
           ramdomCode: data?['ramdomNumber'],
-
         );
       }).toList();
       _CorteslistaManagerProfissional2.add(_managerListCortesProfssional1);
@@ -932,7 +929,43 @@ class ManagerScreenFunctions with ChangeNotifier {
     } catch (e) {
       print("ao carregar a lista do manager dia, deu isto: ${e}");
     }
-    print("o tamanho da lista é manager ${_managerListCortesProfssional2.length}");
+    print(
+        "o tamanho da lista é manager ${_managerListCortesProfssional2.length}");
     notifyListeners();
+  }
+
+  //EDITAR O VALOR NA TELA DE COMANDA(PARA CASO DE VENDA EXTERNA, OU ALGO)
+  Future<void> updateValorCorte({
+    required CorteClass corte,
+    required String novoValor,
+  }) async {
+    //atualizando no geral do mês - inicio
+    String novoValorFinalparte1 = await novoValor.replaceAll(RegExp(','), '.');
+    double valorFinalDatabase = double.parse(novoValorFinalparte1);
+    print("#767: o valor final ficou: ${valorFinalDatabase}");
+    try {
+      final update = await database
+          .collection('estabelecimento')
+          .doc('faturamento')
+          .collection('${corte.NomeMes}}')
+          .doc('${corte.id}')
+          .update({
+        "price": valorFinalDatabase,
+      });
+      //atualizando no geral do mês - fim
+
+      //atualizando no faturamento do profissional - inicio
+      final update2 = await database
+          .collection('mensalCuts')
+          .doc(corte.NomeMes)
+          .collection(corte.profissionalSelect)
+          .doc(corte.id)
+          .update({
+        'price': valorFinalDatabase,
+      });
+    } catch (e) {
+      print("Houve um erro ao atualizar o valor diretamente no database. $e");
+    }
+    //atualizando no faturamento do profissional - fim
   }
 }

@@ -16,6 +16,7 @@ import 'package:lionsbarberv1/functions/userLogin.dart';
 import 'package:lionsbarberv1/managerHome/screen/home/homeScreen01.dart';
 import 'package:lionsbarberv1/managerHome/screen/manager/GraphicsAndSales/GraphicsScreenManager.dart';
 import 'package:lionsbarberv1/managerHome/screen/manager/GraphicsAndSales/screens/confirmationCreateCupom.dart';
+import 'package:lionsbarberv1/managerHome/screen/manager/principal/GeralTasks/components/atualizacaodePrecoManager.dart';
 import 'package:lionsbarberv1/managerHome/screen/manager/principal/GeralTasks/components/changeHourAndData.dart';
 import 'package:lionsbarberv1/managerHome/screen/manager/principal/GeralTasks/modalDeEdicao.dart';
 import 'package:lionsbarberv1/managerHome/screen/manager/principal/components/agendaDia/pricesandpercentages/priceEPorcentagemNewScreen.dart';
@@ -171,6 +172,7 @@ class _MyAppState extends State<MyApp> {
                   horariosExtra: [],
                 ),
               ),
+              
         },
       ),
     );

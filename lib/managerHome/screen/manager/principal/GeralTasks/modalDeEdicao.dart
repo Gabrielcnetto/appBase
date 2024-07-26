@@ -10,6 +10,7 @@ import 'package:lionsbarberv1/classes/profissionais.dart';
 import 'package:lionsbarberv1/functions/CorteProvider.dart';
 import 'package:lionsbarberv1/functions/ManyChatConfirmation.dart';
 import 'package:lionsbarberv1/functions/managerScreenFunctions.dart';
+import 'package:lionsbarberv1/managerHome/screen/manager/principal/GeralTasks/components/atualizacaodePrecoManager.dart';
 import 'package:lionsbarberv1/managerHome/screen/manager/principal/GeralTasks/components/changeHourAndData.dart';
 import 'package:lionsbarberv1/rotas/Approutes.dart';
 import 'package:provider/provider.dart';
@@ -254,7 +255,8 @@ class _ModalDeEdicaoState extends State<ModalDeEdicao> {
                             actions: [
                               TextButton(
                                 onPressed: () {
-                                    Navigator.of(context).pushReplacementNamed(AppRoutesApp.HomeScreen01);
+                                  Navigator.of(context).pushReplacementNamed(
+                                      AppRoutesApp.HomeScreen01);
                                 },
                                 child: Text(
                                   "Fechar",
@@ -367,15 +369,46 @@ class _ModalDeEdicaoState extends State<ModalDeEdicao> {
                               ),
                             ),
                           ),
-                          Text(
-                            "R\$${infoRoutes.totalValue},00",
-                            style: GoogleFonts.openSans(
-                              textStyle: const TextStyle(
-                                fontWeight: FontWeight.w800,
-                                fontSize: 16,
-                                color: Colors.green,
+                          Row(
+                            children: [
+                              Text(
+                                "R\$${infoRoutes.totalValue},00",
+                                style: GoogleFonts.openSans(
+                                  textStyle: const TextStyle(
+                                    fontWeight: FontWeight.w800,
+                                    fontSize: 16,
+                                    color: Colors.green,
+                                  ),
+                                ),
                               ),
-                            ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  showModalBottomSheet(
+                                    isScrollControlled: true,
+                                    context: context,
+                                    builder: (ctx) {
+                                      return AtualizacaoDePrecoDoManager(
+                                        corteWidget: infoRoutes,
+                                      );
+                                    },
+                                  );
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.green.shade500,
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  padding: const EdgeInsets.all(5),
+                                  child: Icon(
+                                    Icons.edit,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),
