@@ -345,7 +345,7 @@ class _AddScreenState extends State<AddScreen> {
           print("dentro do for");
           String horarioExtra = _horariosSemana[selectedIndex + i].horario;
           // Verificar se o horário extra está presente na lista de horários preenchidos
-          bool horarioJaPreenchido = _horariosPreenchidosParaEvitarDupNoCreate
+          bool horarioJaPreenchido = await _horariosPreenchidosParaEvitarDupNoCreate
               .any((horario) => horario.horario == horarioExtra);
           print("podemos marcar? ${horarioJaPreenchido}");
           if (horarioJaPreenchido == true) {
@@ -494,10 +494,14 @@ class _AddScreenState extends State<AddScreen> {
   //Fazendo o filtro para exibir quais horarios estao disponíveis
   List<Horarios> _horariosLivresSabados = sabadoHorarios;
   List<Horarios> _horariosLivres = hourLists;
+  bool okParaexibirHorarios = true;
   List<Horarios> horarioFinal = [];
   //Aqui pegamos o dia selecionado, e usamos para buscar os dados no banco de dados
   //a funcao abaixo é responsavel por pegar o dia, entrar no provider e pesquisar os horarios daquele dia selecionado
   Future<void> loadListCortes() async {
+    setState(() {
+      okParaexibirHorarios = false;
+    });
     horarioFinal.clear();
     List<Horarios> listaTemporaria = [];
     int? diaSemanaSelecionado = dataSelectedInModal?.weekday;
@@ -539,7 +543,9 @@ class _AddScreenState extends State<AddScreen> {
         setState(() {
           horarioFinal = List.from(listaTemporaria);
         });
-        setState(() {});
+        setState(() {
+          okParaexibirHorarios = true;
+        });
 
         print("este e o tamanho da lista final: ${horarioFinal.length}");
       } catch (e) {
@@ -2173,7 +2179,7 @@ class _AddScreenState extends State<AddScreen> {
                                 ],
                               ),
                             if (dataSelectedInModal != null)
-                              Container(
+                             okParaexibirHorarios ==true ? Container(
                                 width: double.infinity,
                                 //  height: heighScreen * 0.64,
                                 child: GridView.builder(
@@ -2236,7 +2242,7 @@ class _AddScreenState extends State<AddScreen> {
                                     );
                                   },
                                 ),
-                              ),
+                              ) : Center(child: CircularProgressIndicator.adaptive(),),
                             //CONTAINER DA HORA - FIM
                             //botao do agendar - inicio
 

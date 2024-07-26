@@ -14,6 +14,7 @@ class InitialScreenApp extends StatelessWidget {
     final widhtScreen = MediaQuery.of(context).size.width;
     final heighScreen = MediaQuery.of(context).size.height;
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Container(
           width: widhtScreen,

@@ -533,9 +533,13 @@ class _AddScreenUserDeslogadoState extends State<AddScreenUserDeslogado> {
   List<Horarios> _horariosLivresSabados = sabadoHorarios;
   List<Horarios> _horariosLivres = hourLists;
   List<Horarios> horarioFinal = [];
+  bool prontoParaExibir = true;
   //Aqui pegamos o dia selecionado, e usamos para buscar os dados no banco de dados
   //a funcao abaixo é responsavel por pegar o dia, entrar no provider e pesquisar os horarios daquele dia selecionado
   Future<void> loadListCortes() async {
+    setState(() {
+      prontoParaExibir = false;
+    });
     horarioFinal.clear();
     List<Horarios> listaTemporaria = [];
     int? diaSemanaSelecionado = dataSelectedInModal?.weekday;
@@ -577,7 +581,9 @@ class _AddScreenUserDeslogadoState extends State<AddScreenUserDeslogado> {
         setState(() {
           horarioFinal = List.from(listaTemporaria);
         });
-        setState(() {});
+        setState(() {
+          prontoParaExibir = true;
+        });
 
         print("este e o tamanho da lista final: ${horarioFinal.length}");
       } catch (e) {
@@ -587,6 +593,7 @@ class _AddScreenUserDeslogadoState extends State<AddScreenUserDeslogado> {
       print("problemas na hora ou dia");
     }
   }
+  
 
   void showModalConfirmAgend() {
     showModalBottomSheet<dynamic>(
@@ -1934,7 +1941,7 @@ class _AddScreenUserDeslogadoState extends State<AddScreenUserDeslogado> {
                                 ],
                               ),
                             if (dataSelectedInModal != null)
-                              Container(
+                             prontoParaExibir == true ?  Container(
                                 width: double.infinity,
                                 //  height: heighScreen * 0.64,
                                 child: GridView.builder(
@@ -1997,7 +2004,7 @@ class _AddScreenUserDeslogadoState extends State<AddScreenUserDeslogado> {
                                     );
                                   },
                                 ),
-                              ),
+                              ) : Center(child: CircularProgressIndicator.adaptive(),),
                             //CONTAINER DA HORA - FIM
                             //botao do agendar - inicio
 

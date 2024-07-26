@@ -152,9 +152,7 @@ class _EncaixeScreenProfissionalOptionHomeProfState
       context: context,
       locale: const Locale('pt', 'BR'),
       firstDate: DateTime.now(),
-      lastDate: DateTime.now().add(
-        const Duration(days: 14),
-      ),
+      lastDate: DateTime(2040),
       selectableDayPredicate: (DateTime day) {
         // Desativa domingos
         if (day.weekday == DateTime.sunday) {
@@ -328,7 +326,7 @@ class _EncaixeScreenProfissionalOptionHomeProfState
 
     Provider.of<CorteProvider>(context, listen: false)
         .AgendamentoCortePrincipalFunctions(
-          valorMultiplicador: 0,
+      valorMultiplicador: 0,
       barbaHoraExtra: barba,
       pricevalue: valorFinalCobrado,
       nomeBarbeiro: isBarbeiro1
@@ -389,7 +387,7 @@ class _EncaixeScreenProfissionalOptionHomeProfState
       await Provider.of<HorariosComuns>(context, listen: false).postHours(
         horarioEscolhido: hourSetForUser ?? "",
       );
-       analytics.logEvent(
+      analytics.logEvent(
         name: "scheduled_appointmen",
         parameters: {
           "appointment_type": "Corte-agendado",
@@ -408,10 +406,14 @@ class _EncaixeScreenProfissionalOptionHomeProfState
   List<Horarios> _horariosLivresSabados = sabadoHorariosEncaixe;
   List<Horarios> _horariosLivres = listaHorariosEncaixe;
   List<Horarios> horarioFinal = [];
+  bool prontoparaexibir = true;
   List<Horarios> Horariopreenchidos = [];
   //Aqui pegamos o dia selecionado, e usamos para buscar os dados no banco de dados
   //a funcao abaixo é responsavel por pegar o dia, entrar no provider e pesquisar os horarios daquele dia selecionado
   Future<void> loadListCortes() async {
+    setState(() {
+      prontoparaexibir = false;
+    });
     horarioFinal.clear();
     Horariopreenchidos.clear();
     List<Horarios> listaTemporaria = [];
@@ -458,7 +460,9 @@ class _EncaixeScreenProfissionalOptionHomeProfState
         setState(() {
           horarioFinal = List.from(listaTemporaria);
         });
-        setState(() {});
+        setState(() {
+          prontoparaexibir = true;
+        });
 
         print("este e o tamanho da lista final: ${horarioFinal.length}");
       } catch (e) {
@@ -1195,8 +1199,8 @@ class _EncaixeScreenProfissionalOptionHomeProfState
                     ),
                     //CONTAINER DOS PROCEDIMENTOS - INICIO
                     Container(
-                      padding:
-                          const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 10, horizontal: 10),
                       alignment: Alignment.center,
                       width: double.infinity,
                       decoration: BoxDecoration(
@@ -1826,69 +1830,76 @@ class _EncaixeScreenProfissionalOptionHomeProfState
                       Container(
                         width: double.infinity,
                         //  height: heighScreen * 0.64,
-                        child: GridView.builder(
-                          padding: const EdgeInsets.only(top: 5),
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemCount: horarioFinal.length,
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            crossAxisSpacing: 2.3,
-                            childAspectRatio: 2.3,
-                          ),
-                          itemBuilder: (BuildContext ctx, int index) {
-                            bool presentInBothLists = Horariopreenchidos.any(
-                                (horario) =>
-                                    horarioFinal[index].horario ==
-                                    horario
-                                        .horario); // Verifica se o horário está presente nas duas listas
-                            Color color = selectedIndex == index
-                                ? Colors
-                                    .green // Se o item estiver selecionado, a cor é verde
-                                : presentInBothLists
-                                    ? Colors
-                                        .orangeAccent // Se o horário estiver presente em ambas as listas, a cor é vermelha
-                                    : Estabelecimento
-                                        .primaryColor; // Caso contrário, use a cor primária do Estabelecimento
-                            return InkWell(
-                              onTap: () {
-                                setState(() {
-                                  selectedIndex =
-                                      selectedIndex == index ? -1 : index;
-
-                                  hourSetForUser = horarioFinal[index].horario;
-                                });
-                              },
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 3, horizontal: 3),
-                                child: Container(
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                    borderRadius: const BorderRadius.only(
-                                      bottomLeft: Radius.elliptical(20, 20),
-                                      bottomRight: Radius.elliptical(20, 20),
-                                      topLeft: Radius.elliptical(20, 20),
-                                      topRight: Radius.elliptical(20, 20),
-                                    ),
-                                    color: color,
-                                  ),
-                                  padding: const EdgeInsets.all(10),
-                                  child: Text(
-                                    "${horarioFinal[index].horario}",
-                                    style: GoogleFonts.openSans(
-                                        textStyle: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white,
-                                      fontSize: 15,
-                                    )),
-                                  ),
+                        child: prontoparaexibir == true
+                            ? GridView.builder(
+                                padding: const EdgeInsets.only(top: 5),
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount: horarioFinal.length,
+                                gridDelegate:
+                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  crossAxisSpacing: 2.3,
+                                  childAspectRatio: 2.3,
                                 ),
+                                itemBuilder: (BuildContext ctx, int index) {
+                                  bool presentInBothLists =
+                                      Horariopreenchidos.any((horario) =>
+                                          horarioFinal[index].horario ==
+                                          horario
+                                              .horario); // Verifica se o horário está presente nas duas listas
+                                  Color color = selectedIndex == index
+                                      ? Colors
+                                          .green // Se o item estiver selecionado, a cor é verde
+                                      : presentInBothLists
+                                          ? Colors
+                                              .orangeAccent // Se o horário estiver presente em ambas as listas, a cor é vermelha
+                                          : Estabelecimento
+                                              .primaryColor; // Caso contrário, use a cor primária do Estabelecimento
+                                  return InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        selectedIndex =
+                                            selectedIndex == index ? -1 : index;
+
+                                        hourSetForUser =
+                                            horarioFinal[index].horario;
+                                      });
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 3, horizontal: 3),
+                                      child: Container(
+                                        alignment: Alignment.center,
+                                        decoration: BoxDecoration(
+                                          borderRadius: const BorderRadius.only(
+                                            bottomLeft:
+                                                Radius.elliptical(20, 20),
+                                            bottomRight:
+                                                Radius.elliptical(20, 20),
+                                            topLeft: Radius.elliptical(20, 20),
+                                            topRight: Radius.elliptical(20, 20),
+                                          ),
+                                          color: color,
+                                        ),
+                                        padding: const EdgeInsets.all(10),
+                                        child: Text(
+                                          "${horarioFinal[index].horario}",
+                                          style: GoogleFonts.openSans(
+                                              textStyle: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white,
+                                            fontSize: 15,
+                                          )),
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                },
+                              )
+                            : Center(
+                                child: CircularProgressIndicator.adaptive(),
                               ),
-                            );
-                          },
-                        ),
                       ),
                     //CONTAINER DA HORA - FIM
                     //botao do agendar - inicio

@@ -467,9 +467,11 @@ class _ScheduleWithTwoListsState extends State<ScheduleWithTwoLists> {
                                                                   0.2,
                                                               decoration:
                                                                   BoxDecoration(
-                                                                color:Colors
+                                                                color:
+                                                                corte.pagoComCupom == true ? 
+                                                                Colors
                                                                         .orange
-                                                                        .shade600
+                                                                        .shade600 : Colors.blue
                                                                     ,
                                                               ),
                                                               width: MediaQuery.of(

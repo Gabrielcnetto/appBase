@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lionsbarberv1/normalUsersHome/screen/login/restaurar_Senha.dart';
 import 'package:lionsbarberv1/usuarioDeslogado/screen/home/homeScreen01.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -62,13 +63,14 @@ class _LoginScreen01State extends State<LoginScreen01> {
                     Navigator.of(context).pop();
                   },
                   child: Text(
-                    "Voltar",  style: GoogleFonts.openSans(
-                  textStyle: TextStyle(
-                    fontWeight: FontWeight.w700,
-                    color: Colors.blue.shade600,
-                    fontSize: 14,
-                  ),
-                ),
+                    "Voltar",
+                    style: GoogleFonts.openSans(
+                      textStyle: TextStyle(
+                        fontWeight: FontWeight.w700,
+                        color: Colors.blue.shade600,
+                        fontSize: 14,
+                      ),
+                    ),
                   ),
                 ),
               ],
@@ -93,6 +95,7 @@ class _LoginScreen01State extends State<LoginScreen01> {
     final double screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
+      backgroundColor: Colors.white,
       key: _scaffoldKey,
       body: SafeArea(
         child: Padding(
@@ -173,16 +176,32 @@ class _LoginScreen01State extends State<LoginScreen01> {
                         alignment: Alignment.centerRight,
                         child: TextButton(
                           onPressed: () {
-                            // Implemente a lógica para redefinir a senha
+                            Navigator.pushReplacement(
+                                context,
+                                DialogRoute(
+                                    context: context,
+                                    builder: (ctx) {
+                                      return RestaurarAsenha();
+                                    }));
                           },
-                          child: Text(
-                            'Esqueceu a senha?',
-                            style: GoogleFonts.openSans(
-                              textStyle: TextStyle(
-                                fontWeight: FontWeight.w500,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Esqueceu a senha?',
+                                style: GoogleFonts.openSans(
+                                  textStyle: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    color: Estabelecimento.secondaryColor,
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                width: MediaQuery.of(context).size.width * 0.34,
+                                height: 1,
                                 color: Estabelecimento.secondaryColor,
                               ),
-                            ),
+                            ],
                           ),
                         ),
                       ),

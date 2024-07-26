@@ -1,4 +1,3 @@
-
 import 'package:lionsbarberv1/classes/Estabelecimento.dart';
 import 'package:lionsbarberv1/functions/createAccount.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +16,9 @@ class _RegisterAccountScreenState extends State<RegisterAccountScreen> {
   final emailControler = TextEditingController();
   final passwordControler = TextEditingController();
   final userNameControler = TextEditingController();
-  Future<void> createAccountFNProvider()async {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  Future<void> createAccountFNProvider() async {
     Provider.of<CreateAccount>(context, listen: false).CreateAccountProvider(
       email: emailControler.text,
       password: passwordControler.text,
@@ -43,13 +44,53 @@ class _RegisterAccountScreenState extends State<RegisterAccountScreen> {
         child: Stack(
           children: [
             Container(
-              width: screenWidth,
-              height: screenHeight,
-              child: Image.asset(
-                Estabelecimento.bannerInitial,
-                fit: BoxFit.cover,
-              ),
-            ),
+                padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      Colors.blue.shade600,
+                      Colors.blue.shade400,
+                      Colors.blue.shade300
+                    ],
+                  ),
+                ),
+                width: screenWidth,
+                height: screenHeight,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      width: double.infinity,
+                      child: Text(
+                        "Crie agora o seu \nPerfil",
+                        style: GoogleFonts.poppins(
+                          textStyle: TextStyle(
+                            fontWeight: FontWeight.w800,
+                            color: Colors.white,
+                            fontSize: 24,
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Container(
+                      width: double.infinity,
+                      child: Text(
+                        "Tenha acesso completo ao sistema da ${Estabelecimento.nomeLocal}",
+                        style: GoogleFonts.poppins(
+                          textStyle: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            color: Colors.white54,
+                            fontSize: 14,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                )),
             Positioned(
               bottom: 0,
               right: 0,
@@ -109,128 +150,154 @@ class _RegisterAccountScreenState extends State<RegisterAccountScreen> {
                       //INICIO DO FORMULARIO DE CADASTRO
                       Padding(
                         padding: const EdgeInsets.only(left: 25, right: 25),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            //INICIO FORMULARIO DO E-MAIL
-                            Text(
-                              "E-mail",
-                              style: GoogleFonts.openSans(
-                                textStyle: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 13,
-                                  color: Colors.black,
+                        child: Form(
+                          key: _formKey,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              //INICIO FORMULARIO DO E-MAIL
+                              Text(
+                                "E-mail",
+                                style: GoogleFonts.openSans(
+                                  textStyle: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 13,
+                                    color: Colors.black,
+                                  ),
                                 ),
                               ),
-                            ),
-                            const SizedBox(
-                              height: 5,
-                            ),
-                            Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: Estabelecimento.secondaryColor
-                                    .withOpacity(0.1),
+                              const SizedBox(
+                                height: 5,
                               ),
-                              padding: const EdgeInsets.symmetric(
-                                vertical: 5,
-                                horizontal: 10,
-                              ),
-                              child: TextFormField(
-                                controller: emailControler,
-                                decoration: const InputDecoration(
-                                  border: InputBorder.none,
+                              Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: Estabelecimento.secondaryColor
+                                      .withOpacity(0.1),
+                                ),
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 5,
+                                  horizontal: 10,
+                                ),
+                                child: TextFormField(
+                                  validator: (value) {
+                                    if (value == null ||
+                                        value.isEmpty ||
+                                        !value.contains('@')) {
+                                      return 'Por favor, Verifique o e-mail';
+                                    }
+                                    return null;
+                                  },
+                                  controller: emailControler,
+                                  decoration: const InputDecoration(
+                                    border: InputBorder.none,
+                                  ),
                                 ),
                               ),
-                            ),
-                            //FIM FORMULARIO DO E-MAIL
-                            const SizedBox(
-                              height: 15,
-                            ),
-                            //INICIO FORMULARIO DO password
-                            Text(
-                              "Sua Senha",
-                              style: GoogleFonts.openSans(
-                                textStyle: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 13,
-                                  color: Colors.black,
+                              //FIM FORMULARIO DO E-MAIL
+                              const SizedBox(
+                                height: 15,
+                              ),
+                              //INICIO FORMULARIO DO password
+                              Text(
+                                "Sua Senha",
+                                style: GoogleFonts.openSans(
+                                  textStyle: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 13,
+                                    color: Colors.black,
+                                  ),
                                 ),
                               ),
-                            ),
-                            const SizedBox(
-                              height: 5,
-                            ),
-                            Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: Estabelecimento.secondaryColor
-                                    .withOpacity(0.1),
+                              const SizedBox(
+                                height: 5,
                               ),
-                              padding: const EdgeInsets.symmetric(
-                                vertical: 5,
-                                horizontal: 10,
-                              ),
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: TextFormField(
-                                      controller: passwordControler,
-                                      obscureText: showPass,
-                                      decoration: const InputDecoration(
-                                        border: InputBorder.none,
+                              Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: Estabelecimento.secondaryColor
+                                      .withOpacity(0.1),
+                                ),
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 5,
+                                  horizontal: 10,
+                                ),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: TextFormField(
+                                        validator: (value) {
+                                          if (value == null || value.isEmpty|| value.length < 6) {
+                                            return 'Verifique sua senha(Mínimo 6 caracteres)';
+                                          }
+                                          return null;
+                                        },
+                                        controller: passwordControler,
+                                        obscureText: showPass,
+                                        decoration: const InputDecoration(
+                                          border: InputBorder.none,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  InkWell(
-                                    onTap: HidenPass,
-                                    child: Icon(
-                                    showPass?  Icons.visibility : Icons.visibility_off,
+                                    InkWell(
+                                      onTap: HidenPass,
+                                      child: Icon(
+                                        showPass
+                                            ? Icons.visibility
+                                            : Icons.visibility_off,
+                                      ),
                                     ),
+                                  ],
+                                ),
+                              ),
+                              //FIM FORMULARIO DO password
+                              const SizedBox(
+                                height: 15,
+                              ),
+                              //INICIO FORMULARIO DO nome
+                              Text(
+                                "Seu Primeiro nome",
+                                style: GoogleFonts.openSans(
+                                  textStyle: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 13,
+                                    color: Colors.black,
                                   ),
-                                ],
-                              ),
-                            ),
-                            //FIM FORMULARIO DO password
-                            const SizedBox(
-                              height: 15,
-                            ),
-                            //INICIO FORMULARIO DO nome
-                            Text(
-                              "Seu nome",
-                              style: GoogleFonts.openSans(
-                                textStyle: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 13,
-                                  color: Colors.black,
                                 ),
                               ),
-                            ),
-                            const SizedBox(
-                              height: 5,
-                            ),
-                            Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: Estabelecimento.secondaryColor
-                                    .withOpacity(0.1),
+                              const SizedBox(
+                                height: 5,
                               ),
-                              padding: const EdgeInsets.symmetric(
-                                vertical: 5,
-                                horizontal: 10,
-                              ),
-                              child: TextFormField(
-                                controller: userNameControler,
-                                decoration: const InputDecoration(
-                                  border: InputBorder.none,
+                              Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: Estabelecimento.secondaryColor
+                                      .withOpacity(0.1),
+                                ),
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 5,
+                                  horizontal: 10,
+                                ),
+                                child: TextFormField(
+                                  validator: (value) {
+                                    if (value == null ||
+                                        value.isEmpty || value.length > 15) {
+                                      return 'Verifique seu nome(máximo 12 letras)';
+                                    }
+                                    return null;
+                                  },
+                                  controller: userNameControler,
+                                  decoration: const InputDecoration(
+                                    border: InputBorder.none,
+                                  ),
                                 ),
                               ),
-                            ),
-                            //FIM FORMULARIO DO nome
-                            const SizedBox(
-                              height: 15,
-                            ),
-                          ],
+                              //FIM FORMULARIO DO nome
+                              const SizedBox(
+                                height: 15,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                       //FIM DO FORMULARIO DE CADASTRO
@@ -240,7 +307,11 @@ class _RegisterAccountScreenState extends State<RegisterAccountScreen> {
                       Padding(
                         padding: const EdgeInsets.only(left: 25, right: 25),
                         child: InkWell(
-                          onTap: createAccountFNProvider,
+                          onTap: () {
+                            if (_formKey.currentState!.validate()) {
+                              createAccountFNProvider();
+                            }
+                          },
                           child: Container(
                             alignment: Alignment.center,
                             width: double.infinity,
@@ -266,7 +337,7 @@ class _RegisterAccountScreenState extends State<RegisterAccountScreen> {
                         height: 15,
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(left: 25, right: 25),
+                        padding: const EdgeInsets.only(left: 25, right: 25,bottom: 30),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
