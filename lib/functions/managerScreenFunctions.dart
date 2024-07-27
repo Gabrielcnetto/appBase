@@ -943,29 +943,65 @@ class ManagerScreenFunctions with ChangeNotifier {
     String novoValorFinalparte1 = await novoValor.replaceAll(RegExp(','), '.');
     double valorFinalDatabase = double.parse(novoValorFinalparte1);
     print("#767: o valor final ficou: ${valorFinalDatabase}");
+    print("#767: o id é: ${corte.id}");
     try {
-      final update = await database
-          .collection('estabelecimento')
-          .doc('faturamento')
-          .collection('${corte.NomeMes}}')
-          .doc('${corte.id}')
-          .update({
-        "price": valorFinalDatabase,
-      });
+      try {
+        final update = await database
+            .collection('estabelecimento')
+            .doc('faturamento')
+            .collection('${corte.NomeMes.toLowerCase()}')
+            .doc('${corte.id}')
+            .update({
+          "price": valorFinalDatabase,
+        });
+        print('#767: tudo ok com a atualização');
+      } catch (e) {
+        print("#767: atualizando na lista geral da barbearia, deu isto: ${e}");
+      }
       //atualizando no geral do mês - fim
-
+      //atualizando na lista normal - inicio
+      try {
+        final listaGeralUpdate = await database
+            .collection('agenda')
+            .doc(corte.NomeMes.toLowerCase())
+            .collection('${corte.DiaDoCorte}')
+            .doc(corte.profissionalSelect)
+            .collection('all')
+            .doc(corte.horarioCorte)
+            .update({
+          'totalValue': valorFinalDatabase,
+        });
+      } catch (e) {
+        print("na lista geral deu este erro:$e");
+      }
+      //atualizando na lista normal - inicio
       //atualizando no faturamento do profissional - inicio
-      final update2 = await database
-          .collection('mensalCuts')
-          .doc(corte.NomeMes)
-          .collection(corte.profissionalSelect)
-          .doc(corte.id)
-          .update({
-        'price': valorFinalDatabase,
-      });
+      try {
+        final update2 = await database
+            .collection('mensalCuts')
+            .doc(corte.NomeMes.toLowerCase())
+            .collection(corte.profissionalSelect)
+            .doc(corte.id)
+            .update({
+          'price': valorFinalDatabase,
+        });
+        print('#767: atualizacao2 feita');
+      } catch (e) {
+        print('#767: erro no update2: $e');
+      }
     } catch (e) {
       print("Houve um erro ao atualizar o valor diretamente no database. $e");
     }
     //atualizando no faturamento do profissional - fim
+
+    //atualizando na allcuts - inicio
+    try {
+      final allcutsAtt = await database.collection('allCuts').doc(corte.NomeMes.toLowerCase()).collection('${corte.DiaDoCorte}').doc(corte.id).update({
+        'totalValue': valorFinalDatabase,
+      });
+    } catch (e) {
+      print('na allcuts, deu este erro:$e');
+    }
+    //atualizando na allcuts - fim
   }
 }

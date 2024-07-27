@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lionsbarberv1/classes/cortecClass.dart';
 import 'package:lionsbarberv1/functions/managerScreenFunctions.dart';
+import 'package:lionsbarberv1/rotas/Approutes.dart';
 import 'package:provider/provider.dart';
 
 class AtualizacaoDePrecoDoManager extends StatefulWidget {
@@ -20,15 +21,75 @@ class AtualizacaoDePrecoDoManager extends StatefulWidget {
 class _AtualizacaoDePrecoDoManagerState
     extends State<AtualizacaoDePrecoDoManager> {
   final novoValor = TextEditingController();
-  
 
   Future<void> setNewPrice() async {
     try {
-      Provider.of<ManagerScreenFunctions>(context, listen: false)
-          .updateValorCorte(
-        corte: widget.corteWidget,
-        novoValor: novoValor.text,
-      );
+      await showDialog(
+          context: context,
+          builder: (ctx) {
+            return AlertDialog(
+              title: Text(
+                "Confirmar Alteração?",
+                style: GoogleFonts.poppins(
+                  textStyle: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black,
+                    fontSize: 14,
+                  ),
+                ),
+              ),
+              content: Text(
+                "Este valor sera alterado para o novo, mas você pode editar quantas vezes precisar",
+                style: GoogleFonts.poppins(
+                  textStyle: TextStyle(
+                    fontWeight: FontWeight.w400,
+                    color: Colors.black,
+                    fontSize: 12,
+                  ),
+                ),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pop();
+                  },
+                  child: Text(
+                    "Cancelar",
+                    style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                        fontWeight: FontWeight.w400,
+                        color: Colors.black,
+                        fontSize: 12,
+                      ),
+                    ),
+                  ),
+                ),
+                TextButton(
+                  onPressed: () async {
+                    await Provider.of<ManagerScreenFunctions>(context,
+                            listen: false)
+                        .updateValorCorte(
+                      corte: widget.corteWidget,
+                      novoValor: novoValor.text,
+                    );
+                    Navigator.of(context)
+                        .pushReplacementNamed(AppRoutesApp.HomeScreen01);
+                  },
+                  child: Text(
+                    "Confirmar alteração",
+                    style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                        fontWeight: FontWeight.w400,
+                        color: Colors.black,
+                        fontSize: 12,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            );
+          });
       print("Tudo ok com sua atualização");
     } catch (e) {
       print("houve um erro ao atualizar o preço:$e");
