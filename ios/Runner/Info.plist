@@ -58,5 +58,7 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>O aplicativo precisa de acesso ao Apple Pay para processar pagamentos.</string>
 </dict>
 </plist>

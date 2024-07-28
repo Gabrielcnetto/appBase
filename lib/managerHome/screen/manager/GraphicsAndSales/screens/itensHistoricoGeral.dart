@@ -31,25 +31,41 @@ class ItemHistoricoGeral extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Container(
-                  width: MediaQuery.of(context).size.width * 0.15,
-                  height: MediaQuery.of(context).size.height * 0.08,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(40),
-                    child: Image.network(
-                      corteClassItem.profissionalSelect == profList[0].nomeProf
-                          ? profList[0].assetImage
-                          : corteClassItem.profissionalSelect ==
-                                  profList[1].nomeProf
-                              ? profList[1].assetImage
-                              : '${Estabelecimento.defaultAvatar}',
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(40),
-                  ),
-                ),
+                corteClassItem.profissionalSelect == profList[0].nomeProf ||
+                        corteClassItem.profissionalSelect ==
+                            profList[1].nomeProf
+                    ? Container(
+                        width: MediaQuery.of(context).size.width * 0.15,
+                        height: MediaQuery.of(context).size.height * 0.08,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(40),
+                          child: Image.asset(
+                            corteClassItem.profissionalSelect ==
+                                    profList[0].nomeProf
+                                ? profList[0].assetImage
+                                : profList[1].assetImage,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(40),
+                        ),
+                      )
+                    : Container(
+                        width: MediaQuery.of(context).size.width * 0.15,
+                        height: MediaQuery.of(context).size.height * 0.08,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(40),
+                          child: Image.network(
+                            '${Estabelecimento.defaultAvatar}',
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(40),
+                        ),
+                      ), // Adicione um Container vazio ou algum outro widget aqui se a condição for falsa
+
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [

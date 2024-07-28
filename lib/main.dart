@@ -1,8 +1,12 @@
+import 'dart:io';
+
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:lionsbarberv1/classes/Estabelecimento.dart';
 import 'package:lionsbarberv1/classes/cortecClass.dart';
 import 'package:lionsbarberv1/firebase_options.dart';
 import 'package:lionsbarberv1/functions/CorteProvider.dart';
 import 'package:lionsbarberv1/functions/ManyChatConfirmation.dart';
+import 'package:lionsbarberv1/functions/StripeCobrancas.dart';
 import 'package:lionsbarberv1/functions/agendaDataHorarios.dart';
 import 'package:lionsbarberv1/functions/createAccount.dart';
 import 'package:lionsbarberv1/functions/cupomProvider.dart';
@@ -44,6 +48,11 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  Stripe.publishableKey =
+      "pk_live_51PhN0AJbuFc8lkJcbRa8cs7RwiwCSYLDN9t0fYZBDzPljS3IZdjsjLnXdfySp6ag69vuah4kvBkEvrwaVpqvgi1700YJEUalH6";
+  Stripe.merchantIdentifier = 'merchant.easecorte';
+  Stripe.urlScheme = 'flutterstripe';
+  await Stripe.instance.applySettings();
 
   runApp(const MyApp());
 }
@@ -90,6 +99,9 @@ class _MyAppState extends State<MyApp> {
         ),
         ChangeNotifierProvider(
           create: (_) => CupomProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => StripeCobrancasProvider(),
         ),
       ],
 
@@ -172,7 +184,6 @@ class _MyAppState extends State<MyApp> {
                   horariosExtra: [],
                 ),
               ),
-              
         },
       ),
     );

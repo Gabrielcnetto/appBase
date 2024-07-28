@@ -1,6 +1,8 @@
+import 'dart:convert';
 import 'dart:io';
-
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:lionsbarberv1/classes/Estabelecimento.dart';
+import 'package:lionsbarberv1/functions/StripeCobrancas.dart';
 import 'package:lionsbarberv1/functions/userLogin.dart';
 import 'package:lionsbarberv1/rotas/Approutes.dart';
 import 'package:flutter/cupertino.dart';
@@ -9,7 +11,7 @@ import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-
+import 'package:http/http.dart' as http;
 import '../../../../functions/profileScreenFunctions.dart';
 
 class ScreenComponentsMyProfile extends StatefulWidget {
@@ -33,9 +35,7 @@ class _ScreenComponentsMyProfileState extends State<ScreenComponentsMyProfile> {
     loadUserPhone();
     loadUserName();
     urlImageFuncion();
-    setState(() {
-      
-    });
+    setState(() {});
   }
 
   Future<void> setandonewnome() async {
@@ -101,9 +101,7 @@ class _ScreenComponentsMyProfileState extends State<ScreenComponentsMyProfile> {
 
   //funcao geral de enviar ao db a foto nova
   void showModalPhtoNew() {
-    setState(() {
-      
-    });
+    setState(() {});
     showModalBottomSheet(
         isScrollControlled: true,
         context: context,
@@ -181,9 +179,7 @@ class _ScreenComponentsMyProfileState extends State<ScreenComponentsMyProfile> {
   }
 
   Future<void> setNewimageOnDB() async {
-    setState(() {
-      
-    });
+    setState(() {});
     final String photo = await image!.path;
     try {
       if (photo != null) {
@@ -245,6 +241,82 @@ class _ScreenComponentsMyProfileState extends State<ScreenComponentsMyProfile> {
     });
   }
 
+  //FUNCOES DE PAGAMENTO NA STRIPE - INICIO
+  Map<String, dynamic>? paymentIntent;
+  void makePayment() async {
+    List<ApplePayCartSummaryItem> lista = [
+      ApplePayCartSummaryItem.immediate(
+        label: 'item1',
+        amount: '99',
+        isPending: false,
+      ),
+    ];
+
+    try {
+      paymentIntent = await createPaymentIntent();
+      print('print777: ${paymentIntent}');
+      await Stripe.instance.initPaymentSheet(
+        paymentSheetParameters: SetupPaymentSheetParameters(
+          // Set to true for custom flow
+          customFlow: false,
+          // Main params
+          merchantDisplayName: "${Estabelecimento.nomeLocal}",
+          paymentIntentClientSecret: paymentIntent!['client_secret'],
+          // Customer keys
+          customerEphemeralKeySecret: paymentIntent!['ephemeralKey'],
+          customerId: paymentIntent!['customer'],
+          // Extra options
+          applePay: const PaymentSheetApplePay(
+            
+            merchantCountryCode: 'BR',
+            buttonType: PlatformButtonType.buy,
+          ),
+          googlePay: const PaymentSheetGooglePay(
+            merchantCountryCode: 'BR',
+            currencyCode: 'BRL',
+            buttonType: PlatformButtonType.buy,
+            testEnv: true,
+          ),
+          style: ThemeMode.dark,
+        ),
+      );
+      displayPaymentSheet();
+    } catch (e) {
+      print("houve um erro no display: $e");
+    }
+  }
+
+  void displayPaymentSheet() async {
+    try {
+      await Stripe.instance.presentPaymentSheet();
+      print("ok, done");
+    } catch (e) {
+      print("houve um erro no display: $e");
+    }
+  }
+
+  createPaymentIntent() async {
+    String myToken =
+        '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';
+    try {
+      Map<String, dynamic> body = {
+        "amount": "100",
+        "currency": "BRL",
+      };
+      var CreateResponse = await http.post(
+          Uri.parse('https://api.stripe.com/v1/payment_intents'),
+          body: body,
+          headers: {
+            "Authorization": "Bearer $myToken",
+            "Content-Type": "application/x-www-form-urlencoded",
+          });
+      return jsonDecode(CreateResponse.body);
+    } catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  //FUNCOES DE PAGAMENTO NA STRIPE - INICIO
   @override
   Widget build(BuildContext context) {
     final widhScren = MediaQuery.of(context).size.width;
@@ -316,8 +388,12 @@ class _ScreenComponentsMyProfileState extends State<ScreenComponentsMyProfile> {
                       child: const Icon(Icons.photo_library),
                       onTap: getProfileImageBiblio,
                     ),
+                    InkWell(
+                      child: const Icon(Icons.payment),
+                      onTap: makePayment,
+                    ),
                   ],
-                )
+                ),
               ],
             ),
           ),
