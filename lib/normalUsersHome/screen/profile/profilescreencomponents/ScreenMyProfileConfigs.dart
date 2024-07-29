@@ -266,10 +266,10 @@ class _ScreenComponentsMyProfileState extends State<ScreenComponentsMyProfile> {
           customerEphemeralKeySecret: paymentIntent!['ephemeralKey'],
           customerId: paymentIntent!['customer'],
           // Extra options
-          applePay: const PaymentSheetApplePay(
-            
+          applePay: PaymentSheetApplePay(
             merchantCountryCode: 'BR',
             buttonType: PlatformButtonType.buy,
+            cartItems: lista,
           ),
           googlePay: const PaymentSheetGooglePay(
             merchantCountryCode: 'BR',
@@ -277,18 +277,87 @@ class _ScreenComponentsMyProfileState extends State<ScreenComponentsMyProfile> {
             buttonType: PlatformButtonType.buy,
             testEnv: true,
           ),
-          style: ThemeMode.dark,
+          style: ThemeMode.light,
         ),
       );
-      displayPaymentSheet();
+      await displayPaymentSheet();
     } catch (e) {
       print("houve um erro no display: $e");
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Erro"),
+            content: Text("Houve um erro no pagamento: $e"),
+            actions: [
+              TextButton(
+                child: Text("Fechar"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
     }
   }
 
-  void displayPaymentSheet() async {
+  displayPaymentSheet() async {
     try {
       await Stripe.instance.presentPaymentSheet();
+      showModalBottomSheet(
+        backgroundColor: Colors.transparent,
+        isScrollControlled: true,
+        context: context,
+        builder: (ctx) {
+          Future.delayed(Duration(milliseconds: 4000), () {
+            Navigator.pop(ctx);
+          });
+          return Padding(
+            padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 50),
+            child: Container(
+              alignment: Alignment.center,
+              height: MediaQuery.of(context).size.height * 0.75,
+              width: double.infinity,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    'imagesOfApp/Confirmpay.gif',
+                    fit: BoxFit.cover,
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width * 1,
+                    child: Text(
+                      'UHUUU! Pagamento Confirmado',
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.poppins(
+                        textStyle: TextStyle(
+                          fontSize: 22,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          shadows: [
+                            Shadow(
+                              offset: Offset(2.0, 2.0),
+                              blurRadius: 3.0,
+                              color: Color.fromARGB(255, 0, 0, 0),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          );
+        },
+      );
       print("ok, done");
     } catch (e) {
       print("houve um erro no display: $e");
@@ -300,7 +369,8 @@ class _ScreenComponentsMyProfileState extends State<ScreenComponentsMyProfile> {
         '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';
     try {
       Map<String, dynamic> body = {
-        "amount": "100",
+        "amount":
+            "100", //colocar *centavos para um valor de R$ 99,00, você deve enviar 9900 centavos.
         "currency": "BRL",
       };
       var CreateResponse = await http.post(
@@ -324,245 +394,439 @@ class _ScreenComponentsMyProfileState extends State<ScreenComponentsMyProfile> {
     return Container(
       width: widhScren,
       height: heighScreen,
-      child: Stack(
-        children: [
-          Positioned(
-            top: 0,
-            child: Container(
-              width: widhScren,
-              height: 300,
-              color: Estabelecimento.primaryColor,
-            ),
-          ),
-          Positioned(
-            bottom: 0,
-            child: Container(
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.elliptical(50, 50),
-                  topRight: Radius.elliptical(50, 50),
-                ),
-              ),
-              width: widhScren,
-              height: heighScreen * 0.76,
-            ),
-          ),
-          Positioned(
-            top: 120,
-            right: 130,
-            left: 130,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  width: 120,
-                  height: 120,
-                  child: urlImagePhoto != null
-                      ? ClipRRect(
-                          borderRadius: BorderRadius.circular(80),
-                          child: Image.network(
-                            "${urlImagePhoto}",
-                            fit: BoxFit.cover,
-                          ),
-                        )
-                      : ClipRRect(
-                          borderRadius: BorderRadius.circular(80),
-                          child: Image.network(
-                            Estabelecimento.defaultAvatar,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+      child: Padding(
+        padding: const EdgeInsets.only(left: 15, right: 15, top: 15),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              //HEADER - incio
+              Padding(
+                padding: const EdgeInsets.only(top: 30),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    InkWell(
-                      child: const Icon(Icons.camera),
-                      onTap: getProfileImageCamera,
-                    ),
-                    InkWell(
-                      child: const Icon(Icons.photo_library),
-                      onTap: getProfileImageBiblio,
-                    ),
-                    InkWell(
-                      child: const Icon(Icons.payment),
-                      onTap: makePayment,
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          Positioned(
-            top: 290,
-            right: 40,
-            left: 40,
-            child: Container(
-              padding: const EdgeInsets.only(bottom: 10),
-              width: double.infinity,
-              height: heighScreen,
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    //inicio -> FORMULARIO COM O NOME
-                    Text(
-                      "Seu Nome",
-                      style: GoogleFonts.openSans(
-                          textStyle: TextStyle(
-                        fontWeight: FontWeight.w400,
-                        color: Colors.grey.shade800,
-                      )),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(30),
-                        border: Border.all(
-                          width: 0.5,
-                          color: Colors.grey.shade300,
-                        ),
-                      ),
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 10, horizontal: 15),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: TextFormField(
-                              controller: nomeControler,
-                              decoration: const InputDecoration(
-                                border: InputBorder.none,
-                              ),
-                            ),
-                          ),
-                          InkWell(
-                            onTap: setandonewnome,
-                            child: Row(
-                              children: [
-                                Icon(
-                                  Icons.save,
-                                  size: 20,
-                                  color: Estabelecimento.primaryColor,
-                                ),
-                                const Text(
-                                  "Salvar",
-                                  style: TextStyle(fontSize: 12),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    //Fim -> FORMULARIO COM O NOME
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    //inicio -> FORMULARIO COM O TELEFONE
-                    Text(
-                      "Número WhatsApp",
-                      style: GoogleFonts.openSans(
-                          textStyle: TextStyle(
-                        fontWeight: FontWeight.w400,
-                        color: Colors.grey.shade800,
-                      )),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(30),
-                        border: Border.all(
-                          width: 0.5,
-                          color: Colors.grey.shade300,
-                        ),
-                      ),
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 10, horizontal: 15),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: TextFormField(
-                              controller: phoneNumberControler,
-                              decoration: const InputDecoration(
-                                border: InputBorder.none,
-                              ),
-                            ),
-                          ),
-                          InkWell(
-                            onTap: setandoPhone,
-                            child: Row(
-                              children: [
-                                Icon(
-                                  Icons.save,
-                                  size: 20,
-                                  color: Estabelecimento.primaryColor,
-                                ),
-                                const Text(
-                                  "Salvar",
-                                  style: TextStyle(fontSize: 12),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    //Fim -> FORMULARIO COM O TELEFONE
-                    const SizedBox(
-                      height: 30,
-                    ),
-                    InkWell(
-                      onTap: () {
-                        Provider.of<UserLoginApp>(context, listen: false)
-                            .deslogar();
-                        Navigator.of(context).pushReplacementNamed(
-                            AppRoutesApp.VerificationLoginScreen01);
-                      },
-                      child: Container(
-                        alignment: Alignment.center,
-                        width: double.infinity,
-                        height: 60,
-                        decoration: BoxDecoration(
-                          color: Estabelecimento.primaryColor,
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Text(
-                              "Deslogar",
+                              'Olá, ${userName ?? 'Carregando...'}! ',
                               style: GoogleFonts.openSans(
-                                  textStyle: TextStyle(
-                                fontWeight: FontWeight.w700,
-                                color: Estabelecimento.contraPrimaryColor,
-                              )),
-                            ),
-                            const SizedBox(
-                              width: 10,
+                                textStyle: TextStyle(
+                                  fontSize: 18,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
                             ),
                             Icon(
-                              Icons.logout,
-                              size: 22,
-                              color: Estabelecimento.contraPrimaryColor,
-                            ),
+                              Icons.front_hand,
+                              color: Color.fromARGB(255, 246, 206, 5),
+                            )
                           ],
+                        ),
+                        Text(
+                          'Configure seu perfil aqui',
+                          style: GoogleFonts.openSans(
+                            textStyle: TextStyle(
+                              fontSize: 12,
+                              color: Colors.black54,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Container(
+                      width: widhScren * 0.12,
+                      height: heighScreen * 0.07,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(50),
+                        child: Image.network(
+                          '${urlImagePhoto ?? Estabelecimento.defaultAvatar}',
+                          fit: BoxFit.cover,
                         ),
                       ),
                     )
                   ],
                 ),
               ),
-            ),
+              //header fim
+              //BLOCO DO SALDO - INICIO
+              Padding(
+                padding: const EdgeInsets.only(top: 15),
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade200,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'R\$ 129,00',
+                                style: GoogleFonts.poppins(
+                                  textStyle: TextStyle(
+                                    fontSize: 22,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 3,
+                              ),
+                              Text(
+                                'Saldo para pagamentos',
+                                style: GoogleFonts.poppins(
+                                  textStyle: TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.black54,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Container(
+                            alignment: Alignment.center,
+                            padding: EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              color: Colors.grey.shade300,
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: Icon(
+                              Icons.visibility,
+                              size: 18,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 15),
+                        child: Container(
+                          alignment: Alignment.center,
+                          width: double.infinity,
+                          padding: EdgeInsets.symmetric(vertical: 10),
+                          decoration: BoxDecoration(
+                            color: Colors.blue.shade600,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.account_balance_wallet,
+                                color: Colors.white,
+                                size: 15,
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Text(
+                                'Adicione Créditos',
+                                style: GoogleFonts.openSans(
+                                  textStyle: TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 15),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Pague 100% online',
+                              style: GoogleFonts.openSans(
+                                textStyle: TextStyle(
+                                  fontSize: 10,
+                                  color: Colors.black54,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              //BLOCO DO SALDO - FIM
+              //BLOCO DAS CONFIGURAÇOES - INICIO
+              Padding(
+                padding: const EdgeInsets.only(top: 20),
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: Border(
+                      top: BorderSide(
+                        width: 1,
+                        color: Colors.grey.shade200,
+                      ),
+                      bottom: BorderSide(
+                        width: 1,
+                        color: Colors.grey.shade200,
+                      ),
+                    ),
+                  ),
+                  width: widhScren,
+                  child: Column(
+                    children: [
+                      //EDITAR O NOME DO PERFIL - INCIO
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 10),
+                        child: Container(
+                          padding: EdgeInsets.symmetric(vertical: 15),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: [
+                                  Container(
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                      color: Estabelecimento.primaryColor,
+                                      borderRadius: BorderRadius.circular(5),
+                                    ),
+                                    padding: EdgeInsets.all(5),
+                                    child: Icon(
+                                      Icons.edit,
+                                      color: Colors.white,
+                                      size: 15,
+                                    ),
+                                  ),
+                                  Text(
+                                    ' Editar nome',
+                                    style: GoogleFonts.openSans(
+                                      textStyle: TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                              Icon(
+                                Icons.arrow_forward_ios,
+                                size: 18,
+                                color: Colors.grey.shade300,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      //EDITAR O NOME DO PERFIL - FIM
+                      //editar a foto - inicio
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 10),
+                        child: Container(
+                          padding: EdgeInsets.symmetric(vertical: 15),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: [
+                                  Container(
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                      color: Estabelecimento.primaryColor,
+                                      borderRadius: BorderRadius.circular(5),
+                                    ),
+                                    padding: EdgeInsets.all(5),
+                                    child: Icon(
+                                      Icons.image,
+                                      color: Colors.white,
+                                      size: 15,
+                                    ),
+                                  ),
+                                  Text(
+                                    ' Editar foto de perfil',
+                                    style: GoogleFonts.openSans(
+                                      textStyle: TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                              Icon(
+                                Icons.arrow_forward_ios,
+                                size: 18,
+                                color: Colors.grey.shade300,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      //editar a foto - fim
+                      //salvar telefone - inicio
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 10),
+                        child: Container(
+                          padding: EdgeInsets.symmetric(vertical: 15),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: [
+                                  Container(
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                      color: Estabelecimento.primaryColor,
+                                      borderRadius: BorderRadius.circular(5),
+                                    ),
+                                    padding: EdgeInsets.all(5),
+                                    child: Icon(
+                                      Icons.call,
+                                      color: Colors.white,
+                                      size: 15,
+                                    ),
+                                  ),
+                                  Text(
+                                    ' Salvar telefone(recomendado)',
+                                    style: GoogleFonts.openSans(
+                                      textStyle: TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                              Icon(
+                                Icons.arrow_forward_ios,
+                                size: 18,
+                                color: Colors.grey.shade300,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      //salvar telefone - fim
+                      //BLOCO DAS CONFIGURACOES - FIM
+                      //configuracoes gerais - inicio
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 10),
+                        child: Container(
+                          padding: EdgeInsets.symmetric(vertical: 15),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: [
+                                  Container(
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                      color: Estabelecimento.primaryColor,
+                                      borderRadius: BorderRadius.circular(5),
+                                    ),
+                                    padding: EdgeInsets.all(5),
+                                    child: Icon(
+                                      Icons.settings,
+                                      color: Colors.white,
+                                      size: 15,
+                                    ),
+                                  ),
+                                  Text(
+                                    ' Configurações gerais',
+                                    style: GoogleFonts.openSans(
+                                      textStyle: TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                              Icon(
+                                Icons.arrow_forward_ios,
+                                size: 18,
+                                color: Colors.grey.shade300,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      //configuracoes gerais - fim
+                    ],
+                  ),
+                ),
+              ),
+              //BLOCO DAS ASSINATURAS
+              Padding(
+                padding: const EdgeInsets.only(top: 20),
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Colors.blue.shade600,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        padding:
+                            EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                        width: MediaQuery.of(context).size.width * 0.55,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Corte 1x por semana',
+                              style: GoogleFonts.poppins(
+                                textStyle: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 15,
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Text(
+                              'Pague somente 1x ao mês no crédito',
+                              style: GoogleFonts.poppins(
+                                textStyle: TextStyle(
+                                  color: Colors.white60,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 12,
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:lionsbarberv1/classes/Estabelecimento.dart';
 import 'package:lionsbarberv1/classes/cortecClass.dart';
@@ -48,11 +49,13 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  Stripe.publishableKey =
-      "pk_live_51PhN0AJbuFc8lkJcbRa8cs7RwiwCSYLDN9t0fYZBDzPljS3IZdjsjLnXdfySp6ag69vuah4kvBkEvrwaVpqvgi1700YJEUalH6";
-  Stripe.merchantIdentifier = 'merchant.easecorte';
-  Stripe.urlScheme = 'flutterstripe';
-  await Stripe.instance.applySettings();
+  if (!kIsWeb) {
+    Stripe.publishableKey =
+        "pk_live_51PhN0AJbuFc8lkJcbRa8cs7RwiwCSYLDN9t0fYZBDzPljS3IZdjsjLnXdfySp6ag69vuah4kvBkEvrwaVpqvgi1700YJEUalH6";
+    Stripe.merchantIdentifier = 'merchant.easecorte';
+    Stripe.urlScheme = 'flutterstripe';
+    await Stripe.instance.applySettings();
+  }
 
   runApp(const MyApp());
 }
