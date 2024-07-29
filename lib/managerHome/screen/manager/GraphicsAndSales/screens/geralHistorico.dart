@@ -141,7 +141,7 @@ class _HistoricoCompletoClientesState extends State<HistoricoCompletoClientes> {
                       .CorteslistaManager,
                   builder: (ctx, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(
+                      return const Center(
                           child: CircularProgressIndicator.adaptive());
                     }
                     if (snapshot.hasData) {
@@ -182,7 +182,7 @@ class _HistoricoCompletoClientesState extends State<HistoricoCompletoClientes> {
                             Text(
                               'Erro ao carregar, ou sem dados',
                               style: GoogleFonts.openSans(
-                                textStyle: TextStyle(
+                                textStyle: const TextStyle(
                                   fontSize: 12,
                                   color: Colors.black54,
                                   fontWeight: FontWeight.w500,
@@ -193,7 +193,7 @@ class _HistoricoCompletoClientesState extends State<HistoricoCompletoClientes> {
                         ),
                       );
                     }
-                    return Text('teste');
+                    return const Text('teste');
                   },
                 ),
               ],

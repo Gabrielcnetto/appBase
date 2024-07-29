@@ -2242,7 +2242,7 @@ class _AddScreenState extends State<AddScreen> {
                                     );
                                   },
                                 ),
-                              ) : Center(child: CircularProgressIndicator.adaptive(),),
+                              ) : const Center(child: CircularProgressIndicator.adaptive(),),
                             //CONTAINER DA HORA - FIM
                             //botao do agendar - inicio
 

@@ -44,7 +44,7 @@ class _RegisterAccountScreenState extends State<RegisterAccountScreen> {
         child: Stack(
           children: [
             Container(
-                padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
@@ -65,7 +65,7 @@ class _RegisterAccountScreenState extends State<RegisterAccountScreen> {
                       child: Text(
                         "Crie agora o seu \nPerfil",
                         style: GoogleFonts.poppins(
-                          textStyle: TextStyle(
+                          textStyle: const TextStyle(
                             fontWeight: FontWeight.w800,
                             color: Colors.white,
                             fontSize: 24,
@@ -73,7 +73,7 @@ class _RegisterAccountScreenState extends State<RegisterAccountScreen> {
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 5,
                     ),
                     Container(
@@ -81,7 +81,7 @@ class _RegisterAccountScreenState extends State<RegisterAccountScreen> {
                       child: Text(
                         "Tenha acesso completo ao sistema da ${Estabelecimento.nomeLocal}",
                         style: GoogleFonts.poppins(
-                          textStyle: TextStyle(
+                          textStyle: const TextStyle(
                             fontWeight: FontWeight.w500,
                             color: Colors.white54,
                             fontSize: 14,

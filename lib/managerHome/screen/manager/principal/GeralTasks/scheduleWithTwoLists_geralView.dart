@@ -211,7 +211,7 @@ class _ScheduleWithTwoListsVer2ProfissionaisState
                           child: Text(
                             "${profissional.nomeProf}",
                             style: GoogleFonts.openSans(
-                              textStyle: TextStyle(
+                              textStyle: const TextStyle(
                                 fontSize: 14,
                                 color: Colors.black,
                               ),
@@ -568,7 +568,7 @@ class _ScheduleWithTwoListsVer2ProfissionaisState
                     ),
                   ),
                   //STREAM DO PROFISSIONAL 2
-                  SizedBox(
+                  const SizedBox(
                     width: 5,
                   ),
                   Expanded(

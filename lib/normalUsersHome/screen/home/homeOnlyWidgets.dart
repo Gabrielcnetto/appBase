@@ -91,12 +91,12 @@ class _HomeOnlyWidgetsState extends State<HomeOnlyWidgets> {
                   )
                 : const RankingSemUsuarios(),
             isLoading == true
-                ? Center(
+                ? const Center(
                     child: CircularProgressIndicator.adaptive(),
                   )
                 : 
                 PontosPorCortes == true ?
-                GeralViewRewardsUser() : Container(),
+                const GeralViewRewardsUser() : Container(),
           ],
         ),
       ),

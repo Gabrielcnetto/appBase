@@ -192,7 +192,7 @@ class _ScheduleWithTwoListsState extends State<ScheduleWithTwoLists> {
                     InkWell(
                       onTap: setNewView,
                       child: Container(
-                        padding: EdgeInsets.all(5),
+                        padding: const EdgeInsets.all(5),
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
                           color: Colors.grey.shade200,
@@ -200,7 +200,7 @@ class _ScheduleWithTwoListsState extends State<ScheduleWithTwoLists> {
                         ),
                         child: Text("Mudar visualização",
                           style: GoogleFonts.poppins(
-                            textStyle: TextStyle(
+                            textStyle: const TextStyle(
                               fontSize: 12,
                               color: Colors.black,
                               fontWeight: FontWeight.w400,
@@ -213,8 +213,8 @@ class _ScheduleWithTwoListsState extends State<ScheduleWithTwoLists> {
                 ),
                 const SizedBox(height: 25),
                 secondaryView == false
-                    ? ScheduleWithTwoListsVisaoUnica()
-                    : ScheduleWithTwoListsVer2Profissionais(),
+                    ? const ScheduleWithTwoListsVisaoUnica()
+                    : const ScheduleWithTwoListsVer2Profissionais(),
               ],
             ),
           ),

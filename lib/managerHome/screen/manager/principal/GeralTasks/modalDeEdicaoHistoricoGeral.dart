@@ -154,7 +154,7 @@ class _ModalDeEdicaoHistoricoGeralState
                                     borderRadius: BorderRadius.circular(8),
                                   ),
                                   padding: const EdgeInsets.all(5),
-                                  child: Icon(
+                                  child: const Icon(
                                     Icons.edit,
                                     color: Colors.white,
                                   ),

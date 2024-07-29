@@ -697,7 +697,7 @@ class _HomeScreen01State extends State<HomeScreen01>
                       Navigator.of(context).push(DialogRoute(
                           context: context,
                           builder: (ctx) {
-                            return ConfigCouponScreen();
+                            return const ConfigCouponScreen();
                           }));
                     },
                   ),

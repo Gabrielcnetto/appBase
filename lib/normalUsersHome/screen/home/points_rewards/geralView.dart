@@ -42,11 +42,11 @@ class GeralViewRewardsUser extends StatelessWidget {
             Container(
               width: MediaQuery.of(context).size.width * 1,
               height: MediaQuery.of(context).size.height * 0.73,
-              padding: EdgeInsets.symmetric(
+              padding: const EdgeInsets.symmetric(
                 horizontal: 15,
                 vertical: 15,
               ),
-              child: ComponentDataRewards(),
+              child: const ComponentDataRewards(),
             ),
             // CONTAINER DAS INFORMAÇOES - FIM
           ],

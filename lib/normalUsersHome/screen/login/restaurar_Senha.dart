@@ -239,8 +239,9 @@ class _RestaurarAsenhaState extends State<RestaurarAsenha> {
                         padding: const EdgeInsets.only(top: 40),
                         child: Center(
                           child: InkWell(
-                            onTap: (){
-                              Navigator.of(context).pushReplacementNamed(AppRoutesApp.LoginScreen01);
+                            onTap: () {
+                              Navigator.of(context).pushReplacementNamed(
+                                  AppRoutesApp.LoginScreen01);
                             },
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.center,

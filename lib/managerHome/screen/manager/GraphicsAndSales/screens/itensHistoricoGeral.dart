@@ -24,7 +24,7 @@ class ItemHistoricoGeral extends StatelessWidget {
           ),
           borderRadius: BorderRadius.circular(8),
         ),
-        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
@@ -74,7 +74,7 @@ class ItemHistoricoGeral extends StatelessWidget {
                       color: Colors.blue.shade600,
                       size: 18,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 5,
                     ),
                     Row(
@@ -82,7 +82,7 @@ class ItemHistoricoGeral extends StatelessWidget {
                         Text(
                           'Feito por: ',
                           style: GoogleFonts.poppins(
-                            textStyle: TextStyle(
+                            textStyle: const TextStyle(
                               fontSize: 12,
                               color: Colors.black,
                               fontWeight: FontWeight.w400,
@@ -92,7 +92,7 @@ class ItemHistoricoGeral extends StatelessWidget {
                         Text(
                           '${corteClassItem.profissionalSelect}',
                           style: GoogleFonts.poppins(
-                            textStyle: TextStyle(
+                            textStyle: const TextStyle(
                               fontSize: 12,
                               color: Colors.black,
                               fontWeight: FontWeight.w600,
@@ -110,11 +110,11 @@ class ItemHistoricoGeral extends StatelessWidget {
               children: [
                 Expanded(
                   child: Container(
-                    padding: EdgeInsets.symmetric(vertical: 3),
+                    padding: const EdgeInsets.symmetric(vertical: 3),
                     child: Text(
                       corteClassItem.detalheDoProcedimento,
                       style: GoogleFonts.openSans(
-                        textStyle: TextStyle(
+                        textStyle: const TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.w500,
                           fontSize: 14,
@@ -124,14 +124,14 @@ class ItemHistoricoGeral extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                   decoration: BoxDecoration(
                       color: Colors.green.shade800,
                       borderRadius: BorderRadius.circular(8)),
                   child: Text(
                     'R\$${corteClassItem.totalValue ?? 0}',
                     style: GoogleFonts.poppins(
-                      textStyle: TextStyle(
+                      textStyle: const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.w400,
                       ),
@@ -148,7 +148,7 @@ class ItemHistoricoGeral extends StatelessWidget {
                   Text(
                     corteClassItem.clientName,
                     style: GoogleFonts.openSans(
-                      textStyle: TextStyle(
+                      textStyle: const TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.w800,
                         fontSize: 16,
@@ -160,7 +160,7 @@ class ItemHistoricoGeral extends StatelessWidget {
                       Text(
                         '${corteClassItem.DiaDoCorte} de ${corteClassItem.NomeMes} ',
                         style: GoogleFonts.poppins(
-                          textStyle: TextStyle(
+                          textStyle: const TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.w400,
                             fontSize: 12,

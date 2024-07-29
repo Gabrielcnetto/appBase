@@ -168,5 +168,76 @@ class MyProfileScreenFunctions with ChangeNotifier {
     return null;
   }
 
-  //INICIO GET Da pontuacao
+  //get email
+  //INICIO GET DO NOME
+  Future<String?> getUserEmail() async {
+    if (authSettings.currentUser != null) {
+      final String uidUser = await authSettings.currentUser!.uid;
+      String? userName;
+
+      await db.collection("usuarios").doc(uidUser).get().then((event) {
+        if (event.exists) {
+          Map<String, dynamic> data = event.data() as Map<String, dynamic>;
+
+          userName = data['userEmail'];
+        } else {}
+        return userName;
+      });
+      return userName;
+    }
+
+    return null;
+  }
+
+  Future<void> updateCreditosPerfil({required double saldoAdicionar}) async {
+    final String userId = await authSettings.currentUser!.uid;
+    try {
+      final upCreditOnProfile =
+          await db.collection('usuarios').doc(userId).update(
+        {
+          'saldoConta': FieldValue.increment(saldoAdicionar),
+        },
+      );
+    } catch (e) {
+      print("ao upar o credito no perfil deu erro: $e");
+    }
+  }
+
+Future<double?> getUserSaldo() async {
+  print('#iu: abri a funcao');
+  final String uidUser = await authSettings.currentUser!.uid;
+  
+  try {
+    if (authSettings.currentUser != null) {
+      double? userSaldo;
+
+      final docSnapshot = await db.collection("usuarios").doc(uidUser).get();
+      if (docSnapshot.exists) {
+        Map<String, dynamic> data = docSnapshot.data() as Map<String, dynamic>;
+
+        // Verifica se 'saldoConta' existe e converte para double se necessário
+        var saldo = data['saldoConta'];
+        if (saldo is int) {
+          userSaldo = saldo.toDouble();
+        } else if (saldo is double) {
+          userSaldo = saldo;
+        } else {
+          // Trate o caso onde saldoConta não é nem int nem double, se necessário
+          print('#iu: saldoConta não é um número válido');
+        }
+      } else {
+        print('#iu: Documento não encontrado');
+      }
+      
+      print('#iu: valor final: ${userSaldo}');
+      return userSaldo;
+    }
+
+    return null;
+  } catch (e) {
+    print('#iu: houve um erro: $e');
+    return null; // Certifique-se de retornar null no caso de erro
+  }
+}
+
 }

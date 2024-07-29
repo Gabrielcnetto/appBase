@@ -100,7 +100,7 @@ class _ConfigCouponScreenState extends State<ConfigCouponScreen> {
                 title: Text(
                   "Pontos para resgate atualizado",
                   style: GoogleFonts.openSans(
-                    textStyle: TextStyle(
+                    textStyle: const TextStyle(
                       fontWeight: FontWeight.w500,
                       color: Colors.black,
                     ),
@@ -109,7 +109,7 @@ class _ConfigCouponScreenState extends State<ConfigCouponScreen> {
                 content: Text(
                   "Agora os clientes precisam alcançar uma meta para ativar a promoção.",
                   style: GoogleFonts.openSans(
-                    textStyle: TextStyle(
+                    textStyle: const TextStyle(
                       fontWeight: FontWeight.w300,
                       color: Colors.black54,
                     ),
@@ -125,7 +125,7 @@ class _ConfigCouponScreenState extends State<ConfigCouponScreen> {
                     child: Text(
                       "Fechar",
                       style: GoogleFonts.poppins(
-                        textStyle: TextStyle(
+                        textStyle: const TextStyle(
                           fontSize: 14,
                           color: Colors.black,
                           fontWeight: FontWeight.w500,
@@ -146,7 +146,7 @@ class _ConfigCouponScreenState extends State<ConfigCouponScreen> {
                 title: Text(
                   "Coloque uma quantia maior de pontos",
                   style: GoogleFonts.openSans(
-                    textStyle: TextStyle(
+                    textStyle: const TextStyle(
                       fontWeight: FontWeight.w500,
                       color: Colors.black,
                     ),
@@ -155,7 +155,7 @@ class _ConfigCouponScreenState extends State<ConfigCouponScreen> {
                 content: Text(
                   "Coloque 20 pontos ou mais para resgate",
                   style: GoogleFonts.openSans(
-                    textStyle: TextStyle(
+                    textStyle: const TextStyle(
                       fontWeight: FontWeight.w300,
                       color: Colors.black54,
                     ),
@@ -169,7 +169,7 @@ class _ConfigCouponScreenState extends State<ConfigCouponScreen> {
                     child: Text(
                       "Fechar",
                       style: GoogleFonts.poppins(
-                        textStyle: TextStyle(
+                        textStyle: const TextStyle(
                           fontSize: 14,
                           color: Colors.black,
                           fontWeight: FontWeight.w500,
@@ -206,7 +206,7 @@ class _ConfigCouponScreenState extends State<ConfigCouponScreen> {
                             onTap: () {
                               Navigator.of(context).pop();
                             },
-                            child: Icon(
+                            child: const Icon(
                               Icons.arrow_back_ios,
                             ),
                           ),
@@ -217,7 +217,7 @@ class _ConfigCouponScreenState extends State<ConfigCouponScreen> {
                             child: Text(
                               "Ativação de cupons",
                               style: GoogleFonts.openSans(
-                                textStyle: TextStyle(
+                                textStyle: const TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w600,
                                   color: Colors.black,
@@ -264,7 +264,7 @@ class _ConfigCouponScreenState extends State<ConfigCouponScreen> {
                                         ),
                                       ),
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 3,
                                     ),
                                     Icon(
@@ -283,7 +283,7 @@ class _ConfigCouponScreenState extends State<ConfigCouponScreen> {
                         padding: const EdgeInsets.only(top: 20),
                         child: Container(
                           width: double.infinity,
-                          padding: EdgeInsets.symmetric(
+                          padding: const EdgeInsets.symmetric(
                               vertical: 20, horizontal: 10),
                           decoration: BoxDecoration(
                             color: Colors.grey.shade200,
@@ -296,7 +296,7 @@ class _ConfigCouponScreenState extends State<ConfigCouponScreen> {
                               Text(
                                 "Troque pontos por cortes.",
                                 style: GoogleFonts.poppins(
-                                  textStyle: TextStyle(
+                                  textStyle: const TextStyle(
                                     fontSize: 14,
                                     color: Colors.black,
                                     fontWeight: FontWeight.w600,
@@ -322,11 +322,11 @@ class _ConfigCouponScreenState extends State<ConfigCouponScreen> {
                           child: Container(
                             height: MediaQuery.of(context).size.height * 0.45,
                             width: double.infinity,
-                            padding: EdgeInsets.symmetric(
+                            padding: const EdgeInsets.symmetric(
                                 vertical: 20, horizontal: 15),
                             decoration: BoxDecoration(
                               color: Colors.grey.shade100,
-                              borderRadius: BorderRadius.only(
+                              borderRadius: const BorderRadius.only(
                                 bottomLeft: Radius.circular(8),
                                 bottomRight: Radius.circular(8),
                               ),
@@ -341,14 +341,14 @@ class _ConfigCouponScreenState extends State<ConfigCouponScreen> {
                                     Text(
                                       "Pontos Necessários",
                                       style: GoogleFonts.openSans(
-                                        textStyle: TextStyle(
+                                        textStyle: const TextStyle(
                                           color: Colors.black,
                                           fontWeight: FontWeight.w500,
                                           fontSize: 16,
                                         ),
                                       ),
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 5,
                                     ),
                                     Text(
@@ -365,7 +365,7 @@ class _ConfigCouponScreenState extends State<ConfigCouponScreen> {
                                 ),
                                 // meio do collun
                                 Container(
-                                  padding: EdgeInsets.symmetric(horizontal: 10),
+                                  padding: const EdgeInsets.symmetric(horizontal: 10),
                                   child: Column(
                                     children: [
                                       Row(
@@ -380,14 +380,14 @@ class _ConfigCouponScreenState extends State<ConfigCouponScreen> {
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.center,
                                             children: [
-                                              Icon(
+                                              const Icon(
                                                 Icons.stars,
                                                 size: 60,
                                               ),
                                               Text(
                                                 "Digite:",
                                                 style: GoogleFonts.poppins(
-                                                  textStyle: TextStyle(
+                                                  textStyle: const TextStyle(
                                                     fontWeight: FontWeight.w500,
                                                     color: Colors.black,
                                                     fontSize: 13,
@@ -415,7 +415,7 @@ class _ConfigCouponScreenState extends State<ConfigCouponScreen> {
                                                     .height *
                                                 0.15,
                                             child: Container(
-                                              padding: EdgeInsets.all(10),
+                                              padding: const EdgeInsets.all(10),
                                               child: TextFormField(
                                                 controller: pointsControler,
                                                 inputFormatters: [
@@ -434,7 +434,7 @@ class _ConfigCouponScreenState extends State<ConfigCouponScreen> {
                                                     "Clique para digitar",
                                                     textAlign: TextAlign.center,
                                                     style: GoogleFonts.openSans(
-                                                      textStyle: TextStyle(
+                                                      textStyle: const TextStyle(
                                                         fontWeight:
                                                             FontWeight.bold,
                                                         fontSize: 12,
@@ -462,14 +462,14 @@ class _ConfigCouponScreenState extends State<ConfigCouponScreen> {
                                           color: Colors.blue.shade600,
                                         ),
                                         alignment: Alignment.center,
-                                        padding: EdgeInsets.symmetric(
+                                        padding: const EdgeInsets.symmetric(
                                           vertical: 5,
                                           horizontal: 8,
                                         ),
                                         child: Text(
                                           "Salvar",
                                           style: GoogleFonts.poppins(
-                                            textStyle: TextStyle(
+                                            textStyle: const TextStyle(
                                               color: Colors.white,
                                               fontSize: 15,
                                               fontWeight: FontWeight.w500,
@@ -489,7 +489,7 @@ class _ConfigCouponScreenState extends State<ConfigCouponScreen> {
                 ),
               ),
             )
-          : Center(
+          : const Center(
               child: CircularProgressIndicator.adaptive(),
             ),
     );

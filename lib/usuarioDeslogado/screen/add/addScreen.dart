@@ -2004,7 +2004,7 @@ class _AddScreenUserDeslogadoState extends State<AddScreenUserDeslogado> {
                                     );
                                   },
                                 ),
-                              ) : Center(child: CircularProgressIndicator.adaptive(),),
+                              ) : const Center(child: CircularProgressIndicator.adaptive(),),
                             //CONTAINER DA HORA - FIM
                             //botao do agendar - inicio
 

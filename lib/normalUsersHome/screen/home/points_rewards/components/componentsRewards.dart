@@ -86,7 +86,7 @@ class _ComponentDataRewardsState extends State<ComponentDataRewards> {
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
           child: Container(
-            padding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+            padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(20),
@@ -125,14 +125,14 @@ class _ComponentDataRewardsState extends State<ComponentDataRewards> {
                     )
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 15,
                 ),
                 Container(
                   child: Text(
                     "Regras da Troca de pontos",
                     style: GoogleFonts.openSans(
-                      textStyle: TextStyle(
+                      textStyle: const TextStyle(
                         fontSize: 16,
                         color: Colors.black,
                         fontWeight: FontWeight.w700,
@@ -140,7 +140,7 @@ class _ComponentDataRewardsState extends State<ComponentDataRewards> {
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 15,
                 ),
                 Container(
@@ -184,7 +184,7 @@ class _ComponentDataRewardsState extends State<ComponentDataRewards> {
                     Text(
                       'Resgate seus pontos',
                       style: GoogleFonts.poppins(
-                        textStyle: TextStyle(
+                        textStyle: const TextStyle(
                           fontWeight: FontWeight.w600,
                           color: Colors.white,
                           fontSize: 18,
@@ -194,7 +194,7 @@ class _ComponentDataRewardsState extends State<ComponentDataRewards> {
                     Text(
                       'Seus benefícios por acumular',
                       style: GoogleFonts.openSans(
-                        textStyle: TextStyle(
+                        textStyle: const TextStyle(
                           fontWeight: FontWeight.w400,
                           color: Colors.white,
                           fontSize: 12,
@@ -233,7 +233,7 @@ class _ComponentDataRewardsState extends State<ComponentDataRewards> {
                           child: Text(
                             "${pontuacaoTotalCliente ?? 0}",
                             style: GoogleFonts.poppins(
-                              textStyle: TextStyle(
+                              textStyle: const TextStyle(
                                 fontSize: 24,
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,
@@ -263,7 +263,7 @@ class _ComponentDataRewardsState extends State<ComponentDataRewards> {
               padding: const EdgeInsets.only(top: 10),
               child: Container(
                 width: double.infinity,
-                padding: EdgeInsets.symmetric(
+                padding: const EdgeInsets.symmetric(
                   vertical: 15,
                 ),
                 // color: Colors.white,
@@ -293,7 +293,7 @@ class _ComponentDataRewardsState extends State<ComponentDataRewards> {
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
                         Container(
@@ -313,7 +313,7 @@ class _ComponentDataRewardsState extends State<ComponentDataRewards> {
                             ? "Você já pode resgatar o prêmio!"
                             : "Colete ${quantosFaltam ?? 0} pontos para resgatar o prêmio",
                         style: GoogleFonts.openSans(
-                          textStyle: TextStyle(
+                          textStyle: const TextStyle(
                             fontWeight: FontWeight.w300,
                             color: Colors.white,
                             fontSize: 13,
@@ -337,7 +337,7 @@ class _ComponentDataRewardsState extends State<ComponentDataRewards> {
               width: 0.3,
               color: Colors.grey.shade200,
             ),
-            borderRadius: BorderRadius.only(
+            borderRadius: const BorderRadius.only(
               bottomLeft: Radius.elliptical(25, 25),
               bottomRight: Radius.elliptical(25, 25),
               topLeft: Radius.elliptical(25, 25),
@@ -362,7 +362,7 @@ class _ComponentDataRewardsState extends State<ComponentDataRewards> {
                 child: Text(
                   "${pontuacaoMeta ?? 0}",
                   style: GoogleFonts.poppins(
-                    textStyle: TextStyle(
+                    textStyle: const TextStyle(
                         fontSize: 60,
                         fontWeight: FontWeight.w800,
                         color: Colors.white),
@@ -375,7 +375,7 @@ class _ComponentDataRewardsState extends State<ComponentDataRewards> {
                     Text(
                       "Corte Gratuito",
                       style: GoogleFonts.openSans(
-                        textStyle: TextStyle(
+                        textStyle: const TextStyle(
                           fontSize: 18,
                           color: Colors.black,
                           fontWeight: FontWeight.w700,
@@ -418,7 +418,7 @@ class _ComponentDataRewardsState extends State<ComponentDataRewards> {
                 child: Text(
                   "Veja as regras...",
                   style: GoogleFonts.poppins(
-                    textStyle: TextStyle(
+                    textStyle: const TextStyle(
                       fontSize: 12,
                       color: Colors.black,
                       fontWeight: FontWeight.bold,
@@ -454,7 +454,7 @@ class _ComponentDataRewardsState extends State<ComponentDataRewards> {
                           ),
                   ),
                   alignment: Alignment.center,
-                  padding: EdgeInsets.symmetric(
+                  padding: const EdgeInsets.symmetric(
                     vertical: 5,
                     horizontal: 10,
                   ),
@@ -468,7 +468,7 @@ class _ComponentDataRewardsState extends State<ComponentDataRewards> {
                           color: Colors.grey.shade800,
                         ),
                       if (liberadoParaResgate == false)
-                        SizedBox(
+                        const SizedBox(
                           width: 5,
                         ),
                       Text(
@@ -476,7 +476,7 @@ class _ComponentDataRewardsState extends State<ComponentDataRewards> {
                             ? "Trocar os Pontos"
                             : 'Libera ao alcançar',
                         style: GoogleFonts.openSans(
-                          textStyle: TextStyle(
+                          textStyle: const TextStyle(
                             fontSize: 14,
                             color: Colors.white,
                             fontWeight: FontWeight.w500,

@@ -31,7 +31,7 @@ class _AtualizacaoDePrecoDoManagerState
               title: Text(
                 "Confirmar Alteração?",
                 style: GoogleFonts.poppins(
-                  textStyle: TextStyle(
+                  textStyle: const TextStyle(
                     fontWeight: FontWeight.w600,
                     color: Colors.black,
                     fontSize: 14,
@@ -41,7 +41,7 @@ class _AtualizacaoDePrecoDoManagerState
               content: Text(
                 "Este valor sera alterado para o novo, mas você pode editar quantas vezes precisar",
                 style: GoogleFonts.poppins(
-                  textStyle: TextStyle(
+                  textStyle: const TextStyle(
                     fontWeight: FontWeight.w400,
                     color: Colors.black,
                     fontSize: 12,
@@ -57,7 +57,7 @@ class _AtualizacaoDePrecoDoManagerState
                   child: Text(
                     "Cancelar",
                     style: GoogleFonts.poppins(
-                      textStyle: TextStyle(
+                      textStyle: const TextStyle(
                         fontWeight: FontWeight.w400,
                         color: Colors.black,
                         fontSize: 12,
@@ -79,7 +79,7 @@ class _AtualizacaoDePrecoDoManagerState
                   child: Text(
                     "Confirmar alteração",
                     style: GoogleFonts.poppins(
-                      textStyle: TextStyle(
+                      textStyle: const TextStyle(
                         fontWeight: FontWeight.w400,
                         color: Colors.black,
                         fontSize: 12,
@@ -99,14 +99,14 @@ class _AtualizacaoDePrecoDoManagerState
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.only(
           topLeft: Radius.elliptical(25, 25),
           topRight: Radius.elliptical(25, 25),
         ),
       ),
-      padding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+      padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
       width: double.infinity,
       height: MediaQuery.of(context).size.height * 0.7,
       child: Column(
@@ -115,7 +115,7 @@ class _AtualizacaoDePrecoDoManagerState
           Text(
             "Atualização de valor",
             style: GoogleFonts.openSans(
-              textStyle: TextStyle(
+              textStyle: const TextStyle(
                 fontSize: 16,
                 color: Colors.black,
                 fontWeight: FontWeight.w700,
@@ -127,7 +127,7 @@ class _AtualizacaoDePrecoDoManagerState
             child: Text(
               "Troque o valor para caso tenha alguma venda externa, procedimento extra ou desconto para manter o sistema sempre atualzado.",
               style: GoogleFonts.openSans(
-                textStyle: TextStyle(
+                textStyle: const TextStyle(
                   fontSize: 13,
                   color: Colors.black54,
                   fontWeight: FontWeight.w500,
@@ -135,10 +135,10 @@ class _AtualizacaoDePrecoDoManagerState
               ),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 5,
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           Container(
@@ -150,14 +150,14 @@ class _AtualizacaoDePrecoDoManagerState
                   child: Container(
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
+                      borderRadius: const BorderRadius.only(
                         topLeft: Radius.elliptical(15, 15),
                         bottomLeft: Radius.elliptical(15, 15),
                       ),
                       color: Colors.blue.shade600,
                     ),
                     height: MediaQuery.of(context).size.height * 0.3,
-                    child: Icon(
+                    child: const Icon(
                       Icons.monetization_on_outlined,
                       size: 50,
                       color: Colors.white,
@@ -166,10 +166,10 @@ class _AtualizacaoDePrecoDoManagerState
                 ),
                 Expanded(
                   child: Container(
-                    padding: EdgeInsets.symmetric(vertical: 20),
+                    padding: const EdgeInsets.symmetric(vertical: 20),
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
+                      borderRadius: const BorderRadius.only(
                         topRight: Radius.elliptical(15, 15),
                         bottomRight: Radius.elliptical(15, 15),
                       ),
@@ -185,7 +185,7 @@ class _AtualizacaoDePrecoDoManagerState
                           label: Text(
                             'Clique para digitar',
                             style: GoogleFonts.poppins(
-                              textStyle: TextStyle(
+                              textStyle: const TextStyle(
                                 fontSize: 12,
                                 color: Colors.black54,
                                 fontWeight: FontWeight.w500,
@@ -211,11 +211,11 @@ class _AtualizacaoDePrecoDoManagerState
                 ),
                 alignment: Alignment.center,
                 width: double.infinity,
-                padding: EdgeInsets.symmetric(vertical: 15),
+                padding: const EdgeInsets.symmetric(vertical: 15),
                 child: Text(
                   "Atualizar Agora",
                   style: GoogleFonts.poppins(
-                    textStyle: TextStyle(
+                    textStyle: const TextStyle(
                       fontSize: 15,
                       color: Colors.white,
                       fontWeight: FontWeight.w500,

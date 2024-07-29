@@ -1897,7 +1897,7 @@ class _EncaixeScreenProfissionalOptionHomeProfState
                                   );
                                 },
                               )
-                            : Center(
+                            : const Center(
                                 child: CircularProgressIndicator.adaptive(),
                               ),
                       ),
