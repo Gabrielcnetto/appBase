@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:lionsbarberv1/classes/Estabelecimento.dart';
 import 'package:lionsbarberv1/functions/StripeCobrancas.dart';
@@ -514,36 +515,63 @@ class _ScreenComponentsMyProfileState extends State<ScreenComponentsMyProfile> {
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 15),
-                        child: Container(
-                          alignment: Alignment.center,
-                          width: double.infinity,
-                          padding: EdgeInsets.symmetric(vertical: 10),
-                          decoration: BoxDecoration(
-                            color: Colors.blue.shade600,
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.account_balance_wallet,
-                                color: Colors.white,
-                                size: 15,
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Text(
-                                'Adicione Créditos',
-                                style: GoogleFonts.openSans(
-                                  textStyle: TextStyle(
-                                    fontSize: 12,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w500,
+                        child: InkWell(
+                          onTap: () {
+                            if (!kIsWeb) {
+                              makePayment();
+                            } else {
+                              showDialog(
+                                context: context,
+                                builder: (ctx) {
+                                  return AlertDialog(
+                                    title: Text('Disponível somente no app'),
+                                    content: Text(
+                                        'Para adicionar créditos, utilize o aplicativo da ${Estabelecimento.nomeLocal}'),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: Text('Fechar'),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            }
+                            ;
+                          },
+                          child: Container(
+                            alignment: Alignment.center,
+                            width: double.infinity,
+                            padding: EdgeInsets.symmetric(vertical: 10),
+                            decoration: BoxDecoration(
+                              color: Colors.blue.shade600,
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.account_balance_wallet,
+                                  color: Colors.white,
+                                  size: 15,
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Text(
+                                  'Adicione Créditos',
+                                  style: GoogleFonts.openSans(
+                                    textStyle: TextStyle(
+                                      fontSize: 12,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w500,
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                       ),
@@ -777,51 +805,524 @@ class _ScreenComponentsMyProfileState extends State<ScreenComponentsMyProfile> {
               //BLOCO DAS ASSINATURAS
               Padding(
                 padding: const EdgeInsets.only(top: 20),
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Colors.blue.shade600,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        padding:
-                            EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-                        width: MediaQuery.of(context).size.width * 0.55,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 10),
+                      child: Container(
+                        width: double.infinity,
                         child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Corte 1x por semana',
-                              style: GoogleFonts.poppins(
+                              'Escolha Seu Plano',
+                              style: GoogleFonts.openSans(
                                 textStyle: TextStyle(
-                                  color: Colors.white,
+                                  fontSize: 22,
                                   fontWeight: FontWeight.w600,
-                                  fontSize: 15,
                                 ),
                               ),
-                            ),
-                            SizedBox(
-                              height: 5,
                             ),
                             Text(
-                              'Pague somente 1x ao mês no crédito',
-                              style: GoogleFonts.poppins(
+                              'Ignore as filas, tenha um horário fixo e pague no crédito apenas 1x ao mês.',
+                              style: GoogleFonts.openSans(
                                 textStyle: TextStyle(
-                                  color: Colors.white60,
+                                  fontSize: 14,
+                                  color: Colors.black54,
                                   fontWeight: FontWeight.w400,
-                                  fontSize: 12,
                                 ),
                               ),
-                            )
+                            ),
                           ],
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(right: 15),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.blue.shade600,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 20, horizontal: 20),
+                              width: MediaQuery.of(context).size.width * 0.75,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Corte +barba sem fila',
+                                    style: GoogleFonts.poppins(
+                                      textStyle: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 22,
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Text(
+                                    'Tenha um horário fixo e sempre disponível na ${Estabelecimento.nomeLocal}, pague no crédito e com benefícios exclusivos.',
+                                    style: GoogleFonts.poppins(
+                                      textStyle: TextStyle(
+                                        color: Colors.white60,
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 10),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        //blocos do beneficio
+                                        Container(
+                                          alignment: Alignment.center,
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                          ),
+                                          padding: EdgeInsets.symmetric(
+                                            vertical: 5,
+                                            horizontal: 5,
+                                          ),
+                                          child: Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                'Barba inclusa',
+                                                style: GoogleFonts.openSans(
+                                                  textStyle: TextStyle(
+                                                    fontWeight: FontWeight.w600,
+                                                    color: Colors.black,
+                                                    fontSize: 12,
+                                                  ),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 5),
+                                                child: Icon(
+                                                  Icons.done_all,
+                                                  color: Colors.blue.shade600,
+                                                  size: 18,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 5),
+                                          child: Container(
+                                            alignment: Alignment.center,
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                            ),
+                                            padding: EdgeInsets.symmetric(
+                                              vertical: 5,
+                                              horizontal: 5,
+                                            ),
+                                            child: Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Text(
+                                                  '1 vez por semana',
+                                                  style: GoogleFonts.openSans(
+                                                    textStyle: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      color: Colors.black,
+                                                      fontSize: 12,
+                                                    ),
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 5),
+                                                  child: Icon(
+                                                    Icons.done_all,
+                                                    color: Colors.blue.shade600,
+                                                    size: 18,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 5),
+                                          child: Container(
+                                            alignment: Alignment.center,
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                            ),
+                                            padding: EdgeInsets.symmetric(
+                                              vertical: 5,
+                                              horizontal: 5,
+                                            ),
+                                            child: Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Text(
+                                                  'Pague apenas 1x ao mês',
+                                                  style: GoogleFonts.openSans(
+                                                    textStyle: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      color: Colors.black,
+                                                      fontSize: 12,
+                                                    ),
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 5),
+                                                  child: Icon(
+                                                    Icons.done_all,
+                                                    color: Colors.blue.shade600,
+                                                    size: 18,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        //blocos do beneficio
+                                      ],
+                                    ),
+                                  ),
+                                  //fim dos beneficios
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 10),
+                                    child: Container(
+                                      padding:
+                                          EdgeInsets.symmetric(vertical: 10),
+                                      width: double.infinity,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            'R\$240,00/mês',
+                                            style: GoogleFonts.poppins(
+                                              textStyle: TextStyle(
+                                                fontSize: 22,
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold,
+                                                shadows: [
+                                                  Shadow(
+                                                    offset: Offset(2.0, 2.0),
+                                                    blurRadius: 2.0,
+                                                    color: Color.fromARGB(
+                                                        255, 0, 0, 0),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Expanded(
+                                        child: Container(
+                                          alignment: Alignment.center,
+                                          decoration: BoxDecoration(
+                                            color: const Color.fromARGB(
+                                                255, 65, 191, 72),
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                          ),
+                                          padding: EdgeInsets.symmetric(
+                                              vertical: 10),
+                                          child: Text(
+                                            'Assinar Agora',
+                                            style: GoogleFonts.openSans(
+                                              textStyle: TextStyle(
+                                                fontWeight: FontWeight.w600,
+                                                color: Colors.white,
+                                                fontSize: 14,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+
+                          //segundo bloco
+                          Container(
+                            decoration: BoxDecoration(
+                              color: Colors.blue.shade600,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            padding: EdgeInsets.symmetric(
+                                vertical: 20, horizontal: 20),
+                            width: MediaQuery.of(context).size.width * 0.75,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Corte sem fila',
+                                  style: GoogleFonts.poppins(
+                                    textStyle: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 22,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Text(
+                                  'Tenha um horário fixo e sempre disponível na ${Estabelecimento.nomeLocal}, pague no crédito e com benefícios exclusivos.',
+                                  style: GoogleFonts.poppins(
+                                    textStyle: TextStyle(
+                                      color: Colors.white60,
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 10),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      //blocos do beneficio
+                                      Container(
+                                        alignment: Alignment.center,
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                        ),
+                                        padding: EdgeInsets.symmetric(
+                                          vertical: 5,
+                                          horizontal: 5,
+                                        ),
+                                        child: Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              'Barba não inclusa',
+                                              style: GoogleFonts.openSans(
+                                                textStyle: TextStyle(
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Colors.black54,
+                                                  fontSize: 12,
+                                                ),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 5),
+                                              child: Icon(
+                                                Icons.close,
+                                                color: Colors.red.shade600,
+                                                size: 18,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 5),
+                                        child: Container(
+                                          alignment: Alignment.center,
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                          ),
+                                          padding: EdgeInsets.symmetric(
+                                            vertical: 5,
+                                            horizontal: 5,
+                                          ),
+                                          child: Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                '1 vez por semana',
+                                                style: GoogleFonts.openSans(
+                                                  textStyle: TextStyle(
+                                                    fontWeight: FontWeight.w600,
+                                                    color: Colors.black,
+                                                    fontSize: 12,
+                                                  ),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 5),
+                                                child: Icon(
+                                                  Icons.done_all,
+                                                  color: Colors.blue.shade600,
+                                                  size: 18,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 5),
+                                        child: Container(
+                                          alignment: Alignment.center,
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                          ),
+                                          padding: EdgeInsets.symmetric(
+                                            vertical: 5,
+                                            horizontal: 5,
+                                          ),
+                                          child: Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                'Pague apenas 1x ao mês',
+                                                style: GoogleFonts.openSans(
+                                                  textStyle: TextStyle(
+                                                    fontWeight: FontWeight.w600,
+                                                    color: Colors.black,
+                                                    fontSize: 12,
+                                                  ),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 5),
+                                                child: Icon(
+                                                  Icons.done_all,
+                                                  color: Colors.blue.shade600,
+                                                  size: 18,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      //blocos do beneficio
+                                    ],
+                                  ),
+                                ),
+                                //fim dos beneficios
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 10),
+                                  child: Container(
+                                    padding: EdgeInsets.symmetric(vertical: 10),
+                                    width: double.infinity,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          'R\$240,00/mês',
+                                          style: GoogleFonts.poppins(
+                                            textStyle: TextStyle(
+                                              fontSize: 22,
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                              shadows: [
+                                                Shadow(
+                                                  offset: Offset(2.0, 2.0),
+                                                  blurRadius: 2.0,
+                                                  color: Color.fromARGB(
+                                                      255, 0, 0, 0),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Expanded(
+                                      child: Container(
+                                        alignment: Alignment.center,
+                                        decoration: BoxDecoration(
+                                          color: const Color.fromARGB(
+                                              255, 65, 191, 72),
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                        ),
+                                        padding:
+                                            EdgeInsets.symmetric(vertical: 10),
+                                        child: Text(
+                                          'Assinar Agora',
+                                          style: GoogleFonts.openSans(
+                                            textStyle: TextStyle(
+                                              fontWeight: FontWeight.w600,
+                                              color: Colors.white,
+                                              fontSize: 14,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],
