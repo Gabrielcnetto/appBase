@@ -3,8 +3,9 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:lionsbarberv1/classes/Estabelecimento.dart';
-import 'package:lionsbarberv1/functions/StripeCobrancas.dart';
+import 'package:lionsbarberv1/functions/stripe_subscriptions.dart';
 import 'package:lionsbarberv1/functions/userLogin.dart';
+import 'package:lionsbarberv1/normalUsersHome/screen/profile/profilescreencomponents/TelaVisaoAssinatura.dart';
 import 'package:lionsbarberv1/normalUsersHome/screen/profile/profilescreencomponents/addCreditos.dart';
 import 'package:lionsbarberv1/normalUsersHome/screen/profile/profilescreencomponents/dados_conta_config.dart';
 import 'package:lionsbarberv1/rotas/Approutes.dart';
@@ -40,7 +41,6 @@ class _ScreenComponentsMyProfileState extends State<ScreenComponentsMyProfile> {
     loadSaldo();
   }
 
-  
   void modalNewNome() {
     showModalBottomSheet(
       isScrollControlled: true,
@@ -498,14 +498,18 @@ class _ScreenComponentsMyProfileState extends State<ScreenComponentsMyProfile> {
     });
   }
 
- double saldoTotal = 0;
+  double saldoTotal = 0;
   Future<void> loadSaldo() async {
-    double? PointOfClient = await Provider.of<MyProfileScreenFunctions>(context, listen: false).getUserSaldo();
+    double? PointOfClient =
+        await Provider.of<MyProfileScreenFunctions>(context, listen: false)
+            .getUserSaldo();
     setState(() {
       saldoTotal = PointOfClient!.toDouble();
-      
     });
   }
+
+  bool verSaldo = false;
+
   @override
   Widget build(BuildContext context) {
     final widhScren = MediaQuery.of(context).size.width;
@@ -593,16 +597,25 @@ class _ScreenComponentsMyProfileState extends State<ScreenComponentsMyProfile> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                'R\$ ${saldoTotal.toStringAsFixed(2).replaceAll('.', ',')}',
-                                style: GoogleFonts.poppins(
-                                  textStyle: const TextStyle(
-                                    fontSize: 22,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ),
+                              verSaldo == true
+                                  ? Text(
+                                      'R\$ ${saldoTotal.toStringAsFixed(2).replaceAll('.', ',')}',
+                                      style: GoogleFonts.poppins(
+                                        textStyle: const TextStyle(
+                                          fontSize: 22,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    )
+                                  : Container(
+                                      width: 50,
+                                      height: 15,
+                                      decoration: BoxDecoration(
+                                        color: Colors.grey.shade300,
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                    ),
                               const SizedBox(
                                 height: 3,
                               ),
@@ -618,16 +631,25 @@ class _ScreenComponentsMyProfileState extends State<ScreenComponentsMyProfile> {
                               ),
                             ],
                           ),
-                          Container(
-                            alignment: Alignment.center,
-                            padding: const EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              color: Colors.grey.shade300,
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: const Icon(
-                              Icons.visibility,
-                              size: 18,
+                          InkWell(
+                            onTap: () {
+                              setState(() {
+                                verSaldo = !verSaldo;
+                              });
+                            },
+                            child: Container(
+                              alignment: Alignment.center,
+                              padding: const EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                color: Colors.grey.shade300,
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: Icon(
+                                verSaldo == false
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
+                                size: 18,
+                              ),
                             ),
                           ),
                         ],
@@ -1199,23 +1221,30 @@ class _ScreenComponentsMyProfileState extends State<ScreenComponentsMyProfile> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Expanded(
-                                        child: Container(
-                                          alignment: Alignment.center,
-                                          decoration: BoxDecoration(
-                                            color: const Color.fromARGB(
-                                                255, 65, 191, 72),
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                          ),
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 10),
-                                          child: Text(
-                                            'Assinar Agora',
-                                            style: GoogleFonts.openSans(
-                                              textStyle: const TextStyle(
-                                                fontWeight: FontWeight.w600,
-                                                color: Colors.white,
-                                                fontSize: 14,
+                                        child: InkWell(
+                                          onTap: (){
+                                            Navigator.of(context).push(DialogRoute(context: context, builder: (ctx){
+                                              return TelaVisaoAssinaturaPagamento();
+                                            }));
+                                          },
+                                          child: Container(
+                                            alignment: Alignment.center,
+                                            decoration: BoxDecoration(
+                                              color: const Color.fromARGB(
+                                                  255, 65, 191, 72),
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                            ),
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 10),
+                                            child: Text(
+                                              'Assinar Agora',
+                                              style: GoogleFonts.openSans(
+                                                textStyle: const TextStyle(
+                                                  fontWeight: FontWeight.w600,
+                                                  color: Colors.white,
+                                                  fontSize: 14,
+                                                ),
                                               ),
                                             ),
                                           ),

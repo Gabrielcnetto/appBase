@@ -7,7 +7,6 @@ import 'package:lionsbarberv1/classes/cortecClass.dart';
 import 'package:lionsbarberv1/firebase_options.dart';
 import 'package:lionsbarberv1/functions/CorteProvider.dart';
 import 'package:lionsbarberv1/functions/ManyChatConfirmation.dart';
-import 'package:lionsbarberv1/functions/StripeCobrancas.dart';
 import 'package:lionsbarberv1/functions/agendaDataHorarios.dart';
 import 'package:lionsbarberv1/functions/createAccount.dart';
 import 'package:lionsbarberv1/functions/cupomProvider.dart';
@@ -102,9 +101,6 @@ class _MyAppState extends State<MyApp> {
         ),
         ChangeNotifierProvider(
           create: (_) => CupomProvider(),
-        ),
-        ChangeNotifierProvider(
-          create: (_) => StripeCobrancasProvider(),
         ),
       ],
 
