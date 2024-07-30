@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:lionsbarberv1/classes/Estabelecimento.dart';
+import 'package:lionsbarberv1/functions/managerScreenFunctions.dart';
 import 'package:lionsbarberv1/functions/stripe_subscriptions.dart';
 import 'package:lionsbarberv1/functions/userLogin.dart';
 import 'package:lionsbarberv1/normalUsersHome/screen/profile/profilescreencomponents/TelaVisaoAssinatura.dart';
@@ -39,6 +40,8 @@ class _ScreenComponentsMyProfileState extends State<ScreenComponentsMyProfile> {
     loadUserName();
     urlImageFuncion();
     loadSaldo();
+    LoadPrice();
+
   }
 
   void modalNewNome() {
@@ -509,7 +512,43 @@ class _ScreenComponentsMyProfileState extends State<ScreenComponentsMyProfile> {
   }
 
   bool verSaldo = false;
+  double valorDaAssinaturaComBarba = 0;
+  double valorDaAssinaturaSemBarba = 0;
+  //enviar assinatura e get da assinatura para somas e mostrar
+  int atualPrice = 0;
+  Future<void> LoadPrice() async {
+    int? priceDB = await ManagerScreenFunctions().getPriceCorte();
+    print("pegamos a data do databse");
 
+    setState(() {
+      atualPrice = priceDB!;
+      somaValorSemBarba();
+      LoadPriceAdicionalBarba();
+    });
+  }
+
+  void somaValorSemBarba() {
+    setState(() {
+      valorDaAssinaturaSemBarba = (atualPrice * 4).toDouble();
+    });
+  }
+
+  //
+  int barbaPrice = 0;
+  Future<void> LoadPriceAdicionalBarba() async {
+    int? priceDB = await ManagerScreenFunctions().getAdicionalBarbaCorte();
+
+    setState(() {
+      barbaPrice = priceDB!;
+      somaValorBarbaECabelo();
+    });
+  }
+
+  void somaValorBarbaECabelo(){
+    setState(() {
+      valorDaAssinaturaComBarba = ((barbaPrice += atualPrice) * 4).toDouble();
+    });
+  }
   @override
   Widget build(BuildContext context) {
     final widhScren = MediaQuery.of(context).size.width;
@@ -1196,7 +1235,7 @@ class _ScreenComponentsMyProfileState extends State<ScreenComponentsMyProfile> {
                                             MainAxisAlignment.center,
                                         children: [
                                           Text(
-                                            'R\$240,00/mês',
+                                            'R\$${valorDaAssinaturaComBarba.toStringAsFixed(2).replaceAll('.', ',')}/mês',
                                             style: GoogleFonts.poppins(
                                               textStyle: const TextStyle(
                                                 fontSize: 22,
@@ -1222,10 +1261,16 @@ class _ScreenComponentsMyProfileState extends State<ScreenComponentsMyProfile> {
                                     children: [
                                       Expanded(
                                         child: InkWell(
-                                          onTap: (){
-                                            Navigator.of(context).push(DialogRoute(context: context, builder: (ctx){
-                                              return TelaVisaoAssinaturaPagamento();
-                                            }));
+                                          onTap: () {
+                                            Navigator.of(context)
+                                                .push(DialogRoute(
+                                                    context: context,
+                                                    builder: (ctx) {
+                                                      return TelaVisaoAssinaturaPagamento(
+                                                        valorAssinatura:
+                                                            valorDaAssinaturaComBarba,
+                                                      );
+                                                    }));
                                           },
                                           child: Container(
                                             alignment: Alignment.center,
@@ -1439,7 +1484,7 @@ class _ScreenComponentsMyProfileState extends State<ScreenComponentsMyProfile> {
                                           MainAxisAlignment.center,
                                       children: [
                                         Text(
-                                          'R\$240,00/mês',
+                                          'R\$${valorDaAssinaturaSemBarba.toStringAsFixed(2).replaceAll('.', ',')}/mês',
                                           style: GoogleFonts.poppins(
                                             textStyle: const TextStyle(
                                               fontSize: 22,

@@ -15,6 +15,7 @@ import 'package:lionsbarberv1/functions/managerScreenFunctions.dart';
 import 'package:lionsbarberv1/functions/profileScreenFunctions.dart';
 import 'package:lionsbarberv1/functions/providerFilterStrings.dart';
 import 'package:lionsbarberv1/functions/rankingProviderHome.dart';
+import 'package:lionsbarberv1/functions/stripe_subscriptions.dart';
 
 import 'package:lionsbarberv1/functions/userLogin.dart';
 import 'package:lionsbarberv1/managerHome/screen/home/homeScreen01.dart';
@@ -102,6 +103,7 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(
           create: (_) => CupomProvider(),
         ),
+        ChangeNotifierProvider(create: (_)=>StripeSubscriptions(),),
       ],
 
       //TESTE DO REPOSITORIO

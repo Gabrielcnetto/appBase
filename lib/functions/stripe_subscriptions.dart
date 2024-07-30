@@ -30,7 +30,7 @@ class StripeSubscriptions with ChangeNotifier {
     }
   }
 
-  Future<Map<String, dynamic>> createPrice(int amount) async {
+  Future<Map<String, dynamic>> createPrice(double amount) async {
     final response = await http.post(
       Uri.parse('https://api.stripe.com/v1/prices'),
       headers: {
@@ -96,7 +96,7 @@ class StripeSubscriptions with ChangeNotifier {
 
 
   Future<void> createAndSubscribeCustomer(
-      String email, int amount, PaymentMethod paymentMethod) async {
+      String email, double amount, PaymentMethod paymentMethod) async {
     final customer = await createCustomer(email);
     final customerId = customer['id'];
 
