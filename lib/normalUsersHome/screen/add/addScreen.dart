@@ -291,7 +291,6 @@ class _AddScreenState extends State<AddScreen> {
       atualPrice = priceDB!;
       valorFinalCobrado = priceDB!;
       LoadPriceAdicionalBarba();
-      
     });
   }
 
@@ -766,16 +765,28 @@ class _AddScreenState extends State<AddScreen> {
                               ),
                             ),
                           ),
-
-                          Text(
-                            toggleUsarSaldoParaPagar == true ? 'Pagamento feito pelo Aplicativo': 'Pagamento no dia do corte',
-                            style: GoogleFonts.openSans(
-                              textStyle: const TextStyle(
-                                fontWeight: FontWeight.w600,
-                                color: Colors.black,
+                          if (widget.cupomActive == false)
+                            Text(
+                              toggleUsarSaldoParaPagar == true
+                                  ? 'Pagamento feito pelo Aplicativo'
+                                  : 'Pagamento no dia do corte',
+                              style: GoogleFonts.openSans(
+                                textStyle: const TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black,
+                                ),
                               ),
                             ),
-                          ),
+                          if (widget.cupomActive == true)
+                            Text(
+                              'Pagamento feito com cupons',
+                              style: GoogleFonts.openSans(
+                                textStyle: const TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
                         ],
                       ),
                     ),
@@ -2346,9 +2357,10 @@ class _AddScreenState extends State<AddScreen> {
                             //CONTAINER DA HORA - FIM
 
                             //container do pagamento online - inicio
-                            // if ((/*!kIsWeb || */UsuarioPremium == false) &&
-                            //     hourSetForUser != null)
-                            if (hourSetForUser != null)
+                            //if ((/*!kIsWeb || */UsuarioPremium == false) &&
+                            //     hourSetForUser != null && widget.cupomActive == false)
+                            if (hourSetForUser != null &&
+                                widget.cupomActive == false)
                               Padding(
                                 padding: const EdgeInsets.only(top: 15),
                                 child: Container(
