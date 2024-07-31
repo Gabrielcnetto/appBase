@@ -1,6 +1,8 @@
 // ignore_for_file: file_names, non_constant_identifier_names, duplicate_ignore
 
 class CorteClass {
+  final bool pagoComCreditos;
+  final bool feitoporassinatura;
   final int easepoints;
   final String id;
   final bool isActive;
@@ -22,6 +24,8 @@ class CorteClass {
   final String detalheDoProcedimento;
   final bool apenasBarba;
   CorteClass({
+    required this.feitoporassinatura,
+    required this.pagoComCreditos,
     required this.pagoComCupom,
     required this.easepoints,
     required this.detalheDoProcedimento,

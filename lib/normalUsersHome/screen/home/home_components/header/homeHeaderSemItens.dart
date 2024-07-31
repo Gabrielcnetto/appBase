@@ -34,6 +34,7 @@ class _HomeHeaderSemListaState extends State<HomeHeaderSemLista> {
     urlImageFuncion();
     pontuacaoTotalCliente;
     loadpoints();
+    loadPremium();
   }
 
 int? pontuacaoTotalCliente;
@@ -114,7 +115,14 @@ int? pontuacaoTotalCliente;
     // Calcula o progresso com base nos pontos acumulados
     return valorPoints / 12.0;
   }
+ bool? UsuarioPremium;
+  Future<void> loadPremium() async {
+    bool? boolDATABASE = await MyProfileScreenFunctions().getPremiumOrNot();
 
+    setState(() {
+      UsuarioPremium = boolDATABASE;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     final tamanhoTela = MediaQuery.of(context).size;
@@ -198,7 +206,8 @@ int? pontuacaoTotalCliente;
                                 ),
                               ),
                               Text(
-                                "Você Possui ${pontuacaoTotalCliente ?? 0} Pontos",
+                                
+                                UsuarioPremium == true ? 'Sua assinatura está ativa!': "Você Possui ${pontuacaoTotalCliente ?? 0} Pontos",
                                 style: GoogleFonts.openSans(
                                   textStyle: TextStyle(
                                     fontWeight: FontWeight.w500,

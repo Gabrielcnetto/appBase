@@ -41,6 +41,7 @@ class _HomePageHeaderState extends State<HomePageHeader> {
     loadpoints();
     userName;
     urlImageFuncion();
+    loadPremium();
     Provider.of<CorteProvider>(context, listen: false).userCortesTotal;
     Provider.of<CorteProvider>(context, listen: false).loadHistoryCortes;
   }
@@ -126,6 +127,15 @@ class _HomePageHeaderState extends State<HomePageHeader> {
   double calcularProgresso() {
     // Calcula o progresso com base nos pontos acumulados
     return valorPoints / 12.0;
+  }
+
+  bool? UsuarioPremium;
+  Future<void> loadPremium() async {
+    bool? boolDATABASE = await MyProfileScreenFunctions().getPremiumOrNot();
+
+    setState(() {
+      UsuarioPremium = boolDATABASE;
+    });
   }
 
   Future<void> onDismissedFunction() async {}
@@ -222,7 +232,7 @@ class _HomePageHeaderState extends State<HomePageHeader> {
                               ),
                             ),
                             Text(
-                              "Você Possui ${pontuacaoTotalCliente ?? 0} Pontos",
+                               UsuarioPremium == true ? 'Sua assinatura está ativa!': "Você Possui ${pontuacaoTotalCliente ?? 0} Pontos",
                               style: GoogleFonts.openSans(
                                 textStyle: TextStyle(
                                   fontWeight: FontWeight.w500,
@@ -234,8 +244,7 @@ class _HomePageHeaderState extends State<HomePageHeader> {
                           ],
                         ),
                         CircularProgressWithImage(
-                          totalCortes:
-                              pontuacaoTotalCliente ?? 0,
+                          totalCortes: pontuacaoTotalCliente ?? 0,
                           progress: calcularProgresso(),
                           imageSize: widget.widhTela / 5.5,
                           widghTela: widget.widhTela,
@@ -254,6 +263,8 @@ class _HomePageHeaderState extends State<HomePageHeader> {
               left: 20,
               child: ProfissionalCode(
                 corte: CorteClass(
+                  feitoporassinatura: _listaCortesUsuario.feitoporassinatura ?? false,
+                  pagoComCreditos: _listaCortesUsuario.pagoComCreditos ?? false,
                   pagoComCupom: _listaCortesUsuario.pagoComCupom ?? false,
                   easepoints: _listaCortesUsuario.easepoints ?? 0,
                   apenasBarba: _listaCortesUsuario.apenasBarba,

@@ -65,6 +65,8 @@ class ManagerScreenFunctions with ChangeNotifier {
           String documentName = doc.id;
           _listaCortes.add(
             CorteClass(
+              feitoporassinatura: false,
+              pagoComCreditos: false,
               pagoComCupom: false,
               easepoints: 0,
               apenasBarba: false,
@@ -139,6 +141,8 @@ class ManagerScreenFunctions with ChangeNotifier {
         print("tipos de dados:");
         print(data?["totalValue"].toString());
         return CorteClass(
+          feitoporassinatura: data?['feitoPorassinatura'] ?? false,
+          pagoComCreditos: data?['pagoComCreditos'] ?? false,
           pagoComCupom: data?['pagocomcupom'] ?? false,
           easepoints: data?['easepoints'] ?? 0,
           apenasBarba: false,
@@ -812,6 +816,8 @@ class ManagerScreenFunctions with ChangeNotifier {
         print("tipos de dados:");
         print(data?["totalValue"].toString());
         return CorteClass(
+          feitoporassinatura: data?['feitoPorassinatura'] ?? false,
+          pagoComCreditos: data?['pagoComCreditos'] ?? false,
           pagoComCupom: data?['pagocomcupom'] ?? false,
           easepoints: data?['easepoints'] ?? 0,
           apenasBarba: false,
@@ -896,6 +902,8 @@ class ManagerScreenFunctions with ChangeNotifier {
         print("tipos de dados:");
         print(data?["totalValue"].toString());
         return CorteClass(
+          feitoporassinatura: data?['feitoPorassinatura'] ?? false,
+          pagoComCreditos: data?['pagoComCreditos'] ?? false,
           pagoComCupom: data?['pagocomcupom'] ?? false,
           easepoints: data?['easepoints'] ?? 0,
           apenasBarba: false,

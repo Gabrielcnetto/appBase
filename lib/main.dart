@@ -165,6 +165,8 @@ class _MyAppState extends State<MyApp> {
           AppRoutesApp.ModalDeEdicao: (ctx) => const ModalDeEdicao(),
           AppRoutesApp.ChangeHourAndData: (ctx) => ChangeHourAndData(
                 corteWidget: CorteClass(
+                  feitoporassinatura: false,
+                  pagoComCreditos: false,
                   pagoComCupom: false,
                   easepoints: 0,
                   apenasBarba: false,

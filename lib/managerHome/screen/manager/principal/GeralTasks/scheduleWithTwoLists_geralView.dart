@@ -309,6 +309,8 @@ class _ScheduleWithTwoListsVer2ProfissionaisState
                             }
                             for (String horario in allHorariosExtra) {
                               CorteClass novaCorte = CorteClass(
+                                feitoporassinatura: false,
+                                pagoComCreditos: false,
                                 pagoComCupom: false,
                                 easepoints: 0,
                                 apenasBarba: false,
@@ -618,6 +620,8 @@ class _ScheduleWithTwoListsVer2ProfissionaisState
                             }
                             for (String horario in allHorariosExtra) {
                               CorteClass novaCorte = CorteClass(
+                                feitoporassinatura: false,
+                                pagoComCreditos: false,
                                 pagoComCupom: false,
                                 easepoints: 0,
                                 apenasBarba: false,

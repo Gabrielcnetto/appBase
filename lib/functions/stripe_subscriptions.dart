@@ -1,10 +1,14 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:http/http.dart' as http;
 
 class StripeSubscriptions with ChangeNotifier {
+  final database = FirebaseFirestore.instance;
+  final authSettings = FirebaseAuth.instance;
   String chavePublicavel =
       'pk_live_51PhN0AJbuFc8lkJcbRa8cs7RwiwCSYLDN9t0fYZBDzPljS3IZdjsjLnXdfySp6ag69vuah4kvBkEvrwaVpqvgi1700YJEUalH6';
   String chaveSecreta =
@@ -52,7 +56,6 @@ class StripeSubscriptions with ChangeNotifier {
     }
   }
 
-
   Future<Map<String, dynamic>> createSubscription(
       String customerId, String priceId) async {
     final response = await http.post(
@@ -74,10 +77,11 @@ class StripeSubscriptions with ChangeNotifier {
     }
   }
 
-    Future<Map<String, dynamic>> attachPaymentMethod(
+  Future<Map<String, dynamic>> attachPaymentMethod(
       String customerId, String paymentMethodId) async {
     final response = await http.post(
-      Uri.parse('https://api.stripe.com/v1/payment_methods/$paymentMethodId/attach'),
+      Uri.parse(
+          'https://api.stripe.com/v1/payment_methods/$paymentMethodId/attach'),
       headers: {
         'Authorization': 'Bearer $chaveSecreta',
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -93,7 +97,6 @@ class StripeSubscriptions with ChangeNotifier {
       throw Exception('Failed to attach payment method');
     }
   }
-
 
   Future<void> createAndSubscribeCustomer(
       String email, double amount, PaymentMethod paymentMethod) async {
@@ -117,5 +120,19 @@ class StripeSubscriptions with ChangeNotifier {
     final priceId = price['id'];
 
     await createSubscription(customerId, priceId);
+  }
+
+  //parte do banco de dados onde envia ao usuario que ele tem um bool positivo para assinatura
+
+  Future<void> enviarAssinaturaAtivaAoBancodeDados({required String tipoassinatura}) async {
+    final userid = await authSettings.currentUser!.uid;
+    try{
+      final postSignature = await database.collection('usuarios').doc(userid).update({
+        'assinatura': true,
+        'tipo_assinatura': tipoassinatura,
+      });
+    }catch(e){
+      print('ao enviar bool deu isto:$e');
+    }
   }
 }

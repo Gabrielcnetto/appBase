@@ -356,6 +356,8 @@ class _ScheduleWithTwoListsVisaoUnicaState
                         }
                         for (String horario in allHorariosExtra) {
                           CorteClass novaCorte = CorteClass(
+                            feitoporassinatura: false,
+                            pagoComCreditos: false,
                             pagoComCupom: false,
                             easepoints: 0,
                             apenasBarba: false,

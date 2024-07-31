@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:math';
+import 'package:flutter/foundation.dart';
 import 'package:lionsbarberv1/classes/Estabelecimento.dart';
 import 'package:lionsbarberv1/classes/cortecClass.dart';
 import 'package:lionsbarberv1/classes/cupomClass.dart';
@@ -12,6 +13,7 @@ import 'package:lionsbarberv1/functions/cupomProvider.dart';
 import 'package:lionsbarberv1/functions/horariosComuns.dart';
 import 'package:lionsbarberv1/functions/managerScreenFunctions.dart';
 import 'package:lionsbarberv1/functions/profileScreenFunctions.dart';
+import 'package:lionsbarberv1/normalUsersHome/screen/home/homeScreen01.dart';
 import 'package:lionsbarberv1/rotas/Approutes.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/cupertino.dart';
@@ -23,8 +25,8 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class AddScreen extends StatefulWidget {
-   bool cupomActive;
-   AddScreen({
+  bool cupomActive;
+  AddScreen({
     super.key,
     required this.cupomActive,
   });
@@ -54,6 +56,7 @@ class _AddScreenState extends State<AddScreen> {
     LoadPriceAdicionalIndex4();
     LoadPriceAdicionalIndex5();
     setValueBoolCupom();
+    loadPremium();
   }
 
   int? index5Value;
@@ -288,6 +291,7 @@ class _AddScreenState extends State<AddScreen> {
       atualPrice = priceDB!;
       valorFinalCobrado = priceDB!;
       LoadPriceAdicionalBarba();
+      
     });
   }
 
@@ -305,12 +309,13 @@ class _AddScreenState extends State<AddScreen> {
 
   //bool para ativar o cupom - corte grátis > inicio
   bool cupomAtivadoCorteGratis = false;
-  void setValueBoolCupom(){
+  void setValueBoolCupom() {
     setState(() {
       cupomAtivadoCorteGratis = widget.cupomActive;
     });
     print("agora o bool fisico é$cupomAtivadoCorteGratis");
   }
+
   //bool para ativar o cupom - corte grátis > fim
   String? hourSetForUser;
   int valorMultiplicadorPontos = 0;
@@ -345,8 +350,9 @@ class _AddScreenState extends State<AddScreen> {
           print("dentro do for");
           String horarioExtra = _horariosSemana[selectedIndex + i].horario;
           // Verificar se o horário extra está presente na lista de horários preenchidos
-          bool horarioJaPreenchido = await _horariosPreenchidosParaEvitarDupNoCreate
-              .any((horario) => horario.horario == horarioExtra);
+          bool horarioJaPreenchido =
+              await _horariosPreenchidosParaEvitarDupNoCreate
+                  .any((horario) => horario.horario == horarioExtra);
           print("podemos marcar? ${horarioJaPreenchido}");
           if (horarioJaPreenchido == true) {
             // Mostrar um dialog para o usuário selecionar outro horário
@@ -422,6 +428,8 @@ class _AddScreenState extends State<AddScreen> {
               ? "${profList[1].nomeProf}"
               : "Não Definido",
       corte: CorteClass(
+        feitoporassinatura: false,
+        pagoComCreditos: toggleUsarSaldoParaPagar,
         pagoComCupom: cupomAtivadoCorteGratis,
         easepoints: 0,
         apenasBarba: apenasBarba,
@@ -466,8 +474,8 @@ class _AddScreenState extends State<AddScreen> {
         externalId: Random().nextDouble().toInt(),
       );
       // Incluir minuto da hora extraída
-      DateTime finalDatetime =await
-          DateTime(year, month, day, hora.hour, hora.minute);
+      DateTime finalDatetime =
+          await DateTime(year, month, day, hora.hour, hora.minute);
 
       await Provider.of<ManyChatConfirmation>(context, listen: false)
           .ScheduleMessage(
@@ -737,6 +745,30 @@ class _AddScreenState extends State<AddScreen> {
                                 : isBarbeiro2 == true
                                     ? "${profList[1].nomeProf}"
                                     : "Não Definido",
+                            style: GoogleFonts.openSans(
+                              textStyle: const TextStyle(
+                                fontWeight: FontWeight.w600,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
+
+                          //pago pelo app
+                          const SizedBox(
+                            height: 15,
+                          ),
+                          Text(
+                            "Forma de pagamento",
+                            style: GoogleFonts.openSans(
+                              textStyle: const TextStyle(
+                                fontWeight: FontWeight.w400,
+                                color: Color.fromRGBO(144, 144, 144, 1),
+                              ),
+                            ),
+                          ),
+
+                          Text(
+                            toggleUsarSaldoParaPagar == true ? 'Pagamento feito pelo Aplicativo': 'Pagamento no dia do corte',
                             style: GoogleFonts.openSans(
                               textStyle: const TextStyle(
                                 fontWeight: FontWeight.w600,
@@ -1340,6 +1372,53 @@ class _AddScreenState extends State<AddScreen> {
   }
 
   //funcoes do modal do cupom - fim
+
+  //premium functions e pagamentos
+
+  bool verOpcaoPagamentoPeloApp = false;
+  bool toggleUsarSaldoParaPagar = false;
+  bool? saldoMaiorQueCusto;
+  bool? UsuarioPremium;
+  Future<void> loadPremium() async {
+    bool? boolDATABASE = await MyProfileScreenFunctions().getPremiumOrNot();
+
+    setState(() {
+      UsuarioPremium = boolDATABASE;
+      loadSaldo();
+    });
+  }
+
+  double saldoTotal = 0;
+  double valorFaltante = 0;
+  Future<void> loadSaldo() async {
+    double? PointOfClient =
+        await Provider.of<MyProfileScreenFunctions>(context, listen: false)
+            .getUserSaldo();
+    setState(() {
+      saldoTotal = PointOfClient!.toDouble();
+      calculoSaldoVersusPreco();
+    });
+  }
+
+  void calculoSaldoVersusPreco() async {
+    double saldoParaCalcular = saldoTotal;
+    double totalCobradoCalcular = valorFinalCobrado.toDouble();
+    double valorCalculoFinal = saldoParaCalcular - totalCobradoCalcular;
+
+    if (valorCalculoFinal >= 0) {
+      setState(() {
+        saldoMaiorQueCusto = true;
+      });
+    }
+    if (valorCalculoFinal < 0) {
+      setState(() {
+        valorFaltante = valorCalculoFinal;
+        saldoMaiorQueCusto = false;
+      });
+    }
+    print('#872: saldo maior que divida?:${saldoMaiorQueCusto}');
+  }
+
   @override
   Widget build(BuildContext context) {
     final widhScren = MediaQuery.of(context).size.width;
@@ -1758,6 +1837,7 @@ class _AddScreenState extends State<AddScreen> {
                                                           setState(() {
                                                             apenasBarba = false;
                                                             verificandoEsetandoValorTotal();
+                                                            calculoSaldoVersusPreco();
                                                           });
                                                           break;
                                                         case 1:
@@ -1766,6 +1846,7 @@ class _AddScreenState extends State<AddScreen> {
                                                           setState(() {
                                                             apenasBarba = true;
                                                             verificandoEsetandoValorTotal();
+                                                            calculoSaldoVersusPreco();
                                                           });
                                                           break;
                                                         case 2:
@@ -1775,6 +1856,7 @@ class _AddScreenState extends State<AddScreen> {
                                                           setState(() {
                                                             apenasBarba = false;
                                                             verificandoEsetandoValorTotal();
+                                                            calculoSaldoVersusPreco();
                                                           });
 
                                                           break;
@@ -1785,6 +1867,7 @@ class _AddScreenState extends State<AddScreen> {
                                                           setState(() {
                                                             apenasBarba = false;
                                                             verificandoEsetandoValorTotal();
+                                                            calculoSaldoVersusPreco();
                                                           });
                                                           break;
                                                         case 4:
@@ -1793,6 +1876,7 @@ class _AddScreenState extends State<AddScreen> {
                                                           setState(() {
                                                             apenasBarba = false;
                                                             verificandoEsetandoValorTotal();
+                                                            calculoSaldoVersusPreco();
                                                           });
                                                           break;
                                                         case 5:
@@ -1801,6 +1885,7 @@ class _AddScreenState extends State<AddScreen> {
                                                           setState(() {
                                                             apenasBarba = false;
                                                             verificandoEsetandoValorTotal();
+                                                            calculoSaldoVersusPreco();
                                                           });
                                                           break;
                                                         default:
@@ -1854,49 +1939,50 @@ class _AddScreenState extends State<AddScreen> {
                               ),
                             ),
                             //PROCEDIMENTOS EXTRAS - FIM
-                            if(cupomAtivadoCorteGratis == false)
-                            const SizedBox(
-                              height: 25,
-                            ),
+                            if (cupomAtivadoCorteGratis == false)
+                              const SizedBox(
+                                height: 25,
+                              ),
                             //container do cupom - inicio
-                            if(cupomAtivadoCorteGratis == false)
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  "Tem um cupom?",
-                                  style: GoogleFonts.openSans(
-                                    textStyle: const TextStyle(
-                                      fontWeight: FontWeight.w700,
-                                      color: Colors.black,
+                            if (cupomAtivadoCorteGratis == false)
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    "Tem um cupom?",
+                                    style: GoogleFonts.openSans(
+                                      textStyle: const TextStyle(
+                                        fontWeight: FontWeight.w700,
+                                        color: Colors.black,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                InkWell(
-                                  onTap: showModalCupom,
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      color: Estabelecimento.primaryColor,
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                    alignment: Alignment.center,
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 2, horizontal: 5),
-                                    child: Text(
-                                      "Ativar Agora",
-                                      style: GoogleFonts.poppins(
-                                        textStyle: TextStyle(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w400,
-                                          color: Estabelecimento
-                                              .contraPrimaryColor,
+                                  InkWell(
+                                    onTap: showModalCupom,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        color: Estabelecimento.primaryColor,
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                      alignment: Alignment.center,
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 2, horizontal: 5),
+                                      child: Text(
+                                        "Ativar Agora",
+                                        style: GoogleFonts.poppins(
+                                          textStyle: TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w400,
+                                            color: Estabelecimento
+                                                .contraPrimaryColor,
+                                          ),
                                         ),
                                       ),
                                     ),
                                   ),
-                                ),
-                              ],
-                            ),
+                                ],
+                              ),
                             //container do cupom - fim
                             const SizedBox(
                               height: 25,
@@ -2179,71 +2265,510 @@ class _AddScreenState extends State<AddScreen> {
                                 ],
                               ),
                             if (dataSelectedInModal != null)
-                             okParaexibirHorarios ==true ? Container(
-                                width: double.infinity,
-                                //  height: heighScreen * 0.64,
-                                child: GridView.builder(
-                                  padding: const EdgeInsets.only(top: 5),
-                                  shrinkWrap: true,
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  itemCount: horarioFinal.length,
-                                  gridDelegate:
-                                      const SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 2,
-                                    crossAxisSpacing: 2.3,
-                                    childAspectRatio: 2.3,
-                                  ),
-                                  itemBuilder: (BuildContext ctx, int index) {
-                                    Color color = selectedIndex == index
-                                        ? Colors.amber
-                                        : Estabelecimento.primaryColor;
-                                    return InkWell(
-                                      onTap: () {
-                                        setState(() {
-                                          selectedIndex = selectedIndex == index
-                                              ? -1
-                                              : index;
+                              okParaexibirHorarios == true
+                                  ? Container(
+                                      width: double.infinity,
+                                      //  height: heighScreen * 0.64,
+                                      child: GridView.builder(
+                                        padding: const EdgeInsets.only(top: 5),
+                                        shrinkWrap: true,
+                                        physics:
+                                            const NeverScrollableScrollPhysics(),
+                                        itemCount: horarioFinal.length,
+                                        gridDelegate:
+                                            const SliverGridDelegateWithFixedCrossAxisCount(
+                                          crossAxisCount: 2,
+                                          crossAxisSpacing: 2.3,
+                                          childAspectRatio: 2.3,
+                                        ),
+                                        itemBuilder:
+                                            (BuildContext ctx, int index) {
+                                          Color color = selectedIndex == index
+                                              ? Colors.amber
+                                              : Estabelecimento.primaryColor;
+                                          return InkWell(
+                                            onTap: () {
+                                              setState(() {
+                                                selectedIndex =
+                                                    selectedIndex == index
+                                                        ? -1
+                                                        : index;
 
-                                          hourSetForUser =
-                                              horarioFinal[index].horario;
-                                        });
-                                      },
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 3, horizontal: 3),
-                                        child: Container(
-                                          alignment: Alignment.center,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                const BorderRadius.only(
-                                              bottomLeft:
-                                                  Radius.elliptical(20, 20),
-                                              bottomRight:
-                                                  Radius.elliptical(20, 20),
-                                              topLeft:
-                                                  Radius.elliptical(20, 20),
-                                              topRight:
-                                                  Radius.elliptical(20, 20),
+                                                hourSetForUser =
+                                                    horarioFinal[index].horario;
+                                              });
+                                            },
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 3,
+                                                      horizontal: 3),
+                                              child: Container(
+                                                alignment: Alignment.center,
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      const BorderRadius.only(
+                                                    bottomLeft:
+                                                        Radius.elliptical(
+                                                            20, 20),
+                                                    bottomRight:
+                                                        Radius.elliptical(
+                                                            20, 20),
+                                                    topLeft: Radius.elliptical(
+                                                        20, 20),
+                                                    topRight: Radius.elliptical(
+                                                        20, 20),
+                                                  ),
+                                                  color: color,
+                                                ),
+                                                padding:
+                                                    const EdgeInsets.all(10),
+                                                child: Text(
+                                                  "${horarioFinal[index].horario}",
+                                                  style: GoogleFonts.openSans(
+                                                      textStyle:
+                                                          const TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.white,
+                                                    fontSize: 15,
+                                                  )),
+                                                ),
+                                              ),
                                             ),
-                                            color: color,
-                                          ),
-                                          padding: const EdgeInsets.all(10),
-                                          child: Text(
-                                            "${horarioFinal[index].horario}",
+                                          );
+                                        },
+                                      ),
+                                    )
+                                  : const Center(
+                                      child:
+                                          CircularProgressIndicator.adaptive(),
+                                    ),
+                            //CONTAINER DA HORA - FIM
+
+                            //container do pagamento online - inicio
+                            // if ((/*!kIsWeb || */UsuarioPremium == false) &&
+                            //     hourSetForUser != null)
+                            if (hourSetForUser != null)
+                              Padding(
+                                padding: const EdgeInsets.only(top: 15),
+                                child: Container(
+                                  width: double.infinity,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            'Pagamento pelo app',
                                             style: GoogleFonts.openSans(
-                                                textStyle: const TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.white,
-                                              fontSize: 15,
-                                            )),
+                                              textStyle: TextStyle(
+                                                fontWeight: FontWeight.w700,
+                                                fontSize: 16,
+                                                color: Colors.black,
+                                              ),
+                                            ),
+                                          ),
+                                          //
+                                          InkWell(
+                                            onTap: () {
+                                              setState(() {
+                                                verOpcaoPagamentoPeloApp =
+                                                    !verOpcaoPagamentoPeloApp;
+                                              });
+                                            },
+                                            child: Container(
+                                              alignment: Alignment.center,
+                                              decoration: BoxDecoration(
+                                                color: Colors.grey.shade200,
+                                                borderRadius:
+                                                    BorderRadius.circular(8),
+                                              ),
+                                              padding: EdgeInsets.all(8),
+                                              child: Icon(
+                                                verOpcaoPagamentoPeloApp ==
+                                                        false
+                                                    ? Icons.arrow_drop_down
+                                                    : Icons.arrow_drop_up,
+                                                size: 18,
+                                                color: Colors.black,
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                      if (verOpcaoPagamentoPeloApp == true)
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 10),
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              border: Border.all(
+                                                  width: 1,
+                                                  color: Colors.grey.shade100),
+                                            ),
+                                            padding: EdgeInsets.symmetric(
+                                              vertical: 10,
+                                              horizontal: 10,
+                                            ),
+                                            child: Column(
+                                              children: [
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Icon(
+                                                          Icons
+                                                              .account_balance_wallet,
+                                                          size: 25,
+                                                          color: Colors.black,
+                                                        ),
+                                                        SizedBox(
+                                                          width: 5,
+                                                        ),
+                                                        Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            Text(
+                                                              'Saldo da carteira',
+                                                              style: GoogleFonts
+                                                                  .openSans(
+                                                                textStyle:
+                                                                    TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600,
+                                                                  fontSize: 16,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            if (saldoMaiorQueCusto ==
+                                                                true)
+                                                              Text(
+                                                                'R\$${saldoTotal.toStringAsFixed(2).replaceAll('.', ',')}',
+                                                                style:
+                                                                    GoogleFonts
+                                                                        .poppins(
+                                                                  textStyle: TextStyle(
+                                                                      fontWeight: toggleUsarSaldoParaPagar == false
+                                                                          ? FontWeight
+                                                                              .w600
+                                                                          : FontWeight
+                                                                              .w700,
+                                                                      fontSize:
+                                                                          22,
+                                                                      color: toggleUsarSaldoParaPagar ==
+                                                                              false
+                                                                          ? Colors
+                                                                              .grey
+                                                                              .shade400
+                                                                          : Colors
+                                                                              .black),
+                                                                ),
+                                                              ),
+                                                            if (saldoMaiorQueCusto ==
+                                                                false)
+                                                              Row(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .start,
+                                                                children: [
+                                                                  Text(
+                                                                    'R\$${saldoTotal.toStringAsFixed(2).replaceAll('.', ',')}',
+                                                                    style: GoogleFonts
+                                                                        .poppins(
+                                                                      textStyle: TextStyle(
+                                                                          fontWeight: toggleUsarSaldoParaPagar == false
+                                                                              ? FontWeight
+                                                                                  .w600
+                                                                              : FontWeight
+                                                                                  .w700,
+                                                                          fontSize:
+                                                                              22,
+                                                                          color:
+                                                                              Colors.redAccent),
+                                                                    ),
+                                                                  ),
+                                                                  SizedBox(
+                                                                    width: 10,
+                                                                  ),
+                                                                  Text(
+                                                                    'Faltam R\$${valorFaltante.toStringAsFixed(2).replaceAll('.', ',').replaceAll('-', '')}',
+                                                                    style: GoogleFonts
+                                                                        .poppins(
+                                                                      textStyle: TextStyle(
+                                                                          fontWeight: FontWeight
+                                                                              .w700,
+                                                                          fontSize:
+                                                                              10,
+                                                                          color:
+                                                                              Colors.orangeAccent),
+                                                                    ),
+                                                                  )
+                                                                ],
+                                                              ),
+                                                          ],
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    InkWell(
+                                                      onTap: () {
+                                                        print(
+                                                            '#872: ${saldoMaiorQueCusto}');
+                                                        if (saldoMaiorQueCusto ==
+                                                            true) {
+                                                          setState(() {
+                                                            toggleUsarSaldoParaPagar =
+                                                                !toggleUsarSaldoParaPagar;
+                                                          });
+                                                        }
+
+                                                        if (saldoMaiorQueCusto ==
+                                                            false) {
+                                                          showDialog(
+                                                              context: context,
+                                                              builder: (ctx) {
+                                                                return AlertDialog(
+                                                                  backgroundColor:
+                                                                      Colors
+                                                                          .white,
+                                                                  title: Text(
+                                                                    'Verifique seu saldo',
+                                                                    style: GoogleFonts
+                                                                        .poppins(
+                                                                      textStyle:
+                                                                          TextStyle(
+                                                                        fontWeight:
+                                                                            FontWeight.w500,
+                                                                        fontSize:
+                                                                            16,
+                                                                        color: Colors
+                                                                            .black,
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  content: Text(
+                                                                    'Você não tem saldo suficiente para pagar online, adicione créditos ou pague pessoalmente no dia do corte.',
+                                                                    style: GoogleFonts
+                                                                        .poppins(
+                                                                      textStyle:
+                                                                          TextStyle(
+                                                                        fontWeight:
+                                                                            FontWeight.w500,
+                                                                        fontSize:
+                                                                            12,
+                                                                        color: Colors
+                                                                            .black54,
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  actions: [
+                                                                    TextButton(
+                                                                      onPressed:
+                                                                          () {
+                                                                        Navigator.of(context)
+                                                                            .pop();
+                                                                      },
+                                                                      child:
+                                                                          Text(
+                                                                        'Fechar',
+                                                                        style: GoogleFonts
+                                                                            .poppins(
+                                                                          textStyle:
+                                                                              TextStyle(
+                                                                            fontWeight:
+                                                                                FontWeight.w500,
+                                                                            fontSize:
+                                                                                12,
+                                                                            color:
+                                                                                Colors.black54,
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                    TextButton(
+                                                                      onPressed:
+                                                                          () {
+                                                                        Navigator.of(context)
+                                                                            .pushReplacement(
+                                                                          DialogRoute(
+                                                                            context:
+                                                                                context,
+                                                                            builder: (ctx) =>
+                                                                                const HomeScreen01(
+                                                                              selectedIndex: 3,
+                                                                              cupomIsAcitve: false,
+                                                                            ),
+                                                                          ),
+                                                                        );
+                                                                      },
+                                                                      child:
+                                                                          Text(
+                                                                        'Adicionar Saldo',
+                                                                        style: GoogleFonts
+                                                                            .poppins(
+                                                                          textStyle:
+                                                                              TextStyle(
+                                                                            fontWeight:
+                                                                                FontWeight.w700,
+                                                                            fontSize:
+                                                                                12,
+                                                                            color:
+                                                                                Colors.black,
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                );
+                                                              });
+                                                        }
+                                                      },
+                                                      child: Icon(
+                                                        toggleUsarSaldoParaPagar ==
+                                                                true
+                                                            ? Icons.toggle_on
+                                                            : Icons.toggle_off,
+                                                        size: 60,
+                                                        color: toggleUsarSaldoParaPagar ==
+                                                                false
+                                                            ? Colors
+                                                                .grey.shade400
+                                                            : Colors.black,
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          top: 10),
+                                                  child: Container(
+                                                    padding:
+                                                        EdgeInsets.symmetric(
+                                                            vertical: 5),
+                                                    decoration: BoxDecoration(
+                                                      border: Border(
+                                                        top: BorderSide(
+                                                          width: 1,
+                                                          color: Colors
+                                                              .grey.shade100
+                                                              .withOpacity(0.8),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    width: double.infinity,
+                                                    child: Column(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        InkWell(
+                                                          onTap: () {
+                                                            Navigator.of(
+                                                                    context)
+                                                                .pushReplacement(
+                                                              DialogRoute(
+                                                                context:
+                                                                    context,
+                                                                builder: (ctx) =>
+                                                                    const HomeScreen01(
+                                                                  selectedIndex:
+                                                                      3,
+                                                                  cupomIsAcitve:
+                                                                      false,
+                                                                ),
+                                                              ),
+                                                            );
+                                                          },
+                                                          child: Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceBetween,
+                                                            children: [
+                                                              Row(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .start,
+                                                                children: [
+                                                                  Icon(
+                                                                    Icons
+                                                                        .credit_card,
+                                                                    color: Colors
+                                                                        .green
+                                                                        .shade600,
+                                                                  ),
+                                                                  SizedBox(
+                                                                    width: 5,
+                                                                  ),
+                                                                  Text(
+                                                                    'Adicionar saldo',
+                                                                    style: GoogleFonts
+                                                                        .poppins(
+                                                                      textStyle:
+                                                                          TextStyle(
+                                                                        fontWeight:
+                                                                            FontWeight.w300,
+                                                                        color: Colors
+                                                                            .black,
+                                                                        fontSize:
+                                                                            12,
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                              Icon(
+                                                                Icons
+                                                                    .arrow_forward_ios,
+                                                                size: 18,
+                                                                color: Colors
+                                                                    .grey
+                                                                    .shade300,
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    );
-                                  },
+                                      if (verOpcaoPagamentoPeloApp == true)
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 10),
+                                          child: Text(
+                                            'Para pagar pessoalmente deixe o botão cinza para a esquerda e clique em Próximo:',
+                                            style: GoogleFonts.poppins(
+                                              textStyle: TextStyle(
+                                                fontWeight: FontWeight.w300,
+                                                color: Colors.red,
+                                                fontSize: 12,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                    ],
+                                  ),
                                 ),
-                              ) : const Center(child: CircularProgressIndicator.adaptive(),),
-                            //CONTAINER DA HORA - FIM
+                              ),
+                            //container do pagamento online fim
                             //botao do agendar - inicio
 
                             if (hourSetForUser != null)

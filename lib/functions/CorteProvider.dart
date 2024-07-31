@@ -16,6 +16,8 @@ class CorteProvider with ChangeNotifier {
   final database = FirebaseFirestore.instance;
   final authSettings = FirebaseAuth.instance;
 
+  //    feitoporassinatura: data?['feitoPorassinatura'] ?? false,
+  //pagoComCreditos: data?['pagoComCreditos'] ?? false,
   //ENVIANDO O CORTE PARA AS LISTAS NO BANCO DE DADOS - INICIO
   Future<void> AgendamentoCortePrincipalFunctions({
     required CorteClass corte,
@@ -45,6 +47,8 @@ class CorteProvider with ChangeNotifier {
           .collection("all")
           .doc(corte.horarioCorte)
           .set({
+        'feitoPorassinatura': false,
+        'pagoComCreditos': corte.pagoComCreditos,
         "pagocomcupom": corte.pagoComCupom,
         "detalheDoProcedimento": corte.detalheDoProcedimento,
         "horariosExtras": corte.horariosExtra,
@@ -76,6 +80,8 @@ class CorteProvider with ChangeNotifier {
         final docSnapshotHorario2 = await docRefHorario2.get();
         if (!docSnapshotHorario2.exists) {
           await docRefHorario2.set({
+                'feitoPorassinatura': false,
+        'pagoComCreditos': corte.pagoComCreditos,
             'pagocomcupom': corte.pagoComCupom,
             "detalheDoProcedimento": "",
             "horariosExtras": [],
@@ -106,6 +112,8 @@ class CorteProvider with ChangeNotifier {
         final docSnapshotHorario3 = await docRefHorario3.get();
         if (!docSnapshotHorario3.exists) {
           await docRefHorario3.set({
+                'feitoPorassinatura': false,
+        'pagoComCreditos': corte.pagoComCreditos,
             'pagocomcupom': corte.pagoComCupom,
             "horariosExtras": [],
             "detalheDoProcedimento": "",
@@ -134,6 +142,8 @@ class CorteProvider with ChangeNotifier {
           .collection("${diaCorteSelect}")
           .doc(corte.id)
           .set({
+                'feitoPorassinatura': false,
+        'pagoComCreditos': corte.pagoComCreditos,
         'pagocomcupom': corte.pagoComCupom,
         "detalheDoProcedimento": corte.detalheDoProcedimento,
         "horariosExtras": corte.horariosExtra,
@@ -180,6 +190,8 @@ class CorteProvider with ChangeNotifier {
           .collection("all")
           .doc(corte.id)
           .set({
+                'feitoPorassinatura': false,
+        'pagoComCreditos': corte.pagoComCreditos,
         'pagocomcupom': corte.pagoComCupom,
         "detalheDoProcedimento": corte.detalheDoProcedimento,
         "horariosExtras": corte.horariosExtra,
@@ -206,7 +218,9 @@ class CorteProvider with ChangeNotifier {
             .collection("lista")
             .doc(corte.id)
             .set({
-          'pagocomcupom': corte.pagoComCupom,
+              'feitoPorassinatura': false,
+        'pagoComCreditos': corte.pagoComCreditos,
+              'pagocomcupom': corte.pagoComCupom,
           "easepoints": valorMultiplicador,
           "detalheDoProcedimento": corte.detalheDoProcedimento,
           "horariosExtras": corte.horariosExtra,
@@ -225,6 +239,18 @@ class CorteProvider with ChangeNotifier {
           "monthName": monthName,
           "easepoints": (1 * valorMultiplicador),
         });
+
+        //caso for usado o saldo da carteira, aqui substraimos o saldo
+        if (corte.pagoComCreditos == true) {
+          try {
+            final updateSaldo =
+                await database.collection('usuarios').doc(userId).update({
+              'saldoConta': FieldValue.increment(-corte.totalValue),
+            });
+          } catch (e) {
+            print('ao reduzir o saldo houve isto: $e');
+          }
+        }
 
         //adicionado aos meus cortes
         try {
@@ -353,6 +379,8 @@ class CorteProvider with ChangeNotifier {
         DateTime diaCorteFinal = diafinalCorte?.toDate() ?? DateTime.now();
         // Acessando os atributos diretamente usando []
         return CorteClass(
+          feitoporassinatura: data?['feitoPorassinatura'] ?? false,
+          pagoComCreditos: data?['pagoComCreditos'] ?? false,
           pagoComCupom: data?['pagocomcupom'] ?? false,
           easepoints: data?['easepoints'] ?? 0,
           apenasBarba: false,
@@ -426,6 +454,8 @@ class CorteProvider with ChangeNotifier {
         DateTime diaCorteFinal = diafinalCorte?.toDate() ?? DateTime.now();
         // Acessando os atributos diretamente usando []
         return CorteClass(
+          feitoporassinatura: data?['feitoPorassinatura'] ?? false,
+          pagoComCreditos: data?['pagoComCreditos'] ?? false,
           pagoComCupom: data?['pagocomcupom'] ?? false,
           easepoints: data?[''] ?? 0,
           apenasBarba: false,
@@ -600,6 +630,16 @@ class CorteProvider with ChangeNotifier {
         }
       } else {
         print("este caminho nao foi encontrado");
+      }
+      if (corte.pagoComCreditos == true) {
+        try {
+          final updateSaldo =
+              await database.collection('usuarios').doc(useriDSearch).update({
+            'saldoConta': FieldValue.increment(corte.totalValue),
+          });
+        } catch (e) {
+          print('ao reduzir o saldo houve isto: $e');
+        }
       }
     } catch (e) {
       // Capturando e tratando possíveis erros

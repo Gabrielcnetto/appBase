@@ -75,6 +75,8 @@ class _TelaVisaoAssinaturaPagamentoState
       await Provider.of<StripeSubscriptions>(context, listen: false)
           .createAndSubscribeCustomer(email, amount, payMethod);
       print('#uhs: Subscription successful');
+
+      await Provider.of<StripeSubscriptions>(context,listen: false).enviarAssinaturaAtivaAoBancodeDados(tipoassinatura: horarioFixo == true ? 'horarioFixo' : 'creditosLivre');
     } catch (e) {
       print('#uhs:houve um erro ao criar um subscriber: ${e}');
     }
@@ -190,7 +192,7 @@ class _TelaVisaoAssinaturaPagamentoState
                       ),
                       Container(
                         child: Text(
-                          'Agende 1x por semana, Ganhe 4 créditos para agendar nos horários que desejar durante o mês, ou escolhe um dia e horário fixo',
+                          'Escolha a maneira que mais combina com você, Rotina agitada? Tenha sempre 1 horário fixo ou agende pelo app sempre que quiser sem pagar além da mensalidade',
                           style: GoogleFonts.openSans(
                             textStyle: TextStyle(
                               fontWeight: FontWeight.w600,
@@ -308,7 +310,7 @@ class _TelaVisaoAssinaturaPagamentoState
                                         width: 5,
                                       ),
                                       Text(
-                                        '1x por semana',
+                                        'Quando quiser',
                                         style: GoogleFonts.openSans(
                                           textStyle: TextStyle(
                                             fontWeight: FontWeight.w800,
@@ -365,7 +367,7 @@ class _TelaVisaoAssinaturaPagamentoState
                                           width: 5,
                                         ),
                                         Text(
-                                          'Decida e vá',
+                                          'Preço Exclusivo',
                                           style: GoogleFonts.openSans(
                                             textStyle: TextStyle(
                                               fontWeight: FontWeight.w800,
@@ -392,7 +394,7 @@ class _TelaVisaoAssinaturaPagamentoState
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Qual a maneira que você prefere?',
+                          'Qual tipo combina mais com você?',
                           style: GoogleFonts.poppins(
                             textStyle: TextStyle(
                               fontWeight: FontWeight.w600,
@@ -432,7 +434,7 @@ class _TelaVisaoAssinaturaPagamentoState
                                               CrossAxisAlignment.center,
                                           children: [
                                             Text(
-                                              'Horário Fixo',
+                                              'Tipo Fixo',
                                               style: GoogleFonts.poppins(
                                                 textStyle: TextStyle(
                                                   fontWeight: FontWeight.w500,
@@ -480,7 +482,14 @@ class _TelaVisaoAssinaturaPagamentoState
                               ),
                               Expanded(
                                 child: InkWell(
-                                  onTap: setTrueCreditos,
+                                  onTap: () {
+                                    setState(() {
+                                      hourSetForUser = null;
+                                      diaSelecionado = null;
+                                      selectedIndex = -1;
+                                    });
+                                    setTrueCreditos();
+                                  },
                                   child: Container(
                                     padding: EdgeInsets.symmetric(
                                         vertical: 30, horizontal: 5),
@@ -502,7 +511,7 @@ class _TelaVisaoAssinaturaPagamentoState
                                               CrossAxisAlignment.center,
                                           children: [
                                             Text(
-                                              'Créditos',
+                                              'Tipo livre',
                                               style: GoogleFonts.poppins(
                                                 textStyle: TextStyle(
                                                   fontWeight: FontWeight.w500,
@@ -512,7 +521,7 @@ class _TelaVisaoAssinaturaPagamentoState
                                               ),
                                             ),
                                             Text(
-                                              'agende 1x por semana, sempre que desejar',
+                                              'Não tenha horário fixo, acesse o app e agende',
                                               textAlign: TextAlign.center,
                                               style: GoogleFonts.poppins(
                                                 textStyle: TextStyle(
@@ -681,67 +690,385 @@ class _TelaVisaoAssinaturaPagamentoState
                     ),
                   ),
                 //
-                Padding(
-                  padding:
-                      const EdgeInsets.only(left: 15, right: 15, bottom: 40),
-                  child: Container(
-                    padding: EdgeInsets.symmetric(vertical: 20),
-                    width: double.infinity,
-                    child: Form(
-                      key: _formKey,
+                if (hourSetForUser != null)
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(left: 15, right: 15, bottom: 20),
+                    child: Container(
+                      padding: EdgeInsets.symmetric(vertical: 20),
+                      width: double.infinity,
+                      child: Form(
+                        key: _formKey,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Detalhes do cartão',
+                              style: GoogleFonts.poppins(
+                                textStyle: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 16,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 15,
+                            ),
+                            Container(
+                              width: double.infinity,
+                              height: MediaQuery.of(context).size.height * 0.3,
+                              // color: Colors.red,
+                              child: CardFormField(
+                                countryCode: 'BR',
+                                style: CardFormStyle(
+                                  backgroundColor: Colors.black,
+                                ),
+                                enablePostalCode: false,
+                                onCardChanged: (card) {
+                                  setState(() {
+                                    _cardDetails = card;
+                                  });
+                                },
+                              ),
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                InkWell(
+                                  onTap: subscriberUser,
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: Colors.blue.shade600,
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    alignment: Alignment.center,
+                                    width: double.infinity,
+                                    padding: EdgeInsets.symmetric(vertical: 15),
+                                    child: Text(
+                                      'Confirmar assinatura',
+                                      style: GoogleFonts.poppins(
+                                        textStyle: TextStyle(
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 15,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 15),
+                                  child: InkWell(
+                                    onTap: () {
+                                      showModalBottomSheet(
+                                        backgroundColor: Colors.transparent,
+                                        isScrollControlled: true,
+                                        context: context,
+                                        builder: (ctx) {
+                                          return Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 30, horizontal: 30),
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                  color: Colors.white,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10)),
+                                              width: double.infinity,
+                                              padding: EdgeInsets.symmetric(
+                                                  vertical: 30, horizontal: 10),
+                                              child: Column(
+                                                children: [
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    children: [
+                                                      InkWell(
+                                                        onTap: () {
+                                                          Navigator.of(context)
+                                                              .pop();
+                                                        },
+                                                        child: Icon(
+                                                          Icons.arrow_back_ios,
+                                                        ),
+                                                      ),
+                                                      Text(
+                                                        'Voltar',
+                                                        style: GoogleFonts
+                                                            .openSans(
+                                                          textStyle: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                            color: Colors.black,
+                                                            fontSize: 14,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Container(
+                                                    child: Text(
+                                                      'Assinar um plano na ${Estabelecimento.nomeLocal} pelo valor R\$${widget.valorAssinatura.toStringAsFixed(2).replaceAll('.', ',')} permite cortar o cabelo ou quando desejar(Tipo Livre) ou apenas nos horário e dia definido no Tipo Fixo, a ${Estabelecimento.nomeLocal} não é obrigada a fazer procedimentos externos(sem agendameto prévio por mensagem ou agendamento feito pelo app. Para cancelamento, entre em contato com o responsável pela barbearia, e problemas com faturamento entre em contato com o WhatsApp: (51) 9 9328-0162',
+                                                      style:
+                                                          GoogleFonts.openSans(
+                                                        textStyle: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          color: Colors.black54,
+                                                          fontSize: 13,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      );
+                                    },
+                                    child: Text(
+                                      'Veja as regras',
+                                      style: GoogleFonts.poppins(
+                                        textStyle: TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 12,
+                                          color: Colors.black54,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                if (creditos == true)
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(left: 15, right: 15, bottom: 30),
+                    child: Container(
+                      padding: EdgeInsets.only(top: 15),
+                      width: double.infinity,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            'Detalhes do cartão',
-                            style: GoogleFonts.poppins(
-                              textStyle: TextStyle(
-                                fontWeight: FontWeight.w600,
-                                fontSize: 16,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 15,
-                          ),
-                          Container(
-                            width: double.infinity,
-                            height: MediaQuery.of(context).size.height * 0.3,
-                            // color: Colors.red,
-                            child: CardFormField(
-                              
-                              countryCode: 'BR',
-                              style: CardFormStyle(
-                                backgroundColor: Colors.black,
-                              ),
-                              enablePostalCode: false,
-                              onCardChanged: (card) {
-                                setState(() {
-                                  _cardDetails = card;
-                                });
-                              },
-                            ),
-                          ),
-                          InkWell(
-                            onTap: subscriberUser,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.blue.shade600,
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              alignment: Alignment.center,
-                              width: double.infinity,
-                              padding: EdgeInsets.symmetric(vertical: 15),
-                              child: Text(
-                                'Confirmar assinatura',
-                                style: GoogleFonts.poppins(
-                                  textStyle: TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 15,
-                                    color: Colors.white,
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            child: Row(
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Como funciona?',
+                                      style: GoogleFonts.openSans(
+                                        textStyle: TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.black,
+                                          fontSize: 15,
+                                        ),
+                                      ),
+                                    ),
+                                    Container(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.55,
+                                      child: Text(
+                                        'Sempre que quiser, acesse o app e agende um horário, pague apenas a mensalidade e nenhuma difereça a mais pelo procedimento',
+                                        style: GoogleFonts.poppins(
+                                          textStyle: TextStyle(
+                                            fontWeight: FontWeight.w400,
+                                            fontSize: 12,
+                                            color: Colors.black54,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Expanded(
+                                  child: Container(
+                                    child: Image.asset(
+                                      'imagesOfApp/semhistoricodecortes.jpeg',
+                                      fit: BoxFit.cover,
+                                    ),
                                   ),
                                 ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            padding: EdgeInsets.symmetric(vertical: 20),
+                            width: double.infinity,
+                            child: Form(
+                              key: _formKey,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Detalhes do cartão',
+                                    style: GoogleFonts.poppins(
+                                      textStyle: TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 16,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 15,
+                                  ),
+                                  Container(
+                                    width: double.infinity,
+                                    height: MediaQuery.of(context).size.height *
+                                        0.3,
+                                    // color: Colors.red,
+                                    child: CardFormField(
+                                      countryCode: 'BR',
+                                      style: CardFormStyle(
+                                        backgroundColor: Colors.black,
+                                      ),
+                                      enablePostalCode: false,
+                                      onCardChanged: (card) {
+                                        setState(() {
+                                          _cardDetails = card;
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      InkWell(
+                                        onTap: subscriberUser,
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            color: Colors.blue.shade600,
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                          ),
+                                          alignment: Alignment.center,
+                                          width: double.infinity,
+                                          padding: EdgeInsets.symmetric(
+                                              vertical: 15),
+                                          child: Text(
+                                            'Confirmar assinatura',
+                                            style: GoogleFonts.poppins(
+                                              textStyle: TextStyle(
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 15,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 15),
+                                        child: InkWell(
+                                          onTap: () {
+                                            showModalBottomSheet(
+                                              backgroundColor:
+                                                  Colors.transparent,
+                                              isScrollControlled: true,
+                                              context: context,
+                                              builder: (ctx) {
+                                                return Padding(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                      vertical: 30,
+                                                      horizontal: 30),
+                                                  child: Container(
+                                                    decoration: BoxDecoration(
+                                                        color: Colors.white,
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10)),
+                                                    width: double.infinity,
+                                                    padding:
+                                                        EdgeInsets.symmetric(
+                                                            vertical: 30,
+                                                            horizontal: 10),
+                                                    child: Column(
+                                                      children: [
+                                                        Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            InkWell(
+                                                              onTap: () {
+                                                                Navigator.of(
+                                                                        context)
+                                                                    .pop();
+                                                              },
+                                                              child: Icon(
+                                                                Icons
+                                                                    .arrow_back_ios,
+                                                              ),
+                                                            ),
+                                                            Text(
+                                                              'Voltar',
+                                                              style: GoogleFonts
+                                                                  .openSans(
+                                                                textStyle:
+                                                                    TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600,
+                                                                  color: Colors
+                                                                      .black,
+                                                                  fontSize: 14,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        Container(
+                                                          child: Text(
+                                                            'Assinar um plano na ${Estabelecimento.nomeLocal} pelo valor R\$${widget.valorAssinatura.toStringAsFixed(2).replaceAll('.', ',')} permite cortar o cabelo ou quando desejar(Tipo Livre) ou apenas nos horário e dia definido no Tipo Fixo, a ${Estabelecimento.nomeLocal} não é obrigada a fazer procedimentos externos(sem agendameto prévio por mensagem ou agendamento feito pelo app. Para cancelamento, entre em contato com o responsável pela barbearia, e problemas com faturamento entre em contato com o WhatsApp: (51) 9 9328-0162',
+                                                            style: GoogleFonts
+                                                                .openSans(
+                                                              textStyle:
+                                                                  TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400,
+                                                                color: Colors
+                                                                    .black54,
+                                                                fontSize: 13,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                );
+                                              },
+                                            );
+                                          },
+                                          child: Text(
+                                            'Veja as regras',
+                                            style: GoogleFonts.poppins(
+                                              textStyle: TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 12,
+                                                color: Colors.black54,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                   
+                                    ],
+                                  ),
+                                ],
                               ),
                             ),
                           ),
@@ -749,8 +1076,6 @@ class _TelaVisaoAssinaturaPagamentoState
                       ),
                     ),
                   ),
-                ),
-                if (creditos == true) Text('créditos')
               ],
             ),
           ),

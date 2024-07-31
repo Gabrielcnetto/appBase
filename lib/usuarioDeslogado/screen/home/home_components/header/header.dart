@@ -243,6 +243,8 @@ class _HomePageHeaderState extends State<HomePageHeader> {
               left: 20,
               child: ProfissionalCode(
                 corte: CorteClass(
+                  feitoporassinatura: _listaCortesUsuario.feitoporassinatura ?? false,
+                  pagoComCreditos: _listaCortesUsuario.pagoComCreditos ?? false,
                   pagoComCupom: _listaCortesUsuario.pagoComCupom ??false,
                   easepoints: _listaCortesUsuario.easepoints ?? 0,
                   apenasBarba: _listaCortesUsuario.apenasBarba,

@@ -110,6 +110,8 @@ class RankingProvider with ChangeNotifier {
         DateTime diaCorteFinal = diaCorteTimestamp?.toDate() ?? DateTime.now();
 
         return CorteClass(
+          feitoporassinatura: data?['feitoPorassinatura'] ?? false,
+          pagoComCreditos: data?['pagoComCreditos'] ?? false,
           pagoComCupom: data?['pagocomcupom'] ?? false,
           easepoints: 0,
           detalheDoProcedimento: data?['detalheDoProcedimento'] ?? "",

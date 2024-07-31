@@ -203,41 +203,98 @@ class MyProfileScreenFunctions with ChangeNotifier {
     }
   }
 
-Future<double?> getUserSaldo() async {
-  print('#iu: abri a funcao');
-  final String uidUser = await authSettings.currentUser!.uid;
-  
-  try {
-    if (authSettings.currentUser != null) {
-      double? userSaldo;
+  Future<double?> getUserSaldo() async {
+    print('#iu: abri a funcao');
+    final String uidUser = await authSettings.currentUser!.uid;
 
-      final docSnapshot = await db.collection("usuarios").doc(uidUser).get();
-      if (docSnapshot.exists) {
-        Map<String, dynamic> data = docSnapshot.data() as Map<String, dynamic>;
+    try {
+      if (authSettings.currentUser != null) {
+        double? userSaldo;
 
-        // Verifica se 'saldoConta' existe e converte para double se necessário
-        var saldo = data['saldoConta'];
-        if (saldo is int) {
-          userSaldo = saldo.toDouble();
-        } else if (saldo is double) {
-          userSaldo = saldo;
+        final docSnapshot = await db.collection("usuarios").doc(uidUser).get();
+        if (docSnapshot.exists) {
+          Map<String, dynamic> data =
+              docSnapshot.data() as Map<String, dynamic>;
+
+          // Verifica se 'saldoConta' existe e converte para double se necessário
+          var saldo = data['saldoConta'];
+          if (saldo is int) {
+            userSaldo = saldo.toDouble();
+          } else if (saldo is double) {
+            userSaldo = saldo;
+          } else {
+            // Trate o caso onde saldoConta não é nem int nem double, se necessário
+            print('#iu: saldoConta não é um número válido');
+          }
         } else {
-          // Trate o caso onde saldoConta não é nem int nem double, se necessário
-          print('#iu: saldoConta não é um número válido');
+          print('#iu: Documento não encontrado');
         }
-      } else {
-        print('#iu: Documento não encontrado');
+
+        print('#iu: valor final: ${userSaldo}');
+        return userSaldo;
       }
-      
-      print('#iu: valor final: ${userSaldo}');
-      return userSaldo;
+
+      return null;
+    } catch (e) {
+      print('#iu: houve um erro: $e');
+      return null; // Certifique-se de retornar null no caso de erro
+    }
+  }
+
+  Future<double?> getValorAssinatura1() async {
+    print('#iu: abri a funcao');
+    try {
+      if (authSettings.currentUser != null) {
+        double? valorAssinaturaUm;
+
+        final docSnapshot =
+            await db.collection("estabelecimento").doc('assinaturaValor').get();
+        if (docSnapshot.exists) {
+          Map<String, dynamic> data =
+              docSnapshot.data() as Map<String, dynamic>;
+
+          // Verifica se 'saldoConta' existe e converte para double se necessário
+          var valorAssinatura1DB = data['precoAssinatura1'];
+          if (valorAssinatura1DB is int) {
+            valorAssinaturaUm = valorAssinatura1DB.toDouble();
+          } else if (valorAssinatura1DB is double) {
+            valorAssinaturaUm = valorAssinatura1DB;
+          } else {
+            // Trate o caso onde saldoConta não é nem int nem double, se necessário
+            print('#iu: saldoConta não é um número válido');
+          }
+        } else {
+          print('#iu: Documento não encontrado');
+        }
+
+        print('#iu: valor final: ${valorAssinaturaUm}');
+        return valorAssinaturaUm;
+      }
+
+      return null;
+    } catch (e) {
+      print('#iu: houve um erro: $e');
+      return null; // Certifique-se de retornar null no caso de erro
+    }
+  }
+
+  //get se o usuario é premium
+  Future<bool?> getPremiumOrNot() async {
+    if (authSettings.currentUser != null) {
+      final String uidUser = await authSettings.currentUser!.uid;
+      bool? premiumounao;
+
+      await db.collection("usuarios").doc(uidUser).get().then((event) {
+        if (event.exists) {
+          Map<String, dynamic> data = event.data() as Map<String, dynamic>;
+
+          premiumounao = data['assinatura'];
+        } else {}
+        return premiumounao;
+      });
+      return premiumounao;
     }
 
     return null;
-  } catch (e) {
-    print('#iu: houve um erro: $e');
-    return null; // Certifique-se de retornar null no caso de erro
   }
-}
-
 }

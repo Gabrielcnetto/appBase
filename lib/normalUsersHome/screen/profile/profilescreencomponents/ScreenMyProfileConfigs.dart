@@ -40,8 +40,8 @@ class _ScreenComponentsMyProfileState extends State<ScreenComponentsMyProfile> {
     loadUserName();
     urlImageFuncion();
     loadSaldo();
-    LoadPrice();
-
+    loadAssinatura1();
+    loadPremium();
   }
 
   void modalNewNome() {
@@ -346,6 +346,17 @@ class _ScreenComponentsMyProfileState extends State<ScreenComponentsMyProfile> {
     nomeControler.text = userName!;
   }
 
+//get do premium - inicio
+  bool? UsuarioPremium;
+  Future<void> loadPremium() async {
+    bool? boolDATABASE = await MyProfileScreenFunctions().getPremiumOrNot();
+
+    setState(() {
+      UsuarioPremium = boolDATABASE;
+    });
+  }
+
+//get do premium - fim
   //GET USERNAME - FINAL
   //GET NUMERO - INCIO
   String? phoneNumber;
@@ -512,43 +523,16 @@ class _ScreenComponentsMyProfileState extends State<ScreenComponentsMyProfile> {
   }
 
   bool verSaldo = false;
-  double valorDaAssinaturaComBarba = 0;
-  double valorDaAssinaturaSemBarba = 0;
-  //enviar assinatura e get da assinatura para somas e mostrar
-  int atualPrice = 0;
-  Future<void> LoadPrice() async {
-    int? priceDB = await ManagerScreenFunctions().getPriceCorte();
-    print("pegamos a data do databse");
-
+  double valorAssinatura1 = 0;
+  Future<void> loadAssinatura1() async {
+    double? PointOfClient =
+        await Provider.of<MyProfileScreenFunctions>(context, listen: false)
+            .getValorAssinatura1();
     setState(() {
-      atualPrice = priceDB!;
-      somaValorSemBarba();
-      LoadPriceAdicionalBarba();
+      valorAssinatura1 = PointOfClient!.toDouble();
     });
   }
 
-  void somaValorSemBarba() {
-    setState(() {
-      valorDaAssinaturaSemBarba = (atualPrice * 4).toDouble();
-    });
-  }
-
-  //
-  int barbaPrice = 0;
-  Future<void> LoadPriceAdicionalBarba() async {
-    int? priceDB = await ManagerScreenFunctions().getAdicionalBarbaCorte();
-
-    setState(() {
-      barbaPrice = priceDB!;
-      somaValorBarbaECabelo();
-    });
-  }
-
-  void somaValorBarbaECabelo(){
-    setState(() {
-      valorDaAssinaturaComBarba = ((barbaPrice += atualPrice) * 4).toDouble();
-    });
-  }
   @override
   Widget build(BuildContext context) {
     final widhScren = MediaQuery.of(context).size.width;
@@ -601,16 +585,48 @@ class _ScreenComponentsMyProfileState extends State<ScreenComponentsMyProfile> {
                         ),
                       ],
                     ),
-                    Container(
-                      width: widhScren * 0.12,
-                      height: heighScreen * 0.07,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(50),
-                        child: Image.network(
-                          '${urlImagePhoto ?? Estabelecimento.defaultAvatar}',
-                          fit: BoxFit.cover,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        if (UsuarioPremium == true)
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.star,
+                                color: const Color.fromARGB(255, 190, 190, 0),
+                                size: 18,
+                              ),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              Container(
+                                child: Text(
+                                  'assinatura ativa',
+                                  style: GoogleFonts.poppins(
+                                    textStyle: TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 10,
+                                        fontStyle: FontStyle.italic),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        SizedBox(
+                          width: 5,
                         ),
-                      ),
+                        Container(
+                          width: widhScren * 0.12,
+                          height: heighScreen * 0.07,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(50),
+                            child: Image.network(
+                              '${urlImagePhoto ?? Estabelecimento.defaultAvatar}',
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                      ],
                     )
                   ],
                 ),
@@ -731,7 +747,9 @@ class _ScreenComponentsMyProfileState extends State<ScreenComponentsMyProfile> {
                             width: double.infinity,
                             padding: const EdgeInsets.symmetric(vertical: 10),
                             decoration: BoxDecoration(
-                              color: Colors.blue.shade600,
+                              color: UsuarioPremium == true
+                                  ? Colors.orangeAccent
+                                  : Colors.blue.shade600,
                               borderRadius: BorderRadius.circular(8),
                             ),
                             child: Row(
@@ -1028,7 +1046,7 @@ class _ScreenComponentsMyProfileState extends State<ScreenComponentsMyProfile> {
                               ),
                             ),
                             Text(
-                              'Ignore as filas, tenha um horário fixo e pague no crédito apenas 1x ao mês.',
+                              'Ignore as filas, Corte quando quiser e pague no crédito apenas 1x ao mês.',
                               style: GoogleFonts.openSans(
                                 textStyle: const TextStyle(
                                   fontSize: 14,
@@ -1061,7 +1079,7 @@ class _ScreenComponentsMyProfileState extends State<ScreenComponentsMyProfile> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'Corte +barba sem fila',
+                                    'Plano Mensal',
                                     style: GoogleFonts.poppins(
                                       textStyle: const TextStyle(
                                         color: Colors.white,
@@ -1074,7 +1092,7 @@ class _ScreenComponentsMyProfileState extends State<ScreenComponentsMyProfile> {
                                     height: 5,
                                   ),
                                   Text(
-                                    'Tenha um horário fixo e sempre disponível na ${Estabelecimento.nomeLocal}, pague no crédito e com benefícios exclusivos.',
+                                    'Tenha um horário fixo e sempre disponível na ${Estabelecimento.nomeLocal}, ou agende quando quiser sem precisar pagar mais que a assinatura.',
                                     style: GoogleFonts.poppins(
                                       textStyle: const TextStyle(
                                         color: Colors.white60,
@@ -1150,7 +1168,7 @@ class _ScreenComponentsMyProfileState extends State<ScreenComponentsMyProfile> {
                                                   MainAxisAlignment.center,
                                               children: [
                                                 Text(
-                                                  '1 vez por semana',
+                                                  'Corte quando desejar',
                                                   style: GoogleFonts.openSans(
                                                     textStyle: const TextStyle(
                                                       fontWeight:
@@ -1235,7 +1253,7 @@ class _ScreenComponentsMyProfileState extends State<ScreenComponentsMyProfile> {
                                             MainAxisAlignment.center,
                                         children: [
                                           Text(
-                                            'R\$${valorDaAssinaturaComBarba.toStringAsFixed(2).replaceAll('.', ',')}/mês',
+                                            'R\$${valorAssinatura1.toStringAsFixed(2).replaceAll('.', ',')}/mês',
                                             style: GoogleFonts.poppins(
                                               textStyle: const TextStyle(
                                                 fontSize: 22,
@@ -1262,31 +1280,91 @@ class _ScreenComponentsMyProfileState extends State<ScreenComponentsMyProfile> {
                                       Expanded(
                                         child: InkWell(
                                           onTap: () {
-                                            Navigator.of(context)
-                                                .push(DialogRoute(
-                                                    context: context,
-                                                    builder: (ctx) {
-                                                      return TelaVisaoAssinaturaPagamento(
-                                                        valorAssinatura:
-                                                            valorDaAssinaturaComBarba,
-                                                      );
-                                                    }));
+                                            if (!kIsWeb) {
+                                              Navigator.of(context).push(
+                                                DialogRoute(
+                                                  context: context,
+                                                  builder: (ctx) {
+                                                    return TelaVisaoAssinaturaPagamento(
+                                                      valorAssinatura:
+                                                          valorAssinatura1,
+                                                    );
+                                                  },
+                                                ),
+                                              );
+                                            } else {
+                                              showDialog(
+                                                context: context,
+                                                builder: (ctx) {
+                                                  return AlertDialog(
+                                                    title: Text(
+                                                      'Disponível no app',
+                                                      style:
+                                                          GoogleFonts.openSans(
+                                                        textStyle: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            color:
+                                                                Colors.black),
+                                                      ),
+                                                    ),
+                                                    content: Text(
+                                                      'Para assinar um plano, use o aplicativo da ${Estabelecimento.nomeLocal} na play ou apple store.',
+                                                      style:
+                                                          GoogleFonts.openSans(
+                                                        textStyle: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          color: Colors.black54,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    actions: [
+                                                      TextButton(
+                                                        onPressed: () {
+                                                          Navigator.of(context)
+                                                              .pop();
+                                                        },
+                                                        child: Text(
+                                                          'Fechar',
+                                                          style: GoogleFonts
+                                                              .openSans(
+                                                            textStyle:
+                                                                TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                              color:
+                                                                  Colors.black,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      )
+                                                    ],
+                                                  );
+                                                },
+                                              );
+                                            }
                                           },
                                           child: Container(
                                             alignment: Alignment.center,
                                             decoration: BoxDecoration(
-                                              color: const Color.fromARGB(
-                                                  255, 65, 191, 72),
+                                              color: UsuarioPremium == true
+                                                  ? Colors.black
+                                                  : const Color.fromARGB(
+                                                      255, 65, 191, 72),
                                               borderRadius:
                                                   BorderRadius.circular(8),
                                             ),
                                             padding: const EdgeInsets.symmetric(
                                                 vertical: 10),
                                             child: Text(
-                                              'Assinar Agora',
+                                              UsuarioPremium == true
+                                                  ? 'PLANO ATIVADO'
+                                                  : 'Assinar Agora',
                                               style: GoogleFonts.openSans(
                                                 textStyle: const TextStyle(
-                                                  fontWeight: FontWeight.w600,
+                                                  fontWeight: FontWeight.w800,
                                                   color: Colors.white,
                                                   fontSize: 14,
                                                 ),
@@ -1299,241 +1377,6 @@ class _ScreenComponentsMyProfileState extends State<ScreenComponentsMyProfile> {
                                   ),
                                 ],
                               ),
-                            ),
-                          ),
-
-                          //segundo bloco
-                          Container(
-                            decoration: BoxDecoration(
-                              color: Colors.blue.shade600,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 20, horizontal: 20),
-                            width: MediaQuery.of(context).size.width * 0.75,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Corte sem fila',
-                                  style: GoogleFonts.poppins(
-                                    textStyle: const TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 22,
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(
-                                  height: 5,
-                                ),
-                                Text(
-                                  'Tenha um horário fixo e sempre disponível na ${Estabelecimento.nomeLocal}, pague no crédito e com benefícios exclusivos.',
-                                  style: GoogleFonts.poppins(
-                                    textStyle: const TextStyle(
-                                      color: Colors.white60,
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 12,
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 10),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      //blocos do beneficio
-                                      Container(
-                                        alignment: Alignment.center,
-                                        decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                        ),
-                                        padding: const EdgeInsets.symmetric(
-                                          vertical: 5,
-                                          horizontal: 5,
-                                        ),
-                                        child: Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Text(
-                                              'Barba não inclusa',
-                                              style: GoogleFonts.openSans(
-                                                textStyle: const TextStyle(
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Colors.black54,
-                                                  fontSize: 12,
-                                                ),
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 5),
-                                              child: Icon(
-                                                Icons.close,
-                                                color: Colors.red.shade600,
-                                                size: 18,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(top: 5),
-                                        child: Container(
-                                          alignment: Alignment.center,
-                                          decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                          ),
-                                          padding: const EdgeInsets.symmetric(
-                                            vertical: 5,
-                                            horizontal: 5,
-                                          ),
-                                          child: Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Text(
-                                                '1 vez por semana',
-                                                style: GoogleFonts.openSans(
-                                                  textStyle: const TextStyle(
-                                                    fontWeight: FontWeight.w600,
-                                                    color: Colors.black,
-                                                    fontSize: 12,
-                                                  ),
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    left: 5),
-                                                child: Icon(
-                                                  Icons.done_all,
-                                                  color: Colors.blue.shade600,
-                                                  size: 18,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(top: 5),
-                                        child: Container(
-                                          alignment: Alignment.center,
-                                          decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                          ),
-                                          padding: const EdgeInsets.symmetric(
-                                            vertical: 5,
-                                            horizontal: 5,
-                                          ),
-                                          child: Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Text(
-                                                'Pague apenas 1x ao mês',
-                                                style: GoogleFonts.openSans(
-                                                  textStyle: const TextStyle(
-                                                    fontWeight: FontWeight.w600,
-                                                    color: Colors.black,
-                                                    fontSize: 12,
-                                                  ),
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    left: 5),
-                                                child: Icon(
-                                                  Icons.done_all,
-                                                  color: Colors.blue.shade600,
-                                                  size: 18,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                      //blocos do beneficio
-                                    ],
-                                  ),
-                                ),
-                                //fim dos beneficios
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 10),
-                                  child: Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 10),
-                                    width: double.infinity,
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          'R\$${valorDaAssinaturaSemBarba.toStringAsFixed(2).replaceAll('.', ',')}/mês',
-                                          style: GoogleFonts.poppins(
-                                            textStyle: const TextStyle(
-                                              fontSize: 22,
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.bold,
-                                              shadows: [
-                                                Shadow(
-                                                  offset: Offset(2.0, 2.0),
-                                                  blurRadius: 2.0,
-                                                  color: Color.fromARGB(
-                                                      255, 0, 0, 0),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Expanded(
-                                      child: Container(
-                                        alignment: Alignment.center,
-                                        decoration: BoxDecoration(
-                                          color: const Color.fromARGB(
-                                              255, 65, 191, 72),
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                        ),
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 10),
-                                        child: Text(
-                                          'Assinar Agora',
-                                          style: GoogleFonts.openSans(
-                                            textStyle: const TextStyle(
-                                              fontWeight: FontWeight.w600,
-                                              color: Colors.white,
-                                              fontSize: 14,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
                             ),
                           ),
                         ],
