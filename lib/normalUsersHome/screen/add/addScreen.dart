@@ -420,7 +420,7 @@ class _AddScreenState extends State<AddScreen> {
           ? valorMultiplicadorPontos
           : 1,
       barbaHoraExtra: barba,
-      pricevalue: valorFinalCobrado,
+      pricevalue: widget.cupomActive ? 0 : valorFinalCobrado,
       nomeBarbeiro: isBarbeiro1
           ? "${profList[0].nomeProf}"
           : isBarbeiro2
@@ -434,7 +434,7 @@ class _AddScreenState extends State<AddScreen> {
         apenasBarba: apenasBarba,
         detalheDoProcedimento: detalheDoProcedimento ?? "Corte Normal",
         horariosExtra: horariosExtras,
-        totalValue: valorFinalCobrado,
+        totalValue: widget.cupomActive ? 0 : valorFinalCobrado,
         isActive: true,
         DiaDoCorte: diaDoCorte,
         NomeMes: monthName,

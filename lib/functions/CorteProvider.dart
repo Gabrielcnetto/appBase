@@ -35,6 +35,7 @@ class CorteProvider with ChangeNotifier {
         await DateFormat('MMMM', 'pt_BR').format(selectDateForUser);
     print(monthName);
     print("entrei na funcao");
+    final bool pagoPeloApp = await corte.pagoComCreditos;
     final nomeBarber = Uri.encodeFull(nomeBarbeiro);
     final String idUserDeslogado = Random().nextDouble().toString();
     try {
@@ -48,7 +49,7 @@ class CorteProvider with ChangeNotifier {
           .doc(corte.horarioCorte)
           .set({
         'feitoPorassinatura': false,
-        'pagoComCreditos': corte.pagoComCreditos,
+        'pagoComCreditos': pagoPeloApp ,
         "pagocomcupom": corte.pagoComCupom,
         "detalheDoProcedimento": corte.detalheDoProcedimento,
         "horariosExtras": corte.horariosExtra,
@@ -80,8 +81,8 @@ class CorteProvider with ChangeNotifier {
         final docSnapshotHorario2 = await docRefHorario2.get();
         if (!docSnapshotHorario2.exists) {
           await docRefHorario2.set({
-                'feitoPorassinatura': false,
-        'pagoComCreditos': corte.pagoComCreditos,
+            'feitoPorassinatura': false,
+            'pagoComCreditos': pagoPeloApp,
             'pagocomcupom': corte.pagoComCupom,
             "detalheDoProcedimento": "",
             "horariosExtras": [],
@@ -112,8 +113,8 @@ class CorteProvider with ChangeNotifier {
         final docSnapshotHorario3 = await docRefHorario3.get();
         if (!docSnapshotHorario3.exists) {
           await docRefHorario3.set({
-                'feitoPorassinatura': false,
-        'pagoComCreditos': corte.pagoComCreditos,
+            'feitoPorassinatura': false,
+            'pagoComCreditos': pagoPeloApp,
             'pagocomcupom': corte.pagoComCupom,
             "horariosExtras": [],
             "detalheDoProcedimento": "",
@@ -142,8 +143,8 @@ class CorteProvider with ChangeNotifier {
           .collection("${diaCorteSelect}")
           .doc(corte.id)
           .set({
-                'feitoPorassinatura': false,
-        'pagoComCreditos': corte.pagoComCreditos,
+        'feitoPorassinatura': false,
+        'pagoComCreditos': pagoPeloApp,
         'pagocomcupom': corte.pagoComCupom,
         "detalheDoProcedimento": corte.detalheDoProcedimento,
         "horariosExtras": corte.horariosExtra,
@@ -190,8 +191,8 @@ class CorteProvider with ChangeNotifier {
           .collection("all")
           .doc(corte.id)
           .set({
-                'feitoPorassinatura': false,
-        'pagoComCreditos': corte.pagoComCreditos,
+        'feitoPorassinatura': false,
+        'pagoComCreditos': pagoPeloApp,
         'pagocomcupom': corte.pagoComCupom,
         "detalheDoProcedimento": corte.detalheDoProcedimento,
         "horariosExtras": corte.horariosExtra,
@@ -218,9 +219,9 @@ class CorteProvider with ChangeNotifier {
             .collection("lista")
             .doc(corte.id)
             .set({
-              'feitoPorassinatura': false,
-        'pagoComCreditos': corte.pagoComCreditos,
-              'pagocomcupom': corte.pagoComCupom,
+          'feitoPorassinatura': false,
+          'pagoComCreditos': pagoPeloApp,
+          'pagocomcupom': corte.pagoComCupom,
           "easepoints": valorMultiplicador,
           "detalheDoProcedimento": corte.detalheDoProcedimento,
           "horariosExtras": corte.horariosExtra,
@@ -832,6 +833,8 @@ class CorteProvider with ChangeNotifier {
           .collection("all")
           .doc(hourSetForUser)
           .set({
+        'feitoPorassinatura': false,
+        'pagoComCreditos': false,
         'pagocomcupom': false,
         "detalheDoProcedimento": corte.detalheDoProcedimento,
         "horariosExtras": horariosExtras,
@@ -863,6 +866,8 @@ class CorteProvider with ChangeNotifier {
         final docSnapshotHorario2 = await docRefHorario2.get();
         if (!docSnapshotHorario2.exists) {
           await docRefHorario2.set({
+            'feitoPorassinatura': false,
+            'pagoComCreditos': false,
             'pagocomcupom': false,
             "detalheDoProcedimento": "",
             "horariosExtras": [],
@@ -893,6 +898,8 @@ class CorteProvider with ChangeNotifier {
         final docSnapshotHorario3 = await docRefHorario3.get();
         if (!docSnapshotHorario3.exists) {
           await docRefHorario3.set({
+            'feitoPorassinatura': false,
+            'pagoComCreditos': false,
             'pagocomcupom': false,
             "detalheDoProcedimento": "",
             "horariosExtras": [],
@@ -921,6 +928,8 @@ class CorteProvider with ChangeNotifier {
           .collection("${diaCorteSelect}")
           .doc(idAleatorioNew)
           .set({
+        'feitoPorassinatura': false,
+        'pagoComCreditos': false,
         'pagocomcupom': false,
         "detalheDoProcedimento": corte.detalheDoProcedimento,
         "horariosExtras": horariosExtras,
@@ -967,6 +976,8 @@ class CorteProvider with ChangeNotifier {
           .collection("all")
           .doc(idAleatorioNew)
           .set({
+        'feitoPorassinatura': false,
+        'pagoComCreditos': false,
         'pagocomcupom': false,
         "detalheDoProcedimento": corte.detalheDoProcedimento,
         "horariosExtras": horariosExtras,

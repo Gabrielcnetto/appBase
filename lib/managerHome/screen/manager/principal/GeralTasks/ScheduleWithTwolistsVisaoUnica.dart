@@ -311,10 +311,11 @@ class _ScheduleWithTwoListsVisaoUnicaState
                                         style: GoogleFonts.openSans(
                                           textStyle: TextStyle(
                                             fontSize: 14,
-                                            color: profissionalSelecionadoIndex ==
-                                                    profIndex
-                                                ? Colors.white
-                                                : Colors.black,
+                                            color:
+                                                profissionalSelecionadoIndex ==
+                                                        profIndex
+                                                    ? Colors.white
+                                                    : Colors.black,
                                           ),
                                         ),
                                       ),
@@ -354,11 +355,42 @@ class _ScheduleWithTwoListsVisaoUnicaState
                         for (CorteClass corte in cortesFiltrados) {
                           allHorariosExtra.addAll(corte.horariosExtra);
                         }
+                        //funcao de get para a assinatura
+                        bool determineAssinatura(String horario) {
+                          // Exemplo fictício: Definir que pagoComCreditos é true se o horário contém algum critério específico
+                          // Ajuste a lógica conforme necessário
+                          return cortesFiltrados.any((corte) =>
+                              corte.horariosExtra.contains(horario) &&
+                              corte.feitoporassinatura);
+                        }
+
+                        // Função para determinar o valor de pagoComCreditos
+                        bool determinePagoComCreditos(String horario) {
+                          // Exemplo fictício: Definir que pagoComCreditos é true se o horário contém algum critério específico
+                          // Ajuste a lógica conforme necessário
+                          return cortesFiltrados.any((corte) =>
+                              corte.horariosExtra.contains(horario) &&
+                              corte.pagoComCreditos);
+                        }
+
+                        bool determineUsoCupom(String horario) {
+                          // Exemplo fictício: Definir que pagoComCreditos é true se o horário contém algum critério específico
+                          // Ajuste a lógica conforme necessário
+                          return cortesFiltrados.any((corte) =>
+                              corte.horariosExtra.contains(horario) &&
+                              corte.pagoComCupom);
+                        }
+
                         for (String horario in allHorariosExtra) {
+                          bool validacaoAssinatura =
+                              determineAssinatura(horario);
+                          bool pagoComCreditosValue =
+                              determinePagoComCreditos(horario);
+                          bool pagoComOsCupons = determineUsoCupom(horario);
                           CorteClass novaCorte = CorteClass(
-                            feitoporassinatura: false,
-                            pagoComCreditos: false,
-                            pagoComCupom: false,
+                            feitoporassinatura: validacaoAssinatura,
+                            pagoComCreditos: pagoComCreditosValue,
+                            pagoComCupom: pagoComOsCupons,
                             easepoints: 0,
                             apenasBarba: false,
                             detalheDoProcedimento: "",
@@ -460,7 +492,9 @@ class _ScheduleWithTwoListsVisaoUnicaState
                                                               decoration:
                                                                   BoxDecoration(
                                                                 color: corte.pagoComCupom ==
-                                                                        true
+                                                                            true ||
+                                                                        corte
+                                                                            .pagoComCreditos || corte.feitoporassinatura
                                                                     ? Colors
                                                                         .orange
                                                                         .shade600
@@ -510,7 +544,9 @@ class _ScheduleWithTwoListsVisaoUnicaState
                                                                 alignment: Alignment
                                                                     .centerLeft,
                                                                 height: corte
-                                                                        .pagoComCupom
+                                                                            .pagoComCupom ||
+                                                                        corte
+                                                                            .pagoComCreditos || corte.feitoporassinatura
                                                                     ? MediaQuery.of(context)
                                                                             .size
                                                                             .height *
@@ -536,8 +572,9 @@ class _ScheduleWithTwoListsVisaoUnicaState
                                                                           .circular(
                                                                           10,
                                                                         ),
-                                                                  color: corte.pagoComCupom ==
-                                                                          true
+                                                                  color: corte.pagoComCupom ||
+                                                                          corte.pagoComCreditos || corte.feitoporassinatura==
+                                                                              true 
                                                                       ? Colors
                                                                           .orange
                                                                           .shade600
@@ -578,9 +615,10 @@ class _ScheduleWithTwoListsVisaoUnicaState
                                                                               ),
                                                                             ),
                                                                           ),
-                                                                          if (corte
-                                                                              .pagoComCupom)
+                                                                          if (corte.pagoComCupom ||
+                                                                              corte.pagoComCreditos || corte.feitoporassinatura)
                                                                             Container(
+                                                                              padding: EdgeInsets.symmetric(horizontal: 5),
                                                                               decoration: BoxDecoration(
                                                                                 borderRadius: BorderRadius.circular(8),
                                                                                 color: Colors.white,
@@ -589,8 +627,10 @@ class _ScheduleWithTwoListsVisaoUnicaState
                                                                                   color: Colors.white,
                                                                                 ),
                                                                               ),
-                                                                              child: Text(
-                                                                                "Grátis, Troca de cupom",
+                                                                              child: 
+                                                                              
+                                                                              Text(
+                                                                                corte.pagoComCreditos == true ? 'Pago pelo App' : corte.feitoporassinatura == true ? 'Assinante': corte.pagoComCupom == true ?"Grátis, Troca de cupom" : '',
                                                                                 style: GoogleFonts.openSans(
                                                                                   textStyle: const TextStyle(fontSize: 13, color: Colors.black, fontStyle: FontStyle.italic),
                                                                                 ),

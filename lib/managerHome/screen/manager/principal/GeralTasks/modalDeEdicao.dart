@@ -564,6 +564,70 @@ class _ModalDeEdicaoState extends State<ModalDeEdicao> {
                       ),
                     ),
                     //CONTAINER DO DATA/HORA - FIM
+                    //container dos detalhes - inicio
+//CONTAINER DO DATA/HORA - INICIO
+                    Container(
+                      padding: const EdgeInsets.symmetric(vertical: 15),
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        border: Border(
+                          bottom: BorderSide(
+                            width: 1,
+                            color: Colors.grey.shade200,
+                          ),
+                        ),
+                      ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Detalhes",
+                            style: GoogleFonts.openSans(
+                              textStyle: const TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 16,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
+                          if (infoRoutes.feitoporassinatura == true)
+                            Text(
+                              "Assinante",
+                              style: GoogleFonts.openSans(
+                                textStyle: const TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 16,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ),
+                          if (infoRoutes.pagoComCreditos == true)
+                            Text(
+                              "Pago pelo App",
+                              style: GoogleFonts.openSans(
+                                textStyle: const TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 16,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ),
+                          if (infoRoutes.pagoComCupom == true)
+                            Text(
+                              "Grátis - Pago com cupom",
+                              style: GoogleFonts.openSans(
+                                textStyle: const TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 16,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ),
+                        ],
+                      ),
+                    ),
+                    //container dos detalhes - fim
                   ],
                 ),
               ),

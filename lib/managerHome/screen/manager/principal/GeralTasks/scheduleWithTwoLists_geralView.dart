@@ -87,7 +87,6 @@ class _ScheduleWithTwoListsVer2ProfissionaisState
   Widget build(BuildContext context) {
     return Column(
       children: [
-      
         Container(
           width: MediaQuery.of(context).size.width,
           child: Row(
@@ -307,11 +306,41 @@ class _ScheduleWithTwoListsVer2ProfissionaisState
                             for (CorteClass corte in cortesFiltrados) {
                               allHorariosExtra.addAll(corte.horariosExtra);
                             }
+
+                            bool determineUsoCupom(String horario) {
+                              // Exemplo fictício: Definir que pagoComCreditos é true se o horário contém algum critério específico
+                              // Ajuste a lógica conforme necessário
+                              return cortesFiltrados.any((corte) =>
+                                  corte.horariosExtra.contains(horario) &&
+                                  corte.pagoComCupom);
+                            }
+
+                            bool determineAssinatura(String horario) {
+                              // Exemplo fictício: Definir que pagoComCreditos é true se o horário contém algum critério específico
+                              // Ajuste a lógica conforme necessário
+                              return cortesFiltrados.any((corte) =>
+                                  corte.horariosExtra.contains(horario) &&
+                                  corte.feitoporassinatura);
+                            }
+
+                            bool determinePagoComCreditos(String horario) {
+                              // Exemplo fictício: Definir que pagoComCreditos é true se o horário contém algum critério específico
+                              // Ajuste a lógica conforme necessário
+                              return cortesFiltrados.any((corte) =>
+                                  corte.horariosExtra.contains(horario) &&
+                                  corte.pagoComCreditos);
+                            }
+
                             for (String horario in allHorariosExtra) {
+                              bool boolDaAssinatura =
+                                  determineAssinatura(horario);
+                              bool pagoComCreditosValue =
+                                  determinePagoComCreditos(horario);
+                              bool pagoComOsCupons = determineUsoCupom(horario);
                               CorteClass novaCorte = CorteClass(
-                                feitoporassinatura: false,
-                                pagoComCreditos: false,
-                                pagoComCupom: false,
+                                feitoporassinatura: boolDaAssinatura,
+                                pagoComCreditos: pagoComCreditosValue,
+                                pagoComCupom: pagoComOsCupons,
                                 easepoints: 0,
                                 apenasBarba: false,
                                 detalheDoProcedimento: "",
@@ -360,8 +389,11 @@ class _ScheduleWithTwoListsVer2ProfissionaisState
                                                 decoration: BoxDecoration(
                                                   borderRadius:
                                                       BorderRadius.circular(10),
-                                                  color: corte.pagoComCupom ==
-                                                          true
+                                                  color: corte.pagoComCupom ||
+                                                          corte
+                                                              .pagoComCreditos ||
+                                                          corte.feitoporassinatura ==
+                                                              true
                                                       ? Colors.orange.shade600
                                                       : Colors.blue,
                                                 ),
@@ -404,8 +436,11 @@ class _ScheduleWithTwoListsVer2ProfissionaisState
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                             10),
-                                                    color: corte.pagoComCupom ==
-                                                            true
+                                                    color: corte.pagoComCupom ||
+                                                            corte
+                                                                .pagoComCreditos ||
+                                                            corte.feitoporassinatura ==
+                                                                true
                                                         ? Colors.orange.shade600
                                                         : Colors.blue,
                                                   ),
@@ -422,56 +457,17 @@ class _ScheduleWithTwoListsVer2ProfissionaisState
                                                           CrossAxisAlignment
                                                               .start,
                                                       children: [
-                                                        Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .spaceBetween,
-                                                          children: [
-                                                            Text(
-                                                              "ínicio: ${corte.horarioCorte}",
-                                                              style: GoogleFonts
-                                                                  .openSans(
-                                                                textStyle:
-                                                                    const TextStyle(
-                                                                  fontSize: 13,
-                                                                  color: Colors
-                                                                      .white70,
-                                                                ),
-                                                              ),
+                                                        Text(
+                                                          "ínicio: ${corte.horarioCorte}",
+                                                          style: GoogleFonts
+                                                              .openSans(
+                                                            textStyle:
+                                                                const TextStyle(
+                                                              fontSize: 13,
+                                                              color: Colors
+                                                                  .white70,
                                                             ),
-                                                            if (corte
-                                                                .pagoComCupom)
-                                                              Container(
-                                                                decoration:
-                                                                    BoxDecoration(
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              8),
-                                                                  color: Colors
-                                                                      .white,
-                                                                  border: Border
-                                                                      .all(
-                                                                    width: 0.5,
-                                                                    color: Colors
-                                                                        .white,
-                                                                  ),
-                                                                ),
-                                                                child: Text(
-                                                                  "Grátis, Troca de cupom",
-                                                                  style: GoogleFonts
-                                                                      .openSans(
-                                                                    textStyle: const TextStyle(
-                                                                        fontSize:
-                                                                            13,
-                                                                        color: Colors
-                                                                            .black,
-                                                                        fontStyle:
-                                                                            FontStyle.italic),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                          ],
+                                                          ),
                                                         ),
                                                         Column(
                                                           crossAxisAlignment:
@@ -618,11 +614,39 @@ class _ScheduleWithTwoListsVer2ProfissionaisState
                             for (CorteClass corte in cortesFiltrados) {
                               allHorariosExtra.addAll(corte.horariosExtra);
                             }
+                            bool determineAssinatura(String horario) {
+                              // Exemplo fictício: Definir que pagoComCreditos é true se o horário contém algum critério específico
+                              // Ajuste a lógica conforme necessário
+                              return cortesFiltrados.any((corte) =>
+                                  corte.horariosExtra.contains(horario) &&
+                                  corte.feitoporassinatura);
+                            }
+
+                            bool determineUsoCupom(String horario) {
+                              // Exemplo fictício: Definir que pagoComCreditos é true se o horário contém algum critério específico
+                              // Ajuste a lógica conforme necessário
+                              return cortesFiltrados.any((corte) =>
+                                  corte.horariosExtra.contains(horario) &&
+                                  corte.pagoComCupom);
+                            }
+
+                            bool determinePagoComCreditos(String horario) {
+                              // Exemplo fictício: Definir que pagoComCreditos é true se o horário contém algum critério específico
+                              // Ajuste a lógica conforme necessário
+                              return cortesFiltrados.any((corte) =>
+                                  corte.horariosExtra.contains(horario) &&
+                                  corte.pagoComCreditos);
+                            }
+
                             for (String horario in allHorariosExtra) {
+                              bool usoAssinatura = determineAssinatura(horario);
+                              bool pagoComOsCupons = determineUsoCupom(horario);
+                              bool pagoComCreditosValue =
+                                  determinePagoComCreditos(horario);
                               CorteClass novaCorte = CorteClass(
-                                feitoporassinatura: false,
-                                pagoComCreditos: false,
-                                pagoComCupom: false,
+                                feitoporassinatura: usoAssinatura,
+                                pagoComCreditos: pagoComCreditosValue,
+                                pagoComCupom: pagoComOsCupons,
                                 easepoints: 0,
                                 apenasBarba: false,
                                 detalheDoProcedimento: "",
@@ -671,8 +695,9 @@ class _ScheduleWithTwoListsVer2ProfissionaisState
                                                 decoration: BoxDecoration(
                                                   borderRadius:
                                                       BorderRadius.circular(10),
-                                                  color: corte.pagoComCupom ==
-                                                          true
+                                                  color: corte.pagoComCreditos ||
+                                                          corte.pagoComCupom ||corte.feitoporassinatura ==
+                                                              true
                                                       ? Colors.orange.shade600
                                                       : Colors.blue,
                                                 ),
@@ -715,7 +740,7 @@ class _ScheduleWithTwoListsVer2ProfissionaisState
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                             10),
-                                                    color: corte.pagoComCupom ==
+                                                    color: corte.pagoComCupom || corte.feitoporassinatura || corte.pagoComCreditos ==
                                                             true
                                                         ? Colors.orange.shade600
                                                         : Colors.blue,
@@ -733,56 +758,17 @@ class _ScheduleWithTwoListsVer2ProfissionaisState
                                                           CrossAxisAlignment
                                                               .start,
                                                       children: [
-                                                        Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .spaceBetween,
-                                                          children: [
-                                                            Text(
-                                                              "ínicio: ${corte.horarioCorte}",
-                                                              style: GoogleFonts
-                                                                  .openSans(
-                                                                textStyle:
-                                                                    const TextStyle(
-                                                                  fontSize: 13,
-                                                                  color: Colors
-                                                                      .white70,
-                                                                ),
-                                                              ),
+                                                        Text(
+                                                          "ínicio: ${corte.horarioCorte}",
+                                                          style: GoogleFonts
+                                                              .openSans(
+                                                            textStyle:
+                                                                const TextStyle(
+                                                              fontSize: 13,
+                                                              color: Colors
+                                                                  .white70,
                                                             ),
-                                                            if (corte
-                                                                .pagoComCupom)
-                                                              Container(
-                                                                decoration:
-                                                                    BoxDecoration(
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              8),
-                                                                  color: Colors
-                                                                      .white,
-                                                                  border: Border
-                                                                      .all(
-                                                                    width: 0.5,
-                                                                    color: Colors
-                                                                        .white,
-                                                                  ),
-                                                                ),
-                                                                child: Text(
-                                                                  "Grátis, Troca de cupom",
-                                                                  style: GoogleFonts
-                                                                      .openSans(
-                                                                    textStyle: const TextStyle(
-                                                                        fontSize:
-                                                                            13,
-                                                                        color: Colors
-                                                                            .black,
-                                                                        fontStyle:
-                                                                            FontStyle.italic),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                          ],
+                                                          ),
                                                         ),
                                                         Column(
                                                           mainAxisAlignment:
