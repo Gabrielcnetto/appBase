@@ -48,7 +48,7 @@ class CorteProvider with ChangeNotifier {
           .collection("all")
           .doc(corte.horarioCorte)
           .set({
-        'feitoPorassinatura': false,
+        'feitoPorassinatura': corte.feitoporassinatura,
         'pagoComCreditos': pagoPeloApp ,
         "pagocomcupom": corte.pagoComCupom,
         "detalheDoProcedimento": corte.detalheDoProcedimento,
@@ -81,7 +81,7 @@ class CorteProvider with ChangeNotifier {
         final docSnapshotHorario2 = await docRefHorario2.get();
         if (!docSnapshotHorario2.exists) {
           await docRefHorario2.set({
-            'feitoPorassinatura': false,
+            'feitoPorassinatura': corte.feitoporassinatura,
             'pagoComCreditos': pagoPeloApp,
             'pagocomcupom': corte.pagoComCupom,
             "detalheDoProcedimento": "",
@@ -113,7 +113,7 @@ class CorteProvider with ChangeNotifier {
         final docSnapshotHorario3 = await docRefHorario3.get();
         if (!docSnapshotHorario3.exists) {
           await docRefHorario3.set({
-            'feitoPorassinatura': false,
+           'feitoPorassinatura': corte.feitoporassinatura,
             'pagoComCreditos': pagoPeloApp,
             'pagocomcupom': corte.pagoComCupom,
             "horariosExtras": [],
@@ -143,7 +143,7 @@ class CorteProvider with ChangeNotifier {
           .collection("${diaCorteSelect}")
           .doc(corte.id)
           .set({
-        'feitoPorassinatura': false,
+        'feitoPorassinatura': corte.feitoporassinatura,
         'pagoComCreditos': pagoPeloApp,
         'pagocomcupom': corte.pagoComCupom,
         "detalheDoProcedimento": corte.detalheDoProcedimento,
@@ -191,7 +191,7 @@ class CorteProvider with ChangeNotifier {
           .collection("all")
           .doc(corte.id)
           .set({
-        'feitoPorassinatura': false,
+       'feitoPorassinatura': corte.feitoporassinatura,
         'pagoComCreditos': pagoPeloApp,
         'pagocomcupom': corte.pagoComCupom,
         "detalheDoProcedimento": corte.detalheDoProcedimento,
@@ -219,7 +219,7 @@ class CorteProvider with ChangeNotifier {
             .collection("lista")
             .doc(corte.id)
             .set({
-          'feitoPorassinatura': false,
+         'feitoPorassinatura': corte.feitoporassinatura,
           'pagoComCreditos': pagoPeloApp,
           'pagocomcupom': corte.pagoComCupom,
           "easepoints": valorMultiplicador,
@@ -833,7 +833,7 @@ class CorteProvider with ChangeNotifier {
           .collection("all")
           .doc(hourSetForUser)
           .set({
-        'feitoPorassinatura': false,
+        'feitoPorassinatura': corte.feitoporassinatura,
         'pagoComCreditos': false,
         'pagocomcupom': false,
         "detalheDoProcedimento": corte.detalheDoProcedimento,
@@ -866,7 +866,7 @@ class CorteProvider with ChangeNotifier {
         final docSnapshotHorario2 = await docRefHorario2.get();
         if (!docSnapshotHorario2.exists) {
           await docRefHorario2.set({
-            'feitoPorassinatura': false,
+          'feitoPorassinatura': corte.feitoporassinatura,
             'pagoComCreditos': false,
             'pagocomcupom': false,
             "detalheDoProcedimento": "",
@@ -898,7 +898,7 @@ class CorteProvider with ChangeNotifier {
         final docSnapshotHorario3 = await docRefHorario3.get();
         if (!docSnapshotHorario3.exists) {
           await docRefHorario3.set({
-            'feitoPorassinatura': false,
+           'feitoPorassinatura': corte.feitoporassinatura,
             'pagoComCreditos': false,
             'pagocomcupom': false,
             "detalheDoProcedimento": "",
@@ -928,7 +928,7 @@ class CorteProvider with ChangeNotifier {
           .collection("${diaCorteSelect}")
           .doc(idAleatorioNew)
           .set({
-        'feitoPorassinatura': false,
+        'feitoPorassinatura': corte.feitoporassinatura,
         'pagoComCreditos': false,
         'pagocomcupom': false,
         "detalheDoProcedimento": corte.detalheDoProcedimento,
@@ -976,7 +976,7 @@ class CorteProvider with ChangeNotifier {
           .collection("all")
           .doc(idAleatorioNew)
           .set({
-        'feitoPorassinatura': false,
+       'feitoPorassinatura': corte.feitoporassinatura,
         'pagoComCreditos': false,
         'pagocomcupom': false,
         "detalheDoProcedimento": corte.detalheDoProcedimento,

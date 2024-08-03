@@ -34,7 +34,7 @@ class StripeSubscriptions with ChangeNotifier {
     }
   }
 
-  Future<Map<String, dynamic>> createPrice(double amount) async {
+  Future<Map<String, dynamic>> createPrice(int amount) async {
     final response = await http.post(
       Uri.parse('https://api.stripe.com/v1/prices'),
       headers: {
@@ -99,7 +99,7 @@ class StripeSubscriptions with ChangeNotifier {
   }
 
   Future<void> createAndSubscribeCustomer(
-      String email, double amount, PaymentMethod paymentMethod) async {
+      String email, int amount, PaymentMethod paymentMethod) async {
     final customer = await createCustomer(email);
     final customerId = customer['id'];
 
@@ -121,18 +121,108 @@ class StripeSubscriptions with ChangeNotifier {
 
     await createSubscription(customerId, priceId);
   }
-
   //parte do banco de dados onde envia ao usuario que ele tem um bool positivo para assinatura
 
-  Future<void> enviarAssinaturaAtivaAoBancodeDados({required String tipoassinatura}) async {
+  Future<void> enviarAssinaturaAtivaAoBancodeDados() async {
     final userid = await authSettings.currentUser!.uid;
-    try{
-      final postSignature = await database.collection('usuarios').doc(userid).update({
+    try {
+      final postSignature =
+          await database.collection('usuarios').doc(userid).update({
         'assinatura': true,
-        'tipo_assinatura': tipoassinatura,
+  
       });
-    }catch(e){
+    } catch (e) {
       print('ao enviar bool deu isto:$e');
+    }
+  }
+
+  //enviar o valor da assinatura para o database da barbearia(manager ver)
+  Future<void> enviandoValorMensalDeAssinaturaSParaGerenciador({
+    required double valorAssinatura,
+  }) async {
+    try {
+      final docRef =
+          database.collection('estabelecimento').doc('totalAssinaturas');
+      final docSnapshot = await docRef.get();
+
+      if (docSnapshot.exists) {
+        // Atualiza o documento existente com incremento
+        await docRef.update({
+          'saqueDeMensalidades': FieldValue.increment(valorAssinatura),
+        });
+      } else {
+        // Cria um novo documento com o valor inicial
+        await docRef.set({
+          'saqueDeMensalidades': valorAssinatura,
+        });
+      }
+    } catch (e) {
+      print('Erro ao enviar valor da assinatura para o database: $e');
+    }
+  }
+
+  //enviando o valor de depositos para o gerenciador ver
+  Future<void> enviandoValordeDepositosnoApp({
+    required double valorAssinatura,
+  }) async {
+    try {
+      final docRef =
+          database.collection('estabelecimento').doc('saldoAdicionados');
+      final docSnapshot = await docRef.get();
+
+      if (docSnapshot.exists) {
+        // Atualiza o documento existente com incremento
+        await docRef.update({
+          'saldoAdicionados': FieldValue.increment(valorAssinatura),
+        });
+      } else {
+        // Cria um novo documento com o valor inicial
+        await docRef.set({
+          'saldoAdicionados': valorAssinatura,
+        });
+      }
+    } catch (e) {
+      print('Erro ao enviar valor da assinatura para o database: $e');
+    }
+  }
+
+
+  //fazendo o get dos saldos
+
+  Future<double?> getTotalemMensalidades() async {
+    print('#iu: abri a funcao');
+    try {
+      if (authSettings.currentUser != null) {
+        double? valorAssinaturaUm;
+
+        final docSnapshot =
+            await database.collection("estabelecimento").doc('assinaturaValor').get();
+        if (docSnapshot.exists) {
+          Map<String, dynamic> data =
+              docSnapshot.data() as Map<String, dynamic>;
+
+          // Verifica se 'saldoConta' existe e converte para double se necessário
+          var valorAssinatura1DB = data['saqueDeMensalidades'];
+          if (valorAssinatura1DB is int) {
+            valorAssinaturaUm = valorAssinatura1DB.toDouble();
+          } else if (valorAssinatura1DB is double) {
+            valorAssinaturaUm = valorAssinatura1DB;
+          } else {
+            // Trate o caso onde saldoConta não é nem int nem double, se necessário
+            print('#iu: saldoConta não é um número válido');
+          }
+        } else {
+          print('#iu: Documento não encontrado');
+        }
+
+        print('#iu: valor final: ${valorAssinaturaUm}');
+        return valorAssinaturaUm;
+      }
+
+      return null;
+    } catch (e) {
+      print('#iu: houve um erro: $e');
+      return null; // Certifique-se de retornar null no caso de erro
     }
   }
 }

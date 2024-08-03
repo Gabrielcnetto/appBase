@@ -557,15 +557,30 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
                       const SizedBox(
                         width: 5,
                       ),
-                      Text(
-                        "Faturamento",
-                        style: GoogleFonts.openSans(
-                          textStyle: const TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 14,
-                            color: Colors.black,
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Faturamento",
+                            style: GoogleFonts.openSans(
+                              textStyle: const TextStyle(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 14,
+                                color: Colors.black,
+                              ),
+                            ),
                           ),
-                        ),
+                          Text(
+                            "Sem somar assinaturas*",
+                            style: GoogleFonts.openSans(
+                              textStyle: const TextStyle(
+                                fontWeight: FontWeight.w400,
+                                fontSize: 12,
+                                color: Colors.black54,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -575,7 +590,7 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
                     color: Estabelecimento.primaryColor,
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  padding: const EdgeInsets.all(5),
+                  padding: const EdgeInsets.symmetric(vertical: 5,horizontal: 10),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -596,7 +611,7 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
                           if (showMoreMonths == true)
                             Container(
                               //padding: EdgeInsets.all(1),
-                              width: MediaQuery.of(context).size.width * 0.12,
+                              width: MediaQuery.of(context).size.width * 0.16,
                               height: MediaQuery.of(context).size.height * 0.09,
                               child: ListView.builder(
                                 itemCount: 3,

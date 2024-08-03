@@ -8,6 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:lionsbarberv1/classes/Estabelecimento.dart';
 import 'package:lionsbarberv1/functions/profileScreenFunctions.dart';
+import 'package:lionsbarberv1/functions/stripe_subscriptions.dart';
 import 'package:provider/provider.dart';
 
 class AddCreditosNaConta extends StatefulWidget {
@@ -91,7 +92,13 @@ class _AddCreditosNaContaState extends State<AddCreditosNaConta> {
             valueFinalFound.text,
           ),
         );
+        await Provider.of<StripeSubscriptions>(context, listen: false)
+            .enviandoValordeDepositosnoApp(
+          valorAssinatura: double.parse(valueFinalFound.text),
+        );
       } catch (e) {}
+
+      //divisao
       showModalBottomSheet(
         backgroundColor: Colors.transparent,
         isScrollControlled: true,

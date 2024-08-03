@@ -121,8 +121,10 @@ class MyProfileScreenFunctions with ChangeNotifier {
   }
 
   Future<void> setPhone({required String phoneNumber}) async {
+    String cleanedNumber =
+        await phoneNumber.replaceAll(RegExp(r'^\+?55|\- '), '');
     db.collection("usuarios").doc(authSettings.currentUser!.uid).update({
-      "PhoneNumber": phoneNumber,
+      "PhoneNumber": '55${cleanedNumber}',
     });
   }
 
@@ -248,13 +250,52 @@ class MyProfileScreenFunctions with ChangeNotifier {
         double? valorAssinaturaUm;
 
         final docSnapshot =
-            await db.collection("estabelecimento").doc('assinaturaValor').get();
+            await db.collection("estabelecimento").doc('totalAssinaturas').get();
         if (docSnapshot.exists) {
           Map<String, dynamic> data =
               docSnapshot.data() as Map<String, dynamic>;
 
           // Verifica se 'saldoConta' existe e converte para double se necessário
-          var valorAssinatura1DB = data['precoAssinatura1'];
+          var valorAssinatura1DB = data['saqueDeMensalidades'];
+          if (valorAssinatura1DB is int) {
+            valorAssinaturaUm = valorAssinatura1DB.toDouble();
+          } else if (valorAssinatura1DB is double) {
+            valorAssinaturaUm = valorAssinatura1DB;
+          } else {
+            // Trate o caso onde saldoConta não é nem int nem double, se necessário
+            print('#iu: saldoConta não é um número válido');
+          }
+        } else {
+          print('#iu: Documento não encontrado');
+        }
+
+        print('#iu: valor final: ${valorAssinaturaUm}');
+        return valorAssinaturaUm;
+      }
+
+      return null;
+    } catch (e) {
+      print('#iu: houve um erro: $e');
+      return null; // Certifique-se de retornar null no caso de erro
+    }
+  }
+
+  //GET DO VALOR POSSIVEL DE SAQUE
+
+  Future<double?> valorpossiveldesaque() async {
+    print('#iu: abri a funcao');
+    try {
+      if (authSettings.currentUser != null) {
+        double? valorAssinaturaUm;
+
+        final docSnapshot =
+            await db.collection("estabelecimento").doc('saldoAdicionados').get();
+        if (docSnapshot.exists) {
+          Map<String, dynamic> data =
+              docSnapshot.data() as Map<String, dynamic>;
+
+          // Verifica se 'saldoConta' existe e converte para double se necessário
+          var valorAssinatura1DB = data['saldoAdicionados'];
           if (valorAssinatura1DB is int) {
             valorAssinaturaUm = valorAssinatura1DB.toDouble();
           } else if (valorAssinatura1DB is double) {
@@ -288,7 +329,7 @@ class MyProfileScreenFunctions with ChangeNotifier {
         if (event.exists) {
           Map<String, dynamic> data = event.data() as Map<String, dynamic>;
 
-          premiumounao = data['assinatura'];
+          premiumounao = data['assinatura'] ?? false;
         } else {}
         return premiumounao;
       });

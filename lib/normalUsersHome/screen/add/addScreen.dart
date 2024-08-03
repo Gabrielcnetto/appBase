@@ -56,7 +56,9 @@ class _AddScreenState extends State<AddScreen> {
     LoadPriceAdicionalIndex4();
     LoadPriceAdicionalIndex5();
     setValueBoolCupom();
+    UsuarioPremium;
     loadPremium();
+    print('#premssada3232: $UsuarioPremium');
   }
 
   int? index5Value;
@@ -322,6 +324,7 @@ class _AddScreenState extends State<AddScreen> {
   List<Horarios> _horariosPreenchidosParaEvitarDupNoCreate =
       []; // a lista que tem todos os horariso preenchidos
   Future<void> CreateAgendamento() async {
+    setValueOnCreateBoolPremium();
     //Horarios da semana comum
     List<Horarios> _horariosSemana =
         listaHorariosEncaixe; // essa aqui usamos para enviar 2 horarios a mais com barba true
@@ -427,7 +430,7 @@ class _AddScreenState extends State<AddScreen> {
               ? "${profList[1].nomeProf}"
               : "Não Definido",
       corte: CorteClass(
-        feitoporassinatura: false,
+        feitoporassinatura: valorFinalParaCriacao,
         pagoComCreditos: toggleUsarSaldoParaPagar,
         pagoComCupom: cupomAtivadoCorteGratis,
         easepoints: 0,
@@ -765,7 +768,8 @@ class _AddScreenState extends State<AddScreen> {
                               ),
                             ),
                           ),
-                          if (widget.cupomActive == false)
+                          if (widget.cupomActive == false &&
+                              UsuarioPremium == false)
                             Text(
                               toggleUsarSaldoParaPagar == true
                                   ? 'Pagamento feito pelo Aplicativo'
@@ -784,6 +788,16 @@ class _AddScreenState extends State<AddScreen> {
                                 textStyle: const TextStyle(
                                   fontWeight: FontWeight.w600,
                                   color: Colors.black,
+                                ),
+                              ),
+                            ),
+                          if (UsuarioPremium == true)
+                            Text(
+                              'Valor já incluso na assinatura',
+                              style: GoogleFonts.openSans(
+                                textStyle: const TextStyle(
+                                  fontWeight: FontWeight.w800,
+                                  color: Color.fromARGB(255, 206, 120, 6),
                                 ),
                               ),
                             ),
@@ -1390,13 +1404,16 @@ class _AddScreenState extends State<AddScreen> {
   bool toggleUsarSaldoParaPagar = false;
   bool? saldoMaiorQueCusto;
   bool? UsuarioPremium;
+  bool valorFinalParaCriacao = false;
   Future<void> loadPremium() async {
     bool? boolDATABASE = await MyProfileScreenFunctions().getPremiumOrNot();
 
     setState(() {
       UsuarioPremium = boolDATABASE;
+
       loadSaldo();
     });
+    print("##premssada3232: aqui ja atualizado ficou assim: $UsuarioPremium");
   }
 
   double saldoTotal = 0;
@@ -1408,6 +1425,12 @@ class _AddScreenState extends State<AddScreen> {
     setState(() {
       saldoTotal = PointOfClient!.toDouble();
       calculoSaldoVersusPreco();
+    });
+  }
+
+  void setValueOnCreateBoolPremium() {
+    setState(() {
+      valorFinalParaCriacao = UsuarioPremium ?? false;
     });
   }
 
@@ -2357,10 +2380,11 @@ class _AddScreenState extends State<AddScreen> {
                             //CONTAINER DA HORA - FIM
 
                             //container do pagamento online - inicio
-                            //if ((/*!kIsWeb || */UsuarioPremium == false) &&
-                            //     hourSetForUser != null && widget.cupomActive == false)
-                            if (hourSetForUser != null &&
+                            if ((/*!kIsWeb || */ UsuarioPremium == false) &&
+                                hourSetForUser != null &&
                                 widget.cupomActive == false)
+                              //if (hourSetForUser != null &&
+                              //     widget.cupomActive == false)
                               Padding(
                                 padding: const EdgeInsets.only(top: 15),
                                 child: Container(

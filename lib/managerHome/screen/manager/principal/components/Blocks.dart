@@ -56,8 +56,38 @@ class _BlocksManagerComponentState extends State<BlocksManagerComponent> {
 
     setState(() {
       totalCortesNomES = listCortesfinal.length;
+      loadAssinatura1();
+      loadSaques();
     });
   }
+  //total para saque
+
+  double valorAssinatura1 = 0;
+  Future<void> loadAssinatura1() async {
+    double? PointOfClient =
+        await Provider.of<MyProfileScreenFunctions>(context, listen: false)
+            .getValorAssinatura1();
+    setState(() {
+      valorAssinatura1 = PointOfClient!.toDouble();
+      calculoReducaoFaturamentoPorAssinaturas();
+    });
+  }
+ double totalSaquedisponivel = 0;
+  Future<void> loadSaques() async {
+    double? PointOfClient =
+        await Provider.of<MyProfileScreenFunctions>(context, listen: false)
+            .valorpossiveldesaque();
+    setState(() {
+      totalSaquedisponivel = PointOfClient!.toDouble();
+    });
+  }
+
+double faturamentofinalSemAssinaturas= 0;
+ void calculoReducaoFaturamentoPorAssinaturas() {
+  setState(() {
+    faturamentofinalSemAssinaturas = (totalFaturamento - valorAssinatura1);
+  });
+}
 
   String? mesAtual;
   Future<void> loadAtualMonth() async {
@@ -72,13 +102,14 @@ class _BlocksManagerComponentState extends State<BlocksManagerComponent> {
   }
 
   //faturamento total
-  int? totalFaturamento;
+  int totalFaturamento = 0;
   Future<void> loadTotalFaturamento() async {
     int totalFaturamentoGet =
         await ManagerScreenFunctions().loadFaturamentoBarbearia();
 
     setState(() {
       totalFaturamento = totalFaturamentoGet;
+      calculoReducaoFaturamentoPorAssinaturas();
     });
   }
 
@@ -254,7 +285,7 @@ class _BlocksManagerComponentState extends State<BlocksManagerComponent> {
                                   height: 5,
                                 ),
                                 Text(
-                                  "R\$${totalFaturamento ?? 00}",
+                                  "R\$${faturamentofinalSemAssinaturas.toStringAsFixed(2).replaceAll('.', ',') ?? 00}",
                                   style: GoogleFonts.openSans(
                                     textStyle: const TextStyle(
                                       fontWeight: FontWeight.bold,
@@ -283,8 +314,152 @@ class _BlocksManagerComponentState extends State<BlocksManagerComponent> {
                       ],
                     ),
                   ),
-                )
+                ),
               ],
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 5),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Container(
+                      padding: EdgeInsets.symmetric(vertical: 5),
+                      alignment: Alignment.center,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade200,
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            width: 40,
+                            height: 40,
+                            padding: const EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(45),
+                            ),
+                            child: Icon(
+                              Icons.credit_card,
+                              color: Colors.grey.shade700,
+                              size: 20,
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          Container(
+                            child: Text(
+                              "R\$${valorAssinatura1.toStringAsFixed(2).replaceAll('.', ',')}",
+                              style: GoogleFonts.openSans(
+                                textStyle: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                  fontSize: 24,
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Total em mensalidades",
+                                style: GoogleFonts.openSans(
+                                  textStyle: const TextStyle(
+                                    fontWeight: FontWeight.w400,
+                                    color: Colors.black54,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ),
+                              Icon(
+                                Icons.arrow_right,
+                                size: 15,
+                                color: Colors.grey.shade400,
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  Expanded(
+                    child: Container(
+                      padding: EdgeInsets.symmetric(vertical: 5),
+                      alignment: Alignment.center,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade200,
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            width: 40,
+                            height: 40,
+                            padding: const EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(45),
+                            ),
+                            child: Icon(
+                              Icons.currency_exchange,
+                              color: Colors.grey.shade700,
+                              size: 20,
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          Text(
+                            "R\$${totalSaquedisponivel.toStringAsFixed(2).replaceAll('.', ',')}",
+                            style: GoogleFonts.openSans(
+                              textStyle: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                                fontSize: 24,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Saque de Saldo",
+                                style: GoogleFonts.openSans(
+                                  textStyle: const TextStyle(
+                                    fontWeight: FontWeight.w400,
+                                    color: Colors.black54,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ),
+                              Icon(
+                                Icons.arrow_right,
+                                size: 15,
+                                color: Colors.grey.shade400,
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

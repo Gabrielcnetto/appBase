@@ -514,6 +514,7 @@ class _ProfissionalCodeState extends State<ProfissionalCode> {
                                 vertical: 5, horizontal: 10),
                             child: Text(
                               widget.corte.pagoComCupom ? "Grátis":
+                              widget.corte.pagoComCreditos || widget.corte.feitoporassinatura? 'PAGO' :
                               "R\$${widget.corte.totalValue ?? 00},00",
                               style: GoogleFonts.openSans(
                                 textStyle: const TextStyle(

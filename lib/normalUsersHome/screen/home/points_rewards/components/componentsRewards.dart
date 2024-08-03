@@ -429,10 +429,18 @@ class _ComponentDataRewardsState extends State<ComponentDataRewards> {
               InkWell(
                 onTap: () {
                   if (liberadoParaResgate == true) {
-                    Navigator.of(context)
-                        .push(MaterialPageRoute(builder: (BuildContext ctx) {
-                      return const HomeScreen01(selectedIndex: 1,cupomIsAcitve: true,);
-                    }));
+                    Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(
+                        builder: (BuildContext ctx) {
+                          return const HomeScreen01(
+                            selectedIndex: 1,
+                            cupomIsAcitve: true,
+                          );
+                        },
+                      ),
+                      (Route<dynamic> route) =>
+                          false, // Remove todas as rotas anteriores
+                    );
                   }
                 },
                 child: Container(
