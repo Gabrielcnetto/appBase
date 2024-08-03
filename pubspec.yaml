@@ -58,6 +58,7 @@ dependencies:
   path_provider: ^2.1.3
   flutter_stripe: ^11.0.0
   flutter_multi_formatter: ^2.13.0
+  pay: ^2.0.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

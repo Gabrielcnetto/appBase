@@ -4,12 +4,13 @@
     <application
         android:label="Lions Barber Club"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/ic_launcher"
+        android:theme="@style/Theme.MaterialComponents.DayNight.DarkActionBar">
         <activity
             android:name=".MainActivity"
             android:exported="true"
             android:launchMode="singleTop"
-            android:theme="@style/LaunchTheme"
+            android:theme="@style/Theme.MaterialComponents.DayNight.DarkActionBar"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
             android:hardwareAccelerated="true"
             android:windowSoftInputMode="adjustResize">
@@ -37,6 +38,9 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+        <meta-data
+            android:name="com.stripe.android.API_KEY"
+            android:value="pk_live_51PhN0AJbuFc8lkJcbRa8cs7RwiwCSYLDN9t0fYZBDzPljS3IZdjsjLnXdfySp6ag69vuah4kvBkEvrwaVpqvgi1700YJEUalH6"/>
     </application>
     
     <!-- Required to query activities that can process text, see:

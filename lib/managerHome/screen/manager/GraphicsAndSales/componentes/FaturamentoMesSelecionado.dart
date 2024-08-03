@@ -518,7 +518,6 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
   //configurações de meta - FIM
   //ver tudo
 
-  bool verTotalBool = false;
   @override
   Widget build(BuildContext context) {
     String mesSelecionado =
@@ -1075,86 +1074,55 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
               height: 5,
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 5),
-                  child: InkWell(
-                    onTap: (){
-                      verTotalBool = !verTotalBool;
-                    },
-                    child: Container(
-                      alignment: Alignment.center,
-                      padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-                      decoration: BoxDecoration(
-                        color: Estabelecimento.primaryColor,
-                        borderRadius: BorderRadius.circular(5),
+                if (metaDatabase == 0)
+                  Row(
+                    children: [
+                      const Icon(
+                        Icons.star,
+                        color: Colors.orangeAccent,
+                        size: 17,
                       ),
-                      child: Text(
-                        'Ver Total',
+                      Text(
+                        "Novidade",
                         style: GoogleFonts.poppins(
                           textStyle: const TextStyle(
-                            color: Colors.white,
+                            color: Colors.black,
                             fontWeight: FontWeight.bold,
                             fontSize: 10,
                           ),
                         ),
                       ),
+                    ],
+                  ),
+                const SizedBox(
+                  width: 5,
+                ),
+                InkWell(
+                  onTap: ShowModalMeta,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 4, horizontal: 5),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.white,
+                      border: Border.all(
+                        width: 0.2,
+                        color: Colors.grey.shade100,
+                      ),
+                    ),
+                    child: Text(
+                      "Colocar/editar Meta",
+                      style: GoogleFonts.openSans(
+                        textStyle: TextStyle(
+                          color: Colors.blue.shade600,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 10,
+                        ),
+                      ),
                     ),
                   ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    if (metaDatabase == 0)
-                      Row(
-                        children: [
-                          const Icon(
-                            Icons.star,
-                            color: Colors.orangeAccent,
-                            size: 17,
-                          ),
-                          Text(
-                            "Novidade",
-                            style: GoogleFonts.poppins(
-                              textStyle: const TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 10,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    InkWell(
-                      onTap: ShowModalMeta,
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 4, horizontal: 5),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: Colors.white,
-                          border: Border.all(
-                            width: 0.2,
-                            color: Colors.grey.shade100,
-                          ),
-                        ),
-                        child: Text(
-                          "Colocar/editar Meta",
-                          style: GoogleFonts.openSans(
-                            textStyle: TextStyle(
-                              color: Colors.blue.shade600,
-                              fontWeight: FontWeight.w500,
-                              fontSize: 10,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
                 ),
               ],
             )

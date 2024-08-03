@@ -1004,7 +1004,12 @@ class ManagerScreenFunctions with ChangeNotifier {
 
     //atualizando na allcuts - inicio
     try {
-      final allcutsAtt = await database.collection('allCuts').doc(corte.NomeMes.toLowerCase()).collection('${corte.DiaDoCorte}').doc(corte.id).update({
+      final allcutsAtt = await database
+          .collection('allCuts')
+          .doc(corte.NomeMes.toLowerCase())
+          .collection('${corte.DiaDoCorte}')
+          .doc(corte.id)
+          .update({
         'totalValue': valorFinalDatabase,
       });
     } catch (e) {
@@ -1012,4 +1017,6 @@ class ManagerScreenFunctions with ChangeNotifier {
     }
     //atualizando na allcuts - fim
   }
+
+  
 }
