@@ -33,12 +33,14 @@ class _TelaVisaoAssinaturaPagamentoState
   final _expiryDateController = TextEditingController();
   final _cvvController = TextEditingController();
   final _emailController = TextEditingController();
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     loadUserName();
     loadUserPhone();
+    loadUserEmaile();
   }
 
   @override
@@ -86,6 +88,14 @@ class _TelaVisaoAssinaturaPagamentoState
 
   final database = FirebaseFirestore.instance;
   final authSettings = FirebaseAuth.instance;
+  String? userEmail;
+
+  Future<void> loadUserEmaile() async {
+    String? usuario = await MyProfileScreenFunctions().getUserEmail();
+    setState(() {
+      userEmail = usuario;
+    });
+  }
 
   Future<void> subscriberUser() async {
     //if (!_formKey.currentState!.validate()) {
@@ -150,7 +160,7 @@ class _TelaVisaoAssinaturaPagamentoState
           postalCode: '95630000',
           state: 'RS',
         ),
-        email: 'gabrielcarlosnettoo@gmail.com', // Email do cliente
+        email: '${userEmail ?? 'easecorte@gmail.com'}', // Email do cliente
         name: '${userName ?? "cliente ${Estabelecimento.nomeLocal}"}',
         phone: '${phoneNumber ?? 'Cliente ${Estabelecimento.nomeLocal}'}',
       );
@@ -161,8 +171,9 @@ class _TelaVisaoAssinaturaPagamentoState
           ),
         ),
       );
-      String email = 'gabrielcarlosnettoo@gmail.com'; // Email do cliente
-      int amount = 100; //widget.valorAssinatura.toInt();
+      String email = '${userEmail ?? 'easecorte@gmail.com'}'; // Email do cliente
+      int amount =
+          widget.valorAssinatura.toInt(); //widget.valorAssinatura.toInt();
 
       await Provider.of<StripeSubscriptions>(context, listen: false)
           .createAndSubscribeCustomer(email, amount, payMethod);
@@ -174,10 +185,11 @@ class _TelaVisaoAssinaturaPagamentoState
         Provider.of<MyProfileScreenFunctions>(context, listen: false).setPhone(
           phoneNumber: phoneNumber ?? '',
         );
-    
+
         //enviando ao gerenciador
-              await Provider.of<StripeSubscriptions>(context, listen: false)
-          .enviandoValorMensalDeAssinaturaSParaGerenciador(valorAssinatura: widget.valorAssinatura);
+        await Provider.of<StripeSubscriptions>(context, listen: false)
+            .enviandoValorMensalDeAssinaturaSParaGerenciador(
+                valorAssinatura: widget.valorAssinatura);
       } catch (e) {}
 
       Navigator.of(context).pop();
@@ -232,7 +244,7 @@ class _TelaVisaoAssinaturaPagamentoState
       Future.delayed(Duration(seconds: 3), () {
         Navigator.pop(context);
       });
-        Future.delayed(Duration(seconds: 3), () {
+      Future.delayed(Duration(seconds: 3), () {
         Navigator.pop(context);
       });
     } catch (e) {
