@@ -250,13 +250,13 @@ class MyProfileScreenFunctions with ChangeNotifier {
         double? valorAssinaturaUm;
 
         final docSnapshot =
-            await db.collection("estabelecimento").doc('totalAssinaturas').get();
+            await db.collection("estabelecimento").doc('assinaturaValor').get();
         if (docSnapshot.exists) {
           Map<String, dynamic> data =
               docSnapshot.data() as Map<String, dynamic>;
 
           // Verifica se 'saldoConta' existe e converte para double se necessário
-          var valorAssinatura1DB = data['saqueDeMensalidades'];
+          var valorAssinatura1DB = data['precoAssinatura1'];
           if (valorAssinatura1DB is int) {
             valorAssinaturaUm = valorAssinatura1DB.toDouble();
           } else if (valorAssinatura1DB is double) {
@@ -337,5 +337,43 @@ class MyProfileScreenFunctions with ChangeNotifier {
     }
 
     return null;
+  }
+
+  //get valor que o manager recebe em assinaturas:
+    Future<double?> gettTotalemAssinaturasParaSaque() async {
+    print('#iu: abri a funcao');
+    try {
+      if (authSettings.currentUser != null) {
+        double? valorAssinaturaUm;
+
+        final docSnapshot =
+            await db.collection("estabelecimento").doc('totalAssinaturas').get();
+        if (docSnapshot.exists) {
+          Map<String, dynamic> data =
+              docSnapshot.data() as Map<String, dynamic>;
+
+          // Verifica se 'saldoConta' existe e converte para double se necessário
+          var valorAssinatura1DB = data['saqueDeMensalidades'];
+          if (valorAssinatura1DB is int) {
+            valorAssinaturaUm = valorAssinatura1DB.toDouble();
+          } else if (valorAssinatura1DB is double) {
+            valorAssinaturaUm = valorAssinatura1DB;
+          } else {
+            // Trate o caso onde saldoConta não é nem int nem double, se necessário
+            print('#iu: saldoConta não é um número válido');
+          }
+        } else {
+          print('#iu: Documento não encontrado');
+        }
+
+        print('#iu: valor final: ${valorAssinaturaUm}');
+        return valorAssinaturaUm;
+      }
+
+      return null;
+    } catch (e) {
+      print('#iu: houve um erro: $e');
+      return null; // Certifique-se de retornar null no caso de erro
+    }
   }
 }

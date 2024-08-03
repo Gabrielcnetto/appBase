@@ -3,6 +3,7 @@ import 'package:lionsbarberv1/functions/createAccount.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lionsbarberv1/rotas/Approutes.dart';
 import 'package:provider/provider.dart';
 
 class RegisterAccountScreen extends StatefulWidget {
@@ -343,15 +344,19 @@ class _RegisterAccountScreenState extends State<RegisterAccountScreen> {
                           children: [
                             InkWell(
                               onTap: () {
-                                Navigator.of(context).pop();
+                                 Navigator.of(context).pushNamedAndRemoveUntil(
+                    AppRoutesApp.LoginScreen01,
+                    (route) => false,
+                  );
+
                               },
                               child: Text(
                                 "< Voltar",
                                 style: GoogleFonts.openSans(
                                     textStyle: TextStyle(
                                   fontSize: 13,
-                                  fontWeight: FontWeight.w500,
-                                  color: Estabelecimento.secondaryColor,
+                                  fontWeight: FontWeight.w700,
+                                  color: Estabelecimento.primaryColor,
                                 )),
                               ),
                             )

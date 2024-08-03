@@ -66,7 +66,7 @@ class _BlocksManagerComponentState extends State<BlocksManagerComponent> {
   Future<void> loadAssinatura1() async {
     double? PointOfClient =
         await Provider.of<MyProfileScreenFunctions>(context, listen: false)
-            .getValorAssinatura1();
+            .gettTotalemAssinaturasParaSaque();
     setState(() {
       valorAssinatura1 = PointOfClient!.toDouble();
       calculoReducaoFaturamentoPorAssinaturas();
@@ -285,7 +285,7 @@ double faturamentofinalSemAssinaturas= 0;
                                   height: 5,
                                 ),
                                 Text(
-                                  "R\$${faturamentofinalSemAssinaturas.toStringAsFixed(2).replaceAll('.', ',') ?? 00}",
+                                  "R\$${totalFaturamento.toStringAsFixed(2).replaceAll('.', ',') ?? 00}",
                                   style: GoogleFonts.openSans(
                                     textStyle: const TextStyle(
                                       fontWeight: FontWeight.bold,

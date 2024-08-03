@@ -372,7 +372,9 @@ class _ModalDeEdicaoState extends State<ModalDeEdicao> {
                           Row(
                             children: [
                               Text(
-                                "R\$${infoRoutes.totalValue},00",
+                                infoRoutes.feitoporassinatura
+                                    ? 'R\$00,00'
+                                    : "R\$${infoRoutes.totalValue.toStringAsFixed(2).replaceAll('.', ',')}",
                                 style: GoogleFonts.openSans(
                                   textStyle: const TextStyle(
                                     fontWeight: FontWeight.w800,

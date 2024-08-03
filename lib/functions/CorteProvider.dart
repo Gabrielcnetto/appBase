@@ -49,7 +49,7 @@ class CorteProvider with ChangeNotifier {
           .doc(corte.horarioCorte)
           .set({
         'feitoPorassinatura': corte.feitoporassinatura,
-        'pagoComCreditos': pagoPeloApp ,
+        'pagoComCreditos': pagoPeloApp,
         "pagocomcupom": corte.pagoComCupom,
         "detalheDoProcedimento": corte.detalheDoProcedimento,
         "horariosExtras": corte.horariosExtra,
@@ -113,7 +113,7 @@ class CorteProvider with ChangeNotifier {
         final docSnapshotHorario3 = await docRefHorario3.get();
         if (!docSnapshotHorario3.exists) {
           await docRefHorario3.set({
-           'feitoPorassinatura': corte.feitoporassinatura,
+            'feitoPorassinatura': corte.feitoporassinatura,
             'pagoComCreditos': pagoPeloApp,
             'pagocomcupom': corte.pagoComCupom,
             "horariosExtras": [],
@@ -163,6 +163,7 @@ class CorteProvider with ChangeNotifier {
         "monthName": monthName,
       });
       //adicionando na lista de cada funcionario - inicio
+
       final addOnProfListAllcuts = await database
           .collection("mensalCuts")
           .doc(monthName)
@@ -174,15 +175,18 @@ class CorteProvider with ChangeNotifier {
       //adicionando na lista de cada funcionario - fim
 
       //adicionando o valor no faturamento total da barbearia - inicio
-      final addFaturamentoTotal = await database
-          .collection("estabelecimento")
-          .doc("faturamento")
-          .collection(monthName)
-          .doc(corte.id)
-          .set({
-        "price": pricevalue,
-        "cliente": corte.clientName,
-      });
+
+      if (corte.feitoporassinatura == false) {
+        final addFaturamentoTotal = await database
+            .collection("estabelecimento")
+            .doc("faturamento")
+            .collection(monthName)
+            .doc(corte.id)
+            .set({
+          "price": pricevalue,
+          "cliente": corte.clientName,
+        });
+      }
       //adicionando o valor no faturamento total da barbearia - fim
 
       final addTotalCortes = await database
@@ -191,7 +195,7 @@ class CorteProvider with ChangeNotifier {
           .collection("all")
           .doc(corte.id)
           .set({
-       'feitoPorassinatura': corte.feitoporassinatura,
+        'feitoPorassinatura': corte.feitoporassinatura,
         'pagoComCreditos': pagoPeloApp,
         'pagocomcupom': corte.pagoComCupom,
         "detalheDoProcedimento": corte.detalheDoProcedimento,
@@ -219,7 +223,7 @@ class CorteProvider with ChangeNotifier {
             .collection("lista")
             .doc(corte.id)
             .set({
-         'feitoPorassinatura': corte.feitoporassinatura,
+          'feitoPorassinatura': corte.feitoporassinatura,
           'pagoComCreditos': pagoPeloApp,
           'pagocomcupom': corte.pagoComCupom,
           "easepoints": valorMultiplicador,
@@ -866,7 +870,7 @@ class CorteProvider with ChangeNotifier {
         final docSnapshotHorario2 = await docRefHorario2.get();
         if (!docSnapshotHorario2.exists) {
           await docRefHorario2.set({
-          'feitoPorassinatura': corte.feitoporassinatura,
+            'feitoPorassinatura': corte.feitoporassinatura,
             'pagoComCreditos': false,
             'pagocomcupom': false,
             "detalheDoProcedimento": "",
@@ -898,7 +902,7 @@ class CorteProvider with ChangeNotifier {
         final docSnapshotHorario3 = await docRefHorario3.get();
         if (!docSnapshotHorario3.exists) {
           await docRefHorario3.set({
-           'feitoPorassinatura': corte.feitoporassinatura,
+            'feitoPorassinatura': corte.feitoporassinatura,
             'pagoComCreditos': false,
             'pagocomcupom': false,
             "detalheDoProcedimento": "",
@@ -976,7 +980,7 @@ class CorteProvider with ChangeNotifier {
           .collection("all")
           .doc(idAleatorioNew)
           .set({
-       'feitoPorassinatura': corte.feitoporassinatura,
+        'feitoPorassinatura': corte.feitoporassinatura,
         'pagoComCreditos': false,
         'pagocomcupom': false,
         "detalheDoProcedimento": corte.detalheDoProcedimento,

@@ -516,7 +516,9 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
     );
   }
   //configurações de meta - FIM
+  //ver tudo
 
+  bool verTotalBool = false;
   @override
   Widget build(BuildContext context) {
     String mesSelecionado =
@@ -525,8 +527,8 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
       width: double.infinity,
       height: showMoreMonths == false
-          ? MediaQuery.of(context).size.height * 0.72
-          : MediaQuery.of(context).size.height * 0.75,
+          ? MediaQuery.of(context).size.height * 0.76
+          : MediaQuery.of(context).size.height * 0.78,
       decoration: BoxDecoration(
         color: Colors.grey.shade100,
         borderRadius: BorderRadius.circular(15),
@@ -545,7 +547,8 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 8),
                         decoration: BoxDecoration(
                           color: Colors.grey.shade200,
                           borderRadius: BorderRadius.circular(8),
@@ -561,7 +564,7 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Faturamento",
+                            "Faturamento Bruto",
                             style: GoogleFonts.openSans(
                               textStyle: const TextStyle(
                                 fontWeight: FontWeight.w500,
@@ -570,13 +573,16 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
                               ),
                             ),
                           ),
-                          Text(
-                            "Sem somar assinaturas*",
-                            style: GoogleFonts.openSans(
-                              textStyle: const TextStyle(
-                                fontWeight: FontWeight.w400,
-                                fontSize: 12,
-                                color: Colors.black54,
+                          Container(
+                            width: MediaQuery.of(context).size.width * 0.4,
+                            child: Text(
+                              "Soma de todos os procedimentos sem considerar assinaturas",
+                              style: GoogleFonts.openSans(
+                                textStyle: const TextStyle(
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 12,
+                                  color: Colors.black54,
+                                ),
                               ),
                             ),
                           ),
@@ -590,7 +596,8 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
                     color: Estabelecimento.primaryColor,
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  padding: const EdgeInsets.symmetric(vertical: 5,horizontal: 10),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -641,8 +648,8 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
                                       style: GoogleFonts.poppins(
                                         textStyle: TextStyle(
                                           fontWeight: FontWeight.w400,
-                                          color:
-                                              Estabelecimento.contraPrimaryColor,
+                                          color: Estabelecimento
+                                              .contraPrimaryColor,
                                           fontSize: 14,
                                         ),
                                       ),
@@ -677,7 +684,8 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
               child: Container(
                 width: double.infinity,
                 height: MediaQuery.of(context).size.height * 0.22,
-                padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -685,7 +693,7 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
                     Container(
                       width: MediaQuery.of(context).size.width * 0.65,
                       child: Text(
-                        "R\$${faturamentoExibido ?? 0}",
+                        "R\$${faturamentoExibido.toStringAsFixed(2).replaceAll('.', ',') ?? 0}",
                         textAlign: TextAlign.center,
                         style: GoogleFonts.poppins(
                           textStyle: const TextStyle(
@@ -801,7 +809,8 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
                                 ),
                               ),
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
                                 children: [
                                   Container(
                                     padding: const EdgeInsets.all(1),
@@ -810,7 +819,8 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
                                                 0.00
                                             ? Colors.redAccent.withOpacity(0.2)
                                             : Colors.green.withOpacity(0.3),
-                                        borderRadius: BorderRadius.circular(20)),
+                                        borderRadius:
+                                            BorderRadius.circular(20)),
                                     child: calcularDiferencaPercentual() < 0.00
                                         ? const Icon(
                                             Icons.arrow_drop_down,
@@ -902,7 +912,8 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
                                 ),
                               ),
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
                                 children: [
                                   Container(
                                     padding: const EdgeInsets.all(1),
@@ -913,7 +924,8 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
                                                 ? Colors.green.withOpacity(0.3)
                                                 : Colors.redAccent
                                                     .withOpacity(0.2),
-                                        borderRadius: BorderRadius.circular(20)),
+                                        borderRadius:
+                                            BorderRadius.circular(20)),
                                     child: Icon(
                                       calcularDiferencaPercentualProfissional1Cortes() >=
                                               0
@@ -949,7 +961,7 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
                             ],
                           ),
                           //informacoes do crescimento - fim
-        
+
                           //
                         ],
                       ),
@@ -1000,7 +1012,8 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
                                 ),
                               ),
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
                                 children: [
                                   Container(
                                     padding: const EdgeInsets.all(1),
@@ -1011,7 +1024,8 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
                                                 ? Colors.green.withOpacity(0.3)
                                                 : Colors.redAccent
                                                     .withOpacity(0.2),
-                                        borderRadius: BorderRadius.circular(20)),
+                                        borderRadius:
+                                            BorderRadius.circular(20)),
                                     child: Icon(
                                       calcularDiferencaPercentualProfissional2Cortes() >=
                                               0
@@ -1047,7 +1061,7 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
                             ],
                           ),
                           //informacoes do crescimento - fim
-        
+
                           //
                         ],
                       ),
@@ -1061,54 +1075,86 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
               height: 5,
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                if (metaDatabase == 0)
-                  Row(
-                    children: [
-                      const Icon(
-                        Icons.star,
-                        color: Colors.orangeAccent,
-                        size: 17,
+                Padding(
+                  padding: const EdgeInsets.only(left: 5),
+                  child: InkWell(
+                    onTap: (){
+                      verTotalBool = !verTotalBool;
+                    },
+                    child: Container(
+                      alignment: Alignment.center,
+                      padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                      decoration: BoxDecoration(
+                        color: Estabelecimento.primaryColor,
+                        borderRadius: BorderRadius.circular(5),
                       ),
-                      Text(
-                        "Novidade",
+                      child: Text(
+                        'Ver Total',
                         style: GoogleFonts.poppins(
                           textStyle: const TextStyle(
-                            color: Colors.black,
+                            color: Colors.white,
                             fontWeight: FontWeight.bold,
                             fontSize: 10,
                           ),
                         ),
                       ),
-                    ],
-                  ),
-                const SizedBox(
-                  width: 5,
-                ),
-                InkWell(
-                  onTap: ShowModalMeta,
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 5),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.white,
-                      border: Border.all(
-                        width: 0.2,
-                        color: Colors.grey.shade100,
-                      ),
                     ),
-                    child: Text(
-                      "Colocar/editar Meta",
-                      style: GoogleFonts.openSans(
-                        textStyle: TextStyle(
-                          color: Colors.blue.shade600,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 10,
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    if (metaDatabase == 0)
+                      Row(
+                        children: [
+                          const Icon(
+                            Icons.star,
+                            color: Colors.orangeAccent,
+                            size: 17,
+                          ),
+                          Text(
+                            "Novidade",
+                            style: GoogleFonts.poppins(
+                              textStyle: const TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 10,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    InkWell(
+                      onTap: ShowModalMeta,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 4, horizontal: 5),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Colors.white,
+                          border: Border.all(
+                            width: 0.2,
+                            color: Colors.grey.shade100,
+                          ),
+                        ),
+                        child: Text(
+                          "Colocar/editar Meta",
+                          style: GoogleFonts.openSans(
+                            textStyle: TextStyle(
+                              color: Colors.blue.shade600,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 10,
+                            ),
+                          ),
                         ),
                       ),
                     ),
-                  ),
+                  ],
                 ),
               ],
             )

@@ -280,6 +280,7 @@ class _AddScreenUserDeslogadoState extends State<AddScreenUserDeslogado> {
 
     setState(() {
       atualPrice = priceDB!;
+      valorFinalCobrado = priceDB!;
       LoadPriceAdicionalBarba();
     });
   }
@@ -296,6 +297,69 @@ class _AddScreenUserDeslogadoState extends State<AddScreenUserDeslogado> {
     });
   }
 
+  void lembreteSemConta() async {
+    await showDialog(
+        context: context,
+        builder: (ctx) {
+          return AlertDialog(
+            title: Text(
+              "Você ainda não tem uma conta?",
+              style: GoogleFonts.openSans(
+                textStyle: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+              ),
+            ),
+            content: Text(
+              "Sem uma conta você não ganhará pontos nem entrará no ranking da ${Estabelecimento.nomeLocal}",
+              style: GoogleFonts.openSans(
+                textStyle: const TextStyle(
+                  fontWeight: FontWeight.w500,
+                  color: Colors.grey,
+                ),
+              ),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text(
+                  "Continuar sem conta",
+                  style: GoogleFonts.openSans(
+                    textStyle: const TextStyle(
+                      fontWeight: FontWeight.w500,
+                      color: Colors.grey,
+                    ),
+                  ),
+                ),
+              ),
+              TextButton(
+                onPressed: () async {
+                  Navigator.of(context).pushNamedAndRemoveUntil(
+                    AppRoutesApp.RegisterAccountScreen,
+                    (route) => false,
+                  );
+
+                  return;
+                },
+                child: Text(
+                  "Criar Conta",
+                  style: GoogleFonts.openSans(
+                    textStyle: TextStyle(
+                      fontWeight: FontWeight.w700,
+                      color: Colors.blue.shade600,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          );
+        });
+  }
+
+  String profissionalSelecionado = '';
   String? hourSetForUser;
   List<Horarios> _horariosPreenchidosParaEvitarDupNoCreate =
       []; // a lista que tem todos os horariso preenchidos
@@ -390,61 +454,7 @@ class _AddScreenUserDeslogadoState extends State<AddScreenUserDeslogado> {
         }
       }
     }
-    await showDialog(
-        context: context,
-        builder: (ctx) {
-          return AlertDialog(
-            title: Text(
-              "Você ainda não tem uma conta?",
-              style: GoogleFonts.openSans(
-                textStyle: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ),
-              ),
-            ),
-            content: Text(
-              "Sem uma conta você não ganhará pontos nem entrará no ranking da ${Estabelecimento.nomeLocal}",
-              style: GoogleFonts.openSans(
-                textStyle: const TextStyle(
-                  fontWeight: FontWeight.w500,
-                  color: Colors.grey,
-                ),
-              ),
-            ),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: Text(
-                  "Continuar sem conta",
-                  style: GoogleFonts.openSans(
-                    textStyle: const TextStyle(
-                      fontWeight: FontWeight.w500,
-                      color: Colors.grey,
-                    ),
-                  ),
-                ),
-              ),
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context)
-                      .pushReplacementNamed(AppRoutesApp.RegisterAccountScreen);
-                },
-                child: Text(
-                  "Criar Conta",
-                  style: GoogleFonts.openSans(
-                    textStyle: TextStyle(
-                      fontWeight: FontWeight.w700,
-                      color: Colors.blue.shade600,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          );
-        });
+
     Navigator.of(context).push(DialogRoute(
       context: context,
       builder: (ctx) => const ConfirmScreenCorteDeslogado(),
@@ -479,11 +489,7 @@ class _AddScreenUserDeslogadoState extends State<AddScreenUserDeslogado> {
         barba: barba,
         diaCorte: dataSelectedInModal!,
         horarioCorte: hourSetForUser!,
-        profissionalSelect: isBarbeiro1
-            ? "${profList[0].nomeProf}"
-            : isBarbeiro2
-                ? "${profList[1].nomeProf}"
-                : "Não Definido",
+        profissionalSelect: profissionalSelecionado,
       ),
       selectDateForUser: dataSelectedInModal!,
     );
@@ -531,6 +537,7 @@ class _AddScreenUserDeslogadoState extends State<AddScreenUserDeslogado> {
     }
   }
 
+  final _formKey = GlobalKey<FormState>();
   //Fazendo o filtro para exibir quais horarios estao disponíveis
   List<Horarios> _horariosLivresSabados = sabadoHorarios;
   List<Horarios> _horariosLivres = hourLists;
@@ -595,7 +602,6 @@ class _AddScreenUserDeslogadoState extends State<AddScreenUserDeslogado> {
       print("problemas na hora ou dia");
     }
   }
-  
 
   void showModalConfirmAgend() {
     showModalBottomSheet<dynamic>(
@@ -1071,993 +1077,1089 @@ class _AddScreenUserDeslogadoState extends State<AddScreenUserDeslogado> {
                       Padding(
                         padding:
                             const EdgeInsets.only(top: 20, left: 10, right: 10),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            //CONTAINER DO NOME inicio
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 5, horizontal: 10),
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: Estabelecimento.secondaryColor
-                                          .withOpacity(0.4)),
-                                  child: const Text("1"),
-                                ),
-                                const SizedBox(
-                                  width: 5,
-                                ),
-                                Text(
-                                  "Nome do Cliente",
-                                  style: GoogleFonts.openSans(
-                                    textStyle: const TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 5,
-                            ),
-                            Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                border: Border.all(
-                                  width: 1,
-                                  color: Colors.grey.shade200,
-                                ),
-                              ),
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 0, horizontal: 15),
-                              child: TextFormField(
-                                controller: nomeControler,
-                                decoration: const InputDecoration(
-                                    border: InputBorder.none),
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 25,
-                            ),
-                            //CONTAINER DO NOME fim
-                            //CONTAINER DO NUMERO
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 5, horizontal: 10),
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: Estabelecimento.secondaryColor
-                                          .withOpacity(0.4)),
-                                  child: const Text("2"),
-                                ),
-                                const SizedBox(
-                                  width: 5,
-                                ),
-                                Text(
-                                  "Telefone de contato",
-                                  style: GoogleFonts.openSans(
-                                    textStyle: const TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 5,
-                            ),
-                            Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                border: Border.all(
-                                  width: 1,
-                                  color: Colors.grey.shade200,
-                                ),
-                              ),
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 0, horizontal: 15),
-                              child: TextFormField(
-                                controller: numberControler,
-                                decoration: const InputDecoration(
-                                    border: InputBorder.none),
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 25,
-                            ),
-                            //CONTAINER DO NUMERO
-                            //PROCEDIMENTOS EXTRAS - INICIO
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 10, horizontal: 10),
-                              alignment: Alignment.center,
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                color: Estabelecimento.primaryColor,
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                        child: Form(
+                          key: _formKey,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              //CONTAINER DO NOME inicio
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        "serviços adicionais",
-                                        style: GoogleFonts.openSans(
-                                          textStyle: const TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w600,
-                                            color: Colors.white,
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 5, horizontal: 10),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: Estabelecimento.secondaryColor
+                                            .withOpacity(0.4)),
+                                    child: const Text("1"),
+                                  ),
+                                  const SizedBox(
+                                    width: 5,
+                                  ),
+                                  Text(
+                                    "Nome do Cliente",
+                                    style: GoogleFonts.openSans(
+                                      textStyle: const TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  border: Border.all(
+                                    width: 1,
+                                    color: Colors.grey.shade200,
+                                  ),
+                                ),
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 0, horizontal: 15),
+                                child: TextFormField(
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Por favor, digite o seu nome';
+                                    }
+                                    return null;
+                                  },
+                                  controller: nomeControler,
+                                  decoration: const InputDecoration(
+                                      border: InputBorder.none),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 25,
+                              ),
+                              //CONTAINER DO NOME fim
+                              //CONTAINER DO NUMERO
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 5, horizontal: 10),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: Estabelecimento.secondaryColor
+                                            .withOpacity(0.4)),
+                                    child: const Text("2"),
+                                  ),
+                                  const SizedBox(
+                                    width: 5,
+                                  ),
+                                  Text(
+                                    "Telefone de contato",
+                                    style: GoogleFonts.openSans(
+                                      textStyle: const TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  border: Border.all(
+                                    width: 1,
+                                    color: Colors.grey.shade200,
+                                  ),
+                                ),
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 0, horizontal: 15),
+                                child: TextFormField(
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Por favor, digite o seu telefone';
+                                    }
+                                    return null;
+                                  },
+                                  controller: numberControler,
+                                  decoration: const InputDecoration(
+                                      border: InputBorder.none),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 25,
+                              ),
+                              //CONTAINER DO NUMERO
+                              //PROCEDIMENTOS EXTRAS - INICIO
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 10, horizontal: 10),
+                                alignment: Alignment.center,
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  color: Estabelecimento.primaryColor,
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          "serviços adicionais",
+                                          style: GoogleFonts.openSans(
+                                            textStyle: const TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w600,
+                                              color: Colors.white,
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        children: [
-                                          InkWell(
-                                            onTap: ativarServicosAdicionais,
-                                            child: Text(
-                                              "Clique aqui",
-                                              style: GoogleFonts.openSans(
-                                                textStyle: const TextStyle(
-                                                  fontSize: 12,
-                                                  fontWeight: FontWeight.w400,
-                                                  color: Colors.white30,
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: [
+                                            InkWell(
+                                              onTap: ativarServicosAdicionais,
+                                              child: Text(
+                                                "Clique aqui",
+                                                style: GoogleFonts.openSans(
+                                                  textStyle: const TextStyle(
+                                                    fontSize: 12,
+                                                    fontWeight: FontWeight.w400,
+                                                    color: Colors.white30,
+                                                  ),
                                                 ),
                                               ),
                                             ),
-                                          ),
-                                          const SizedBox(
-                                            width: 5,
-                                          ),
-                                          InkWell(
-                                            onTap: ativarServicosAdicionais,
-                                            child: Container(
-                                              alignment: Alignment.center,
-                                              padding: const EdgeInsets.all(2),
-                                              decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                              ),
-                                              child: Icon(
-                                                verServicosAdicionais == false
-                                                    ? Icons.arrow_drop_down
-                                                    : Icons.arrow_drop_up,
-                                                color: Estabelecimento
-                                                    .primaryColor,
+                                            const SizedBox(
+                                              width: 5,
+                                            ),
+                                            InkWell(
+                                              onTap: ativarServicosAdicionais,
+                                              child: Container(
+                                                alignment: Alignment.center,
+                                                padding:
+                                                    const EdgeInsets.all(2),
+                                                decoration: BoxDecoration(
+                                                  color: Colors.white,
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                ),
+                                                child: Icon(
+                                                  verServicosAdicionais == false
+                                                      ? Icons.arrow_drop_down
+                                                      : Icons.arrow_drop_up,
+                                                  color: Estabelecimento
+                                                      .primaryColor,
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                  //Container dos procedimentos(1) - inicio
-                                  if (verServicosAdicionais == true)
-                                    Column(
-                                      children: _procedimentos
-                                          .asMap()
-                                          .entries
-                                          .map((entry) {
-                                        int index = entry.key;
-                                        var item = entry.value;
-                                        return Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 4),
-                                          child: Container(
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                    //Container dos procedimentos(1) - inicio
+                                    if (verServicosAdicionais == true)
+                                      Column(
+                                        children: _procedimentos
+                                            .asMap()
+                                            .entries
+                                            .map((entry) {
+                                          int index = entry.key;
+                                          var item = entry.value;
+                                          return Padding(
                                             padding: const EdgeInsets.symmetric(
-                                                vertical: 10, horizontal: 5),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                      "${item.name} - ",
+                                                vertical: 4),
+                                            child: Container(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 10,
+                                                      horizontal: 5),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    children: [
+                                                      Text(
+                                                        "${item.name} - ",
+                                                        style: GoogleFonts
+                                                            .openSans(
+                                                          textStyle:
+                                                              const TextStyle(
+                                                            fontSize: 12,
+                                                            fontWeight:
+                                                                FontWeight.w400,
+                                                            color: Colors.white,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      const SizedBox(width: 5),
+                                                      Container(
+                                                        child: Row(
+                                                          children: [
+                                                            const Icon(
+                                                              Icons.paid,
+                                                              color:
+                                                                  Colors.green,
+                                                              size: 15,
+                                                            ),
+                                                            if (item.name ==
+                                                                _procedimentos[
+                                                                        0]
+                                                                    .name)
+                                                              Text(
+                                                                "R\$${atualPrice}",
+                                                                style: GoogleFonts
+                                                                    .openSans(
+                                                                  textStyle:
+                                                                      const TextStyle(
+                                                                    fontSize:
+                                                                        10,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w400,
+                                                                    color: Colors
+                                                                        .white54,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            if (item.name ==
+                                                                _procedimentos[
+                                                                        1]
+                                                                    .name)
+                                                              Text(
+                                                                "R\$${barbaPriceFinal}",
+                                                                style: GoogleFonts
+                                                                    .openSans(
+                                                                  textStyle:
+                                                                      const TextStyle(
+                                                                    fontSize:
+                                                                        10,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w400,
+                                                                    color: Colors
+                                                                        .white54,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            if (item.name ==
+                                                                _procedimentos[
+                                                                        2]
+                                                                    .name)
+                                                              Text(
+                                                                "R\$${index2Value}",
+                                                                style: GoogleFonts
+                                                                    .openSans(
+                                                                  textStyle:
+                                                                      const TextStyle(
+                                                                    fontSize:
+                                                                        10,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w400,
+                                                                    color: Colors
+                                                                        .white54,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            if (item.name ==
+                                                                _procedimentos[
+                                                                        3]
+                                                                    .name)
+                                                              Text(
+                                                                "R\$${index3Value}",
+                                                                style: GoogleFonts
+                                                                    .openSans(
+                                                                  textStyle:
+                                                                      const TextStyle(
+                                                                    fontSize:
+                                                                        10,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w400,
+                                                                    color: Colors
+                                                                        .white54,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            if (item.name ==
+                                                                _procedimentos[
+                                                                        4]
+                                                                    .name)
+                                                              Text(
+                                                                "R\$${index4Value}",
+                                                                style: GoogleFonts
+                                                                    .openSans(
+                                                                  textStyle:
+                                                                      const TextStyle(
+                                                                    fontSize:
+                                                                        10,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w400,
+                                                                    color: Colors
+                                                                        .white54,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            if (item.name ==
+                                                                _procedimentos[
+                                                                        5]
+                                                                    .name)
+                                                              Text(
+                                                                "R\$${index5Value}",
+                                                                style: GoogleFonts
+                                                                    .openSans(
+                                                                  textStyle:
+                                                                      const TextStyle(
+                                                                    fontSize:
+                                                                        10,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w400,
+                                                                    color: Colors
+                                                                        .white54,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  GestureDetector(
+                                                    onTap: () {
+                                                      // Atualiza o estado dos procedimentos
+                                                      setState(() {
+                                                        // Define todos como false primeiro
+                                                        procedimento0 = false;
+                                                        procedimento1 = false;
+                                                        procedimento2 = false;
+                                                        procedimento3 = false;
+                                                        procedimento4 = false;
+                                                        procedimento5 = false;
+
+                                                        // Define o procedimento atual como true
+                                                        switch (index) {
+                                                          case 0:
+                                                            procedimento0 =
+                                                                true;
+                                                            barba = false;
+                                                            setState(() {
+                                                              apenasBarba =
+                                                                  false;
+                                                              verificandoEsetandoValorTotal();
+                                                            });
+                                                            break;
+                                                          case 1:
+                                                            procedimento1 =
+                                                                true;
+                                                            barba = false;
+                                                            setState(() {
+                                                              apenasBarba =
+                                                                  true;
+                                                              verificandoEsetandoValorTotal();
+                                                            });
+                                                            break;
+                                                          case 2:
+                                                            procedimento2 =
+                                                                true;
+                                                            barba = false;
+                                                            procedimento0 =
+                                                                true;
+                                                            setState(() {
+                                                              apenasBarba =
+                                                                  false;
+                                                              verificandoEsetandoValorTotal();
+                                                            });
+
+                                                            break;
+                                                          case 3:
+                                                            procedimento3 =
+                                                                true;
+                                                            barba = false;
+                                                            procedimento0 =
+                                                                true;
+                                                            setState(() {
+                                                              apenasBarba =
+                                                                  false;
+                                                              verificandoEsetandoValorTotal();
+                                                            });
+                                                            break;
+                                                          case 4:
+                                                            procedimento4 =
+                                                                true;
+                                                            barba = true;
+                                                            setState(() {
+                                                              apenasBarba =
+                                                                  false;
+                                                              verificandoEsetandoValorTotal();
+                                                            });
+                                                            break;
+                                                          case 5:
+                                                            procedimento5 =
+                                                                true;
+                                                            barba = true;
+                                                            setState(() {
+                                                              apenasBarba =
+                                                                  false;
+                                                              verificandoEsetandoValorTotal();
+                                                            });
+                                                            break;
+                                                          default:
+                                                            break;
+                                                        }
+                                                      });
+                                                    },
+                                                    child: Icon(
+                                                      index == 0
+                                                          ? procedimento0
+                                                              ? Icons.toggle_on
+                                                              : Icons.toggle_off
+                                                          : index == 1
+                                                              ? procedimento1
+                                                                  ? Icons
+                                                                      .toggle_on
+                                                                  : Icons
+                                                                      .toggle_off
+                                                              : index == 2
+                                                                  ? procedimento2
+                                                                      ? Icons
+                                                                          .toggle_on
+                                                                      : Icons
+                                                                          .toggle_off
+                                                                  : index == 3
+                                                                      ? procedimento3
+                                                                          ? Icons
+                                                                              .toggle_on
+                                                                          : Icons
+                                                                              .toggle_off
+                                                                      : index ==
+                                                                              4
+                                                                          ? procedimento4
+                                                                              ? Icons.toggle_on
+                                                                              : Icons.toggle_off
+                                                                          : procedimento5
+                                                                              ? Icons.toggle_on
+                                                                              : Icons.toggle_off,
+                                                      color: Colors.white,
+                                                      size: 45,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          );
+                                        }).toList(),
+                                      )
+
+                                    //Container dos procedimentos(1) - fim
+                                  ],
+                                ),
+                              ),
+                              //PROCEDIMENTOS EXTRAS - FIM
+                              const SizedBox(
+                                height: 25,
+                              ),
+                              //ativar cupom(bloqueado) - inicio
+
+                              //container do cupom - inicio
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    "Tem um cupom?",
+                                    style: GoogleFonts.openSans(
+                                      textStyle: const TextStyle(
+                                        fontWeight: FontWeight.w700,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Icon(
+                                        Icons.lock,
+                                        color: Colors.grey.shade300,
+                                        size: 18,
+                                      ),
+                                      const SizedBox(
+                                        width: 5,
+                                      ),
+                                      InkWell(
+                                        onTap: () {
+                                          showDialog(
+                                            context: context,
+                                            builder: (ctx) {
+                                              return AlertDialog(
+                                                title: Text(
+                                                  "Crie um perfil",
+                                                  style: GoogleFonts.openSans(
+                                                    textStyle: const TextStyle(
+                                                      color: Colors.black,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      fontSize: 15,
+                                                    ),
+                                                  ),
+                                                ),
+                                                content: Text(
+                                                  "Para validar cupons você precisa de um perfil, mas é rapido para criar! Basta clicar no botão abaixo:",
+                                                  style: GoogleFonts.openSans(
+                                                    textStyle: TextStyle(
+                                                      color:
+                                                          Colors.grey.shade400,
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                      fontSize: 12,
+                                                    ),
+                                                  ),
+                                                ),
+                                                actions: [
+                                                  TextButton(
+                                                    onPressed: () {
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                    },
+                                                    child: Text(
+                                                      "Voltar",
                                                       style:
                                                           GoogleFonts.openSans(
-                                                        textStyle:
-                                                            const TextStyle(
-                                                          fontSize: 12,
+                                                        textStyle: TextStyle(
+                                                          color: Colors
+                                                              .grey.shade400,
                                                           fontWeight:
                                                               FontWeight.w400,
-                                                          color: Colors.white,
+                                                          fontSize: 12,
                                                         ),
                                                       ),
                                                     ),
-                                                    const SizedBox(width: 5),
-                                                    Container(
-                                                      child: Row(
-                                                        children: [
-                                                          const Icon(
-                                                            Icons.paid,
-                                                            color: Colors.green,
-                                                            size: 15,
+                                                  ),
+                                                  TextButton(
+                                                    onPressed: () {
+                                                      Navigator.of(context)
+                                                          .pushReplacementNamed(
+                                                        AppRoutesApp
+                                                            .RegisterAccountScreen,
+                                                      );
+                                                    },
+                                                    child: Container(
+                                                      alignment:
+                                                          Alignment.center,
+                                                      padding: const EdgeInsets
+                                                          .symmetric(
+                                                        vertical: 2,
+                                                        horizontal: 5,
+                                                      ),
+                                                      decoration: BoxDecoration(
+                                                        color: Colors
+                                                            .blue.shade600,
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                      ),
+                                                      child: Text(
+                                                        "Criar conta ou Entrar",
+                                                        style: GoogleFonts
+                                                            .openSans(
+                                                          textStyle:
+                                                              const TextStyle(
+                                                            color: Colors.white,
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                            fontSize: 12,
                                                           ),
-                                                          if (item.name ==
-                                                              _procedimentos[0]
-                                                                  .name)
-                                                            Text(
-                                                              "R\$${atualPrice}",
-                                                              style: GoogleFonts
-                                                                  .openSans(
-                                                                textStyle:
-                                                                    const TextStyle(
-                                                                  fontSize: 10,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w400,
-                                                                  color: Colors
-                                                                      .white54,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          if (item.name ==
-                                                              _procedimentos[1]
-                                                                  .name)
-                                                            Text(
-                                                              "R\$${barbaPriceFinal}",
-                                                              style: GoogleFonts
-                                                                  .openSans(
-                                                                textStyle:
-                                                                    const TextStyle(
-                                                                  fontSize: 10,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w400,
-                                                                  color: Colors
-                                                                      .white54,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          if (item.name ==
-                                                              _procedimentos[2]
-                                                                  .name)
-                                                            Text(
-                                                              "R\$${index2Value}",
-                                                              style: GoogleFonts
-                                                                  .openSans(
-                                                                textStyle:
-                                                                    const TextStyle(
-                                                                  fontSize: 10,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w400,
-                                                                  color: Colors
-                                                                      .white54,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          if (item.name ==
-                                                              _procedimentos[3]
-                                                                  .name)
-                                                            Text(
-                                                              "R\$${index3Value}",
-                                                              style: GoogleFonts
-                                                                  .openSans(
-                                                                textStyle:
-                                                                    const TextStyle(
-                                                                  fontSize: 10,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w400,
-                                                                  color: Colors
-                                                                      .white54,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          if (item.name ==
-                                                              _procedimentos[4]
-                                                                  .name)
-                                                            Text(
-                                                              "R\$${index4Value}",
-                                                              style: GoogleFonts
-                                                                  .openSans(
-                                                                textStyle:
-                                                                    const TextStyle(
-                                                                  fontSize: 10,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w400,
-                                                                  color: Colors
-                                                                      .white54,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          if (item.name ==
-                                                              _procedimentos[5]
-                                                                  .name)
-                                                            Text(
-                                                              "R\$${index5Value}",
-                                                              style: GoogleFonts
-                                                                  .openSans(
-                                                                textStyle:
-                                                                    const TextStyle(
-                                                                  fontSize: 10,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w400,
-                                                                  color: Colors
-                                                                      .white54,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                        ],
+                                                        ),
                                                       ),
                                                     ),
-                                                  ],
-                                                ),
-                                                GestureDetector(
-                                                  onTap: () {
-                                                    // Atualiza o estado dos procedimentos
-                                                    setState(() {
-                                                      // Define todos como false primeiro
-                                                      procedimento0 = false;
-                                                      procedimento1 = false;
-                                                      procedimento2 = false;
-                                                      procedimento3 = false;
-                                                      procedimento4 = false;
-                                                      procedimento5 = false;
-
-                                                      // Define o procedimento atual como true
-                                                      switch (index) {
-                                                        case 0:
-                                                          procedimento0 = true;
-                                                          barba = false;
-                                                          setState(() {
-                                                            apenasBarba = false;
-                                                            verificandoEsetandoValorTotal();
-                                                          });
-                                                          break;
-                                                        case 1:
-                                                          procedimento1 = true;
-                                                          barba = false;
-                                                          setState(() {
-                                                            apenasBarba = true;
-                                                            verificandoEsetandoValorTotal();
-                                                          });
-                                                          break;
-                                                        case 2:
-                                                          procedimento2 = true;
-                                                          barba = false;
-                                                          procedimento0 = true;
-                                                          setState(() {
-                                                            apenasBarba = false;
-                                                            verificandoEsetandoValorTotal();
-                                                          });
-
-                                                          break;
-                                                        case 3:
-                                                          procedimento3 = true;
-                                                          barba = false;
-                                                          procedimento0 = true;
-                                                          setState(() {
-                                                            apenasBarba = false;
-                                                            verificandoEsetandoValorTotal();
-                                                          });
-                                                          break;
-                                                        case 4:
-                                                          procedimento4 = true;
-                                                          barba = true;
-                                                          setState(() {
-                                                            apenasBarba = false;
-                                                            verificandoEsetandoValorTotal();
-                                                          });
-                                                          break;
-                                                        case 5:
-                                                          procedimento5 = true;
-                                                          barba = true;
-                                                          setState(() {
-                                                            apenasBarba = false;
-                                                            verificandoEsetandoValorTotal();
-                                                          });
-                                                          break;
-                                                        default:
-                                                          break;
-                                                      }
-                                                    });
-                                                  },
-                                                  child: Icon(
-                                                    index == 0
-                                                        ? procedimento0
-                                                            ? Icons.toggle_on
-                                                            : Icons.toggle_off
-                                                        : index == 1
-                                                            ? procedimento1
-                                                                ? Icons
-                                                                    .toggle_on
-                                                                : Icons
-                                                                    .toggle_off
-                                                            : index == 2
-                                                                ? procedimento2
-                                                                    ? Icons
-                                                                        .toggle_on
-                                                                    : Icons
-                                                                        .toggle_off
-                                                                : index == 3
-                                                                    ? procedimento3
-                                                                        ? Icons
-                                                                            .toggle_on
-                                                                        : Icons
-                                                                            .toggle_off
-                                                                    : index == 4
-                                                                        ? procedimento4
-                                                                            ? Icons.toggle_on
-                                                                            : Icons.toggle_off
-                                                                        : procedimento5
-                                                                            ? Icons.toggle_on
-                                                                            : Icons.toggle_off,
-                                                    color: Colors.white,
-                                                    size: 45,
                                                   ),
-                                                ),
-                                              ],
+                                                ],
+                                              );
+                                            },
+                                          );
+                                        },
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            color: Colors.grey.shade300,
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                          ),
+                                          alignment: Alignment.center,
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 2, horizontal: 5),
+                                          child: Text(
+                                            "Ativar Agora",
+                                            style: GoogleFonts.poppins(
+                                              textStyle: const TextStyle(
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w400,
+                                                color: Colors.black,
+                                              ),
                                             ),
                                           ),
-                                        );
-                                      }).toList(),
-                                    )
-
-                                  //Container dos procedimentos(1) - fim
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ],
                               ),
-                            ),
-                            //PROCEDIMENTOS EXTRAS - FIM
-                            const SizedBox(
-                              height: 25,
-                            ),
-                            //ativar cupom(bloqueado) - inicio
-
-                            //container do cupom - inicio
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  "Tem um cupom?",
-                                  style: GoogleFonts.openSans(
-                                    textStyle: const TextStyle(
-                                      fontWeight: FontWeight.w700,
-                                      color: Colors.black,
+                              //container do cupom - fim
+                              //ativar cupom(bloqueado) - fim
+                              const SizedBox(
+                                height: 25,
+                              ),
+                              //CONTAINER DO PROFISSIONAL - INICIO
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 5, horizontal: 10),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: Estabelecimento.secondaryColor
+                                            .withOpacity(0.4)),
+                                    child: const Text("3"),
+                                  ),
+                                  const SizedBox(
+                                    width: 5,
+                                  ),
+                                  Text(
+                                    "Profissional de preferência",
+                                    style: GoogleFonts.openSans(
+                                      textStyle: const TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.black,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Icon(
-                                      Icons.lock,
-                                      color: Colors.grey.shade300,
-                                      size: 18,
-                                    ),
-                                    const SizedBox(
-                                      width: 5,
-                                    ),
-                                    InkWell(
-                                      onTap: () {
-                                        showDialog(
-                                          context: context,
-                                          builder: (ctx) {
-                                            return AlertDialog(
-                                              title: Text(
-                                                "Crie um perfil",
-                                                style: GoogleFonts.openSans(
-                                                  textStyle: const TextStyle(
-                                                    color: Colors.black,
-                                                    fontWeight: FontWeight.w600,
-                                                    fontSize: 15,
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Column(
+                                    children: [
+                                      InkWell(
+                                        onTap: () async {
+                                          if (_formKey.currentState!
+                                              .validate()) {
+                                            setState(() {
+                                              profissionalSelecionado =
+                                                  _profList[0].nomeProf;
+                                            });
+                                            lembreteSemConta();
+                                            setBarber1();
+                                          }
+                                        },
+                                        child: Container(
+                                          width: widhScren * 0.38,
+                                          height: heighScreen * 0.35,
+                                          child: Stack(
+                                            children: [
+                                              Positioned(
+                                                top: 0,
+                                                bottom: 0,
+                                                left: 0,
+                                                right: 0,
+                                                child: ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                  child: Image.asset(
+                                                    _profList[0].assetImage,
+                                                    fit: BoxFit.fitHeight,
                                                   ),
                                                 ),
                                               ),
-                                              content: Text(
-                                                "Para validar cupons você precisa de um perfil, mas é rapido para criar! Basta clicar no botão abaixo:",
-                                                style: GoogleFonts.openSans(
-                                                  textStyle: TextStyle(
-                                                    color: Colors.grey.shade400,
-                                                    fontWeight: FontWeight.w400,
-                                                    fontSize: 12,
-                                                  ),
-                                                ),
-                                              ),
-                                              actions: [
-                                                TextButton(
-                                                  onPressed: () {
-                                                    Navigator.of(context).pop();
-                                                  },
-                                                  child: Text(
-                                                    "Voltar",
-                                                    style: GoogleFonts.openSans(
-                                                      textStyle: TextStyle(
-                                                        color: Colors
-                                                            .grey.shade400,
-                                                        fontWeight:
-                                                            FontWeight.w400,
-                                                        fontSize: 12,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                TextButton(
-                                                  onPressed: () {
-                                                    Navigator.of(context)
-                                                        .pushReplacementNamed(
-                                                      AppRoutesApp
-                                                          .RegisterAccountScreen,
-                                                    );
-                                                  },
+                                              if (isBarbeiro1)
+                                                Positioned(
+                                                  top: 0,
+                                                  bottom: 0,
+                                                  left: 0,
+                                                  right: 0,
                                                   child: Container(
-                                                    alignment: Alignment.center,
-                                                    padding:
-                                                        const EdgeInsets.symmetric(
-                                                      vertical: 2,
-                                                      horizontal: 5,
+                                                    child: const Icon(
+                                                      Icons.check_circle,
+                                                      color: Colors.white,
+                                                      size: 35,
                                                     ),
+                                                    width: widhScren * 0.25,
+                                                    height: 130,
                                                     decoration: BoxDecoration(
-                                                      color:
-                                                          Colors.blue.shade600,
+                                                      color: Colors.black
+                                                          .withOpacity(0.7),
                                                       borderRadius:
                                                           BorderRadius.circular(
                                                               10),
                                                     ),
-                                                    child: Text(
-                                                      "Criar conta ou Entrar",
-                                                      style:
-                                                          GoogleFonts.openSans(
-                                                        textStyle: const TextStyle(
-                                                          color: Colors.white,
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                          fontSize: 12,
-                                                        ),
-                                                      ),
+                                                  ),
+                                                ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        height: 4,
+                                      ),
+                                      Text(
+                                        _profList[0].nomeProf,
+                                        style: GoogleFonts.openSans(
+                                          textStyle: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 14,
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  Column(
+                                    children: [
+                                      InkWell(
+                                        onTap: () {
+                                          if (_formKey.currentState!
+                                              .validate()) {
+                                            setState(() {
+                                              profissionalSelecionado =
+                                                  _profList[1].nomeProf;
+                                            });
+                                            lembreteSemConta();
+                                            setBarber2();
+                                          }
+                                        },
+                                        child: Container(
+                                          width: widhScren * 0.38,
+                                          height: heighScreen * 0.35,
+                                          child: Stack(
+                                            children: [
+                                              Positioned(
+                                                top: 0,
+                                                bottom: 0,
+                                                left: 0,
+                                                right: 0,
+                                                child: ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                  child: Image.asset(
+                                                    _profList[1].assetImage,
+                                                    fit: BoxFit.fitHeight,
+                                                  ),
+                                                ),
+                                              ),
+                                              if (isBarbeiro2)
+                                                Positioned(
+                                                  top: 0,
+                                                  bottom: 0,
+                                                  left: 0,
+                                                  right: 0,
+                                                  child: Container(
+                                                    child: const Icon(
+                                                      Icons.check_circle,
+                                                      color: Colors.white,
+                                                      size: 35,
+                                                    ),
+                                                    width: widhScren * 0.25,
+                                                    height: 130,
+                                                    decoration: BoxDecoration(
+                                                      color: Colors.black
+                                                          .withOpacity(0.7),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
                                                     ),
                                                   ),
                                                 ),
-                                              ],
-                                            );
-                                          },
-                                        );
-                                      },
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          color: Colors.grey.shade300,
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                        ),
-                                        alignment: Alignment.center,
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 2, horizontal: 5),
-                                        child: Text(
-                                          "Ativar Agora",
-                                          style: GoogleFonts.poppins(
-                                            textStyle: const TextStyle(
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.w400,
-                                              color: Colors.black,
-                                            ),
+                                            ],
                                           ),
                                         ),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                            //container do cupom - fim
-                            //ativar cupom(bloqueado) - fim
-                            const SizedBox(
-                              height: 25,
-                            ),
-                            //CONTAINER DO PROFISSIONAL - INICIO
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 5, horizontal: 10),
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: Estabelecimento.secondaryColor
-                                          .withOpacity(0.4)),
-                                  child: const Text("3"),
-                                ),
-                                const SizedBox(
-                                  width: 5,
-                                ),
-                                Text(
-                                  "Profissional de preferência",
-                                  style: GoogleFonts.openSans(
-                                    textStyle: const TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 5,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Column(
-                                  children: [
-                                    InkWell(
-                                      onTap: setBarber1,
-                                      child: Container(
-                                        width: widhScren * 0.38,
-                                        height: heighScreen * 0.35,
-                                        child: Stack(
-                                          children: [
-                                            Positioned(
-                                              top: 0,
-                                              bottom: 0,
-                                              left: 0,
-                                              right: 0,
-                                              child: ClipRRect(
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                                child: Image.asset(
-                                                  _profList[0].assetImage,
-                                                  fit: BoxFit.fitHeight,
-                                                ),
-                                              ),
-                                            ),
-                                            if (isBarbeiro1)
-                                              Positioned(
-                                                top: 0,
-                                                bottom: 0,
-                                                left: 0,
-                                                right: 0,
-                                                child: Container(
-                                                  child: const Icon(
-                                                    Icons.check_circle,
-                                                    color: Colors.white,
-                                                    size: 35,
-                                                  ),
-                                                  width: widhScren * 0.25,
-                                                  height: 130,
-                                                  decoration: BoxDecoration(
-                                                    color: Colors.black
-                                                        .withOpacity(0.7),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10),
-                                                  ),
-                                                ),
-                                              ),
-                                          ],
-                                        ),
+                                      const SizedBox(
+                                        height: 4,
                                       ),
-                                    ),
-                                    const SizedBox(
-                                      height: 4,
-                                    ),
-                                    Text(
-                                      _profList[0].nomeProf,
-                                      style: GoogleFonts.openSans(
-                                        textStyle: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 14,
-                                        ),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                Column(
-                                  children: [
-                                    InkWell(
-                                      onTap: setBarber2,
-                                      child: Container(
-                                        width: widhScren * 0.38,
-                                        height: heighScreen * 0.35,
-                                        child: Stack(
-                                          children: [
-                                            Positioned(
-                                              top: 0,
-                                              bottom: 0,
-                                              left: 0,
-                                              right: 0,
-                                              child: ClipRRect(
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                                child: Image.asset(
-                                                  _profList[1].assetImage,
-                                                  fit: BoxFit.fitHeight,
-                                                ),
-                                              ),
-                                            ),
-                                            if (isBarbeiro2)
-                                              Positioned(
-                                                top: 0,
-                                                bottom: 0,
-                                                left: 0,
-                                                right: 0,
-                                                child: Container(
-                                                  child: const Icon(
-                                                    Icons.check_circle,
-                                                    color: Colors.white,
-                                                    size: 35,
-                                                  ),
-                                                  width: widhScren * 0.25,
-                                                  height: 130,
-                                                  decoration: BoxDecoration(
-                                                    color: Colors.black
-                                                        .withOpacity(0.7),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10),
-                                                  ),
-                                                ),
-                                              ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      height: 4,
-                                    ),
-                                    Text(
-                                      _profList[1].nomeProf,
-                                      style: GoogleFonts.openSans(
-                                        textStyle: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 14,
-                                        ),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ],
-                            ),
-                            //CONTAINER DO PROFISSIONAL - FIM
-                            //CONTAINER DA DATA - INICIO
-                            const SizedBox(
-                              height: 25,
-                            ),
-                            //CONTAINER DO PROFISSIONAL - INICIO
-                            if (isBarbeiro1 || isBarbeiro2 != false)
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 5, horizontal: 10),
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        color: Estabelecimento.secondaryColor
-                                            .withOpacity(0.4)),
-                                    child: const Text("4"),
-                                  ),
-                                  const SizedBox(
-                                    width: 5,
-                                  ),
-                                  Text(
-                                    "Selecione uma data",
-                                    style: GoogleFonts.openSans(
-                                      textStyle: const TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            const SizedBox(
-                              height: 5,
-                            ),
-                            if (isBarbeiro1 || isBarbeiro2 != false)
-                              InkWell(
-                                onTap: () {
-                                  ShowModalData();
-                                },
-                                child: Container(
-                                  width: double.infinity,
-                                  decoration: BoxDecoration(
-                                    color: Estabelecimento.secondaryColor
-                                        .withOpacity(0.2),
-                                    borderRadius: BorderRadius.circular(10),
-                                    border: Border.all(
-                                      width: 0.5,
-                                      color: Colors.grey.shade300,
-                                    ),
-                                  ),
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 10, horizontal: 10),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
                                       Text(
-                                        dataSelectedInModal != null
-                                            ? "${DateFormat("dd/MM/yyyy").format(dataSelectedInModal!)}"
-                                            : "Escolha uma data",
+                                        _profList[1].nomeProf,
                                         style: GoogleFonts.openSans(
-                                          textStyle: TextStyle(
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w500,
-                                            color: Colors.grey.shade500,
+                                          textStyle: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 14,
                                           ),
                                         ),
-                                      ),
-                                      Icon(
-                                        Icons.calendar_today,
-                                        size: 15,
-                                        color: Colors.grey.shade500,
-                                      ),
+                                      )
                                     ],
                                   ),
-                                ),
-                              ),
-                            const SizedBox(
-                              height: 25,
-                            ),
-                            //CONTAINER DA DATA - FIM
-                            //CONTAINER DA HORA - INICIO
-                            if (dataSelectedInModal != null)
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 5, horizontal: 10),
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        color: Estabelecimento.secondaryColor
-                                            .withOpacity(0.4)),
-                                    child: const Text("5"),
-                                  ),
-                                  const SizedBox(
-                                    width: 5,
-                                  ),
-                                  Text(
-                                    "Selecione um horário",
-                                    style: GoogleFonts.openSans(
-                                      textStyle: const TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                  ),
                                 ],
                               ),
-                            if (dataSelectedInModal != null)
-                             prontoParaExibir == true ?  Container(
-                                width: double.infinity,
-                                //  height: heighScreen * 0.64,
-                                child: GridView.builder(
-                                  padding: const EdgeInsets.only(top: 5),
-                                  shrinkWrap: true,
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  itemCount: horarioFinal.length,
-                                  gridDelegate:
-                                      const SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 2,
-                                    crossAxisSpacing: 2.3,
-                                    childAspectRatio: 2.3,
-                                  ),
-                                  itemBuilder: (BuildContext ctx, int index) {
-                                    Color color = selectedIndex == index
-                                        ? Colors.amber
-                                        : Estabelecimento.primaryColor;
-                                    return InkWell(
-                                      onTap: () {
-                                        setState(() {
-                                          selectedIndex = selectedIndex == index
-                                              ? -1
-                                              : index;
-
-                                          hourSetForUser =
-                                              horarioFinal[index].horario;
-                                        });
-                                      },
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 3, horizontal: 3),
-                                        child: Container(
-                                          alignment: Alignment.center,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                const BorderRadius.only(
-                                              bottomLeft:
-                                                  Radius.elliptical(20, 20),
-                                              bottomRight:
-                                                  Radius.elliptical(20, 20),
-                                              topLeft:
-                                                  Radius.elliptical(20, 20),
-                                              topRight:
-                                                  Radius.elliptical(20, 20),
-                                            ),
-                                            color: color,
-                                          ),
-                                          padding: const EdgeInsets.all(10),
-                                          child: Text(
-                                            "${horarioFinal[index].horario}",
-                                            style: GoogleFonts.openSans(
-                                                textStyle: const TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.white,
-                                              fontSize: 15,
-                                            )),
-                                          ),
+                              //CONTAINER DO PROFISSIONAL - FIM
+                              //CONTAINER DA DATA - INICIO
+                              const SizedBox(
+                                height: 25,
+                              ),
+                              //CONTAINER DO PROFISSIONAL - INICIO
+                              if (isBarbeiro1 || isBarbeiro2 != false)
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 5, horizontal: 10),
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          color: Estabelecimento.secondaryColor
+                                              .withOpacity(0.4)),
+                                      child: const Text("4"),
+                                    ),
+                                    const SizedBox(
+                                      width: 5,
+                                    ),
+                                    Text(
+                                      "Selecione uma data",
+                                      style: GoogleFonts.openSans(
+                                        textStyle: const TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.black,
                                         ),
                                       ),
-                                    );
-                                  },
+                                    ),
+                                  ],
                                 ),
-                              ) : const Center(child: CircularProgressIndicator.adaptive(),),
-                            //CONTAINER DA HORA - FIM
-                            //botao do agendar - inicio
-
-                            if (hourSetForUser != null)
-                              InkWell(
-                                onTap: showModalConfirmAgend,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(top: 15),
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              if (isBarbeiro1 || isBarbeiro2 != false)
+                                InkWell(
+                                  onTap: () {
+                                    ShowModalData();
+                                  },
                                   child: Container(
                                     width: double.infinity,
                                     decoration: BoxDecoration(
-                                      color: Estabelecimento.primaryColor,
+                                      color: Estabelecimento.secondaryColor
+                                          .withOpacity(0.2),
                                       borderRadius: BorderRadius.circular(10),
+                                      border: Border.all(
+                                        width: 0.5,
+                                        color: Colors.grey.shade300,
+                                      ),
                                     ),
                                     padding: const EdgeInsets.symmetric(
-                                        vertical: 20),
+                                        vertical: 10, horizontal: 10),
                                     child: Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
                                       mainAxisAlignment:
-                                          MainAxisAlignment.center,
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
-                                          "Próximo",
+                                          dataSelectedInModal != null
+                                              ? "${DateFormat("dd/MM/yyyy").format(dataSelectedInModal!)}"
+                                              : "Escolha uma data",
                                           style: GoogleFonts.openSans(
-                                              textStyle: TextStyle(
-                                            color: Estabelecimento
-                                                .contraPrimaryColor,
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.w600,
-                                          )),
-                                        ),
-                                        const SizedBox(
-                                          width: 15,
+                                            textStyle: TextStyle(
+                                              fontSize: 13,
+                                              fontWeight: FontWeight.w500,
+                                              color: Colors.grey.shade500,
+                                            ),
+                                          ),
                                         ),
                                         Icon(
-                                          Icons.arrow_forward,
-                                          color: Estabelecimento
-                                              .contraPrimaryColor,
-                                          size: 20,
+                                          Icons.calendar_today,
+                                          size: 15,
+                                          color: Colors.grey.shade500,
                                         ),
                                       ],
                                     ),
                                   ),
                                 ),
+                              const SizedBox(
+                                height: 25,
                               ),
-                            const SizedBox(
-                              height: 25,
-                            ),
-                            //botao do agendar - fim
-                          ],
+                              //CONTAINER DA DATA - FIM
+                              //CONTAINER DA HORA - INICIO
+                              if (dataSelectedInModal != null)
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 5, horizontal: 10),
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          color: Estabelecimento.secondaryColor
+                                              .withOpacity(0.4)),
+                                      child: const Text("5"),
+                                    ),
+                                    const SizedBox(
+                                      width: 5,
+                                    ),
+                                    Text(
+                                      "Selecione um horário",
+                                      style: GoogleFonts.openSans(
+                                        textStyle: const TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              if (dataSelectedInModal != null)
+                                prontoParaExibir == true
+                                    ? Container(
+                                        width: double.infinity,
+                                        //  height: heighScreen * 0.64,
+                                        child: GridView.builder(
+                                          padding:
+                                              const EdgeInsets.only(top: 5),
+                                          shrinkWrap: true,
+                                          physics:
+                                              const NeverScrollableScrollPhysics(),
+                                          itemCount: horarioFinal.length,
+                                          gridDelegate:
+                                              const SliverGridDelegateWithFixedCrossAxisCount(
+                                            crossAxisCount: 2,
+                                            crossAxisSpacing: 2.3,
+                                            childAspectRatio: 2.3,
+                                          ),
+                                          itemBuilder:
+                                              (BuildContext ctx, int index) {
+                                            Color color = selectedIndex == index
+                                                ? Colors.amber
+                                                : Estabelecimento.primaryColor;
+                                            return InkWell(
+                                              onTap: () {
+                                                setState(() {
+                                                  selectedIndex =
+                                                      selectedIndex == index
+                                                          ? -1
+                                                          : index;
+
+                                                  hourSetForUser =
+                                                      horarioFinal[index]
+                                                          .horario;
+                                                });
+                                              },
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        vertical: 3,
+                                                        horizontal: 3),
+                                                child: Container(
+                                                  alignment: Alignment.center,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        const BorderRadius.only(
+                                                      bottomLeft:
+                                                          Radius.elliptical(
+                                                              20, 20),
+                                                      bottomRight:
+                                                          Radius.elliptical(
+                                                              20, 20),
+                                                      topLeft:
+                                                          Radius.elliptical(
+                                                              20, 20),
+                                                      topRight:
+                                                          Radius.elliptical(
+                                                              20, 20),
+                                                    ),
+                                                    color: color,
+                                                  ),
+                                                  padding:
+                                                      const EdgeInsets.all(10),
+                                                  child: Text(
+                                                    "${horarioFinal[index].horario}",
+                                                    style: GoogleFonts.openSans(
+                                                        textStyle:
+                                                            const TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Colors.white,
+                                                      fontSize: 15,
+                                                    )),
+                                                  ),
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                      )
+                                    : const Center(
+                                        child: CircularProgressIndicator
+                                            .adaptive(),
+                                      ),
+                              //CONTAINER DA HORA - FIM
+                              //botao do agendar - inicio
+
+                              if (hourSetForUser != null)
+                                InkWell(
+                                  onTap: showModalConfirmAgend,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(top: 15),
+                                    child: Container(
+                                      width: double.infinity,
+                                      decoration: BoxDecoration(
+                                        color: Estabelecimento.primaryColor,
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 20),
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            "Próximo",
+                                            style: GoogleFonts.openSans(
+                                                textStyle: TextStyle(
+                                              color: Estabelecimento
+                                                  .contraPrimaryColor,
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w600,
+                                            )),
+                                          ),
+                                          const SizedBox(
+                                            width: 15,
+                                          ),
+                                          Icon(
+                                            Icons.arrow_forward,
+                                            color: Estabelecimento
+                                                .contraPrimaryColor,
+                                            size: 20,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              const SizedBox(
+                                height: 25,
+                              ),
+                              //botao do agendar - fim
+                            ],
+                          ),
                         ),
                       ),
                     ],

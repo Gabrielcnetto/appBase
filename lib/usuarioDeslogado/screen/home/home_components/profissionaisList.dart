@@ -17,10 +17,12 @@ class ProfissionaisListDeslogado extends StatefulWidget {
   });
 
   @override
-  State<ProfissionaisListDeslogado> createState() => _ProfissionaisListDeslogadoState();
+  State<ProfissionaisListDeslogado> createState() =>
+      _ProfissionaisListDeslogadoState();
 }
 
-class _ProfissionaisListDeslogadoState extends State<ProfissionaisListDeslogado> {
+class _ProfissionaisListDeslogadoState
+    extends State<ProfissionaisListDeslogado> {
   @override
   Widget build(BuildContext context) {
     final List<Profissionais> _listProfs = profList;
@@ -49,10 +51,17 @@ class _ProfissionaisListDeslogadoState extends State<ProfissionaisListDeslogado>
                           child: InkWell(
                             onTap: () {
                               print("teste");
-                              Navigator.of(context).push(MaterialPageRoute(
+                              Navigator.of(context).pushAndRemoveUntil(
+                                MaterialPageRoute(
                                   builder: (BuildContext ctx) {
-                                return  const HomeScreen01Deslogado(selectedIndex: 1);
-                              }));
+                                    return const HomeScreen01Deslogado(
+                                      selectedIndex: 1,
+                                    );
+                                  },
+                                ),
+                                (Route<dynamic> route) =>
+                                    false, // Remove todas as rotas anteriores
+                              );
                             },
                             child: Container(
                               width: widget.widhScreen > 300

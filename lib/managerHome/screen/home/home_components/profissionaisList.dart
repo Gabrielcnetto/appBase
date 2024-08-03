@@ -48,10 +48,18 @@ class _ProfissionaisListState extends State<ProfissionaisList> {
                           child: InkWell(
                             onTap: () {
                               print("teste");
-                              Navigator.of(context).push(MaterialPageRoute(
+                              Navigator.of(context).pushAndRemoveUntil(
+                                MaterialPageRoute(
                                   builder: (BuildContext ctx) {
-                                return const HomeScreen01(selectedIndex: 1,cupomIsAcitve: false,);
-                              }));
+                                    return const HomeScreen01(
+                                      selectedIndex: 1,
+                                      cupomIsAcitve: false,
+                                    );
+                                  },
+                                ),
+                                (Route<dynamic> route) =>
+                                    false, // Remove todas as rotas anteriores
+                              );
                             },
                             child: Container(
                               width: widget.widhScreen > 300

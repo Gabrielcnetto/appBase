@@ -137,7 +137,7 @@ class _AddScreenState extends State<AddScreen> {
   final List<Profissionais> _profList = profList;
   bool isBarbeiro1 = false;
   bool isBarbeiro2 = false;
-
+  String nomeFinalDoBarbeiro = '';
   void setBarber1() {
     if (isBarbeiro1 == true) {
       null;
@@ -437,7 +437,10 @@ class _AddScreenState extends State<AddScreen> {
         apenasBarba: apenasBarba,
         detalheDoProcedimento: detalheDoProcedimento ?? "Corte Normal",
         horariosExtra: horariosExtras,
-        totalValue: widget.cupomActive ? 0 : valorFinalCobrado,
+        totalValue: (nomeFinalDoBarbeiro == "${_profList[1].nomeProf}" ||
+                !(widget.cupomActive || valorFinalParaCriacao))
+            ? valorFinalCobrado
+            : 0,
         isActive: true,
         DiaDoCorte: diaDoCorte,
         NomeMes: monthName,
@@ -449,11 +452,7 @@ class _AddScreenState extends State<AddScreen> {
         barba: barba,
         diaCorte: dataSelectedInModal!,
         horarioCorte: hourSetForUser!,
-        profissionalSelect: isBarbeiro1
-            ? "${profList[0].nomeProf}"
-            : isBarbeiro2
-                ? "${profList[1].nomeProf}"
-                : "Não Definido",
+        profissionalSelect: nomeFinalDoBarbeiro,
       ),
       selectDateForUser: dataSelectedInModal!,
     );
@@ -742,11 +741,7 @@ class _AddScreenState extends State<AddScreen> {
                           ),
 
                           Text(
-                            isBarbeiro1 == true
-                                ? "${profList[0].nomeProf}"
-                                : isBarbeiro2 == true
-                                    ? "${profList[1].nomeProf}"
-                                    : "Não Definido",
+                            nomeFinalDoBarbeiro,
                             style: GoogleFonts.openSans(
                               textStyle: const TextStyle(
                                 fontWeight: FontWeight.w600,
@@ -2058,7 +2053,13 @@ class _AddScreenState extends State<AddScreen> {
                                 Column(
                                   children: [
                                     InkWell(
-                                      onTap: setBarber1,
+                                      onTap: () {
+                                        setState(() {
+                                          nomeFinalDoBarbeiro =
+                                              _profList[0].nomeProf;
+                                        });
+                                        setBarber1();
+                                      },
                                       child: Container(
                                         width: widhScren * 0.38,
                                         height: heighScreen * 0.35,
@@ -2122,7 +2123,13 @@ class _AddScreenState extends State<AddScreen> {
                                 Column(
                                   children: [
                                     InkWell(
-                                      onTap: setBarber2,
+                                      onTap: () {
+                                        setState(() {
+                                          nomeFinalDoBarbeiro =
+                                              _profList[1].nomeProf;
+                                        });
+                                        setBarber2();
+                                      },
                                       child: Container(
                                         width: widhScren * 0.38,
                                         height: heighScreen * 0.35,
