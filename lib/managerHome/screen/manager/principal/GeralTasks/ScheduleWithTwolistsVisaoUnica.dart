@@ -618,7 +618,7 @@ class _ScheduleWithTwoListsVisaoUnicaState
                                                                           if (corte.pagoComCupom ||
                                                                               corte.pagoComCreditos || corte.feitoporassinatura)
                                                                             Container(
-                                                                              padding: EdgeInsets.symmetric(horizontal: 5),
+                                                                              padding: const EdgeInsets.symmetric(horizontal: 5),
                                                                               decoration: BoxDecoration(
                                                                                 borderRadius: BorderRadius.circular(8),
                                                                                 color: Colors.white,

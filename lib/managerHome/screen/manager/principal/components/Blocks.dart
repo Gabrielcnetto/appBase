@@ -1,3 +1,4 @@
+import 'package:lionsbarberv1/classes/Estabelecimento.dart';
 import 'package:lionsbarberv1/classes/GeralUser.dart';
 import 'package:lionsbarberv1/classes/cortecClass.dart';
 import 'package:lionsbarberv1/functions/managerScreenFunctions.dart';
@@ -12,6 +13,7 @@ import 'package:lionsbarberv1/managerHome/screen/manager/principal/visao_cliente
 import 'package:lionsbarberv1/managerHome/screen/profile/profileScreen.dart';
 import 'package:lionsbarberv1/rotas/Approutes.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class BlocksManagerComponent extends StatefulWidget {
   const BlocksManagerComponent({super.key});
@@ -124,7 +126,15 @@ class _BlocksManagerComponentState extends State<BlocksManagerComponent> {
       totalCortes = totalCortesGet;
     });
   }
-
+void sendMessageWhatsApp() async {
+                                              if (await canLaunch(
+                                                  "https://wa.me/${5551993280162}")) {
+                                                await launch(
+                                                    "https://wa.me/${5551993280162}");
+                                              } else {
+                                                throw 'Não foi possível abrir o link';
+                                              }
+                                            }
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -330,12 +340,12 @@ class _BlocksManagerComponentState extends State<BlocksManagerComponent> {
                           DialogRoute(
                             context: context,
                             builder: (ctx) =>
-                                ClientesComAssinaturaGeralScreen(),
+                                const ClientesComAssinaturaGeralScreen(),
                           ),
                         );
                       },
                       child: Container(
-                        padding: EdgeInsets.symmetric(vertical: 5),
+                        padding: const EdgeInsets.symmetric(vertical: 5),
                         alignment: Alignment.center,
                         width: double.infinity,
                         decoration: BoxDecoration(
@@ -402,72 +412,267 @@ class _BlocksManagerComponentState extends State<BlocksManagerComponent> {
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 5,
                   ),
                   Expanded(
-                    child: Container(
-                      padding: EdgeInsets.symmetric(vertical: 5),
-                      alignment: Alignment.center,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        color: Colors.grey.shade200,
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            width: 40,
-                            height: 40,
-                            padding: const EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(45),
-                            ),
-                            child: Icon(
-                              Icons.currency_exchange,
-                              color: Colors.grey.shade700,
-                              size: 20,
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          Text(
-                            "R\$${totalSaquedisponivel.toStringAsFixed(2).replaceAll('.', ',')}",
-                            style: GoogleFonts.openSans(
-                              textStyle: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
-                                fontSize: 24,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                "Saque de Saldo",
-                                style: GoogleFonts.openSans(
-                                  textStyle: const TextStyle(
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.black54,
-                                    fontSize: 12,
-                                  ),
+                    child: InkWell(
+                      onTap: () {
+                        showModalBottomSheet(
+                          backgroundColor: Colors.transparent,
+                          isScrollControlled: true,
+                          context: context,
+                          builder: (ctx) {
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 30, horizontal: 30),
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 20, horizontal: 20),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                width: double.infinity,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.8,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    InkWell(
+                                      onTap: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: Row(
+                                        children: [
+                                          Icon(
+                                            Icons.arrow_back_ios,
+                                            size: 20,
+                                            color: Colors.grey.shade400,
+                                          ),
+                                          Text(
+                                            'Voltar',
+                                            style: GoogleFonts.poppins(
+                                              textStyle: const TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 15,
+                                    ),
+                                    Text(
+                                      'Transações & Informações importantes',
+                                      style: GoogleFonts.poppins(
+                                        textStyle: TextStyle(
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.blue.shade600,
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 15,
+                                    ),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          'Taxa de depósitos:',
+                                          style: GoogleFonts.poppins(
+                                            textStyle: const TextStyle(
+                                              fontWeight: FontWeight.w600,
+                                              color: Colors.black,
+                                              fontSize: 12,
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                          child: Text(
+                                            'Cada depósito feito por cliente na carteira e também na cobraça da assinatura, é cobrada uma taxa de 1,2% a cada pagamento. Este valor é reduzido conforme mais pagamentos forem sendo adicionados por clientes.',
+                                            style: GoogleFonts.poppins(
+                                              textStyle: const TextStyle(
+                                                  fontWeight: FontWeight.w400,
+                                                  color: Colors.black54,
+                                                  fontSize: 10),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    //
+                                    const SizedBox(
+                                      height: 15,
+                                    ),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          'Como receber os valores',
+                                          style: GoogleFonts.poppins(
+                                            textStyle: const TextStyle(
+                                              fontWeight: FontWeight.w600,
+                                              color: Colors.black,
+                                              fontSize: 12,
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                          child: Text(
+                                            'A Easecorte vai gerir todos os pagamentos e assinaturas de forma automática, e o depósito dos saques + assinaturas de seus clientes serão depositados na conta do gerente da ${Estabelecimento.nomeLocal} sempre até o dia 5 de cada mês',
+                                            style: GoogleFonts.poppins(
+                                              textStyle: const TextStyle(
+                                                  fontWeight: FontWeight.w400,
+                                                  color: Colors.black54,
+                                                  fontSize: 10),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+
+                                    //
+                                    const SizedBox(
+                                      height: 15,
+                                    ),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          'Suporte e adiantamentos',
+                                          style: GoogleFonts.poppins(
+                                            textStyle: const TextStyle(
+                                              fontWeight: FontWeight.w600,
+                                              color: Colors.black,
+                                              fontSize: 12,
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                          child: Text(
+                                            'Estorno de valores(para clientes), problemas de depósitos ou adiantamento de saques são possíveis sem cobranças adicionais. Basta solicitar pelo contato oficial da Easecorte por WhatsApp',
+                                            style: GoogleFonts.poppins(
+                                              textStyle: const TextStyle(
+                                                  fontWeight: FontWeight.w400,
+                                                  color: Colors.black54,
+                                                  fontSize: 10),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    //
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        InkWell(
+                                          onTap: () {
+                                            sendMessageWhatsApp();
+                                          },
+                                          child: Container(
+                                            alignment: Alignment.center,
+                                            decoration: BoxDecoration(
+                                              color: Colors.green.shade600,
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
+                                            padding: const EdgeInsets.symmetric(
+                                              vertical: 10,
+                                              horizontal: 10,
+                                            ),
+                                            child: Text(
+                                              'Entre em contato',
+                                              style: GoogleFonts.poppins(
+                                                textStyle: const TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
                                 ),
                               ),
-                              Icon(
-                                Icons.arrow_right,
-                                size: 15,
-                                color: Colors.grey.shade400,
+                            );
+                          },
+                        );
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(vertical: 5),
+                        alignment: Alignment.center,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: Colors.grey.shade200,
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              width: 40,
+                              height: 40,
+                              padding: const EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(45),
                               ),
-                            ],
-                          )
-                        ],
+                              child: Icon(
+                                Icons.currency_exchange,
+                                color: Colors.grey.shade700,
+                                size: 20,
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 5,
+                            ),
+                            Text(
+                              "R\$${totalSaquedisponivel.toStringAsFixed(2).replaceAll('.', ',')}",
+                              style: GoogleFonts.openSans(
+                                textStyle: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                  fontSize: 24,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 5,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "Saque de Saldo",
+                                  style: GoogleFonts.openSans(
+                                    textStyle: const TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                      color: Colors.black54,
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                ),
+                                Icon(
+                                  Icons.arrow_right,
+                                  size: 15,
+                                  color: Colors.grey.shade400,
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   ),

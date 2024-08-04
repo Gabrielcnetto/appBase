@@ -45,52 +45,56 @@ class _ClientesComAssinaturaGeralScreenState
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.only(top: 20, right: 15, left: 15),
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  InkWell(
-                    onTap: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: Icon(
-                      Icons.arrow_back_ios,
-                      size: 20,
-                      color: Colors.grey.shade500,
+          child: SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: Icon(
+                        Icons.arrow_back_ios,
+                        size: 20,
+                        color: Colors.grey.shade500,
+                      ),
                     ),
-                  ),
-                  Text(
-                    'Seus assinantes',
-                    style: GoogleFonts.openSans(
-                      textStyle: TextStyle(
-                        fontSize: 18,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w700,
+                    Text(
+                      'Seus assinantes',
+                      style: GoogleFonts.openSans(
+                        textStyle: const TextStyle(
+                          fontSize: 18,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ),
+                    Container(),
+                  ],
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                Container(
+                  width: double.infinity,
+                  height: 10,
+                  decoration: BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(
+                        width: 1,
+                        color: Colors.grey.shade200,
                       ),
                     ),
                   ),
-                  Container(),
-                ],
-              ),
-              SizedBox(height: 15,),
-              Container(
-                width: double.infinity,
-                height: 10,
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      width: 1,
-                      color: Colors.grey.shade200,
-                    ),
-                  ),
                 ),
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              Expanded(
-                child: Container(
+                const SizedBox(
+                  height: 15,
+                ),
+                Container(
+                  height: MediaQuery.of(context).size.height * 1,
                   width: double.infinity,
                   child: ListView.builder(
                     itemCount: listadeClientes.length,
@@ -101,8 +105,8 @@ class _ClientesComAssinaturaGeralScreenState
                     },
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

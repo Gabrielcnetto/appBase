@@ -114,10 +114,10 @@ class _TelaVisaoAssinaturaPagamentoState
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                CircularProgressIndicator.adaptive(
+                const CircularProgressIndicator.adaptive(
                   backgroundColor: Colors.white,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 Text(
@@ -152,7 +152,7 @@ class _TelaVisaoAssinaturaPagamentoState
         return;
       }
       final billingDetails = BillingDetails(
-        address: Address(
+        address: const Address(
           city: 'parobé',
           country: 'BR',
           line1: 'maria de l',
@@ -171,7 +171,8 @@ class _TelaVisaoAssinaturaPagamentoState
           ),
         ),
       );
-      String email = '${userEmail ?? 'easecorte@gmail.com'}'; // Email do cliente
+      String email =
+          '${userEmail ?? 'easecorte@gmail.com'}'; // Email do cliente
       int amount =
           widget.valorAssinatura.toInt(); //widget.valorAssinatura.toInt();
 
@@ -205,12 +206,12 @@ class _TelaVisaoAssinaturaPagamentoState
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.check_circle,
                     size: 80,
                     color: Colors.white,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Text(
@@ -241,10 +242,10 @@ class _TelaVisaoAssinaturaPagamentoState
       );
 
 // Fecha o modal automaticamente após 3 segundos
-      Future.delayed(Duration(seconds: 3), () {
+      Future.delayed(const Duration(seconds: 3), () {
         Navigator.pop(context);
       });
-      Future.delayed(Duration(seconds: 3), () {
+      Future.delayed(const Duration(seconds: 3), () {
         Navigator.pop(context);
       });
     } catch (e) {
@@ -257,13 +258,13 @@ class _TelaVisaoAssinaturaPagamentoState
           content: Text(
             'Houve um erro ao processar sua assinatura. Tente novamente.',
             style: GoogleFonts.poppins(
-              textStyle: TextStyle(
+              textStyle: const TextStyle(
                 fontWeight: FontWeight.w600,
                 color: Colors.white,
               ),
             ),
           ),
-          duration: Duration(seconds: 3), // Duração do Snackbar
+          duration: const Duration(seconds: 3), // Duração do Snackbar
           backgroundColor: Colors.red, // Cor de fundo do Snackbar
         ),
       );
@@ -325,17 +326,17 @@ class _TelaVisaoAssinaturaPagamentoState
                             onTap: () {
                               Navigator.of(context).pop();
                             },
-                            child: Icon(
+                            child: const Icon(
                               Icons.arrow_back_ios,
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 5,
                           ),
                           Text(
                             'Assinatura',
                             style: GoogleFonts.openSans(
-                              textStyle: TextStyle(
+                              textStyle: const TextStyle(
                                 fontWeight: FontWeight.w700,
                                 fontSize: 26,
                                 color: Colors.black,
@@ -344,14 +345,14 @@ class _TelaVisaoAssinaturaPagamentoState
                           ),
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       Container(
                         child: Text(
                           'Preço Exclusivo, sempre que desejar acesse o app, escolha um dia e um horário disponível e agende sem precisar pagar nada a mais pelo corte. Corte com qualquer um dos profissionais disponíveis na ${Estabelecimento.nomeLocal}',
                           style: GoogleFonts.openSans(
-                            textStyle: TextStyle(
+                            textStyle: const TextStyle(
                               fontWeight: FontWeight.w600,
                               fontSize: 14,
                               color: Colors.black54,
@@ -369,7 +370,7 @@ class _TelaVisaoAssinaturaPagamentoState
                       color: Colors.grey.shade100,
                     ),
                     width: double.infinity,
-                    padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                    padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -388,7 +389,7 @@ class _TelaVisaoAssinaturaPagamentoState
                             Text(
                               '${widget.valorAssinatura.toStringAsFixed(2).replaceAll('.', ',')}',
                               style: GoogleFonts.poppins(
-                                textStyle: TextStyle(
+                                textStyle: const TextStyle(
                                   fontSize: 30,
                                   color: Colors.black,
                                   fontWeight: FontWeight.w700,
@@ -420,7 +421,7 @@ class _TelaVisaoAssinaturaPagamentoState
                               ),
                             ),
                             width: double.infinity,
-                            padding: EdgeInsets.symmetric(
+                            padding: const EdgeInsets.symmetric(
                               vertical: 5,
                             ),
                           ),
@@ -441,13 +442,13 @@ class _TelaVisaoAssinaturaPagamentoState
                                         Icons.check_circle,
                                         color: Colors.green.shade800,
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         width: 5,
                                       ),
                                       Text(
                                         'Cabelo & barba',
                                         style: GoogleFonts.openSans(
-                                          textStyle: TextStyle(
+                                          textStyle: const TextStyle(
                                             fontWeight: FontWeight.w800,
                                             fontSize: 15,
                                           ),
@@ -463,13 +464,13 @@ class _TelaVisaoAssinaturaPagamentoState
                                         Icons.check_circle,
                                         color: Colors.green.shade800,
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         width: 5,
                                       ),
                                       Text(
                                         'Quando quiser',
                                         style: GoogleFonts.openSans(
-                                          textStyle: TextStyle(
+                                          textStyle: const TextStyle(
                                             fontWeight: FontWeight.w800,
                                             fontSize: 15,
                                           ),
@@ -496,13 +497,13 @@ class _TelaVisaoAssinaturaPagamentoState
                                           Icons.check_circle,
                                           color: Colors.green.shade800,
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           width: 5,
                                         ),
                                         Text(
                                           'No Crédito',
                                           style: GoogleFonts.openSans(
-                                            textStyle: TextStyle(
+                                            textStyle: const TextStyle(
                                               fontWeight: FontWeight.w800,
                                               fontSize: 15,
                                             ),
@@ -520,13 +521,13 @@ class _TelaVisaoAssinaturaPagamentoState
                                           Icons.check_circle,
                                           color: Colors.green.shade800,
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           width: 5,
                                         ),
                                         Text(
                                           'Preço Exclusivo',
                                           style: GoogleFonts.openSans(
-                                            textStyle: TextStyle(
+                                            textStyle: const TextStyle(
                                               fontWeight: FontWeight.w800,
                                               fontSize: 15,
                                             ),
@@ -548,7 +549,7 @@ class _TelaVisaoAssinaturaPagamentoState
                   padding:
                       const EdgeInsets.only(left: 15, right: 15, bottom: 30),
                   child: Container(
-                    padding: EdgeInsets.only(top: 15),
+                    padding: const EdgeInsets.only(top: 15),
                     width: double.infinity,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -563,7 +564,7 @@ class _TelaVisaoAssinaturaPagamentoState
                                   Text(
                                     'Como funciona?',
                                     style: GoogleFonts.openSans(
-                                      textStyle: TextStyle(
+                                      textStyle: const TextStyle(
                                         fontWeight: FontWeight.w500,
                                         color: Colors.black,
                                         fontSize: 15,
@@ -576,7 +577,7 @@ class _TelaVisaoAssinaturaPagamentoState
                                     child: Text(
                                       'Sempre que quiser, acesse o app e agende um horário, pague apenas a mensalidade e nenhuma difereça a mais pelo procedimento',
                                       style: GoogleFonts.poppins(
-                                        textStyle: TextStyle(
+                                        textStyle: const TextStyle(
                                           fontWeight: FontWeight.w400,
                                           fontSize: 12,
                                           color: Colors.black54,
@@ -584,13 +585,13 @@ class _TelaVisaoAssinaturaPagamentoState
                                       ),
                                     ),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 5,
                                   ),
                                   Text(
                                     'Pagamentos:',
                                     style: GoogleFonts.openSans(
-                                      textStyle: TextStyle(
+                                      textStyle: const TextStyle(
                                         fontWeight: FontWeight.w500,
                                         color: Colors.black,
                                         fontSize: 15,
@@ -603,7 +604,7 @@ class _TelaVisaoAssinaturaPagamentoState
                                     child: Text(
                                       'O Pagamento é automático no seu cartão de crédito, sem a necessidade de pagar pessoalmente.',
                                       style: GoogleFonts.poppins(
-                                        textStyle: TextStyle(
+                                        textStyle: const TextStyle(
                                           fontWeight: FontWeight.w400,
                                           fontSize: 12,
                                           color: Colors.black54,
@@ -612,13 +613,13 @@ class _TelaVisaoAssinaturaPagamentoState
                                     ),
                                   ),
                                   //
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 5,
                                   ),
                                   Text(
                                     'Cancelamento:',
                                     style: GoogleFonts.openSans(
-                                      textStyle: TextStyle(
+                                      textStyle: const TextStyle(
                                         fontWeight: FontWeight.w500,
                                         color: Colors.black,
                                         fontSize: 15,
@@ -631,7 +632,7 @@ class _TelaVisaoAssinaturaPagamentoState
                                     child: Text(
                                       'Cancele quando quiser, falando com um dos profissionais',
                                       style: GoogleFonts.poppins(
-                                        textStyle: TextStyle(
+                                        textStyle: const TextStyle(
                                           fontWeight: FontWeight.w400,
                                           fontSize: 12,
                                           color: Colors.black54,
@@ -653,7 +654,7 @@ class _TelaVisaoAssinaturaPagamentoState
                           ),
                         ),
                         Container(
-                          padding: EdgeInsets.symmetric(vertical: 20),
+                          padding: const EdgeInsets.symmetric(vertical: 20),
                           width: double.infinity,
                           child: Form(
                             key: _formKey,
@@ -663,14 +664,14 @@ class _TelaVisaoAssinaturaPagamentoState
                                 Text(
                                   'Detalhes do cartão',
                                   style: GoogleFonts.poppins(
-                                    textStyle: TextStyle(
+                                    textStyle: const TextStyle(
                                       fontWeight: FontWeight.w600,
                                       fontSize: 16,
                                       color: Colors.black,
                                     ),
                                   ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 15,
                                 ),
                                 Container(
@@ -690,7 +691,7 @@ class _TelaVisaoAssinaturaPagamentoState
                                 ),
                                 Container(
                                   width: double.infinity,
-                                  padding: EdgeInsets.symmetric(vertical: 10),
+                                  padding: const EdgeInsets.symmetric(vertical: 10),
                                   child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
@@ -698,14 +699,14 @@ class _TelaVisaoAssinaturaPagamentoState
                                       Text(
                                         'Seu telefone',
                                         style: GoogleFonts.poppins(
-                                          textStyle: TextStyle(
+                                          textStyle: const TextStyle(
                                             fontWeight: FontWeight.w600,
                                             fontSize: 16,
                                             color: Colors.black,
                                           ),
                                         ),
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         height: 5,
                                       ),
                                       Container(
@@ -713,7 +714,7 @@ class _TelaVisaoAssinaturaPagamentoState
                                             color: Colors.grey.shade100,
                                             borderRadius:
                                                 BorderRadius.circular(10)),
-                                        padding: EdgeInsets.symmetric(
+                                        padding: const EdgeInsets.symmetric(
                                             vertical: 5, horizontal: 10),
                                         child: TextFormField(
                                           validator: (value) {
@@ -733,7 +734,7 @@ class _TelaVisaoAssinaturaPagamentoState
                                             label: Text(
                                               "Clique para digitar",
                                               style: GoogleFonts.poppins(
-                                                textStyle: TextStyle(
+                                                textStyle: const TextStyle(
                                                   fontWeight: FontWeight.w400,
                                                   color: Colors.black,
                                                   fontSize: 12,
@@ -764,11 +765,11 @@ class _TelaVisaoAssinaturaPagamentoState
                                         alignment: Alignment.center,
                                         width: double.infinity,
                                         padding:
-                                            EdgeInsets.symmetric(vertical: 15),
+                                            const EdgeInsets.symmetric(vertical: 15),
                                         child: Text(
                                           'Confirmar assinatura',
                                           style: GoogleFonts.poppins(
-                                            textStyle: TextStyle(
+                                            textStyle: const TextStyle(
                                               fontWeight: FontWeight.w600,
                                               fontSize: 15,
                                               color: Colors.white,
@@ -798,7 +799,7 @@ class _TelaVisaoAssinaturaPagamentoState
                                                           BorderRadius.circular(
                                                               10)),
                                                   width: double.infinity,
-                                                  padding: EdgeInsets.symmetric(
+                                                  padding: const EdgeInsets.symmetric(
                                                       vertical: 30,
                                                       horizontal: 10),
                                                   child: Column(
@@ -814,7 +815,7 @@ class _TelaVisaoAssinaturaPagamentoState
                                                                       context)
                                                                   .pop();
                                                             },
-                                                            child: Icon(
+                                                            child: const Icon(
                                                               Icons
                                                                   .arrow_back_ios,
                                                             ),
@@ -824,7 +825,7 @@ class _TelaVisaoAssinaturaPagamentoState
                                                             style: GoogleFonts
                                                                 .openSans(
                                                               textStyle:
-                                                                  TextStyle(
+                                                                  const TextStyle(
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .w600,
@@ -842,7 +843,7 @@ class _TelaVisaoAssinaturaPagamentoState
                                                           style: GoogleFonts
                                                               .openSans(
                                                             textStyle:
-                                                                TextStyle(
+                                                                const TextStyle(
                                                               fontWeight:
                                                                   FontWeight
                                                                       .w400,
@@ -863,7 +864,7 @@ class _TelaVisaoAssinaturaPagamentoState
                                         child: Text(
                                           'Veja as regras',
                                           style: GoogleFonts.poppins(
-                                            textStyle: TextStyle(
+                                            textStyle: const TextStyle(
                                               fontWeight: FontWeight.w500,
                                               fontSize: 12,
                                               color: Colors.black54,

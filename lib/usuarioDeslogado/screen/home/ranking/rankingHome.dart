@@ -61,6 +61,8 @@ class _RankingHomeState extends State<RankingHome> {
         switch (i) {
           case 0:
             top1User = GeralUser(
+                userIdDatabase: userList[userIndex].userIdDatabase ?? '',
+                assinaturaId: userList[userIndex].assinaturaId ?? '',
               isAssinatura: userList[userIndex].isAssinatura ?? false,
               ultimoAgendamento: DateTime.now(),
               PhoneNumber: userList[userIndex].PhoneNumber ?? "",
@@ -73,6 +75,8 @@ class _RankingHomeState extends State<RankingHome> {
             break;
           case 1:
             top2User = GeralUser(
+                userIdDatabase: userList[userIndex].userIdDatabase ?? '',
+                assinaturaId: userList[userIndex].assinaturaId ?? '',
                 isAssinatura: userList[userIndex].isAssinatura ?? false,
               ultimoAgendamento: DateTime.now(),
               PhoneNumber: userList[userIndex].PhoneNumber ?? "",
@@ -85,6 +89,8 @@ class _RankingHomeState extends State<RankingHome> {
             break;
           case 2:
             top3User = GeralUser(
+                userIdDatabase: userList[userIndex].userIdDatabase ?? '',
+                assinaturaId: userList[userIndex].assinaturaId ?? '',
                 isAssinatura: userList[userIndex].isAssinatura ?? false,
               ultimoAgendamento: DateTime.now(),
               PhoneNumber: userList[userIndex].PhoneNumber ?? "",
@@ -97,6 +103,8 @@ class _RankingHomeState extends State<RankingHome> {
             break;
           case 3:
             top4User = GeralUser(
+                userIdDatabase: userList[userIndex].userIdDatabase ?? '',
+                 assinaturaId: userList[userIndex].assinaturaId ?? '',
                 isAssinatura: userList[userIndex].isAssinatura ?? false,
               ultimoAgendamento: DateTime.now(),
               PhoneNumber: userList[userIndex].PhoneNumber ?? "",
@@ -109,6 +117,8 @@ class _RankingHomeState extends State<RankingHome> {
             break;
           case 4:
             top5User = GeralUser(
+                userIdDatabase: userList[userIndex].userIdDatabase ?? '',
+                assinaturaId: userList[userIndex].assinaturaId ?? '',
                 isAssinatura: userList[userIndex].isAssinatura ?? false,
               ultimoAgendamento: DateTime.now(),
               PhoneNumber: userList[userIndex].PhoneNumber ?? "",

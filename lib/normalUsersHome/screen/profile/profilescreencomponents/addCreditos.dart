@@ -205,7 +205,7 @@ class _AddCreditosNaContaState extends State<AddCreditosNaConta> {
                       onTap: () {
                         Navigator.of(context).pop();
                       },
-                      child: Icon(
+                      child: const Icon(
                         Icons.arrow_back_ios,
                         color: Colors.black,
                         size: 30,
@@ -214,7 +214,7 @@ class _AddCreditosNaContaState extends State<AddCreditosNaConta> {
                     Text(
                       'Adicione saldo na conta',
                       style: GoogleFonts.poppins(
-                        textStyle: TextStyle(
+                        textStyle: const TextStyle(
                           fontWeight: FontWeight.w600,
                           fontSize: 18,
                         ),
@@ -223,7 +223,7 @@ class _AddCreditosNaContaState extends State<AddCreditosNaConta> {
                     Container()
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 30,
                 ),
                 Column(
@@ -235,7 +235,7 @@ class _AddCreditosNaContaState extends State<AddCreditosNaConta> {
                         'Quanto você deseja adicionar de crédito para usar na \n${Estabelecimento.nomeLocal}?',
                         textAlign: TextAlign.left,
                         style: GoogleFonts.openSans(
-                          textStyle: TextStyle(
+                          textStyle: const TextStyle(
                             fontWeight: FontWeight.w600,
                             fontSize: 20,
                           ),
@@ -257,11 +257,11 @@ class _AddCreditosNaContaState extends State<AddCreditosNaConta> {
                       ),
                     ),
                     width: double.infinity,
-                    padding: EdgeInsets.symmetric(vertical: 20, horizontal: 15),
+                    padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
                     child: Expanded(
                       child: TextFormField(
                         maxLength: 4,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 16,
                         ),
@@ -275,7 +275,7 @@ class _AddCreditosNaContaState extends State<AddCreditosNaConta> {
                           label: Text(
                             'R\$ ',
                             style: GoogleFonts.poppins(
-                              textStyle: TextStyle(
+                              textStyle: const TextStyle(
                                 fontSize: 25,
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,
@@ -310,11 +310,11 @@ class _AddCreditosNaContaState extends State<AddCreditosNaConta> {
                                 borderRadius: BorderRadius.circular(40),
                               ),
                               alignment: Alignment.center,
-                              padding: EdgeInsets.all(10),
+                              padding: const EdgeInsets.all(10),
                               child: Text(
                                 'R\$ 35,00',
                                 style: GoogleFonts.poppins(
-                                  textStyle: TextStyle(
+                                  textStyle: const TextStyle(
                                     fontWeight: FontWeight.w600,
                                     fontSize: 14,
                                     color: Colors.black,
@@ -338,11 +338,11 @@ class _AddCreditosNaContaState extends State<AddCreditosNaConta> {
                                 borderRadius: BorderRadius.circular(40),
                               ),
                               alignment: Alignment.center,
-                              padding: EdgeInsets.all(10),
+                              padding: const EdgeInsets.all(10),
                               child: Text(
                                 'R\$ 50,00',
                                 style: GoogleFonts.poppins(
-                                  textStyle: TextStyle(
+                                  textStyle: const TextStyle(
                                     fontWeight: FontWeight.w600,
                                     fontSize: 14,
                                     color: Colors.black,
@@ -366,11 +366,11 @@ class _AddCreditosNaContaState extends State<AddCreditosNaConta> {
                                 borderRadius: BorderRadius.circular(40),
                               ),
                               alignment: Alignment.center,
-                              padding: EdgeInsets.all(10),
+                              padding: const EdgeInsets.all(10),
                               child: Text(
                                 'R\$ 75,00',
                                 style: GoogleFonts.poppins(
-                                  textStyle: TextStyle(
+                                  textStyle: const TextStyle(
                                     fontWeight: FontWeight.w600,
                                     fontSize: 14,
                                     color: Colors.black,
@@ -400,11 +400,11 @@ class _AddCreditosNaContaState extends State<AddCreditosNaConta> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                       width: double.infinity,
-                      padding: EdgeInsets.symmetric(vertical: 20),
+                      padding: const EdgeInsets.symmetric(vertical: 20),
                       child: Text(
                         'Realizar pagamento',
                         style: GoogleFonts.poppins(
-                          textStyle: TextStyle(
+                          textStyle: const TextStyle(
                             fontSize: 15,
                             color: Colors.white,
                             fontWeight: FontWeight.bold,

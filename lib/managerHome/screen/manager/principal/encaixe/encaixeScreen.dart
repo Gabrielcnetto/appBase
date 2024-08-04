@@ -761,6 +761,8 @@ class _EncaixeScreenProfissionalOptionHomeProfState
       {required String nomeCompleto, required String phoneNumber}) async {
     // Aqui você pode criar uma instância de GeralUser com base no nome completo e outros detalhes necessários
     GeralUser novoUsuario = GeralUser(
+      userIdDatabase: '',
+      assinaturaId: '',
       isAssinatura: false,
       ultimoAgendamento: DateTime.now(),
       name: nomeCompleto,

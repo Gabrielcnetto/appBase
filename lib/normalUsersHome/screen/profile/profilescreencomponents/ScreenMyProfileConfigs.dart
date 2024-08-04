@@ -538,6 +538,7 @@ class _ScreenComponentsMyProfileState extends State<ScreenComponentsMyProfile> {
     final widhScren = MediaQuery.of(context).size.width;
     final heighScreen = MediaQuery.of(context).size.height;
     return Container(
+      color: Colors.white,
       width: widhScren,
       height: heighScreen,
       child: Padding(
@@ -591,19 +592,19 @@ class _ScreenComponentsMyProfileState extends State<ScreenComponentsMyProfile> {
                         if (UsuarioPremium == true)
                           Row(
                             children: [
-                              Icon(
+                              const Icon(
                                 Icons.star,
-                                color: const Color.fromARGB(255, 190, 190, 0),
+                                color: Color.fromARGB(255, 190, 190, 0),
                                 size: 18,
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 5,
                               ),
                               Container(
                                 child: Text(
                                   'assinatura ativa',
                                   style: GoogleFonts.poppins(
-                                    textStyle: TextStyle(
+                                    textStyle: const TextStyle(
                                         fontWeight: FontWeight.w600,
                                         fontSize: 10,
                                         fontStyle: FontStyle.italic),
@@ -612,7 +613,7 @@ class _ScreenComponentsMyProfileState extends State<ScreenComponentsMyProfile> {
                               ),
                             ],
                           ),
-                        SizedBox(
+                        const SizedBox(
                           width: 5,
                         ),
                         Container(
@@ -717,7 +718,7 @@ class _ScreenComponentsMyProfileState extends State<ScreenComponentsMyProfile> {
                               Navigator.of(context).push(DialogRoute(
                                   context: context,
                                   builder: (ctx) {
-                                    return AddCreditosNaConta();
+                                    return const AddCreditosNaConta();
                                   }));
                             } else {
                               showDialog(
@@ -1301,7 +1302,7 @@ class _ScreenComponentsMyProfileState extends State<ScreenComponentsMyProfile> {
                                                       'Disponível no app',
                                                       style:
                                                           GoogleFonts.openSans(
-                                                        textStyle: TextStyle(
+                                                        textStyle: const TextStyle(
                                                             fontWeight:
                                                                 FontWeight.w500,
                                                             color:
@@ -1312,7 +1313,7 @@ class _ScreenComponentsMyProfileState extends State<ScreenComponentsMyProfile> {
                                                       'Para assinar um plano, use o aplicativo da ${Estabelecimento.nomeLocal} na play ou apple store.',
                                                       style:
                                                           GoogleFonts.openSans(
-                                                        textStyle: TextStyle(
+                                                        textStyle: const TextStyle(
                                                           fontWeight:
                                                               FontWeight.w500,
                                                           color: Colors.black54,
@@ -1330,7 +1331,7 @@ class _ScreenComponentsMyProfileState extends State<ScreenComponentsMyProfile> {
                                                           style: GoogleFonts
                                                               .openSans(
                                                             textStyle:
-                                                                TextStyle(
+                                                                const TextStyle(
                                                               fontWeight:
                                                                   FontWeight
                                                                       .w500,

@@ -71,6 +71,17 @@ class StripeSubscriptions with ChangeNotifier {
     );
 
     if (response.statusCode == 200) {
+      try {
+        final userIdDB = await authSettings.currentUser!.uid;
+        final subscription = await jsonDecode(response.body);
+        String subscriptionId = await subscription['id'];
+        final pubOnSubsIdDATABASEUser =
+            await database.collection('usuarios').doc(userIdDB).update({
+          'assinaturaId': subscriptionId,
+        });
+      } catch (e) {
+        print('ao pegar o id do usuario e enviar ao db:$e');
+      }
       return json.decode(response.body);
     } else {
       throw Exception('Failed to create subscription');
@@ -129,7 +140,6 @@ class StripeSubscriptions with ChangeNotifier {
       final postSignature =
           await database.collection('usuarios').doc(userid).update({
         'assinatura': true,
-  
       });
     } catch (e) {
       print('ao enviar bool deu isto:$e');
@@ -186,7 +196,6 @@ class StripeSubscriptions with ChangeNotifier {
     }
   }
 
-
   //fazendo o get dos saldos
 
   Future<double?> getTotalemMensalidades() async {
@@ -195,8 +204,10 @@ class StripeSubscriptions with ChangeNotifier {
       if (authSettings.currentUser != null) {
         double? valorAssinaturaUm;
 
-        final docSnapshot =
-            await database.collection("estabelecimento").doc('assinaturaValor').get();
+        final docSnapshot = await database
+            .collection("estabelecimento")
+            .doc('assinaturaValor')
+            .get();
         if (docSnapshot.exists) {
           Map<String, dynamic> data =
               docSnapshot.data() as Map<String, dynamic>;
@@ -223,6 +234,49 @@ class StripeSubscriptions with ChangeNotifier {
     } catch (e) {
       print('#iu: houve um erro: $e');
       return null; // Certifique-se de retornar null no caso de erro
+    }
+  }
+
+  Future<void> cancelSubscription(
+      {required String subscriptionId,
+      required String userId,
+      required double precoAssinatura}) async {
+    try {
+      final String endpoint =
+          'https://api.stripe.com/v1/subscriptions/$subscriptionId';
+
+      final response = await http.delete(
+        Uri.parse(endpoint),
+        headers: {
+          'Authorization': 'Bearer $chaveSecreta',
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        print('Subscription canceled successfully');
+        try {
+          final ajustOnProfile =
+              await database.collection('usuarios').doc(userId).update({
+            'assinatura': false,
+            'assinaturaId': '',
+          });
+          final updateValorMensalidadesResgate = await database
+              .collection('estabelecimento')
+              .doc('totalAssinaturas')
+              .update({
+            'saqueDeMensalidades': FieldValue.increment(-precoAssinatura)
+          });
+        } catch (e) {
+          print('pos cancelar na stripe, dentro do db deu isto: $e');
+        }
+      } else {
+        final errorResponse = jsonDecode(response.body);
+        print(
+            'Failed to cancel subscription: ${errorResponse['error']['message']}');
+      }
+    } catch (e) {
+      throw e;
     }
   }
 }

@@ -1,6 +1,7 @@
 
 class GeralUser {
-
+  final String userIdDatabase;
+  final String assinaturaId;
   final String name;
   final String urlImage;
   final String PhoneNumber;
@@ -11,6 +12,8 @@ class GeralUser {
   final DateTime ultimoAgendamento;
 
   GeralUser({
+    required this.userIdDatabase,
+    required this.assinaturaId,
     required this.ultimoAgendamento,
     required this.isManager,
     required this.isAssinatura,

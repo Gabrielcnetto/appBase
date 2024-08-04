@@ -30,7 +30,7 @@ class _RestaurarAsenhaState extends State<RestaurarAsenha> {
             title: Text(
               "Erro ao enviar e-mail",
               style: GoogleFonts.poppins(
-                textStyle: TextStyle(
+                textStyle: const TextStyle(
                   fontWeight: FontWeight.w500,
                   fontSize: 15,
                   color: Colors.black,
@@ -40,7 +40,7 @@ class _RestaurarAsenhaState extends State<RestaurarAsenha> {
             content: Text(
               "Verifique se este e-mail está correto, se o erro permanecer crie uma nova conta, ou aguarde alguns minutos",
               style: GoogleFonts.poppins(
-                textStyle: TextStyle(
+                textStyle: const TextStyle(
                   fontWeight: FontWeight.w400,
                   fontSize: 12,
                   color: Colors.black54,
@@ -55,7 +55,7 @@ class _RestaurarAsenhaState extends State<RestaurarAsenha> {
                 child: Text(
                   "Fechar",
                   style: GoogleFonts.poppins(
-                    textStyle: TextStyle(
+                    textStyle: const TextStyle(
                       fontWeight: FontWeight.w500,
                       fontSize: 15,
                       color: Colors.black,
@@ -98,7 +98,7 @@ class _RestaurarAsenhaState extends State<RestaurarAsenha> {
                     Text(
                       'Recuperar Senha',
                       style: GoogleFonts.poppins(
-                        textStyle: TextStyle(
+                        textStyle: const TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
                         ),
@@ -106,7 +106,7 @@ class _RestaurarAsenhaState extends State<RestaurarAsenha> {
                     )
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 50,
                 ),
                 afterSend == false
@@ -120,21 +120,21 @@ class _RestaurarAsenhaState extends State<RestaurarAsenha> {
                               Text(
                                 "Precisamos do seu E-Mail",
                                 style: GoogleFonts.openSans(
-                                  textStyle: TextStyle(
+                                  textStyle: const TextStyle(
                                     fontSize: 20,
                                     color: Colors.black,
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 3,
                               ),
                               Container(
                                 child: Text(
                                   "Enviaremos as informações para recuperar por lá. Digite o E-Mail usado para se cadastrar",
                                   style: GoogleFonts.openSans(
-                                    textStyle: TextStyle(
+                                    textStyle: const TextStyle(
                                       fontSize: 14,
                                       color: Colors.black54,
                                       fontWeight: FontWeight.w400,
@@ -142,12 +142,12 @@ class _RestaurarAsenhaState extends State<RestaurarAsenha> {
                                   ),
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 45,
                               ),
                               Container(
                                 width: MediaQuery.of(context).size.width * 1,
-                                padding: EdgeInsets.symmetric(
+                                padding: const EdgeInsets.symmetric(
                                     vertical: 10, horizontal: 15),
                                 decoration: BoxDecoration(
                                   color: Colors.grey.shade200,
@@ -174,7 +174,7 @@ class _RestaurarAsenhaState extends State<RestaurarAsenha> {
                                             label: Text(
                                               "Clique para digitar",
                                               style: GoogleFonts.poppins(
-                                                textStyle: TextStyle(
+                                                textStyle: const TextStyle(
                                                   fontSize: 13,
                                                   color: Colors.black,
                                                   fontWeight: FontWeight.w300,
@@ -185,7 +185,7 @@ class _RestaurarAsenhaState extends State<RestaurarAsenha> {
                                         ),
                                       ),
                                     ),
-                                    Icon(Icons.mail_lock_outlined)
+                                    const Icon(Icons.mail_lock_outlined)
                                   ],
                                 ),
                               ),
@@ -201,7 +201,7 @@ class _RestaurarAsenhaState extends State<RestaurarAsenha> {
                               },
                               child: Container(
                                 width: double.infinity,
-                                padding: EdgeInsets.symmetric(vertical: 10),
+                                padding: const EdgeInsets.symmetric(vertical: 10),
                                 decoration: BoxDecoration(
                                   color: Colors.blue.shade600,
                                   borderRadius: BorderRadius.circular(10),
@@ -213,17 +213,17 @@ class _RestaurarAsenhaState extends State<RestaurarAsenha> {
                                     Text(
                                       "Trocar senha",
                                       style: GoogleFonts.poppins(
-                                        textStyle: TextStyle(
+                                        textStyle: const TextStyle(
                                           fontSize: 15,
                                           color: Colors.white,
                                           fontWeight: FontWeight.w600,
                                         ),
                                       ),
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 3,
                                     ),
-                                    Icon(
+                                    const Icon(
                                       Icons.ads_click,
                                       size: 18,
                                       color: Colors.white,
@@ -254,7 +254,7 @@ class _RestaurarAsenhaState extends State<RestaurarAsenha> {
                                 Text(
                                   "Instruções enviadas ao seu e-mail",
                                   style: GoogleFonts.poppins(
-                                    textStyle: TextStyle(
+                                    textStyle: const TextStyle(
                                       fontWeight: FontWeight.w400,
                                       color: Colors.black,
                                     ),

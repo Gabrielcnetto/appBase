@@ -2407,7 +2407,7 @@ class _AddScreenState extends State<AddScreen> {
                                           Text(
                                             'Pagamento pelo app',
                                             style: GoogleFonts.openSans(
-                                              textStyle: TextStyle(
+                                              textStyle: const TextStyle(
                                                 fontWeight: FontWeight.w700,
                                                 fontSize: 16,
                                                 color: Colors.black,
@@ -2429,7 +2429,7 @@ class _AddScreenState extends State<AddScreen> {
                                                 borderRadius:
                                                     BorderRadius.circular(8),
                                               ),
-                                              padding: EdgeInsets.all(8),
+                                              padding: const EdgeInsets.all(8),
                                               child: Icon(
                                                 verOpcaoPagamentoPeloApp ==
                                                         false
@@ -2454,7 +2454,7 @@ class _AddScreenState extends State<AddScreen> {
                                                   width: 1,
                                                   color: Colors.grey.shade100),
                                             ),
-                                            padding: EdgeInsets.symmetric(
+                                            padding: const EdgeInsets.symmetric(
                                               vertical: 10,
                                               horizontal: 10,
                                             ),
@@ -2470,13 +2470,13 @@ class _AddScreenState extends State<AddScreen> {
                                                           MainAxisAlignment
                                                               .start,
                                                       children: [
-                                                        Icon(
+                                                        const Icon(
                                                           Icons
                                                               .account_balance_wallet,
                                                           size: 25,
                                                           color: Colors.black,
                                                         ),
-                                                        SizedBox(
+                                                        const SizedBox(
                                                           width: 5,
                                                         ),
                                                         Column(
@@ -2489,7 +2489,7 @@ class _AddScreenState extends State<AddScreen> {
                                                               style: GoogleFonts
                                                                   .openSans(
                                                                 textStyle:
-                                                                    TextStyle(
+                                                                    const TextStyle(
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .w600,
@@ -2544,14 +2544,14 @@ class _AddScreenState extends State<AddScreen> {
                                                                               Colors.redAccent),
                                                                     ),
                                                                   ),
-                                                                  SizedBox(
+                                                                  const SizedBox(
                                                                     width: 10,
                                                                   ),
                                                                   Text(
                                                                     'Faltam R\$${valorFaltante.toStringAsFixed(2).replaceAll('.', ',').replaceAll('-', '')}',
                                                                     style: GoogleFonts
                                                                         .poppins(
-                                                                      textStyle: TextStyle(
+                                                                      textStyle: const TextStyle(
                                                                           fontWeight: FontWeight
                                                                               .w700,
                                                                           fontSize:
@@ -2592,7 +2592,7 @@ class _AddScreenState extends State<AddScreen> {
                                                                     style: GoogleFonts
                                                                         .poppins(
                                                                       textStyle:
-                                                                          TextStyle(
+                                                                          const TextStyle(
                                                                         fontWeight:
                                                                             FontWeight.w500,
                                                                         fontSize:
@@ -2607,7 +2607,7 @@ class _AddScreenState extends State<AddScreen> {
                                                                     style: GoogleFonts
                                                                         .poppins(
                                                                       textStyle:
-                                                                          TextStyle(
+                                                                          const TextStyle(
                                                                         fontWeight:
                                                                             FontWeight.w500,
                                                                         fontSize:
@@ -2630,7 +2630,7 @@ class _AddScreenState extends State<AddScreen> {
                                                                         style: GoogleFonts
                                                                             .poppins(
                                                                           textStyle:
-                                                                              TextStyle(
+                                                                              const TextStyle(
                                                                             fontWeight:
                                                                                 FontWeight.w500,
                                                                             fontSize:
@@ -2663,7 +2663,7 @@ class _AddScreenState extends State<AddScreen> {
                                                                         style: GoogleFonts
                                                                             .poppins(
                                                                           textStyle:
-                                                                              TextStyle(
+                                                                              const TextStyle(
                                                                             fontWeight:
                                                                                 FontWeight.w700,
                                                                             fontSize:
@@ -2700,7 +2700,7 @@ class _AddScreenState extends State<AddScreen> {
                                                           top: 10),
                                                   child: Container(
                                                     padding:
-                                                        EdgeInsets.symmetric(
+                                                        const EdgeInsets.symmetric(
                                                             vertical: 5),
                                                     decoration: BoxDecoration(
                                                       border: Border(
@@ -2753,7 +2753,7 @@ class _AddScreenState extends State<AddScreen> {
                                                                         .green
                                                                         .shade600,
                                                                   ),
-                                                                  SizedBox(
+                                                                  const SizedBox(
                                                                     width: 5,
                                                                   ),
                                                                   Text(
@@ -2761,7 +2761,7 @@ class _AddScreenState extends State<AddScreen> {
                                                                     style: GoogleFonts
                                                                         .poppins(
                                                                       textStyle:
-                                                                          TextStyle(
+                                                                          const TextStyle(
                                                                         fontWeight:
                                                                             FontWeight.w300,
                                                                         color: Colors
@@ -2799,7 +2799,7 @@ class _AddScreenState extends State<AddScreen> {
                                           child: Text(
                                             'Para pagar pessoalmente deixe o botão cinza para a esquerda e clique em Próximo:',
                                             style: GoogleFonts.poppins(
-                                              textStyle: TextStyle(
+                                              textStyle: const TextStyle(
                                                 fontWeight: FontWeight.w300,
                                                 color: Colors.red,
                                                 fontSize: 12,
