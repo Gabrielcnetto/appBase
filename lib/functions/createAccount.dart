@@ -33,6 +33,7 @@ class CreateAccount with ChangeNotifier {
       "isfuncionario": false,
       "nameFuncionario": "",
       "easepoints": 0,
+      'assinatura': false,
       'saldoConta': 0,
     });
     notifyListeners();

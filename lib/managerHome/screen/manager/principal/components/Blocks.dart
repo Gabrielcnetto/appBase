@@ -8,6 +8,7 @@ import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
+import 'package:lionsbarberv1/managerHome/screen/manager/principal/visao_clientesPlano/clientesComAssinaturas.dart';
 import 'package:lionsbarberv1/managerHome/screen/profile/profileScreen.dart';
 import 'package:lionsbarberv1/rotas/Approutes.dart';
 import 'package:provider/provider.dart';
@@ -72,7 +73,8 @@ class _BlocksManagerComponentState extends State<BlocksManagerComponent> {
       calculoReducaoFaturamentoPorAssinaturas();
     });
   }
- double totalSaquedisponivel = 0;
+
+  double totalSaquedisponivel = 0;
   Future<void> loadSaques() async {
     double? PointOfClient =
         await Provider.of<MyProfileScreenFunctions>(context, listen: false)
@@ -82,12 +84,12 @@ class _BlocksManagerComponentState extends State<BlocksManagerComponent> {
     });
   }
 
-double faturamentofinalSemAssinaturas= 0;
- void calculoReducaoFaturamentoPorAssinaturas() {
-  setState(() {
-    faturamentofinalSemAssinaturas = (totalFaturamento - valorAssinatura1);
-  });
-}
+  double faturamentofinalSemAssinaturas = 0;
+  void calculoReducaoFaturamentoPorAssinaturas() {
+    setState(() {
+      faturamentofinalSemAssinaturas = (totalFaturamento - valorAssinatura1);
+    });
+  }
 
   String? mesAtual;
   Future<void> loadAtualMonth() async {
@@ -322,70 +324,81 @@ double faturamentofinalSemAssinaturas= 0;
               child: Row(
                 children: [
                   Expanded(
-                    child: Container(
-                      padding: EdgeInsets.symmetric(vertical: 5),
-                      alignment: Alignment.center,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        color: Colors.grey.shade200,
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            width: 40,
-                            height: 40,
-                            padding: const EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(45),
-                            ),
-                            child: Icon(
-                              Icons.credit_card,
-                              color: Colors.grey.shade700,
-                              size: 20,
-                            ),
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.of(context).push(
+                          DialogRoute(
+                            context: context,
+                            builder: (ctx) =>
+                                ClientesComAssinaturaGeralScreen(),
                           ),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          Container(
-                            child: Text(
-                              "R\$${valorAssinatura1.toStringAsFixed(2).replaceAll('.', ',')}",
-                              style: GoogleFonts.openSans(
-                                textStyle: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black,
-                                  fontSize: 24,
-                                ),
+                        );
+                      },
+                      child: Container(
+                        padding: EdgeInsets.symmetric(vertical: 5),
+                        alignment: Alignment.center,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: Colors.grey.shade200,
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              width: 40,
+                              height: 40,
+                              padding: const EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(45),
+                              ),
+                              child: Icon(
+                                Icons.credit_card,
+                                color: Colors.grey.shade700,
+                                size: 20,
                               ),
                             ),
-                          ),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                "Total em mensalidades",
+                            const SizedBox(
+                              height: 5,
+                            ),
+                            Container(
+                              child: Text(
+                                "R\$${valorAssinatura1.toStringAsFixed(2).replaceAll('.', ',')}",
                                 style: GoogleFonts.openSans(
                                   textStyle: const TextStyle(
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.black54,
-                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black,
+                                    fontSize: 24,
                                   ),
                                 ),
                               ),
-                              Icon(
-                                Icons.arrow_right,
-                                size: 15,
-                                color: Colors.grey.shade400,
-                              ),
-                            ],
-                          )
-                        ],
+                            ),
+                            const SizedBox(
+                              height: 5,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "Total em mensalidades",
+                                  style: GoogleFonts.openSans(
+                                    textStyle: const TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                      color: Colors.black54,
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                ),
+                                Icon(
+                                  Icons.arrow_right,
+                                  size: 15,
+                                  color: Colors.grey.shade400,
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   ),

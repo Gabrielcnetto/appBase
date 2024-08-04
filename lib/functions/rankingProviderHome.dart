@@ -28,6 +28,7 @@ class RankingProvider with ChangeNotifier {
         DateTime diaFinal = timestamp?.toDate() ?? DateTime.now();
 
         return GeralUser(
+          isAssinatura: data?['assinatura'] ?? false,
           ultimoAgendamento: diaFinal,
           PhoneNumber: data?["PhoneNumber"] ?? 0,
           isfuncionario: data?["isfuncionario"],
@@ -62,6 +63,7 @@ class RankingProvider with ChangeNotifier {
         DateTime diaFinal = timestamp?.toDate() ?? DateTime.now();
 
         return GeralUser(
+          isAssinatura: data?['assinatura'] ?? false,
           ultimoAgendamento: diaFinal,
           PhoneNumber: data?["PhoneNumber"] ?? 0,
           isfuncionario: data?["isfuncionario"],

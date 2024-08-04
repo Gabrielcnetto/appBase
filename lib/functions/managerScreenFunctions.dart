@@ -24,6 +24,7 @@ class ManagerScreenFunctions with ChangeNotifier {
       _CLIENTESLISTA = querySnapshot.docs.map((doc) {
         Map<String, dynamic>? data = doc.data() as Map<String, dynamic>?;
         return GeralUser(
+          isAssinatura: data?["assinatura"] ?? false, //
           ultimoAgendamento: DateTime.now(),
           PhoneNumber: data?["PhoneNumber"] ?? "",
           isfuncionario: data?["isfuncionario"],
@@ -456,6 +457,7 @@ class ManagerScreenFunctions with ChangeNotifier {
       List<GeralUser> allUsers = querySnapshot.docs.map((doc) {
         Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
         return GeralUser(
+          isAssinatura: data['assinatura'] ?? false,
           ultimoAgendamento: DateTime.now(),
           PhoneNumber: data[
               "PhoneNumber"], // Valor padrão para PhoneNumber é uma string vazia
@@ -1017,6 +1019,4 @@ class ManagerScreenFunctions with ChangeNotifier {
     }
     //atualizando na allcuts - fim
   }
-
-  
 }

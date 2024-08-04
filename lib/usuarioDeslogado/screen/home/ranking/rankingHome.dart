@@ -61,6 +61,7 @@ class _RankingHomeState extends State<RankingHome> {
         switch (i) {
           case 0:
             top1User = GeralUser(
+              isAssinatura: userList[userIndex].isAssinatura ?? false,
               ultimoAgendamento: DateTime.now(),
               PhoneNumber: userList[userIndex].PhoneNumber ?? "",
               isfuncionario: userList[userIndex].isfuncionario,
@@ -72,6 +73,7 @@ class _RankingHomeState extends State<RankingHome> {
             break;
           case 1:
             top2User = GeralUser(
+                isAssinatura: userList[userIndex].isAssinatura ?? false,
               ultimoAgendamento: DateTime.now(),
               PhoneNumber: userList[userIndex].PhoneNumber ?? "",
               isfuncionario: userList[userIndex].isfuncionario,
@@ -83,6 +85,7 @@ class _RankingHomeState extends State<RankingHome> {
             break;
           case 2:
             top3User = GeralUser(
+                isAssinatura: userList[userIndex].isAssinatura ?? false,
               ultimoAgendamento: DateTime.now(),
               PhoneNumber: userList[userIndex].PhoneNumber ?? "",
               isfuncionario: userList[userIndex].isfuncionario,
@@ -94,6 +97,7 @@ class _RankingHomeState extends State<RankingHome> {
             break;
           case 3:
             top4User = GeralUser(
+                isAssinatura: userList[userIndex].isAssinatura ?? false,
               ultimoAgendamento: DateTime.now(),
               PhoneNumber: userList[userIndex].PhoneNumber ?? "",
               isfuncionario: userList[userIndex].isfuncionario,
@@ -105,6 +109,7 @@ class _RankingHomeState extends State<RankingHome> {
             break;
           case 4:
             top5User = GeralUser(
+                isAssinatura: userList[userIndex].isAssinatura ?? false,
               ultimoAgendamento: DateTime.now(),
               PhoneNumber: userList[userIndex].PhoneNumber ?? "",
               isfuncionario: userList[userIndex].isfuncionario,
