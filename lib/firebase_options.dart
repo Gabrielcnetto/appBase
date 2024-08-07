@@ -62,7 +62,7 @@ class DefaultFirebaseOptions {
     projectId: 'lionsbarber-easecorte',
     databaseURL: 'https://lionsbarber-easecorte-default-rtdb.firebaseio.com',
     storageBucket: 'lionsbarber-easecorte.appspot.com',
-    iosBundleId: 'com.easecorte.lionsbarberv2',
+    iosBundleId: 'com.easecorte.lionsbarberv1',
   );
 
   static const FirebaseOptions web = FirebaseOptions(
