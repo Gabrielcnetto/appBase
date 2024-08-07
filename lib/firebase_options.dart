@@ -48,7 +48,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyDffSXDyBCfYjrKb_RYJqWNw1o3-Zxj5Kg',
-    appId: '1:1075600342317:android:1cdcb7f95927e2f6ada7a4',
+    appId: '1:1075600342317:android:afd01b044e1fa8a0ada7a4',
     messagingSenderId: '1075600342317',
     projectId: 'lionsbarber-easecorte',
     databaseURL: 'https://lionsbarber-easecorte-default-rtdb.firebaseio.com',
@@ -57,12 +57,12 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyBqPHSive34BfIsW7yDzCUtgLjOsM-kszU',
-    appId: '1:1075600342317:ios:55f6818d144a49beada7a4',
+    appId: '1:1075600342317:ios:24c66784d1048c3dada7a4',
     messagingSenderId: '1075600342317',
     projectId: 'lionsbarber-easecorte',
     databaseURL: 'https://lionsbarber-easecorte-default-rtdb.firebaseio.com',
     storageBucket: 'lionsbarber-easecorte.appspot.com',
-    iosBundleId: 'com.easecorte.lionsbarberv1',
+    iosBundleId: 'com.easecorte.lionsbarberv2',
   );
 
   static const FirebaseOptions web = FirebaseOptions(

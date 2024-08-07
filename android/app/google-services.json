@@ -27,6 +27,25 @@
     },
     {
       "client_info": {
+        "mobilesdk_app_id": "1:1075600342317:android:afd01b044e1fa8a0ada7a4",
+        "android_client_info": {
+          "package_name": "com.easecorte.lionsbarberv2"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDffSXDyBCfYjrKb_RYJqWNw1o3-Zxj5Kg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:1075600342317:android:e4844d7e3fb28f8eada7a4",
         "android_client_info": {
           "package_name": "com.lionsbarbeariaeasecorte.barbearia"

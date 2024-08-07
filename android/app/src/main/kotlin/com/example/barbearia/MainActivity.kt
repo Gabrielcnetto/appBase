@@ -1,4 +1,4 @@
-package com.easecorte.lionsbarberv1
+package com.easecorte.lionsbarberv2
 
 import io.flutter.embedding.android.FlutterFragmentActivity
 

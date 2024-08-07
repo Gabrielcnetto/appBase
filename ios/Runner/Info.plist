@@ -6,8 +6,6 @@
 	<true/>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
-	<key>UILaunchImageIcon</key>
-    <string>AppIcon</string>
 	<key>CFBundleDisplayName</key>
 	<string>Lions Barber Club</string>
 	<key>CFBundleExecutable</key>
@@ -30,6 +28,8 @@
 	<false/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>O aplicativo precisa de acesso ao Apple Pay para processar pagamentos.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Você precisa liberar acesso, para conseguir enviar sua imagem de perfil.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
@@ -39,8 +39,9 @@
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
-		<string>remote-notification</string>
 	</array>
+	<key>UILaunchImageIcon</key>
+	<string>AppIcon</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
@@ -48,17 +49,6 @@
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-	<key>UISupportedInterfaceOrientations~ipad</key>
-	<array>
-		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationPortraitUpsideDown</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
-	</array>
-	<key>NSAppleMusicUsageDescription</key>
-	<string>O aplicativo precisa de acesso ao Apple Pay para processar pagamentos.</string>
 </dict>
 </plist>

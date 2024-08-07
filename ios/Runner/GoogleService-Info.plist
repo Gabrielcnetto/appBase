@@ -9,7 +9,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.easecorte.lionsbarberv1</string>
+	<string>com.easecorte.lionsbarberv2</string>
 	<key>PROJECT_ID</key>
 	<string>lionsbarber-easecorte</string>
 	<key>STORAGE_BUCKET</key>
@@ -25,7 +25,7 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:1075600342317:ios:55f6818d144a49beada7a4</string>
+	<string>1:1075600342317:ios:24c66784d1048c3dada7a4</string>
 	<key>DATABASE_URL</key>
 	<string>https://lionsbarber-easecorte-default-rtdb.firebaseio.com</string>
 </dict>
