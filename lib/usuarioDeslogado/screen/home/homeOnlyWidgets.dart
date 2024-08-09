@@ -6,6 +6,7 @@ import 'package:lionsbarberv1/normalUsersHome/screen/home/home_components/header
 import 'package:lionsbarberv1/normalUsersHome/screen/home/home_components/header/home_noItenswithLoading.dart';
 import 'package:lionsbarberv1/normalUsersHome/screen/home/home_components/profissionaisList.dart';
 import 'package:lionsbarberv1/normalUsersHome/screen/home/home_components/promotionBanner.dart';
+import 'package:lionsbarberv1/normalUsersHome/screen/home/home_components/provas_sociais/container_geral.dart';
 import 'package:lionsbarberv1/normalUsersHome/screen/home/ranking/rankingHome.dart';
 import 'package:lionsbarberv1/normalUsersHome/screen/home/ranking/semUsuarios.dart';
 import 'package:flutter/material.dart';
@@ -67,6 +68,7 @@ class _HomeOnlyWidgetsDeslogadoState extends State<HomeOnlyWidgetsDeslogado> {
             PromotionBannerComponents(
               widhtTela: widhtTela,
             ),
+            const ContainerGeralProvaSocial(),
             rankingTamanho >= 5
                 ? RankingHome(
                     heighScreen: heighTela,

@@ -7,6 +7,7 @@ import 'package:lionsbarberv1/normalUsersHome/screen/home/home_components/header
 import 'package:lionsbarberv1/normalUsersHome/screen/home/home_components/header/home_noItenswithLoading.dart';
 import 'package:lionsbarberv1/normalUsersHome/screen/home/home_components/profissionaisList.dart';
 import 'package:lionsbarberv1/normalUsersHome/screen/home/home_components/promotionBanner.dart';
+import 'package:lionsbarberv1/normalUsersHome/screen/home/home_components/provas_sociais/container_geral.dart';
 import 'package:lionsbarberv1/normalUsersHome/screen/home/points_rewards/geralView.dart';
 import 'package:lionsbarberv1/normalUsersHome/screen/home/ranking/rankingHome.dart';
 import 'package:lionsbarberv1/normalUsersHome/screen/home/ranking/semUsuarios.dart';
@@ -28,6 +29,7 @@ class _HomeOnlyWidgetsState extends State<HomeOnlyWidgets> {
   void initState() {
     // TODO: implement initState
     super.initState();
+
     loadpossibilidadeCupom();
     Provider.of<CorteProvider>(context, listen: false).userCortesTotal;
     Provider.of<RankingProvider>(context, listen: false).loadingListUsers();
@@ -84,6 +86,7 @@ class _HomeOnlyWidgetsState extends State<HomeOnlyWidgets> {
             PromotionBannerComponents(
               widhtTela: widhtTela,
             ),
+            const ContainerGeralProvaSocial(),
             rankingTamanho >= 5
                 ? RankingHome(
                     heighScreen: heighTela,
@@ -94,9 +97,9 @@ class _HomeOnlyWidgetsState extends State<HomeOnlyWidgets> {
                 ? const Center(
                     child: CircularProgressIndicator.adaptive(),
                   )
-                : 
-                PontosPorCortes == true ?
-                const GeralViewRewardsUser() : Container(),
+                : PontosPorCortes == true
+                    ? const GeralViewRewardsUser()
+                    : Container(),
           ],
         ),
       ),

@@ -698,7 +698,7 @@ class _FaturamentoMesSelecionadoState extends State<FaturamentoMesSelecionado> {
                           textStyle: const TextStyle(
                             fontWeight: FontWeight.w600,
                             color: Colors.black,
-                            fontSize: 45,
+                            fontSize: 40,
                           ),
                         ),
                       ),

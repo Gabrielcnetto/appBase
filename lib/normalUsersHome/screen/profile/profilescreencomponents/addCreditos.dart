@@ -257,131 +257,128 @@ class _AddCreditosNaContaState extends State<AddCreditosNaConta> {
                       ),
                     ),
                     width: double.infinity,
-                    padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
-                    child: Expanded(
-                      child: TextFormField(
-                        maxLength: 4,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                        ),
-                        inputFormatters: [
-                          FilteringTextInputFormatter
-                              .digitsOnly, // Permite apenas dígitos
-                        ],
-                        keyboardType: TextInputType.text,
-                        textInputAction: TextInputAction.done,
-                        decoration: InputDecoration(
-                          label: Text(
-                            'R\$ ',
-                            style: GoogleFonts.poppins(
-                              textStyle: const TextStyle(
-                                fontSize: 25,
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                              ),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 20, horizontal: 15),
+                    child: TextFormField(
+                      maxLength: 4,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                      inputFormatters: [
+                        FilteringTextInputFormatter
+                            .digitsOnly, // Permite apenas dígitos
+                      ],
+                      keyboardType: TextInputType.number,
+                      textInputAction: TextInputAction.done,
+                      decoration: InputDecoration(
+                        label: Text(
+                          'R\$ ',
+                          style: GoogleFonts.poppins(
+                            textStyle: const TextStyle(
+                              fontSize: 25,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
-                          border: InputBorder.none,
                         ),
-                        controller: valueFinalFound,
+                        border: InputBorder.none,
                       ),
+                      controller: valueFinalFound,
                     ),
                   ),
                 ),
                 //valores pré selecionados - inicio
                 Padding(
                   padding: const EdgeInsets.only(top: 20),
-                  child: Container(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(right: 20),
-                          child: InkWell(
-                            onTap: () {
-                              setState(() {
-                                valueFinalFound.text = '35';
-                              });
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.grey.shade300,
-                                borderRadius: BorderRadius.circular(40),
-                              ),
-                              alignment: Alignment.center,
-                              padding: const EdgeInsets.all(10),
-                              child: Text(
-                                'R\$ 35,00',
-                                style: GoogleFonts.poppins(
-                                  textStyle: const TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 14,
-                                    color: Colors.black,
-                                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(right: 20),
+                        child: InkWell(
+                          onTap: () {
+                            setState(() {
+                              valueFinalFound.text = '35';
+                            });
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.grey.shade300,
+                              borderRadius: BorderRadius.circular(40),
+                            ),
+                            alignment: Alignment.center,
+                            padding: const EdgeInsets.all(10),
+                            child: Text(
+                              'R\$ 35,00',
+                              style: GoogleFonts.poppins(
+                                textStyle: const TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 14,
+                                  color: Colors.black,
                                 ),
                               ),
                             ),
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(right: 20),
-                          child: InkWell(
-                            onTap: () {
-                              setState(() {
-                                valueFinalFound.text = '50';
-                              });
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.grey.shade300,
-                                borderRadius: BorderRadius.circular(40),
-                              ),
-                              alignment: Alignment.center,
-                              padding: const EdgeInsets.all(10),
-                              child: Text(
-                                'R\$ 50,00',
-                                style: GoogleFonts.poppins(
-                                  textStyle: const TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 14,
-                                    color: Colors.black,
-                                  ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(right: 20),
+                        child: InkWell(
+                          onTap: () {
+                            setState(() {
+                              valueFinalFound.text = '50';
+                            });
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.grey.shade300,
+                              borderRadius: BorderRadius.circular(40),
+                            ),
+                            alignment: Alignment.center,
+                            padding: const EdgeInsets.all(10),
+                            child: Text(
+                              'R\$ 50,00',
+                              style: GoogleFonts.poppins(
+                                textStyle: const TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 14,
+                                  color: Colors.black,
                                 ),
                               ),
                             ),
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(right: 20),
-                          child: InkWell(
-                            onTap: () {
-                              setState(() {
-                                valueFinalFound.text = '75';
-                              });
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.grey.shade300,
-                                borderRadius: BorderRadius.circular(40),
-                              ),
-                              alignment: Alignment.center,
-                              padding: const EdgeInsets.all(10),
-                              child: Text(
-                                'R\$ 75,00',
-                                style: GoogleFonts.poppins(
-                                  textStyle: const TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 14,
-                                    color: Colors.black,
-                                  ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(right: 20),
+                        child: InkWell(
+                          onTap: () {
+                            setState(() {
+                              valueFinalFound.text = '75';
+                            });
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.grey.shade300,
+                              borderRadius: BorderRadius.circular(40),
+                            ),
+                            alignment: Alignment.center,
+                            padding: const EdgeInsets.all(10),
+                            child: Text(
+                              'R\$ 75,00',
+                              style: GoogleFonts.poppins(
+                                textStyle: const TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 14,
+                                  color: Colors.black,
                                 ),
                               ),
                             ),
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
                 //valores pré selecionados - fim
@@ -389,7 +386,7 @@ class _AddCreditosNaContaState extends State<AddCreditosNaConta> {
                   padding: const EdgeInsets.only(top: 20),
                   child: InkWell(
                     onTap: () {
-                      if (valueFinalFound.text != '') {
+                      if (valueFinalFound.text.isNotEmpty) {
                         makePayment();
                       }
                     },

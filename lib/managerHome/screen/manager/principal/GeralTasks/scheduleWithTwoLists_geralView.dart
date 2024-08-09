@@ -261,613 +261,484 @@ class _ScheduleWithTwoListsVer2ProfissionaisState
                   ),
                   //STREAM DO PROFISSIONAL 1
                   Expanded(
-                    child: Container(
-                      height: MediaQuery.of(context).size.height * 0.22,
-                      child: StreamBuilder<List<CorteClass>>(
-                        stream: Provider.of<ManagerScreenFunctions>(
-                          context,
-                          listen: true,
-                        ).CorteslistaManagerProfissional1,
-                        builder: (ctx, snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return const Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          } else if (snapshot.hasError ||
-                              snapshot.data!.isEmpty) {
-                            return Container(
-                              height: MediaQuery.of(context).size.height * 0.22,
-                              decoration: BoxDecoration(
-                                color: Colors.grey.shade200,
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: const Center(
-                                child: Text(
-                                  "Horário Disponível",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 14,
-                                    color: Colors.black54,
-                                  ),
+                      child: Container(
+                    height: MediaQuery.of(context).size.height * 0.22,
+                    child: StreamBuilder<List<CorteClass>>(
+                      stream: Provider.of<ManagerScreenFunctions>(context,
+                              listen: true)
+                          .CorteslistaManagerProfissional1,
+                      builder: (ctx, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        } else if (snapshot.hasError ||
+                            snapshot.data!.isEmpty) {
+                          return Container(
+                            height: MediaQuery.of(context).size.height * 0.22,
+                            decoration: BoxDecoration(
+                              color: Colors.grey.shade200,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: const Center(
+                              child: Text(
+                                "Horário Disponível",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 14,
+                                  color: Colors.black54,
                                 ),
                               ),
+                            ),
+                          );
+                        } else if (snapshot.hasData) {
+                          final List<CorteClass>? cortes = snapshot.data;
+                          final List<CorteClass> cortesFiltrados = cortes!
+                              .where((corte) => corte.clientName != "extra")
+                              .toList();
+                          List<String> allHorariosExtra = [];
+
+                          for (CorteClass corte in cortesFiltrados) {
+                            allHorariosExtra.addAll(corte.horariosExtra);
+                          }
+
+                          bool determineUsoCupom(String horario) {
+                            return cortesFiltrados.any((corte) =>
+                                corte.horariosExtra.contains(horario) &&
+                                corte.pagoComCupom);
+                          }
+
+                          bool determineAssinatura(String horario) {
+                            return cortesFiltrados.any((corte) =>
+                                corte.horariosExtra.contains(horario) &&
+                                corte.feitoporassinatura);
+                          }
+
+                          bool determinePagoComCreditos(String horario) {
+                            return cortesFiltrados.any((corte) =>
+                                corte.horariosExtra.contains(horario) &&
+                                corte.pagoComCreditos);
+                          }
+
+                          for (String horario in allHorariosExtra) {
+                            bool boolDaAssinatura =
+                                determineAssinatura(horario);
+                            bool pagoComCreditosValue =
+                                determinePagoComCreditos(horario);
+                            bool pagoComOsCupons = determineUsoCupom(horario);
+                            CorteClass novaCorte = CorteClass(
+                              feitoporassinatura: boolDaAssinatura,
+                              pagoComCreditos: pagoComCreditosValue,
+                              pagoComCupom: pagoComOsCupons,
+                              easepoints: 0,
+                              apenasBarba: false,
+                              detalheDoProcedimento: "",
+                              horariosExtra: [],
+                              totalValue: 0,
+                              isActive: false,
+                              DiaDoCorte: 0,
+                              NomeMes: "null",
+                              dateCreateAgendamento: DateTime.now(),
+                              clientName: "Barba",
+                              id: "",
+                              numeroContato: "null",
+                              profissionalSelect: "null",
+                              diaCorte: DateTime.now(),
+                              horarioCorte: horario,
+                              barba: false,
+                              ramdomCode: 0,
                             );
-                            ;
-                          } else if (snapshot.hasData) {
-                            final List<CorteClass>? cortes = snapshot.data;
-                            final List<CorteClass> cortesFiltrados = cortes!
-                                .where((corte) => corte.clientName != "extra")
-                                .toList();
-                            // Assuming cortesFiltrados is a List<CorteClass>
 
-                            List<String> allHorariosExtra = [];
+                            cortesFiltrados.add(novaCorte);
+                          }
 
-                            for (CorteClass corte in cortesFiltrados) {
-                              allHorariosExtra.addAll(corte.horariosExtra);
-                            }
+                          allHorariosExtra = allHorariosExtra.toSet().toList();
+                          print(
+                              "#3 tamanho da lista: ${allHorariosExtra.length}");
+                          List<CorteClass> cortesParaHorario = cortesFiltrados
+                              .where((corte) =>
+                                  corte.horarioCorte == horario.horario)
+                              .toList();
 
-                            bool determineUsoCupom(String horario) {
-                              // Exemplo fictício: Definir que pagoComCreditos é true se o horário contém algum critério específico
-                              // Ajuste a lógica conforme necessário
-                              return cortesFiltrados.any((corte) =>
-                                  corte.horariosExtra.contains(horario) &&
-                                  corte.pagoComCupom);
-                            }
-
-                            bool determineAssinatura(String horario) {
-                              // Exemplo fictício: Definir que pagoComCreditos é true se o horário contém algum critério específico
-                              // Ajuste a lógica conforme necessário
-                              return cortesFiltrados.any((corte) =>
-                                  corte.horariosExtra.contains(horario) &&
-                                  corte.feitoporassinatura);
-                            }
-
-                            bool determinePagoComCreditos(String horario) {
-                              // Exemplo fictício: Definir que pagoComCreditos é true se o horário contém algum critério específico
-                              // Ajuste a lógica conforme necessário
-                              return cortesFiltrados.any((corte) =>
-                                  corte.horariosExtra.contains(horario) &&
-                                  corte.pagoComCreditos);
-                            }
-
-                            for (String horario in allHorariosExtra) {
-                              bool boolDaAssinatura =
-                                  determineAssinatura(horario);
-                              bool pagoComCreditosValue =
-                                  determinePagoComCreditos(horario);
-                              bool pagoComOsCupons = determineUsoCupom(horario);
-                              CorteClass novaCorte = CorteClass(
-                                feitoporassinatura: boolDaAssinatura,
-                                pagoComCreditos: pagoComCreditosValue,
-                                pagoComCupom: pagoComOsCupons,
-                                easepoints: 0,
-                                apenasBarba: false,
-                                detalheDoProcedimento: "",
-                                horariosExtra: [], // Aqui você pode definir conforme necessário
-                                totalValue: 0, // Defina os valores apropriados
-                                isActive: false,
-                                DiaDoCorte: 0,
-                                NomeMes: "null",
-                                dateCreateAgendamento: DateTime.now(),
-                                clientName: "Barba",
-                                id: "",
-                                numeroContato: "null",
-                                profissionalSelect: "null",
-                                diaCorte: DateTime.now(),
-                                horarioCorte:
-                                    horario, // Aqui define o horarioCorte com cada valor de allHorariosExtra
-                                barba: false,
-                                ramdomCode: 0,
-                              );
-
-                              cortesFiltrados.add(novaCorte);
-                            }
-
-                            allHorariosExtra =
-                                allHorariosExtra.toSet().toList();
-                            print(
-                                "#3 tamanho da lista: ${allHorariosExtra.length}");
-                            List<CorteClass> cortesParaHorario = cortesFiltrados
-                                .where((corte) =>
-                                    corte.horarioCorte == horario.horario)
-                                .toList();
-
-                            return cortesParaHorario.isNotEmpty
-                                ? Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: cortesParaHorario.map((corte) {
-                                        return corte.clientName == "Barba"
-                                            ? Container(
-                                                alignment: Alignment.centerLeft,
-                                                height: MediaQuery.of(context)
-                                                        .size
-                                                        .height *
-                                                    0.22,
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                  color: corte.pagoComCupom ||
-                                                          corte
-                                                              .pagoComCreditos ||
-                                                          corte.feitoporassinatura ==
-                                                              true
-                                                      ? Colors.orange.shade600
-                                                      : Colors.blue,
+                          return cortesParaHorario.isNotEmpty
+                              ? Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: cortesParaHorario.map((corte) {
+                                    return corte.clientName == "Barba"
+                                        ? Container(
+                                            alignment: Alignment.centerLeft,
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                0.22,
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              color: corte.pagoComCupom ||
+                                                      corte.pagoComCreditos ||
+                                                      corte.feitoporassinatura ==
+                                                          true
+                                                  ? Colors.orange.shade600
+                                                  : Colors.blue,
+                                            ),
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.7,
+                                            child: const Padding(
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: 8.0),
+                                              child: Text(
+                                                "",
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.black,
                                                 ),
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.7,
-                                                child: const Padding(
-                                                  padding: EdgeInsets.symmetric(
-                                                      horizontal: 8.0),
-                                                  child: Text(
-                                                    "",
-                                                    style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: Colors.black,
-                                                    ),
-                                                  ),
-                                                ),
-                                              )
-                                            : InkWell(
-                                                onTap: () {
-                                                  Navigator.of(context)
-                                                      .pushNamed(
-                                                          AppRoutesApp
-                                                              .ModalDeEdicao,
-                                                          arguments: corte);
-                                                },
-                                                child: Container(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          bottom: 20),
-                                                  alignment:
-                                                      Alignment.centerLeft,
-                                                  height: MediaQuery.of(context)
-                                                          .size
-                                                          .height *
-                                                      0.22,
-                                                  decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10),
-                                                    color: corte.pagoComCupom ||
-                                                            corte
-                                                                .pagoComCreditos ||
-                                                            corte.feitoporassinatura ==
-                                                                true
-                                                        ? Colors.orange.shade600
-                                                        : Colors.blue,
-                                                  ),
-                                                  child: Padding(
-                                                    padding: const EdgeInsets
-                                                        .symmetric(
+                                              ),
+                                            ),
+                                          )
+                                        : InkWell(
+                                            onTap: () {
+                                              Navigator.of(context).pushNamed(
+                                                  AppRoutesApp.ModalDeEdicao,
+                                                  arguments: corte);
+                                            },
+                                            child: Container(
+                                              padding: const EdgeInsets.only(
+                                                  bottom: 20),
+                                              alignment: Alignment.centerLeft,
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.22,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                color: corte.pagoComCupom ||
+                                                        corte.pagoComCreditos ||
+                                                        corte.feitoporassinatura ==
+                                                            true
+                                                    ? Colors.orange.shade600
+                                                    : Colors.blue,
+                                              ),
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
                                                         horizontal: 10,
                                                         vertical: 10),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceBetween,
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      "ínicio: ${corte.horarioCorte}",
+                                                      style:
+                                                          GoogleFonts.openSans(
+                                                        textStyle:
+                                                            const TextStyle(
+                                                          fontSize: 13,
+                                                          color: Colors.white70,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Column(
                                                       crossAxisAlignment:
                                                           CrossAxisAlignment
                                                               .start,
                                                       children: [
                                                         Text(
-                                                          "ínicio: ${corte.horarioCorte}",
+                                                          corte
+                                                              .detalheDoProcedimento,
                                                           style: GoogleFonts
                                                               .openSans(
                                                             textStyle:
                                                                 const TextStyle(
-                                                              fontSize: 13,
-                                                              color: Colors
-                                                                  .white70,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                              fontSize: 16,
+                                                              color:
+                                                                  Colors.white,
                                                             ),
                                                           ),
                                                         ),
-                                                        Column(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
-                                                          children: [
-                                                            Text(
-                                                              corte
-                                                                  .detalheDoProcedimento,
-                                                              style: GoogleFonts
-                                                                  .openSans(
-                                                                textStyle:
-                                                                    const TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600,
-                                                                  fontSize: 16,
-                                                                  color: Colors
-                                                                      .white,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                        Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .end,
-                                                          children: [
-                                                            InkWell(
-                                                              onTap: () {
-                                                                Navigator.of(
-                                                                        context)
-                                                                    .pushNamed(
-                                                                        AppRoutesApp
-                                                                            .ModalDeEdicao,
-                                                                        arguments:
-                                                                            corte);
-                                                              },
-                                                              child: Container(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                        .all(5),
-                                                                decoration: BoxDecoration(
-                                                                    color: Colors
-                                                                        .white,
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
+                                                      ],
+                                                    ),
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment.end,
+                                                      children: [
+                                                        InkWell(
+                                                          onTap: () {
+                                                            Navigator.of(
+                                                                    context)
+                                                                .pushNamed(
+                                                                    AppRoutesApp
+                                                                        .ModalDeEdicao,
+                                                                    arguments:
+                                                                        corte);
+                                                          },
+                                                          child: Container(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(5),
+                                                            decoration: BoxDecoration(
+                                                                color: Colors
+                                                                    .white,
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
                                                                             15)),
-                                                                child:
-                                                                    const Icon(
-                                                                  Icons
-                                                                      .open_in_new,
-                                                                  size: 18,
-                                                                  color: Colors
-                                                                      .black,
-                                                                ),
-                                                              ),
+                                                            child: const Icon(
+                                                              Icons.open_in_new,
+                                                              size: 18,
+                                                              color:
+                                                                  Colors.black,
                                                             ),
-                                                          ],
+                                                          ),
                                                         ),
                                                       ],
                                                     ),
-                                                  ),
+                                                  ],
                                                 ),
-                                              );
-                                      }).toList(),
-                                    ),
-                                  )
-                                : Expanded(
-                                    // Se não houver cortes, exibe "Horário Disponível"
-                                    child: Container(
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              0.22,
-                                      decoration: BoxDecoration(
-                                        color: Colors.grey.shade200,
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      child: const Center(
-                                        child: Text(
-                                          "Horário Disponível",
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 14,
-                                            color: Colors.black54,
-                                          ),
-                                        ),
+                                              ),
+                                            ),
+                                          );
+                                  }).toList(),
+                                )
+                              : Container(
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.22,
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey.shade200,
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: const Center(
+                                    child: Text(
+                                      "Horário Disponível",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 14,
+                                        color: Colors.black54,
                                       ),
                                     ),
-                                  );
-                          }
-                          return Container(); // Pode retornar um Container vazio ou outro widget de acordo com o seu caso.
-                        },
-                      ),
+                                  ),
+                                );
+                        }
+                        return Container(); // Pode retornar um Container vazio ou outro widget de acordo com o seu caso.
+                      },
                     ),
-                  ),
+                  )),
                   //STREAM DO PROFISSIONAL 2
                   const SizedBox(
                     width: 5,
                   ),
                   Expanded(
                     child: Container(
-                      height: MediaQuery.of(context).size.height * 0.22,
-                      child: StreamBuilder<List<CorteClass>>(
-                        stream: Provider.of<ManagerScreenFunctions>(
-                          context,
-                          listen: true,
-                        ).CorteslistaManagerProfissional2,
-                        builder: (ctx, snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return const Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          } else if (snapshot.hasError ||
-                              snapshot.data!.isEmpty) {
-                            return Container(
-                              height: MediaQuery.of(context).size.height * 0.22,
-                              decoration: BoxDecoration(
-                                color: Colors.grey.shade200,
-                                borderRadius: BorderRadius.circular(10),
+  height: MediaQuery.of(context).size.height * 0.22,
+  child: StreamBuilder<List<CorteClass>>(
+    stream: Provider.of<ManagerScreenFunctions>(context, listen: true).CorteslistaManagerProfissional2,
+    builder: (ctx, snapshot) {
+      if (snapshot.connectionState == ConnectionState.waiting) {
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      } else if (snapshot.hasError || snapshot.data!.isEmpty) {
+        return Container(
+          height: MediaQuery.of(context).size.height * 0.22,
+          decoration: BoxDecoration(
+            color: Colors.grey.shade200,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: const Center(
+            child: Text(
+              "Horário Disponível",
+              style: TextStyle(
+                fontWeight: FontWeight.w500,
+                fontSize: 14,
+                color: Colors.black54,
+              ),
+            ),
+          ),
+        );
+      } else if (snapshot.hasData) {
+        final List<CorteClass>? cortes = snapshot.data;
+        final List<CorteClass> cortesFiltrados = cortes!.where((corte) => corte.clientName != "extra").toList();
+        List<String> allHorariosExtra = [];
+
+        for (CorteClass corte in cortesFiltrados) {
+          allHorariosExtra.addAll(corte.horariosExtra);
+        }
+
+        bool determineUsoCupom(String horario) {
+          return cortesFiltrados.any((corte) => corte.horariosExtra.contains(horario) && corte.pagoComCupom);
+        }
+
+        bool determineAssinatura(String horario) {
+          return cortesFiltrados.any((corte) => corte.horariosExtra.contains(horario) && corte.feitoporassinatura);
+        }
+
+        bool determinePagoComCreditos(String horario) {
+          return cortesFiltrados.any((corte) => corte.horariosExtra.contains(horario) && corte.pagoComCreditos);
+        }
+
+        for (String horario in allHorariosExtra) {
+          bool boolDaAssinatura = determineAssinatura(horario);
+          bool pagoComCreditosValue = determinePagoComCreditos(horario);
+          bool pagoComOsCupons = determineUsoCupom(horario);
+          CorteClass novaCorte = CorteClass(
+            feitoporassinatura: boolDaAssinatura,
+            pagoComCreditos: pagoComCreditosValue,
+            pagoComCupom: pagoComOsCupons,
+            easepoints: 0,
+            apenasBarba: false,
+            detalheDoProcedimento: "",
+            horariosExtra: [],
+            totalValue: 0,
+            isActive: false,
+            DiaDoCorte: 0,
+            NomeMes: "null",
+            dateCreateAgendamento: DateTime.now(),
+            clientName: "Barba",
+            id: "",
+            numeroContato: "null",
+            profissionalSelect: "null",
+            diaCorte: DateTime.now(),
+            horarioCorte: horario,
+            barba: false,
+            ramdomCode: 0,
+          );
+
+          cortesFiltrados.add(novaCorte);
+        }
+
+        allHorariosExtra = allHorariosExtra.toSet().toList();
+        print("#3 tamanho da lista: ${allHorariosExtra.length}");
+        List<CorteClass> cortesParaHorario = cortesFiltrados.where((corte) => corte.horarioCorte == horario.horario).toList();
+
+        return cortesParaHorario.isNotEmpty
+            ? Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: cortesParaHorario.map((corte) {
+                  return corte.clientName == "Barba"
+                      ? Container(
+                          alignment: Alignment.centerLeft,
+                          height: MediaQuery.of(context).size.height * 0.22,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: corte.pagoComCupom || corte.pagoComCreditos || corte.feitoporassinatura == true
+                                ? Colors.orange.shade600
+                                : Colors.blue,
+                          ),
+                          width: MediaQuery.of(context).size.width * 0.7,
+                          child: const Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 8.0),
+                            child: Text(
+                              "",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
                               ),
-                              child: const Center(
-                                child: Text(
-                                  "Horário Disponível",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 14,
-                                    color: Colors.black54,
-                                  ),
-                                ),
-                              ),
-                            );
-                          } else if (snapshot.hasData) {
-                            final List<CorteClass>? cortes = snapshot.data;
-                            final List<CorteClass> cortesFiltrados = cortes!
-                                .where((corte) => corte.clientName != "extra")
-                                .toList();
-                            // Assuming cortesFiltrados is a List<CorteClass>
-
-                            List<String> allHorariosExtra = [];
-
-                            for (CorteClass corte in cortesFiltrados) {
-                              allHorariosExtra.addAll(corte.horariosExtra);
-                            }
-                            bool determineAssinatura(String horario) {
-                              // Exemplo fictício: Definir que pagoComCreditos é true se o horário contém algum critério específico
-                              // Ajuste a lógica conforme necessário
-                              return cortesFiltrados.any((corte) =>
-                                  corte.horariosExtra.contains(horario) &&
-                                  corte.feitoporassinatura);
-                            }
-
-                            bool determineUsoCupom(String horario) {
-                              // Exemplo fictício: Definir que pagoComCreditos é true se o horário contém algum critério específico
-                              // Ajuste a lógica conforme necessário
-                              return cortesFiltrados.any((corte) =>
-                                  corte.horariosExtra.contains(horario) &&
-                                  corte.pagoComCupom);
-                            }
-
-                            bool determinePagoComCreditos(String horario) {
-                              // Exemplo fictício: Definir que pagoComCreditos é true se o horário contém algum critério específico
-                              // Ajuste a lógica conforme necessário
-                              return cortesFiltrados.any((corte) =>
-                                  corte.horariosExtra.contains(horario) &&
-                                  corte.pagoComCreditos);
-                            }
-
-                            for (String horario in allHorariosExtra) {
-                              bool usoAssinatura = determineAssinatura(horario);
-                              bool pagoComOsCupons = determineUsoCupom(horario);
-                              bool pagoComCreditosValue =
-                                  determinePagoComCreditos(horario);
-                              CorteClass novaCorte = CorteClass(
-                                feitoporassinatura: usoAssinatura,
-                                pagoComCreditos: pagoComCreditosValue,
-                                pagoComCupom: pagoComOsCupons,
-                                easepoints: 0,
-                                apenasBarba: false,
-                                detalheDoProcedimento: "",
-                                horariosExtra: [], // Aqui você pode definir conforme necessário
-                                totalValue: 0, // Defina os valores apropriados
-                                isActive: false,
-                                DiaDoCorte: 0,
-                                NomeMes: "null",
-                                dateCreateAgendamento: DateTime.now(),
-                                clientName: "Barba",
-                                id: "",
-                                numeroContato: "null",
-                                profissionalSelect: "null",
-                                diaCorte: DateTime.now(),
-                                horarioCorte:
-                                    horario, // Aqui define o horarioCorte com cada valor de allHorariosExtra
-                                barba: false,
-                                ramdomCode: 0,
-                              );
-
-                              cortesFiltrados.add(novaCorte);
-                            }
-
-                            allHorariosExtra =
-                                allHorariosExtra.toSet().toList();
-                            print(
-                                "#3 tamanho da lista: ${allHorariosExtra.length}");
-                            List<CorteClass> cortesParaHorario = cortesFiltrados
-                                .where((corte) =>
-                                    corte.horarioCorte == horario.horario)
-                                .toList();
-
-                            return cortesParaHorario.isNotEmpty
-                                ? Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: cortesParaHorario.map((corte) {
-                                        return corte.clientName == "Barba"
-                                            ? Container(
-                                                alignment: Alignment.centerLeft,
-                                                height: MediaQuery.of(context)
-                                                        .size
-                                                        .height *
-                                                    0.22,
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                  color: corte.pagoComCreditos ||
-                                                          corte.pagoComCupom ||corte.feitoporassinatura ==
-                                                              true
-                                                      ? Colors.orange.shade600
-                                                      : Colors.blue,
-                                                ),
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.7,
-                                                child: const Padding(
-                                                  padding: EdgeInsets.symmetric(
-                                                      horizontal: 8.0),
-                                                  child: Text(
-                                                    "",
-                                                    style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: Colors.black,
-                                                    ),
-                                                  ),
-                                                ),
-                                              )
-                                            : InkWell(
-                                                onTap: () {
-                                                  Navigator.of(context)
-                                                      .pushNamed(
-                                                          AppRoutesApp
-                                                              .ModalDeEdicao,
-                                                          arguments: corte);
-                                                },
-                                                child: Container(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          bottom: 20),
-                                                  alignment:
-                                                      Alignment.centerLeft,
-                                                  height: MediaQuery.of(context)
-                                                          .size
-                                                          .height *
-                                                      0.22,
-                                                  decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10),
-                                                    color: corte.pagoComCupom || corte.feitoporassinatura || corte.pagoComCreditos ==
-                                                            true
-                                                        ? Colors.orange.shade600
-                                                        : Colors.blue,
-                                                  ),
-                                                  child: Padding(
-                                                    padding: const EdgeInsets
-                                                        .symmetric(
-                                                        horizontal: 10,
-                                                        vertical: 10),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceBetween,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Text(
-                                                          "ínicio: ${corte.horarioCorte}",
-                                                          style: GoogleFonts
-                                                              .openSans(
-                                                            textStyle:
-                                                                const TextStyle(
-                                                              fontSize: 13,
-                                                              color: Colors
-                                                                  .white70,
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        Column(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .center,
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
-                                                          children: [
-                                                            Text(
-                                                              corte
-                                                                  .detalheDoProcedimento,
-                                                              style: GoogleFonts
-                                                                  .openSans(
-                                                                textStyle:
-                                                                    const TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600,
-                                                                  fontSize: 16,
-                                                                  color: Colors
-                                                                      .white,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                        Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .end,
-                                                          children: [
-                                                            InkWell(
-                                                              onTap: () {
-                                                                Navigator.of(
-                                                                        context)
-                                                                    .pushNamed(
-                                                                        AppRoutesApp
-                                                                            .ModalDeEdicao,
-                                                                        arguments:
-                                                                            corte);
-                                                              },
-                                                              child: Container(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                        .all(5),
-                                                                decoration: BoxDecoration(
-                                                                    color: Colors
-                                                                        .white,
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            15)),
-                                                                child:
-                                                                    const Icon(
-                                                                  Icons
-                                                                      .open_in_new,
-                                                                  size: 18,
-                                                                  color: Colors
-                                                                      .black,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                              );
-                                      }).toList(),
-                                    ),
-                                  )
-                                : Expanded(
-                                    // Se não houver cortes, exibe "Horário Disponível"
-                                    child: Container(
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              0.22,
-                                      decoration: BoxDecoration(
-                                        color: Colors.grey.shade200,
-                                        borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                        )
+                      : InkWell(
+                          onTap: () {
+                            Navigator.of(context).pushNamed(AppRoutesApp.ModalDeEdicao, arguments: corte);
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.only(bottom: 20),
+                            alignment: Alignment.centerLeft,
+                            height: MediaQuery.of(context).size.height * 0.22,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: corte.pagoComCupom || corte.pagoComCreditos || corte.feitoporassinatura == true
+                                  ? Colors.orange.shade600
+                                  : Colors.blue,
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "ínicio: ${corte.horarioCorte}",
+                                    style: GoogleFonts.openSans(
+                                      textStyle: const TextStyle(
+                                        fontSize: 13,
+                                        color: Colors.white70,
                                       ),
-                                      child: const Center(
-                                        child: Text(
-                                          "Horário Disponível",
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 14,
-                                            color: Colors.black54,
+                                    ),
+                                  ),
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        corte.detalheDoProcedimento,
+                                        style: GoogleFonts.openSans(
+                                          textStyle: const TextStyle(
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 16,
+                                            color: Colors.white,
                                           ),
                                         ),
                                       ),
-                                    ),
-                                  );
-                          }
-                          return Container(); // Pode retornar um Container vazio ou outro widget de acordo com o seu caso.
-                        },
-                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      InkWell(
+                                        onTap: () {
+                                          Navigator.of(context).pushNamed(AppRoutesApp.ModalDeEdicao, arguments: corte);
+                                        },
+                                        child: Container(
+                                          padding: const EdgeInsets.all(5),
+                                          decoration: BoxDecoration(
+                                              color: Colors.white, borderRadius: BorderRadius.circular(15)),
+                                          child: const Icon(
+                                            Icons.open_in_new,
+                                            size: 18,
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                }).toList(),
+              )
+            : Container(
+                height: MediaQuery.of(context).size.height * 0.22,
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade200,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: const Center(
+                  child: Text(
+                    "Horário Disponível",
+                    style: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 14,
+                      color: Colors.black54,
                     ),
+                  ),
+                ),
+              );
+      }
+      return Container(); // Pode retornar um Container vazio ou outro widget de acordo com o seu caso.
+    },
+  ),
+)
                   ),
                 ],
               );

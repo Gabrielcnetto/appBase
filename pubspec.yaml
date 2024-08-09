@@ -59,6 +59,7 @@ dependencies:
   flutter_stripe: ^11.0.0
   flutter_multi_formatter: ^2.13.0
   pay: ^2.0.0
+  flutter_staggered_grid_view: ^0.7.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -103,6 +104,12 @@ flutter:
     - imagesOfApp/banners/cupons_banner.png
     - imagesOfApp/trophy.png
     - imagesOfApp/Confirmpay.gif
+    - imagesOfApp/provasSociais/prova1.png
+    - imagesOfApp/provasSociais/prova2.png
+    - imagesOfApp/provasSociais/prova3.png
+    - imagesOfApp/provasSociais/prova4.png
+    - imagesOfApp/provasSociais/prova5.png
+    - imagesOfApp/provasSociais/prova6.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 
