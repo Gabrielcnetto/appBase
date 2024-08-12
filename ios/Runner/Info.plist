@@ -19,7 +19,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>$(FLUTTER_BUILD_NAME)</string>
+	<string>1.0.1</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
@@ -35,6 +35,8 @@
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Você precisa liberar acesso, para conseguir enviar sua imagem de perfil.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
+	<true/>
+	<key>FirebaseCrashlyticsCollectionEnabled</key>
 	<true/>
 	<key>UIBackgroundModes</key>
 	<array>

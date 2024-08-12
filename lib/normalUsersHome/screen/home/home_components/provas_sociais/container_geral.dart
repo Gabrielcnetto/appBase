@@ -69,12 +69,15 @@ class _ContainerGeralProvaSocialState extends State<ContainerGeralProvaSocial> {
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: Text(
-                'Mais que apenas um corte.',
-                style: GoogleFonts.openSans(
-                  textStyle: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
+              child: Container(
+                width: MediaQuery.of(context).size.width * 0.9,
+                child: Text(
+                  'Muito mais que apenas um corte',
+                  style: GoogleFonts.openSans(
+                    textStyle: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
               ),

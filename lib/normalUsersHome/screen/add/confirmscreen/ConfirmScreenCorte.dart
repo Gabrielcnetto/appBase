@@ -1,4 +1,5 @@
 import 'package:lionsbarberv1/classes/Estabelecimento.dart';
+import 'package:lionsbarberv1/normalUsersHome/screen/home/homeScreen01.dart';
 import 'package:lionsbarberv1/rotas/Approutes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -70,7 +71,19 @@ class ConfirmScreenCorte extends StatelessWidget {
                   ),
                   InkWell(
                     onTap: (){
-                      Navigator.of(context).pushReplacementNamed(AppRoutesApp.HomeScreen01);
+                      //Navigator.of(context).pushReplacementNamed(AppRoutesApp.HomeScreen01);
+                      Navigator.of(context).pushAndRemoveUntil(
+                                MaterialPageRoute(
+                                  builder: (BuildContext ctx) {
+                                    return const HomeScreen01(
+                                      selectedIndex: 0,
+                                      cupomIsAcitve: false,
+                                    );
+                                  },
+                                ),
+                                (Route<dynamic> route) =>
+                                    false, // Remove todas as rotas anteriores
+                              );
                     },
                     child: Container(
                       alignment: Alignment.center,

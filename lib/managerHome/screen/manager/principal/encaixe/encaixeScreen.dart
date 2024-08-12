@@ -350,7 +350,7 @@ class _EncaixeScreenProfissionalOptionHomeProfState
         ramdomCode: number,
         clientName: nomeControler.text,
         id: Random().nextDouble().toString(),
-        numeroContato: numberControler.text,
+        numeroContato: numberControler.text ?? '00',
         barba: barba,
         diaCorte: dataSelectedInModal!,
         horarioCorte: hourSetForUser!,
@@ -362,46 +362,51 @@ class _EncaixeScreenProfissionalOptionHomeProfState
       ),
       selectDateForUser: dataSelectedInModal!,
     );
-    if (numberControler.text != null) {
-      int year = dataSelectedInModal!.year;
-      int month = dataSelectedInModal!.month;
-      int day = dataSelectedInModal!.day;
-
-      DateFormat horaFormat = DateFormat('HH:mm');
-      DateTime hora = horaFormat.parse(hourSetForUser!);
-
-      // Incluir minuto da hora extraída
-      DateTime finalDatetime =
-          DateTime(year, month, day, hora.hour, hora.minute);
-      Provider.of<ManyChatConfirmation>(context, listen: false)
-          .setClientsManyChat(
-        dateSchedule: finalDatetime,
-        externalId: 0,
-        userPhoneNumber: numberControler.text,
-        username: nomeControler.text,
-      );
-
-      await Provider.of<ManyChatConfirmation>(context, listen: false)
-          .ScheduleMessage(
-              phoneNumber: numberControler.text, finalDate: finalDatetime);
-    }
     try {
-      await Provider.of<HorariosComuns>(context, listen: false).postHours(
-        horarioEscolhido: hourSetForUser ?? "",
-      );
-      analytics.logEvent(
-        name: "scheduled_appointmen",
-        parameters: {
-          "appointment_type": "Corte-agendado",
-          "appointment_datetime": DateTime.now().toIso8601String(),
-        },
-      );
+      if (numberControler.text != null) {
+        int year = dataSelectedInModal!.year;
+        int month = dataSelectedInModal!.month;
+        int day = dataSelectedInModal!.day;
 
-      print("evento enviado");
+        DateFormat horaFormat = DateFormat('HH:mm');
+        DateTime hora = horaFormat.parse(hourSetForUser!);
+
+        // Incluir minuto da hora extraída
+        DateTime finalDatetime =
+            DateTime(year, month, day, hora.hour, hora.minute);
+        Provider.of<ManyChatConfirmation>(context, listen: false)
+            .setClientsManyChat(
+          dateSchedule: finalDatetime,
+          externalId: 0,
+          userPhoneNumber: numberControler.text,
+          username: nomeControler.text,
+        );
+
+        await Provider.of<ManyChatConfirmation>(context, listen: false)
+            .ScheduleMessage(
+                phoneNumber: numberControler.text, finalDate: finalDatetime);
+      }
+      try {
+        await Provider.of<HorariosComuns>(context, listen: false).postHours(
+          horarioEscolhido: hourSetForUser ?? "",
+        );
+        analytics.logEvent(
+          name: "scheduled_appointmen",
+          parameters: {
+            "appointment_type": "Corte-agendado",
+            "appointment_datetime": DateTime.now().toIso8601String(),
+          },
+        );
+
+        print("evento enviado");
+      } catch (e) {
+        print("erro ao enviar evento: $e");
+      }
     } catch (e) {
-      print("erro ao enviar evento: $e");
+      print("houve um erro maior: $e");
     }
-    Navigator.of(context).pushReplacementNamed(AppRoutesApp.HomeScreen01);
+    //Navigator.of(context).pushReplacementNamed(AppRoutesApp.HomeScreen01);
+    Navigator.of(context).pushReplacementNamed(AppRoutesApp.ConfirmScreenCorte);
   }
 
   //Fazendo o filtro para exibir quais horarios estao disponíveis
@@ -673,8 +678,6 @@ class _EncaixeScreenProfissionalOptionHomeProfState
                   InkWell(
                     onTap: () {
                       CreateAgendamento();
-                      Navigator.of(context).pushReplacementNamed(
-                          AppRoutesApp.ConfirmScreenCorte);
                     },
                     child: Padding(
                       padding: const EdgeInsets.only(top: 15),

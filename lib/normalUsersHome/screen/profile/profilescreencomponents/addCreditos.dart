@@ -9,6 +9,8 @@ import 'package:http/http.dart' as http;
 import 'package:lionsbarberv1/classes/Estabelecimento.dart';
 import 'package:lionsbarberv1/functions/profileScreenFunctions.dart';
 import 'package:lionsbarberv1/functions/stripe_subscriptions.dart';
+import 'package:lionsbarberv1/normalUsersHome/screen/home/homeScreen01.dart';
+import 'package:lionsbarberv1/rotas/Approutes.dart';
 import 'package:provider/provider.dart';
 
 class AddCreditosNaConta extends StatefulWidget {
@@ -92,9 +94,11 @@ class _AddCreditosNaContaState extends State<AddCreditosNaConta> {
             valueFinalFound.text,
           ),
         );
+        double taxa = double.parse(valueFinalFound.text) * 0.012;
+        double valorFinal = double.parse(valueFinalFound.text) - taxa;
         await Provider.of<StripeSubscriptions>(context, listen: false)
             .enviandoValordeDepositosnoApp(
-          valorAssinatura: double.parse(valueFinalFound.text),
+          valorAssinatura: valorFinal,
         );
       } catch (e) {}
 
@@ -105,10 +109,32 @@ class _AddCreditosNaContaState extends State<AddCreditosNaConta> {
         context: context,
         builder: (ctx) {
           Future.delayed(const Duration(milliseconds: 4000), () {
-            Navigator.pop(ctx);
+            Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(
+                builder: (BuildContext ctx) {
+                  return const HomeScreen01(
+                    selectedIndex: 0,
+                    cupomIsAcitve: false,
+                  );
+                },
+              ),
+              (Route<dynamic> route) =>
+                  false, // Remove todas as rotas anteriores
+            );
           });
           Future.delayed(const Duration(milliseconds: 4000), () {
-            Navigator.pop(ctx);
+            Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(
+                builder: (BuildContext ctx) {
+                  return const HomeScreen01(
+                    selectedIndex: 0,
+                    cupomIsAcitve: false,
+                  );
+                },
+              ),
+              (Route<dynamic> route) =>
+                  false, // Remove todas as rotas anteriores
+            );
           });
           return Padding(
             padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 50),

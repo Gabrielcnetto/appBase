@@ -174,8 +174,8 @@ class _TelaVisaoAssinaturaPagamentoState
       String email =
           '${userEmail ?? 'easecorte@gmail.com'}'; // Email do cliente
       int amount =
-          widget.valorAssinatura.toInt(); //widget.valorAssinatura.toInt();
-
+          (widget.valorAssinatura * 100).toInt() ; //widget.valorAssinatura.toInt();
+      print("#amoun22: o valor de amount é igual: ${amount}");
       await Provider.of<StripeSubscriptions>(context, listen: false)
           .createAndSubscribeCustomer(email, amount, payMethod);
       print('#uhs: Subscription successful');
@@ -188,9 +188,12 @@ class _TelaVisaoAssinaturaPagamentoState
         );
 
         //enviando ao gerenciador
+        double taxa = widget.valorAssinatura * 0.012;
+        double valorfinal = widget.valorAssinatura - taxa;
         await Provider.of<StripeSubscriptions>(context, listen: false)
             .enviandoValorMensalDeAssinaturaSParaGerenciador(
-                valorAssinatura: widget.valorAssinatura);
+          valorAssinatura: valorfinal,
+        );
       } catch (e) {}
 
       Navigator.of(context).pop();
@@ -370,7 +373,8 @@ class _TelaVisaoAssinaturaPagamentoState
                       color: Colors.grey.shade100,
                     ),
                     width: double.infinity,
-                    padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 20, horizontal: 20),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -691,7 +695,8 @@ class _TelaVisaoAssinaturaPagamentoState
                                 ),
                                 Container(
                                   width: double.infinity,
-                                  padding: const EdgeInsets.symmetric(vertical: 10),
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 10),
                                   child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
@@ -764,8 +769,8 @@ class _TelaVisaoAssinaturaPagamentoState
                                         ),
                                         alignment: Alignment.center,
                                         width: double.infinity,
-                                        padding:
-                                            const EdgeInsets.symmetric(vertical: 15),
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 15),
                                         child: Text(
                                           'Confirmar assinatura',
                                           style: GoogleFonts.poppins(
@@ -799,7 +804,8 @@ class _TelaVisaoAssinaturaPagamentoState
                                                           BorderRadius.circular(
                                                               10)),
                                                   width: double.infinity,
-                                                  padding: const EdgeInsets.symmetric(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
                                                       vertical: 30,
                                                       horizontal: 10),
                                                   child: Column(

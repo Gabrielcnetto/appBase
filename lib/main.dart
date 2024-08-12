@@ -55,6 +55,7 @@ Future<void> main() async {
     Stripe.merchantIdentifier = 'merchant.easecorte';
     Stripe.urlScheme = 'flutterstripe';
     await Stripe.instance.applySettings();
+    FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
   }
 
   runApp(const MyApp());
@@ -103,7 +104,9 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(
           create: (_) => CupomProvider(),
         ),
-        ChangeNotifierProvider(create: (_)=>StripeSubscriptions(),),
+        ChangeNotifierProvider(
+          create: (_) => StripeSubscriptions(),
+        ),
       ],
 
       //TESTE DO REPOSITORIO

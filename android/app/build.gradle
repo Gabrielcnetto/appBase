@@ -89,4 +89,5 @@ dependencies {
     implementation 'com.android.support:multidex:2.0.1'
     implementation 'com.stripe:stripe-android:17.1.1'
     implementation 'com.google.android.material:material:1.5.0'
+    implementation 'com.google.firebase:firebase-crashlytics:18.4.0'
 }

@@ -39,7 +39,7 @@ class PromotionBannerComponents extends StatelessWidget {
                   padding: const EdgeInsets.only(right: 10),
                   child: Container(
                     width: widhtTela * 0.92,
-                    height: 120,
+                    height: MediaQuery.of(context).size.height * 0.3,
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(17),
                       child: Image.network(
