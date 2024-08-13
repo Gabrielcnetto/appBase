@@ -16,43 +16,49 @@ class ContainerGeralProvaSocial extends StatefulWidget {
 }
 
 class _ContainerGeralProvaSocialState extends State<ContainerGeralProvaSocial> {
+   
+ 
+
+ 
+
+ 
   @override
   Widget build(BuildContext context) {
     final List<provaSocialImages> provasocialListImagens = [
       provaSocialImages(
-        height: MediaQuery.of(context).size.height * 0.35,
+        height: MediaQuery.of(context).size.height * 0.4,
         path: 'imagesOfApp/provasSociais/prova1.png',
-        title: 'Confiança',
+        title: 'Estilo',//ok
         width: 100,
       ),
       provaSocialImages(
-        height: MediaQuery.of(context).size.height * 0.18,
+        height: MediaQuery.of(context).size.height * 0.3,
         path: 'imagesOfApp/provasSociais/prova2.png',
-        title: 'Sofisticação',
+        title: 'Confiança',//ok
         width: 100,
       ),
       provaSocialImages(
-        height: MediaQuery.of(context).size.height * 0.35,
+        height: MediaQuery.of(context).size.height * 0.4,
         path: 'imagesOfApp/provasSociais/prova3.png',
-        title: 'Versatilidade',
+        title: 'Moderno',//ok
         width: 50,
       ),
       provaSocialImages(
-        height: MediaQuery.of(context).size.height * 0.18,
+        height: MediaQuery.of(context).size.height * 0.3,
         path: 'imagesOfApp/provasSociais/prova4.png',
-        title: 'Precisão',
+        title: 'Elegância',//ok
         width: 50,
       ),
       provaSocialImages(
-        height: MediaQuery.of(context).size.height * 0.35,
+        height: MediaQuery.of(context).size.height * 0.4,
         path: 'imagesOfApp/provasSociais/prova5.png',
-        title: 'Versatilidade',
+        title: 'Personalizado',//ok
         width: 50,
       ),
       provaSocialImages(
-        height: MediaQuery.of(context).size.height * 0.18,
+        height: MediaQuery.of(context).size.height * 0.3,
         path: 'imagesOfApp/provasSociais/prova6.png',
-        title: 'Qualidade',
+        title: 'Renovação',//ok
         width: 50,
       ),
     ];
