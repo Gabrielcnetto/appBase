@@ -493,7 +493,7 @@ class _AddScreenUserDeslogadoState extends State<AddScreenUserDeslogado> {
       ),
       selectDateForUser: dataSelectedInModal!,
     );
-    if (phoneNumber != null) {
+    if (phoneNumber != null && numberControler.text != "") {
       int year = dataSelectedInModal!.year;
       int month = dataSelectedInModal!.month;
       int day = dataSelectedInModal!.day;
@@ -504,31 +504,26 @@ class _AddScreenUserDeslogadoState extends State<AddScreenUserDeslogado> {
       //
       DateTime dateFirts = DateTime(year, month, day, hora.hour, hora.minute);
       //
-      Provider.of<ManyChatConfirmation>(context, listen: false)
-          .setClientsManyChat(
-        dateSchedule: dateFirts,
-        userPhoneNumber: numberControler.text,
-        username: nomeControler.text,
-        externalId: Random().nextDouble().toInt(),
-      );
-      // Incluir minuto da hora extraída
-      DateTime finalDatetime =
-          DateTime(year, month, day, hora.hour, hora.minute);
+      try {
+        await Provider.of<ManyChatConfirmation>(context, listen: false)
+            .setClientsManyChat(
+          dateSchedule: dateFirts,
+          userPhoneNumber: numberControler.text,
+          username: nomeControler.text,
+          externalId: Random().nextDouble().toInt(),
+        );
+        // Incluir minuto da hora extraída
+        DateTime finalDatetime =
+            DateTime(year, month, day, hora.hour, hora.minute);
 
-      await Provider.of<ManyChatConfirmation>(context, listen: false)
-          .ScheduleMessage(
-              phoneNumber: numberControler.text, finalDate: finalDatetime);
+        await Provider.of<ManyChatConfirmation>(context, listen: false)
+            .ScheduleMessage(
+                phoneNumber: numberControler.text, finalDate: finalDatetime);
+      } catch (e) {}
     }
     try {
       await Provider.of<HorariosComuns>(context, listen: false).postHours(
         horarioEscolhido: hourSetForUser ?? "",
-      );
-      analytics.logEvent(
-        name: "scheduled_appointmen",
-        parameters: {
-          "appointment_type": "Corte-agendado",
-          "appointment_datetime": DateTime.now().toIso8601String(),
-        },
       );
 
       print("evento enviado");

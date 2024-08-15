@@ -456,7 +456,9 @@ class _AddScreenState extends State<AddScreen> {
       ),
       selectDateForUser: dataSelectedInModal!,
     );
-    if (phoneNumber != null) {
+    if (phoneNumber != null && numberControler.text != "") {
+      print("entrei aqui no manychat");
+      //manychat fim
       int year = dataSelectedInModal!.year;
       int month = dataSelectedInModal!.month;
       int day = dataSelectedInModal!.day;
@@ -467,21 +469,25 @@ class _AddScreenState extends State<AddScreen> {
       //
       DateTime dateFirts = DateTime(year, month, day, hora.hour, hora.minute);
       //
-      await Provider.of<ManyChatConfirmation>(context, listen: false)
-          .setClientsManyChat(
-        dateSchedule: dateFirts,
-        userPhoneNumber: numberControler.text,
-        username: nomeControler.text,
-        externalId: Random().nextDouble().toInt(),
-      );
-      // Incluir minuto da hora extraída
-      DateTime finalDatetime =
-          await DateTime(year, month, day, hora.hour, hora.minute);
+      try {
+        await Provider.of<ManyChatConfirmation>(context, listen: false)
+            .setClientsManyChat(
+          dateSchedule: dateFirts,
+          userPhoneNumber: numberControler.text,
+          username: nomeControler.text,
+          externalId: Random().nextDouble().toInt(),
+        );
+        // Incluir minuto da hora extraída
+        DateTime finalDatetime =
+            await DateTime(year, month, day, hora.hour, hora.minute);
 
-      await Provider.of<ManyChatConfirmation>(context, listen: false)
-          .ScheduleMessage(
-              phoneNumber: numberControler.text, finalDate: finalDatetime);
+        await Provider.of<ManyChatConfirmation>(context, listen: false)
+            .ScheduleMessage(
+                phoneNumber: numberControler.text, finalDate: finalDatetime);
+      } catch (e) {}
     }
+
+    //manychat fim
     try {
       await Provider.of<HorariosComuns>(context, listen: false).postHours(
         horarioEscolhido: hourSetForUser ?? "",
@@ -2699,9 +2705,8 @@ class _AddScreenState extends State<AddScreen> {
                                                       const EdgeInsets.only(
                                                           top: 10),
                                                   child: Container(
-                                                    padding:
-                                                        const EdgeInsets.symmetric(
-                                                            vertical: 5),
+                                                    padding: const EdgeInsets
+                                                        .symmetric(vertical: 5),
                                                     decoration: BoxDecoration(
                                                       border: Border(
                                                         top: BorderSide(
